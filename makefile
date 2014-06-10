@@ -24,6 +24,6 @@ test:
 
 # generate en.lproj localization file
 localize:
-	find . -name \*.m | xargs genstrings -o Dote/en.lproj
+	find . -name \*.m | xargs genstrings -o App/en.lproj
 
 .PHONY: setup pods cleanpods test localize
