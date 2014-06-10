@@ -41,3 +41,9 @@ $ [sudo] gem install cocoapods
 ```sh
 cd SplitApp && make setup && make pods
 ```
+
+- use the workspace to develop
+
+```sh
+open *workspace
+```
