@@ -22,15 +22,6 @@
 
 #pragma mark - init
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _backgroundTaskId = UIBackgroundTaskInvalid;
-    }
-    return self;
-}
-
 #pragma mark - Launch URL
 
 //- (void)_handleLaunchFileURL:(NSURL *)launchFileURL
@@ -40,9 +31,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NLSDiscoveryViewController *discoveryViewController = [[NLSDiscoveryViewController alloc] init];
-    UINavigationController *nc = [[UINavigationController alloc] init]; // current breaks NLSViewController hooks
-    [nc pushViewController:discoveryViewController animated:NO];
+    UIViewController *rootViewController = [[UIViewController alloc] init];
+    UINavigationController *nc = [[UINavigationController alloc] init];
+    [nc pushViewController:rootViewController animated:NO];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
