@@ -63,7 +63,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Setup facebook
-    [FBSettings setDefaultAppID:@""]; // TODO: get app id
+    [FBSettings setDefaultAppID:@"264678703732974"];
     [FBAppEvents activateApp];
 }
 
