@@ -36,7 +36,7 @@ function setHype(url, callback){
 
     var transaction = begin(conn);
     transaction.on('error', console.error);
-    transaction.query('INSERT INTO hypetable ( url, hype ) SELECT $1, 0 WHERE NOT EXISTS (SELECT 1 FROM hypetable WHERE url = $1)', [url]);
+    transaction.query('INSERT INTO slyce ( url, hype ) SELECT $1, 0 WHERE NOT EXISTS (SELECT 1 FROM hypetable WHERE url = $1)', [url]);
     transaction.query('UPDATE hypetable SET hype = hype + 1 WHERE url = $1', [url]);
     transaction.query('SELECT url, hype FROM hypeTable WHERE url = $1', [url], function(err, data){
         callback(data.rows[0]);
