@@ -4,7 +4,7 @@
 //  Created by Patrick Piemonte on 3/26/13.
 //
 
-PRODUCT_NAME = $(TARGET_NAME)
+PRODUCT_NAME = Slyce
 INFOPLIST_FILE = $(TARGET_NAME)/$(TARGET_NAME)-Info.plist
 WRAPPER_EXTENSION = app
 

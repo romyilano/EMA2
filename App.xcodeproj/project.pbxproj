@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		060BE1351946A814008FB3C5 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		060BE1351946A814008FB3C5 /* Slyce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Slyce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		060BE1391946A814008FB3C5 /* App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "App-Info.plist"; sourceTree = "<group>"; };
 		060BE13A1946A814008FB3C5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../Source/main.m; sourceTree = "<group>"; };
 		060BE13C1946A814008FB3C5 /* NLSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NLSAppDelegate.h; path = ../Source/NLSAppDelegate.h; sourceTree = "<group>"; };
@@ -71,7 +71,7 @@
 		060BE1361946A814008FB3C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				060BE1351946A814008FB3C5 /* App.app */,
+				060BE1351946A814008FB3C5 /* Slyce.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -168,7 +168,7 @@
 			);
 			name = App;
 			productName = App;
-			productReference = 060BE1351946A814008FB3C5 /* App.app */;
+			productReference = 060BE1351946A814008FB3C5 /* Slyce.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -177,8 +177,9 @@
 		060BE12D1946A814008FB3C5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = NLS;
 				LastUpgradeCheck = 0600;
-				ORGANIZATIONNAME = "Patrick Piemonte";
+				ORGANIZATIONNAME = Slyce;
 				TargetAttributes = {
 					060BE1341946A814008FB3C5 = {
 						CreatedOnToolsVersion = 6.0;
