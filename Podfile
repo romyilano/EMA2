@@ -13,6 +13,8 @@ pod 'PBJNetworkObserver', '0.1.3'
 
 # SDKs
 pod 'Facebook-iOS-SDK', '3.15.0'
+pod 'PayPal-iOS-SDK', '2.1.0'
+
 # analytics
 #pod 'Quantcast-Measure', '1.4.4'
 
