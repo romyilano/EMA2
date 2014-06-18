@@ -11,9 +11,10 @@ pod 'FastImageCache', '1.3'
 pod 'PBJActivityIndicator', '0.2.1'
 pod 'PBJNetworkObserver', '0.1.3'
 
+# SDKs
+pod 'Facebook-iOS-SDK', '3.15.0'
 # analytics
 #pod 'Quantcast-Measure', '1.4.4'
-#pod 'Facebook-iOS-SDK', '3.14.1'
 
 # debug
 pod 'PLCrashReporter', '1.2-rc5'

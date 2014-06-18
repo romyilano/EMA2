@@ -9,6 +9,7 @@
 #import "NLSAppDelegate.h"
 
 #import "PBJActivityIndicator.h"
+#import "FacebookSDK.h"
 
 @interface NLSAppDelegate ()
 {
@@ -61,7 +62,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-
+    // Setup facebook
+    [FBSettings setDefaultAppID:@""]; // TODO: get app id
+    [FBAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
