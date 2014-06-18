@@ -1,6 +1,5 @@
 //
 //  NLSAppDelegate.m
-//  AudioApp
 //
 //  Created by Patrick Piemonte on 1/2/14.
 //  Copyright (c) 2014. All rights reserved.
@@ -10,6 +9,7 @@
 
 #import "PBJActivityIndicator.h"
 #import "FacebookSDK.h"
+#import "FICImageCache.h"
 
 @interface NLSAppDelegate ()
 {
@@ -70,6 +70,13 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
 
+}
+
+#pragma mark - System Notifications
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    [[FICImageCache sharedImageCache] reset];
 }
 
 #pragma mark - APNS
