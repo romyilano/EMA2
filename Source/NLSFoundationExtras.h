@@ -23,12 +23,6 @@
 
 @end
 
-@interface NSDate (NLSFoundationExtras)
-
-+ (BOOL)isSameDayWithFirstDate:(NSDate *)firstDate secondDate:(NSDate *)secondDate;
-
-@end
-
 @interface NSRegularExpression (NLSFoundationExtras)
 
 + (NSRegularExpression *)hastagMentionRegularExpression;

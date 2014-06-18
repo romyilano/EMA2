@@ -21,23 +21,6 @@
 
 @end
 
-@implementation NSDate (NLSFoundationExtras)
-
-+ (BOOL)isSameDayWithFirstDate:(NSDate *)firstDate secondDate:(NSDate *)secondDate
-{
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-
-    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-    NSDateComponents *firstDateComp = [calendar components:unitFlags fromDate:firstDate];
-    NSDateComponents *secondDateComp = [calendar components:unitFlags fromDate:secondDate];
-
-    return [firstDateComp day]   == [secondDateComp day] &&
-           [firstDateComp month] == [secondDateComp month] &&
-           [firstDateComp year]  == [secondDateComp year];
-}
-
-@end
-
 @implementation NSRegularExpression (NLSFoundationExtras)
 
 + (NSRegularExpression *)hastagMentionRegularExpression
