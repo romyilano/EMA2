@@ -4,7 +4,7 @@ platform :ios, '7.0'
 
 # public pods
 pod 'AFNetworking', '1.3.3'
-pod 'pop', :head
+pod 'pop', '1.0.6'
 pod 'HPGrowingTextView', '1.1'
 pod 'DAKeyboardControl', '2.3.1'
 pod 'FastImageCache', '1.3'
