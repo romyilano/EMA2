@@ -3,7 +3,7 @@ xcodeproj './App.xcodeproj'
 platform :ios, '7.0'
 
 # public pods
-pod 'AFNetworking', '1.3.3'
+pod 'AFNetworking', '2.3.1'
 pod 'pop', '1.0.6'
 pod 'HPGrowingTextView', '1.1'
 pod 'DAKeyboardControl', '2.3.1'
@@ -16,7 +16,7 @@ pod 'Facebook-iOS-SDK', '3.15.0'
 pod 'PayPal-iOS-SDK', '2.1.0'
 
 # analytics
-#pod 'Quantcast-Measure', '1.4.4'
+#pod 'Quantcast-Measure', '1.4.5'
 
 # debug
 pod 'PLCrashReporter', '1.2-rc5'
