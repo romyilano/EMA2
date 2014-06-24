@@ -1,6 +1,6 @@
 ## Slyce Story
 
-# 1) Out to Dinner
+### 1) Out to Dinner
 
 Who:  Patrick, Amir, Chris, Ken
 What/Where:  Dinner at Patxis
