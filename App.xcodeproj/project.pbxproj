@@ -30,6 +30,8 @@
 		06D952DE195902DE00EF30F2 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */; };
 		06D952DF195902DE00EF30F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D2195902DE00EF30F2 /* Icon.png */; };
 		06D952E0195902DE00EF30F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D3195902DE00EF30F2 /* Icon@2x.png */; };
+		06D952E31959051000EF30F2 /* green-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952E21959051000EF30F2 /* green-button@2x.png */; };
+		06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */; };
 		1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 717001B3460B4D02A20E2852 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +67,9 @@
 		06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Resources/Icon-Small@2x.png"; sourceTree = "<group>"; };
 		06D952D2195902DE00EF30F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
 		06D952D3195902DE00EF30F2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
+		06D952E21959051000EF30F2 /* green-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "green-button@2x.png"; path = "Resources/Interfaces/green-button@2x.png"; sourceTree = "<group>"; };
+		06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSLoginViewController.h; path = Source/NLSLoginViewController.h; sourceTree = SOURCE_ROOT; };
+		06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSLoginViewController.m; path = Source/NLSLoginViewController.m; sourceTree = SOURCE_ROOT; };
 		717001B3460B4D02A20E2852 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF78171D92F14B558CB9B070 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -140,6 +145,8 @@
 		060BE1641946D459008FB3C5 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */,
+				06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -159,6 +166,7 @@
 		060BE1751946DA8B008FB3C5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				06D952E1195904E600EF30F2 /* Interfaces */,
 				060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */,
 				060BE1771946DAB2008FB3C5 /* Default.png */,
 				060BE1781946DAB2008FB3C5 /* Default@2x.png */,
@@ -186,6 +194,14 @@
 				06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */,
 			);
 			name = Extras;
+			sourceTree = "<group>";
+		};
+		06D952E1195904E600EF30F2 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				06D952E21959051000EF30F2 /* green-button@2x.png */,
+			);
+			name = Interfaces;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +277,7 @@
 				060BE17A1946DAB2008FB3C5 /* Default.png in Resources */,
 				06D952D8195902DE00EF30F2 /* Icon-76@2x.png in Resources */,
 				06D952DF195902DE00EF30F2 /* Icon.png in Resources */,
+				06D952E31959051000EF30F2 /* green-button@2x.png in Resources */,
 				06D952D4195902DE00EF30F2 /* Icon-60@2x.png in Resources */,
 				06D952DE195902DE00EF30F2 /* Icon-Small@2x.png in Resources */,
 			);
@@ -306,6 +323,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
 				060BE13B1946A814008FB3C5 /* main.m in Sources */,
