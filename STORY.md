@@ -1,6 +1,7 @@
 ## Slyce Story
 
 Out to Dinner
+
 Who:  Patrick, Amir, Chris, Ken
 What/Where:  Dinner at Patxis
 How Much: $100.00 total    
