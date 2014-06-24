@@ -6,13 +6,15 @@
 //
 
 #import "NLSAppDelegate.h"
+#import "NLSLoginViewController.h"
 
 #import "PBJActivityIndicator.h"
 #import "FacebookSDK.h"
 #import "FICImageCache.h"
 
-@interface NLSAppDelegate ()
+@interface NLSAppDelegate () <UIApplicationDelegate>
 {
+    UIWindow *_window;
 }
 
 @end
