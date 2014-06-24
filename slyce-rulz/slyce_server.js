@@ -1,26 +1,26 @@
 //slyce_server.js
-//Test strings
-//var b64 = btoa('http://user:pass@host.com:8080/p/a/t/h?query=string#hash');
-//aHR0cDovL3VzZXI6cGFzc0Bob3N0LmNvbTo4MDgwL3AvYS90L2g/cXVlcnk9c3RyaW5nI2hhc2g=
 
 'use strict';
 
-var http = require('http'),
-    connect = require('connect'),
-    anyDB = require('any-db-postgres'),
-    begin = require('any-db-transaction');
+var http            = require('http'),
+    connect         = require('connect'),
+    bodyParser      = require('body-parser'),
+    morgan          = require('morgan'),
+    methodOverride  = require('method-override'),
+    express         = require('express'),
+    anyDB           = require('any-db-postgres'),
+    begin           = require('any-db-transaction'),
+    FB              = require('fb'),
+    config          = require('./config');
 
-//prod
-var conn = anyDB.createConnection('driver://inuwvtvagyudpx:vXvTonI46H-6HBtlUllai726-s@ec2-54-243-49-204.compute-1.amazonaws.com:5432/dapgarjped5d70', function(err){
+//Prod DB setup
+var prod = true,
+sqlDriver = (prod ? config.env.prod.sqlDriver : config.env.dev.sqlDriver);
+console.log(sqlDriver);
+
+var conn = anyDB.createConnection(sqlDriver, function(err){
     if (err) throw err;
 });
-
-//dev
-//var conn = anyDB.createConnection('driver://4m1r@localhost/hypedb', function(err){
-//    if (err) throw err;
-//});
-
-var port = process.env.PORT || 3000;
 
 //create db
 var sql = 'CREATE TABLE IF NOT EXISTS slyce (id integer NOT NULL PRIMARY KEY, email VARCHAR(255) UNIQUE NOT NULL)';
@@ -29,51 +29,38 @@ conn.query(sql, function (err, result) {
     if(err) throw err;
 });
 
+//
+//Express Server config
 
-console.log('starting slyce server on port '+port);
+var app = connect();
+var port = process.env.PORT || 3000;
 
-function setHype(url, callback){
-
-    var transaction = begin(conn);
-    transaction.on('error', console.error);
-    transaction.query('INSERT INTO slyce ( url, hype ) SELECT $1, 0 WHERE NOT EXISTS (SELECT 1 FROM hypetable WHERE url = $1)', [url]);
-    transaction.query('UPDATE hypetable SET hype = hype + 1 WHERE url = $1', [url]);
-    transaction.query('SELECT url, hype FROM hypeTable WHERE url = $1', [url], function(err, data){
-        callback(data.rows[0]);
-        console.log('hypeDB.hypeTable: ', data.rows[0].url + ' hype: '+data.rows[0].hype);
-    });
-    transaction.commit();
+if(!config.facebook.appId || !config.facebook.appSecret) {
+    throw new Error('facebook appId and appSecret required in config.js');
 }
 
-
-function checkReq(req, res, next){
-
-    if(req.query.set){
-        console.log('checking req', req.query);
-        if(req.query.set.substring(0, 8) === 'aHR0cDov'){
-            setHype(req.query.set, function(row){
-                var jsonpRes = req.query.callback+'('+JSON.stringify(row)+')';
-                console.log('jsonp response: ', jsonpRes);
-                res.write(jsonpRes);
-                res.end();
-            });
-        }else{
-            next()
-        }
-    }else{
-        next()
+app.use(morgan({ format: 'dev', immediate: true }));
+app.use(bodyParser.json());
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(function(req, res, next){
+    if (req.method === 'POST' && req.headers['content-type'] === 'application/json') {
+        console.log(req.body);
+        res.end("POST request okay.\n");
+        FB.api('me', { fields: ['id', 'name', 'installed'], access_token: req.body.access_token }, function (res) {
+            if(res.id === req.body.id && res.installed === true){
+                console.log('valid access token', res);
+            }else{
+                console.log('invalid access token', res);
+            }
+        });
+    } else {
+        next();
     }
-}
+});
 
 
-var app = connect()
-    .use(connect.logger('dev'))
-    .use(connect.static('public'))
-    .use(connect.query())
-    .use(checkReq)
-    .use(function(req, res){
-        res.end('get slyce...https://slyce.io\n');
-    });
+http.createServer(app).listen(port, function() {
+    console.log("Express server listening on port " + port);
+});
 
-http.createServer(app).listen(port);
 
