@@ -9,11 +9,8 @@ Summary:  Slycing dinner 4 ways evenly.
 
 Pat, Amir, Chris, Ken go for dinner at Patxis and slyce the bill: $100 total with tip included.  Chris decides to pay for the full bill and get paid back by everyone. Chris opens SLYCE app, to home screen showing overall balances for money I’m Owed, I Owe, and detailed list view of people who make up these balances.  Chris see’s that his current overall situation displayed as the following:  
 
-I’m Owe (Overall):  +$400	
-Amir owes me (+$100)	
-Ken owes me (+$100)	
-Patrick owes me  (+$125)	
-Leslie owes me (+$75)	
+I’m Owed (Overall):  +$400.  
+I'm OWed (Detail):  Amir owes me (+$100),  Ken owes me (+$100),  Patrick owes me  (+$125),  Leslie owes me (+$75)	
 
 I Owe (Overall):  -$50
 I owe Steve Jobs (-$50)
