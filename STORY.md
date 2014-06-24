@@ -12,7 +12,7 @@ Pat, Amir, Chris, Ken go for dinner at Patxis and slyce the bill: $100 total wit
 I’m Owed (Overall):  +$400.  
 I'm Owed (Detail):  Amir owes me (+$100),  Ken owes me (+$100),  Patrick owes me  (+$125),  Leslie owes me (+$75)	
 
-I Owe (Overall):  -$50
+I Owe (Overall):  -$50.
 I Owe (Detail):  Steve Jobs (-$50)
 
 Chris presses +Add button, to add the new bill from Patxis.  
@@ -28,11 +28,11 @@ Next Chris selects people to the Who Owes field….either by dragging/or tapping
 
 Chris hits the Enter/save button, and this total bill is inputed and split evenly 4 ways (+$25 each person).  The transaction is recorded; +$25 is added to each person’s existing balance; and all totals are updated on home screen: 
 
-I’m Owed (Overall):  +$475	
+I’m Owed (Overall):  +$475.
 I'm Owed (Detail):  Amir owes me (+$100)(+$25 )= +125,  Ken owes me (+$100)(+25)= +125,  Patrick owes me (+$125)(+25)= +150,  
 Leslie owes me (+$75)	
 
-I Owe (Overall):  -$50
+I Owe (Overall):  -$50.
 I Owe (Detail):  Steve Jobs (-$50)
 
 Later, Amir pays Chris $25 via Paypal.  Chris records this $25 transaction by opening to the home screen, selecting Amir’s name and then the Patxis transaction, and hitting the settle button.  $25 is subtracted from Amir balance and is now $100. 
