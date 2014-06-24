@@ -3,18 +3,18 @@
 Out to Dinner
 Who:  Patrick, Amir, Chris, Ken
 What/Where:  Dinner at Patxis
-How Much to Slyce: $100.00 total    
+How Much: $100.00 total    
 Summary:  Slycing dinner 4 ways evenly.
 
 Pat, Amir, Chris, Ken go for dinner at Patxis and slyce the bill: $100 total with tip included.  Chris decides to pay for the full bill and get paid back by everyone. Chris opens SLYCE app, to home screen showing overall balances for money I’m Owed, I Owe, and detailed list view of people who make up these balances.  Chris see’s that his current overall situation displayed as the following:  
 
-I’m Owed:  +$400	
+I’m Owe (Overall):  +$400	
 Amir owes me (+$100)	
 Ken owes me (+$100)	
 Patrick owes me  (+$125)	
 Leslie owes me (+$75)	
 
-I Owe:  -$50
+I Owe (Overall):  -$50
 I owe Steve Jobs (-$50)
 
 Chris presses +Add button, to add the new bill from Patxis.  
@@ -31,14 +31,14 @@ Next Chris selects people to the Who Owes field….either by dragging/or tapping
 
 Chris hits the Enter/save button, and this total bill is inputed and split evenly 4 ways (+$25 each person).  The transaction is recorded; +$25 is added to each person’s existing balance; and all totals are updated on home screen: 
 
-I’m Owed:  +$475	
+I’m Owed (Overall):  +$475	
 Amir owes me (+$100) (+$25 ) = +125	
 Ken owes me (+$100) (+25) =  +125	
 Patrick owes me  (+$125) (+25) =  +150	
 Leslie owes me (+$75)	
 
-I Owe:  -$50
+I Owe (Overall):  -$50
 I owe Steve Jobs (-$50)
 
-Later, Amir pays Chris $25 via Paypal.  Chris records this $25 transaction by opening to the home screen, selecting Amir’s name and then the Patxis transaction, and hitting the settle button.   $25 is subtracted from Amir balance and is now $100. 
+Later, Amir pays Chris $25 via Paypal.  Chris records this $25 transaction by opening to the home screen, selecting Amir’s name and then the Patxis transaction, and hitting the settle button.  $25 is subtracted from Amir balance and is now $100. 
 
