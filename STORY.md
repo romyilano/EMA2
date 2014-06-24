@@ -33,7 +33,7 @@ I'm Owed (Detail):  Amir owes me (+$100)(+$25 )= +125,  Ken owes me (+$100)(+25)
 Leslie owes me (+$75)	
 
 I Owe (Overall):  -$50.
-I Owe (Detail):  Steve Jobs (-$50)
+I Owe (Detail):  Steve Jobs (-$50).
 
 Later, Amir pays Chris $25 via Paypal.  Chris records this $25 transaction by opening to the home screen, selecting Amir’s name and then the Patxis transaction, and hitting the settle button.  $25 is subtracted from Amir balance and is now $100. 
 
