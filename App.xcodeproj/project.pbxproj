@@ -18,6 +18,8 @@
 		060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1781946DAB2008FB3C5 /* Default@2x.png */; };
 		0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE97195B42BB000D2FE0 /* NLSGeometry.m */; };
 		0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE9A195B42F7000D2FE0 /* NLSNSStringExtras.m */; };
+		0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */; };
+		0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */; };
 		06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */; };
 		06D952D4195902DE00EF30F2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952C7195902DE00EF30F2 /* Icon-60@2x.png */; };
 		06D952D5195902DE00EF30F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952C8195902DE00EF30F2 /* Icon-72.png */; };
@@ -58,6 +60,10 @@
 		0629AE97195B42BB000D2FE0 /* NLSGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSGeometry.m; path = Source/NLSGeometry.m; sourceTree = SOURCE_ROOT; };
 		0629AE99195B42F7000D2FE0 /* NLSNSStringExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSNSStringExtras.h; path = Source/NLSNSStringExtras.h; sourceTree = SOURCE_ROOT; };
 		0629AE9A195B42F7000D2FE0 /* NLSNSStringExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSNSStringExtras.m; path = Source/NLSNSStringExtras.m; sourceTree = SOURCE_ROOT; };
+		0629AE9D195B4464000D2FE0 /* NLSBillComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSBillComposeViewController.h; path = Source/NLSBillComposeViewController.h; sourceTree = SOURCE_ROOT; };
+		0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSBillComposeViewController.m; path = Source/NLSBillComposeViewController.m; sourceTree = SOURCE_ROOT; };
+		0629AEA0195B4493000D2FE0 /* NLSStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSStatusViewController.h; path = Source/NLSStatusViewController.h; sourceTree = SOURCE_ROOT; };
+		0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSStatusViewController.m; path = Source/NLSStatusViewController.m; sourceTree = SOURCE_ROOT; };
 		06C6FAC61946E10700A4D4B9 /* NLSFoundationExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSFoundationExtras.h; path = Source/NLSFoundationExtras.h; sourceTree = SOURCE_ROOT; };
 		06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSFoundationExtras.m; path = Source/NLSFoundationExtras.m; sourceTree = SOURCE_ROOT; };
 		06D952C7195902DE00EF30F2 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60@2x.png"; path = "Resources/Icon-60@2x.png"; sourceTree = "<group>"; };
@@ -117,8 +123,10 @@
 			isa = PBXGroup;
 			children = (
 				060BE1631946D443008FB3C5 /* Application */,
+				0629AEA3195B44AD000D2FE0 /* Bills */,
 				060BE1641946D459008FB3C5 /* Core */,
 				06C6FAC51946E0E300A4D4B9 /* Extras */,
+				0629AEA4195B44BC000D2FE0 /* Status */,
 				060BE1751946DA8B008FB3C5 /* Resources */,
 				060BE1381946A814008FB3C5 /* Supporting Files */,
 			);
@@ -199,6 +207,24 @@
 				06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */,
 			);
 			name = Account;
+			sourceTree = "<group>";
+		};
+		0629AEA3195B44AD000D2FE0 /* Bills */ = {
+			isa = PBXGroup;
+			children = (
+				0629AE9D195B4464000D2FE0 /* NLSBillComposeViewController.h */,
+				0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */,
+			);
+			name = Bills;
+			sourceTree = "<group>";
+		};
+		0629AEA4195B44BC000D2FE0 /* Status */ = {
+			isa = PBXGroup;
+			children = (
+				0629AEA0195B4493000D2FE0 /* NLSStatusViewController.h */,
+				0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */,
+			);
+			name = Status;
 			sourceTree = "<group>";
 		};
 		06C6FAC51946E0E300A4D4B9 /* Extras */ = {
@@ -345,6 +371,8 @@
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
 				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
+				0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */,
+				0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */,
 				0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */,
 				060BE13B1946A814008FB3C5 /* main.m in Sources */,
 			);
