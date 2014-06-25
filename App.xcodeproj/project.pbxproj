@@ -16,6 +16,7 @@
 		060BE1791946DAB2008FB3C5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */; };
 		060BE17A1946DAB2008FB3C5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1771946DAB2008FB3C5 /* Default.png */; };
 		060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1781946DAB2008FB3C5 /* Default@2x.png */; };
+		0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE97195B42BB000D2FE0 /* NLSGeometry.m */; };
 		06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */; };
 		06D952D4195902DE00EF30F2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952C7195902DE00EF30F2 /* Icon-60@2x.png */; };
 		06D952D5195902DE00EF30F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952C8195902DE00EF30F2 /* Icon-72.png */; };
@@ -52,6 +53,8 @@
 		060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		060BE1771946DAB2008FB3C5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		060BE1781946DAB2008FB3C5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
+		0629AE96195B42BB000D2FE0 /* NLSGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSGeometry.h; path = Source/NLSGeometry.h; sourceTree = SOURCE_ROOT; };
+		0629AE97195B42BB000D2FE0 /* NLSGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSGeometry.m; path = Source/NLSGeometry.m; sourceTree = SOURCE_ROOT; };
 		06C6FAC61946E10700A4D4B9 /* NLSFoundationExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSFoundationExtras.h; path = Source/NLSFoundationExtras.h; sourceTree = SOURCE_ROOT; };
 		06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSFoundationExtras.m; path = Source/NLSFoundationExtras.m; sourceTree = SOURCE_ROOT; };
 		06D952C7195902DE00EF30F2 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60@2x.png"; path = "Resources/Icon-60@2x.png"; sourceTree = "<group>"; };
@@ -198,6 +201,8 @@
 		06C6FAC51946E0E300A4D4B9 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				0629AE96195B42BB000D2FE0 /* NLSGeometry.h */,
+				0629AE97195B42BB000D2FE0 /* NLSGeometry.m */,
 				06C6FAC61946E10700A4D4B9 /* NLSFoundationExtras.h */,
 				06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */,
 			);
@@ -334,6 +339,7 @@
 				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
+				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
 				060BE13B1946A814008FB3C5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
