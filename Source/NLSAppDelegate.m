@@ -71,14 +71,16 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Setup facebook
+    // FB analytics
     [FBSettings setDefaultAppID:@"264678703732974"];
     [FBAppEvents activateApp];
+    
+    // FB login
+    [FBAppCall handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-
 }
 
 #pragma mark - System Notifications
@@ -92,7 +94,6 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
@@ -109,7 +110,6 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-
 }
 
 @end
