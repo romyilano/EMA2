@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FacebookAppID</key>
-	<string>264678703732974</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -70,5 +68,18 @@
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>FacebookAppID</key>
+	<string>264678703732974</string>
+	<key>FacebookDisplayName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb264678703732974</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
