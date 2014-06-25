@@ -21,6 +21,7 @@
 		0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */; };
 		0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */; };
 		0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA6195B4546000D2FE0 /* NLSButton.m */; };
+		0629AEAA195B45D0000D2FE0 /* NLSUIKitExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA9195B45D0000D2FE0 /* NLSUIKitExtras.m */; };
 		06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */; };
 		06D952D4195902DE00EF30F2 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952C7195902DE00EF30F2 /* Icon-60@2x.png */; };
 		06D952D5195902DE00EF30F2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952C8195902DE00EF30F2 /* Icon-72.png */; };
@@ -67,6 +68,8 @@
 		0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSStatusViewController.m; path = Source/NLSStatusViewController.m; sourceTree = SOURCE_ROOT; };
 		0629AEA5195B4546000D2FE0 /* NLSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSButton.h; path = Source/NLSButton.h; sourceTree = SOURCE_ROOT; };
 		0629AEA6195B4546000D2FE0 /* NLSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSButton.m; path = Source/NLSButton.m; sourceTree = SOURCE_ROOT; };
+		0629AEA8195B45D0000D2FE0 /* NLSUIKitExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSUIKitExtras.h; path = Source/NLSUIKitExtras.h; sourceTree = SOURCE_ROOT; };
+		0629AEA9195B45D0000D2FE0 /* NLSUIKitExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSUIKitExtras.m; path = Source/NLSUIKitExtras.m; sourceTree = SOURCE_ROOT; };
 		06C6FAC61946E10700A4D4B9 /* NLSFoundationExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSFoundationExtras.h; path = Source/NLSFoundationExtras.h; sourceTree = SOURCE_ROOT; };
 		06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSFoundationExtras.m; path = Source/NLSFoundationExtras.m; sourceTree = SOURCE_ROOT; };
 		06D952C7195902DE00EF30F2 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-60@2x.png"; path = "Resources/Icon-60@2x.png"; sourceTree = "<group>"; };
@@ -241,6 +244,8 @@
 				0629AE97195B42BB000D2FE0 /* NLSGeometry.m */,
 				0629AE99195B42F7000D2FE0 /* NLSNSStringExtras.h */,
 				0629AE9A195B42F7000D2FE0 /* NLSNSStringExtras.m */,
+				0629AEA8195B45D0000D2FE0 /* NLSUIKitExtras.h */,
+				0629AEA9195B45D0000D2FE0 /* NLSUIKitExtras.m */,
 			);
 			name = Extras;
 			sourceTree = "<group>";
@@ -375,6 +380,7 @@
 				0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */,
 				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
+				0629AEAA195B45D0000D2FE0 /* NLSUIKitExtras.m in Sources */,
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
 				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
 				0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */,

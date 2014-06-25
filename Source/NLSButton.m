@@ -180,7 +180,7 @@
     [button setImage:nil forState:UIControlStateNormal];
     
     [button setTitle:@"" forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont fontSymbolSize:30.0f];
+//    button.titleLabel.font = [UIFont fontSymbolSize:30.0f];
     [button setTitleColor:[UIColor neutralMediumColor] forState:UIControlStateNormal];
     button.titleLabel.backgroundColor = [UIColor clearColor];
     [button setTitleEdgeInsets:UIEdgeInsetsMake(4.0f, 0.0f, 0.0f, 0.0f)];

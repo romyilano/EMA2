@@ -10,6 +10,7 @@ pod 'DAKeyboardControl', '2.3.1'
 pod 'FastImageCache', '1.3'
 pod 'PBJActivityIndicator', '0.2.1'
 pod 'PBJNetworkObserver', '0.1.3'
+pod 'EDColor', '0.4.0'
 
 # SDKs
 pod 'Facebook-iOS-SDK', '3.15.0'
