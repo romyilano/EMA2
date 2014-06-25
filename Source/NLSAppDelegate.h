@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NLSAppDelegate : UIResponder
+@interface NLSAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

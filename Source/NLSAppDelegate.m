@@ -12,7 +12,7 @@
 #import "FacebookSDK.h"
 #import "FICImageCache.h"
 
-@interface NLSAppDelegate () <UIApplicationDelegate>
+@interface NLSAppDelegate ()
 {
     UIWindow *_window;
 }
@@ -27,20 +27,29 @@
 
 #pragma mark - Launch URL
 
-//- (void)_handleLaunchFileURL:(NSURL *)launchFileURL
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//- (void)_handleLaunchFileURL:(NSURL *)launchFileURL;
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    return wasHandled;
+}
 
 #pragma mark - App State Changes
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    UIViewController *rootViewController = [[UIViewController alloc] init];
-    UINavigationController *nc = [[UINavigationController alloc] init];
-    [nc pushViewController:rootViewController animated:NO];
+// TODO: load the heirarchy in another place after login
+//    UIViewController *rootViewController = [[UIViewController alloc] init];
+//    UINavigationController *nc = [[UINavigationController alloc] init];
+//    [nc pushViewController:rootViewController animated:NO];
 
+    [FBProfilePictureView class];
+    NLSLoginViewController *viewController = [[NLSLoginViewController alloc] init];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = nc;
+    self.window.rootViewController = viewController;
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -48,8 +57,6 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
