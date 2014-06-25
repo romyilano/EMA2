@@ -145,8 +145,7 @@
 		060BE1641946D459008FB3C5 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */,
-				06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */,
+				0629AE95195B415B000D2FE0 /* Account */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -185,6 +184,15 @@
 				06D952D3195902DE00EF30F2 /* Icon@2x.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		0629AE95195B415B000D2FE0 /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */,
+				06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */,
+			);
+			name = Account;
 			sourceTree = "<group>";
 		};
 		06C6FAC51946E0E300A4D4B9 /* Extras */ = {
