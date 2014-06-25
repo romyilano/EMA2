@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol NLSLoginViewControllerDelegate;
 @interface NLSLoginViewController : UIViewController
+
+@property (nonatomic, weak) id<NLSLoginViewControllerDelegate> delegate;
+
+@end
+
+
+@protocol NLSLoginViewControllerDelegate <NSObject>
+@required
+- (void)loginViewControllerDidSelectLogin:(NLSLoginViewController *)loginViewController;
 
 @end

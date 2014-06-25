@@ -9,8 +9,10 @@
 #import "NLSLoginViewController.h"
 #import "FacebookSDK.h"
 
-@interface NLSLoginViewController ()
+@interface NLSLoginViewController () <
+    FBLoginViewDelegate>
 {
+    UILabel *_statusLabel;
     UIButton *_loginButton;
 }
 
@@ -18,10 +20,13 @@
 
 @implementation NLSLoginViewController
 
+@synthesize delegate = _delegate;
+
 #pragma mark - view lifecycle
 
 - (void)viewDidLoad
 {
+
 
 }
 
