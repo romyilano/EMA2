@@ -19,5 +19,6 @@
 -(int)getTitleCount;
 -(NSArray*)getTitlesToLimit:(int)limit;
 -(NSString*)getTitleForId:(NSInteger)val;
+-(NSDictionary *)getTitleAndIdForRow:(NSInteger)val;
 
 @end

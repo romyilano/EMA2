@@ -7,6 +7,7 @@
 //
 
 #import "NLSViewController.h"
+#import "NLSTableViewCell.h"
 
 @interface NLSViewController ()
 
@@ -84,21 +85,39 @@
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *MyIdentifier = @"MyReuseIdentifier";
  
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     
     NSLog(@"indexPath: %ld", indexPath.row);
-    cell.textLabel.text = [self.sql getTitleForId:indexPath.row];
+    NSDictionary *cellDict = [self.sql getTitleAndIdForRow:indexPath.row];
+    
+    NSArray *keys = [cellDict allKeys];
+    id rowId = [keys objectAtIndex:0];
+    id title = [cellDict objectForKey:rowId];
+    
+    cell.textLabel.text = title;
+    cell.rowId = (NSUInteger)rowId;
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    NSString *string = [[NSString alloc] init];
+    string = cell.textLabel.text;
+//    NSUInteger rowId = cell.rowId;
+//    NSLog(@"id: %ld, title: %@", rowId, string);
+}
 
 /*
 // Override to support conditional editing of the table view.

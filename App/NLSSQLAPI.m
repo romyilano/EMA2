@@ -78,5 +78,18 @@
         return @"No title";
     }
 }
+
+-(NSDictionary*)getTitleAndIdForRow:(NSInteger)val
+{
+    FMResultSet *title = [self.db executeQueryWithFormat:@"SELECT id, title FROM erpubtbl LIMIT 1 OFFSET %ld", val];
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    
+    if ([title next]) {
+
+        [result setObject:[title stringForColumn:@"title"] forKey:@([title intForColumn:@"id"])];
+        NSLog(@"result Dict: %@", result);
+    }
+    return result;
+}
 @end
 

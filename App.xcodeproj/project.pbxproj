@@ -40,6 +40,7 @@
 		06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */; };
 		1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 717001B3460B4D02A20E2852 /* libPods.a */; };
 		7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1688321981B9F8008229A3 /* NLSTitleModel.m */; };
+		7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883519824041008229A3 /* NLSTableViewCell.m */; };
 		7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BCB5C20197F39DF00CD91BA /* ema.sqlite */; };
 		7BCB5C2519805B2C00CD91BA /* NLSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSViewController.m */; };
 		7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */; };
@@ -95,6 +96,8 @@
 		717001B3460B4D02A20E2852 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B1688311981B9F8008229A3 /* NLSTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleModel.h; sourceTree = "<group>"; };
 		7B1688321981B9F8008229A3 /* NLSTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleModel.m; sourceTree = "<group>"; };
+		7B16883419824041008229A3 /* NLSTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTableViewCell.h; sourceTree = "<group>"; };
+		7B16883519824041008229A3 /* NLSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTableViewCell.m; sourceTree = "<group>"; };
 		7BCB5C20197F39DF00CD91BA /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
 		7BCB5C2319805B2C00CD91BA /* NLSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSViewController.h; sourceTree = "<group>"; };
 		7BCB5C2419805B2C00CD91BA /* NLSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSViewController.m; sourceTree = "<group>"; };
@@ -295,6 +298,8 @@
 			children = (
 				7BCB5C2319805B2C00CD91BA /* NLSViewController.h */,
 				7BCB5C2419805B2C00CD91BA /* NLSViewController.m */,
+				7B16883419824041008229A3 /* NLSTableViewCell.h */,
+				7B16883519824041008229A3 /* NLSTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
 				0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */,
 				0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */,
+				7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */,
 				0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */,
 				7BCB5C2519805B2C00CD91BA /* NLSViewController.m in Sources */,
 				7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */,
