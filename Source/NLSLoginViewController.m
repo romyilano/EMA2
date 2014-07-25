@@ -26,7 +26,13 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
+    CGRect frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.height, [[UIScreen mainScreen] bounds].size.width);
+    UITableView *table = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
 
+    
+    [self.view addSubview:table];
 
 }
 

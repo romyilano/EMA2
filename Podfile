@@ -21,3 +21,6 @@ pod 'PayPal-iOS-SDK', '2.1.0'
 
 # debug
 pod 'PLCrashReporter', '1.2-rc5'
+
+# sqlite
+pod 'FMDB', '2.3'

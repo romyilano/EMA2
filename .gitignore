@@ -8,6 +8,9 @@ xcuserdata/
 *.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcodeproj/project.xcworkspace/contents.xcworkspacedata
 *.xcuserstate
+App/*.sql
+App/*.sqlite
+App/*.sqlite3
 
 /* Pods */
 Pods/

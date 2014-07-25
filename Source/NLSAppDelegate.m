@@ -6,15 +6,15 @@
 //
 
 #import "NLSAppDelegate.h"
-#import "NLSLoginViewController.h"
-
+#import "NLSViewController.h"
 #import "PBJActivityIndicator.h"
-#import "FacebookSDK.h"
 #import "FICImageCache.h"
+
 
 @interface NLSAppDelegate ()
 {
     UIWindow *_window;
+
 }
 
 @end
@@ -23,33 +23,22 @@
 
 @synthesize window = _window;
 
+
 #pragma mark - init
 
-#pragma mark - Launch URL
-
-//- (void)_handleLaunchFileURL:(NSURL *)launchFileURL;
-
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
-    return wasHandled;
-}
 
 #pragma mark - App State Changes
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 // TODO: load the heirarchy in another place after login
-//    UIViewController *rootViewController = [[UIViewController alloc] init];
-//    UINavigationController *nc = [[UINavigationController alloc] init];
-//    [nc pushViewController:rootViewController animated:NO];
 
-    [FBProfilePictureView class];
-    NLSLoginViewController *viewController = [[NLSLoginViewController alloc] init];
+    NLSViewController *viewController = [[NLSViewController alloc] init];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:viewController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = viewController;
+    self.window.rootViewController = nc;
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -67,16 +56,14 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [[PBJActivityIndicator sharedActivityIndicator] setSuppressed:NO];
+    NSLog(@"applicationWillEnterForeground");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // FB analytics
-    [FBSettings setDefaultAppID:@"264678703732974"];
-    [FBAppEvents activateApp];
     
-    // FB login
-    [FBAppCall handleDidBecomeActive];
+    NSLog(@"applicationDidBecomeActive");
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -101,11 +88,6 @@
 #if !TARGET_IPHONE_SIMULATOR
 	NSLog(@"failed to get token, error: %@", error);
 #endif
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-//    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateInactive)
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

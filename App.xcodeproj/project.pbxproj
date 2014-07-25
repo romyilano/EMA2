@@ -39,6 +39,10 @@
 		06D952E31959051000EF30F2 /* green-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952E21959051000EF30F2 /* green-button@2x.png */; };
 		06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */; };
 		1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 717001B3460B4D02A20E2852 /* libPods.a */; };
+		7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1688321981B9F8008229A3 /* NLSTitleModel.m */; };
+		7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BCB5C20197F39DF00CD91BA /* ema.sqlite */; };
+		7BCB5C2519805B2C00CD91BA /* NLSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSViewController.m */; };
+		7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +93,13 @@
 		06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSLoginViewController.h; path = Source/NLSLoginViewController.h; sourceTree = SOURCE_ROOT; };
 		06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSLoginViewController.m; path = Source/NLSLoginViewController.m; sourceTree = SOURCE_ROOT; };
 		717001B3460B4D02A20E2852 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B1688311981B9F8008229A3 /* NLSTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleModel.h; sourceTree = "<group>"; };
+		7B1688321981B9F8008229A3 /* NLSTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleModel.m; sourceTree = "<group>"; };
+		7BCB5C20197F39DF00CD91BA /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
+		7BCB5C2319805B2C00CD91BA /* NLSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSViewController.h; sourceTree = "<group>"; };
+		7BCB5C2419805B2C00CD91BA /* NLSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSViewController.m; sourceTree = "<group>"; };
+		7BCB5C2719806E2400CD91BA /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
+		7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLAPI.m; sourceTree = "<group>"; };
 		AF78171D92F14B558CB9B070 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +139,9 @@
 		060BE1371946A814008FB3C5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7B1688301981B9C0008229A3 /* Models */,
+				7BCB5C2619806D7D00CD91BA /* SQL */,
+				7BCB5C2219805AF700CD91BA /* Views */,
 				060BE1631946D443008FB3C5 /* Application */,
 				0629AEA3195B44AD000D2FE0 /* Bills */,
 				060BE1641946D459008FB3C5 /* Core */,
@@ -187,6 +201,7 @@
 		060BE1751946DA8B008FB3C5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7BCB5C1F197F39BD00CD91BA /* DB */,
 				06D952E1195904E600EF30F2 /* Interfaces */,
 				060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */,
 				060BE1771946DAB2008FB3C5 /* Default.png */,
@@ -258,6 +273,41 @@
 			name = Interfaces;
 			sourceTree = "<group>";
 		};
+		7B1688301981B9C0008229A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7B1688311981B9F8008229A3 /* NLSTitleModel.h */,
+				7B1688321981B9F8008229A3 /* NLSTitleModel.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		7BCB5C1F197F39BD00CD91BA /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				7BCB5C20197F39DF00CD91BA /* ema.sqlite */,
+			);
+			name = DB;
+			sourceTree = "<group>";
+		};
+		7BCB5C2219805AF700CD91BA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7BCB5C2319805B2C00CD91BA /* NLSViewController.h */,
+				7BCB5C2419805B2C00CD91BA /* NLSViewController.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		7BCB5C2619806D7D00CD91BA /* SQL */ = {
+			isa = PBXGroup;
+			children = (
+				7BCB5C2719806E2400CD91BA /* NLSSQLAPI.h */,
+				7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */,
+			);
+			name = SQL;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -326,6 +376,7 @@
 				06D952D6195902DE00EF30F2 /* Icon-72@2x.png in Resources */,
 				06D952D9195902DE00EF30F2 /* Icon-Small-40.png in Resources */,
 				06D952DC195902DE00EF30F2 /* Icon-Small-50@2x.png in Resources */,
+				7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */,
 				06D952D7195902DE00EF30F2 /* Icon-76.png in Resources */,
 				060BE1791946DAB2008FB3C5 /* Default-568h@2x.png in Resources */,
 				060BE17A1946DAB2008FB3C5 /* Default.png in Resources */,
@@ -382,10 +433,13 @@
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
 				0629AEAA195B45D0000D2FE0 /* NLSUIKitExtras.m in Sources */,
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
+				7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */,
 				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
 				0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */,
 				0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */,
 				0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */,
+				7BCB5C2519805B2C00CD91BA /* NLSViewController.m in Sources */,
+				7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */,
 				060BE13B1946A814008FB3C5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
