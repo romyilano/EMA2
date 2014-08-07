@@ -8,6 +8,8 @@
 
 #import "NLSViewController.h"
 #import "NLSTableViewCell.h"
+#import "NLSTitleModel.h"
+#import "NLSDetailViewController.h"
 
 @interface NLSViewController ()
 
@@ -15,7 +17,6 @@
 
 @implementation NLSViewController
 
-@synthesize titles = _titles;
 @synthesize sql = _sql;
 
 #pragma mark - view lifecycle
@@ -36,6 +37,7 @@
     [tableView reloadData];
     
     self.view = tableView;
+    self.title = @"EMA Titles";
     
 }
 
@@ -73,7 +75,7 @@
 
     // Return the number of rows in the section.
     
-    NSLog(@"numberOfRowsInSection, %ld", (NSInteger)[self.titles count]);
+    NSLog(@"numberOfRowsInSection, %ld", (long)[self.sql getTitleCount]);
     
     return [self.sql getTitleCount];
 }
@@ -95,15 +97,13 @@
         cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     
-    NSLog(@"indexPath: %ld", indexPath.row);
-    NSDictionary *cellDict = [self.sql getTitleAndIdForRow:indexPath.row];
+    NSLog(@"indexPath: %ld", (long)indexPath.row);
+    NLSTitleModel *tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row];
     
-    NSArray *keys = [cellDict allKeys];
-    id rowId = [keys objectAtIndex:0];
-    id title = [cellDict objectForKey:rowId];
+    cell.textLabel.text = tm.title;
+    cell.rowId = tm.rowId;
     
-    cell.textLabel.text = title;
-    cell.rowId = (NSUInteger)rowId;
+    NSLog(@"cell.rowId: %lu, textLabel: %@", (unsigned long)cell.rowId, cell.textLabel.text);
     return cell;
 }
 
@@ -111,12 +111,17 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
     NSString *string = [[NSString alloc] init];
     string = cell.textLabel.text;
-//    NSUInteger rowId = cell.rowId;
-//    NSLog(@"id: %ld, title: %@", rowId, string);
+    NSUInteger rowId = cell.rowId;
+    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
+    
+    //Push new view
+    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
+    dvc.abstractId = rowId;
+    [self.navigationController pushViewController:dvc animated:TRUE];
 }
 
 /*

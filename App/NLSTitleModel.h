@@ -7,13 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NLSSQLAPI.h"
 
 @interface NLSTitleModel : NSObject
 
--(NSArray*)getTitleWithId:(NSUInteger)id;
-
-@property (strong, nonatomic) NSMutableArray *titleArray;
-@property (weak, nonatomic) NLSSQLAPI *sql;
+@property (readwrite, assign) NSUInteger rowId;
+@property (strong, nonatomic) NSString *title;
 
 @end

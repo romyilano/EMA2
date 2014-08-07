@@ -1,16 +1,16 @@
 //
-//  NLSTableViewCell.h
+//  NLSDetailModel.h
 //  App
 //
 //  Created by Amir on 7/25/14.
 //  Copyright (c) 2014 Slyce. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface NLSTableViewCell : UITableViewCell
+@interface NLSDetailModel : NSObject
 
 @property (readwrite, assign) NSUInteger rowId;
-@property (strong, nonatomic) NSString *name;
+@property (strong, atomic) NSString *abstract;
 
 @end

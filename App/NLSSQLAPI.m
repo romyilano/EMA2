@@ -68,7 +68,7 @@
 
 -(NSString*)getTitleForId:(NSInteger)val
 {
-    FMResultSet *title = [self.db executeQueryWithFormat:@"SELECT title FROM erpubtbl LIMIT 1 OFFSET %ld", val];
+    FMResultSet *title = [self.db executeQueryWithFormat:@"SELECT title FROM erpubtbl LIMIT 1 OFFSET %ld", (long)val];
     if ([title next]) {
         //        NSString *title = [limitTen stringForColumn: @"title"];
         //        NSLog(@"Title col in erpubtbl: %@", title);
@@ -79,17 +79,62 @@
     }
 }
 
--(NSDictionary*)getTitleAndIdForRow:(NSInteger)val
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val
 {
-    FMResultSet *title = [self.db executeQueryWithFormat:@"SELECT id, title FROM erpubtbl LIMIT 1 OFFSET %ld", val];
-    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    FMResultSet *rs = [self.db executeQueryWithFormat:@"SELECT id, title FROM erpubtbl LIMIT 1 OFFSET %ld", (long)val];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     
-    if ([title next]) {
-
-        [result setObject:[title stringForColumn:@"title"] forKey:@([title intForColumn:@"id"])];
-        NSLog(@"result Dict: %@", result);
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result Dict: %@", tm);
     }
-    return result;
+    return tm;
+}
+
+-(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM mesh_descriptor WHERE name LIKE '%@%%' ORDER BY name COLLATE NOCASE LIMIT 1 OFFSET %ld", str, val];
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSDescriptorModel *dm = [[NLSDescriptorModel alloc] init];
+    
+    if ([rs next]) {
+        dm.name = [rs stringForColumn:@"name"];
+        dm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result Dict: %@", dm);
+    }
+    return dm;
+}
+
+-(NLSDetailModel*)getAbstractWithId:(NSUInteger)val
+{
+
+    FMResultSet *rs = [self.db executeQueryWithFormat:@"SELECT id, abstract FROM abstracts where id = %ld", (unsigned long)val];
+    NLSDetailModel *dm = [[NLSDetailModel alloc] init];
+    
+    if ([rs next]) {
+        dm.abstract = [NSString stringWithFormat: @"%s", [rs UTF8StringForColumnName:@"abstract"]];
+        dm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result DetailModel: %@", dm);
+    }
+    return dm;
+    
+}
+
+-(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str{
+    
+    NSLog(@"table: %@, col: %@, like: %@", table, col, str);
+
+    NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM %@ WHERE %@ LIKE '%@'", table, col, str];
+    
+    FMResultSet *count = [self.db executeQuery:query];
+    if ([count next]) {
+        NSLog(@"Total Rows in %@: %d", table, [count intForColumnIndex:0]);
+        return (NSUInteger)[count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+    
 }
 @end
 

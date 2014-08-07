@@ -10,24 +10,8 @@
 
 @implementation NLSTitleModel
 
-@synthesize titleArray = _titleArray;
-@synthesize sql = _sql;
+@synthesize rowId = _rowId;
+@synthesize title = _title;
 
--(NLSTitleModel*)init
-{
-
-    NSLog(@"init NLSTitleModel");
-    NLSSQLAPI *sqlapi = [[NLSSQLAPI alloc]  init];
-    self.sql = sqlapi;
-    [self.sql initDatabase];
-    
-    return self;
-}
-
--(NSArray*)getTitleWithId:(NSUInteger)id
-{
-    NSArray *title = [[NSArray alloc] init];    
-    return title;
-}
 
 @end

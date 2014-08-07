@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "FMDB.h"
+#import "NLSTitleModel.h"
+#import "NLSDescriptorModel.h"
+#import "NLSDetailModel.h"
 
 @interface NLSSQLAPI : NSObject
 
@@ -19,6 +22,8 @@
 -(int)getTitleCount;
 -(NSArray*)getTitlesToLimit:(int)limit;
 -(NSString*)getTitleForId:(NSInteger)val;
--(NSDictionary *)getTitleAndIdForRow:(NSInteger)val;
-
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val;
+-(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
+-(NLSDetailModel*)getAbstractWithId:(NSUInteger)val;
+-(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str;
 @end

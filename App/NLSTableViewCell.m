@@ -11,6 +11,7 @@
 @implementation NLSTableViewCell
 
 @synthesize rowId = _rowId;
+@synthesize name = _name;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
