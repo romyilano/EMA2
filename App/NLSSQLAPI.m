@@ -118,6 +118,7 @@
     return tm;
 }
 
+
 -(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId
 {
     NSString *query = [NSString stringWithFormat:@"SELECT count(*)\
@@ -138,6 +139,48 @@
     }
 }
 
+-(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId
+{
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT count(*)\
+                       FROM erpubtbl e\
+                       JOIN journals j\
+                       ON j.id = e.journal_id\
+                       WHERE j.id = %ld", journalId];
+    
+    FMResultSet *count = [self.db executeQuery:query];
+    
+    if ([count next]) {
+        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
+        return (NSUInteger)[count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+}
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId
+{
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT e.abstract_id,\
+                       e.title\
+                       FROM erpubtbl e\
+                       JOIN journals j\
+                       ON j.id = e.journal_id\
+                       WHERE j.id = %ld\
+                       ORDER BY e.title\
+                       LIMIT 1\
+                       OFFSET %ld", journalId, val];    
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+    }
+    return tm;
+}
+
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"SELECT * FROM mesh_descriptor WHERE name LIKE '%@%%' ORDER BY name COLLATE NOCASE LIMIT 1 OFFSET %ld", str, val];
@@ -150,6 +193,20 @@
         NSLog(@"result Dict: %@", dm);
     }
     return dm;
+}
+
+-(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM journals WHERE journal_title LIKE '%@%%' ORDER BY journal_title COLLATE NOCASE LIMIT 1 OFFSET %ld", str, val];
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSJournalModel *jm = [[NLSJournalModel alloc] init];
+    
+    if ([rs next]) {
+        jm.journal_title = [rs stringForColumn:@"journal_title"];
+        jm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result Dict: %@", jm);
+    }
+    return jm;
 }
 
 -(NLSDetailModel*)getAbstractWithId:(NSUInteger)val

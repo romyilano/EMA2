@@ -8,6 +8,7 @@
 #import "NLSAppDelegate.h"
 #import "NLSTitleViewController.h"
 #import "NLSDescriptorViewController.h"
+#import "NLSJournalViewController.h"
 #import "PBJActivityIndicator.h"
 #import "FICImageCache.h"
 
@@ -40,7 +41,7 @@
     NLSDescriptorViewController *descriptorController = [[NLSDescriptorViewController alloc] init];
     UINavigationController *dnc = [[UINavigationController alloc] initWithRootViewController:descriptorController];
     
-    NLSTitleViewController *journalsController = [[NLSTitleViewController alloc] init];
+    NLSJournalViewController *journalsController = [[NLSJournalViewController alloc] init];
     UINavigationController *jnc = [[UINavigationController alloc] initWithRootViewController:journalsController];
     
     NLSTitleViewController *favoritesController = [[NLSTitleViewController alloc] init];

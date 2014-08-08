@@ -50,6 +50,9 @@
 		7BBDA4E01992C17F00D6E261 /* NLSDescriptorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4DF1992C17F00D6E261 /* NLSDescriptorViewController.m */; };
 		7BBDA4E31993E9DA00D6E261 /* NLSDescriptorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4E21993E9DA00D6E261 /* NLSDescriptorModel.m */; };
 		7BBDA4E71994395100D6E261 /* NLSDescriptorTitlesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */; };
+		7BBDA4EA199499AC00D6E261 /* NLSJournalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4E9199499AC00D6E261 /* NLSJournalViewController.m */; };
+		7BBDA4ED19949D6D00D6E261 /* NLSJournalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4EC19949D6D00D6E261 /* NLSJournalModel.m */; };
+		7BBDA4F01994A9B800D6E261 /* NLSJournalTitlesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */; };
 		7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BCB5C20197F39DF00CD91BA /* ema.sqlite */; };
 		7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */; };
 		7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */; };
@@ -121,6 +124,12 @@
 		7BBDA4E21993E9DA00D6E261 /* NLSDescriptorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorModel.m; sourceTree = "<group>"; };
 		7BBDA4E51994395100D6E261 /* NLSDescriptorTitlesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDescriptorTitlesViewController.h; sourceTree = "<group>"; };
 		7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorTitlesViewController.m; sourceTree = "<group>"; };
+		7BBDA4E8199499AC00D6E261 /* NLSJournalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalViewController.h; sourceTree = "<group>"; };
+		7BBDA4E9199499AC00D6E261 /* NLSJournalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalViewController.m; sourceTree = "<group>"; };
+		7BBDA4EB19949D6D00D6E261 /* NLSJournalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalModel.h; sourceTree = "<group>"; };
+		7BBDA4EC19949D6D00D6E261 /* NLSJournalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalModel.m; sourceTree = "<group>"; };
+		7BBDA4EE1994A9B800D6E261 /* NLSJournalTitlesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalTitlesViewController.h; sourceTree = "<group>"; };
+		7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalTitlesViewController.m; sourceTree = "<group>"; };
 		7BCB5C20197F39DF00CD91BA /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
 		7BCB5C2319805B2C00CD91BA /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
 		7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
@@ -310,6 +319,8 @@
 				7B16883B1982DD72008229A3 /* NLSDetailModel.m */,
 				7BBDA4E11993E9DA00D6E261 /* NLSDescriptorModel.h */,
 				7BBDA4E21993E9DA00D6E261 /* NLSDescriptorModel.m */,
+				7BBDA4EB19949D6D00D6E261 /* NLSJournalModel.h */,
+				7BBDA4EC19949D6D00D6E261 /* NLSJournalModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -349,10 +360,14 @@
 				7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */,
 				7BBDA4DE1992C17F00D6E261 /* NLSDescriptorViewController.h */,
 				7BBDA4DF1992C17F00D6E261 /* NLSDescriptorViewController.m */,
+				7BBDA4E8199499AC00D6E261 /* NLSJournalViewController.h */,
+				7BBDA4E9199499AC00D6E261 /* NLSJournalViewController.m */,
 				7B1688371982CE57008229A3 /* NLSDetailViewController.h */,
 				7B1688381982CE57008229A3 /* NLSDetailViewController.m */,
 				7BBDA4E51994395100D6E261 /* NLSDescriptorTitlesViewController.h */,
 				7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */,
+				7BBDA4EE1994A9B800D6E261 /* NLSJournalTitlesViewController.h */,
+				7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -490,6 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBDA4ED19949D6D00D6E261 /* NLSJournalModel.m in Sources */,
 				0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */,
 				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				7BBDA4E31993E9DA00D6E261 /* NLSDescriptorModel.m in Sources */,
@@ -501,7 +517,9 @@
 				7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */,
 				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
 				0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */,
+				7BBDA4F01994A9B800D6E261 /* NLSJournalTitlesViewController.m in Sources */,
 				0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */,
+				7BBDA4EA199499AC00D6E261 /* NLSJournalViewController.m in Sources */,
 				7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */,
 				7BBDA4E01992C17F00D6E261 /* NLSDescriptorViewController.m in Sources */,
 				0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */,
