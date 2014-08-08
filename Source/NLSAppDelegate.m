@@ -6,7 +6,7 @@
 //
 
 #import "NLSAppDelegate.h"
-#import "NLSViewController.h"
+#import "NLSTitleViewController.h"
 #import "NLSDescriptorViewController.h"
 #import "PBJActivityIndicator.h"
 #import "FICImageCache.h"
@@ -34,25 +34,21 @@
 {
 // TODO: load the heirarchy in another place after login
 
-    NLSViewController *viewController = [[NLSViewController alloc] init];
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:viewController];
-    nc.title = @"Titles";
+    NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
+    UINavigationController *tnc = [[UINavigationController alloc] initWithRootViewController:titlesController];
     
     NLSDescriptorViewController *descriptorController = [[NLSDescriptorViewController alloc] init];
-    UINavigationController *dc = [[UINavigationController alloc] initWithRootViewController:descriptorController];
-    dc.title = @"Descriptors";
+    UINavigationController *dnc = [[UINavigationController alloc] initWithRootViewController:descriptorController];
     
-    NLSViewController *journalsController = [[NLSViewController alloc] init];
-    UINavigationController *jc = [[UINavigationController alloc] initWithRootViewController:journalsController];
-    dc.title = @"Journals";
+    NLSTitleViewController *journalsController = [[NLSTitleViewController alloc] init];
+    UINavigationController *jnc = [[UINavigationController alloc] initWithRootViewController:journalsController];
     
-    NLSViewController *favoritesController = [[NLSViewController alloc] init];
-    UINavigationController *fc = [[UINavigationController alloc] initWithRootViewController:favoritesController];
-    dc.title = @"Favorites";
+    NLSTitleViewController *favoritesController = [[NLSTitleViewController alloc] init];
+    UINavigationController *fnc = [[UINavigationController alloc] initWithRootViewController:favoritesController];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
-    NSArray* controllers = [NSArray arrayWithObjects:nc, dc, jc, fc, nil];
+    NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, nil];
     tabBarController.viewControllers = controllers;
     
     UIImage *titlesImage = [UIImage imageNamed:@"Document-50.png"];
@@ -60,10 +56,10 @@
     UIImage *journalsImage = [UIImage imageNamed:@"Journals-50.png"];
     UIImage *favoritesImage = [UIImage imageNamed:@"Favorites-50.png"];
     
-    nc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Titles" image:titlesImage selectedImage:titlesImage];
-    dc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"MeSH Descriptors" image:descriptorsImage selectedImage:descriptorsImage];
-    jc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Journals" image:journalsImage selectedImage:journalsImage];
-    fc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
+    tnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Titles" image:titlesImage selectedImage:titlesImage];
+    dnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"MeSH Descriptors" image:descriptorsImage selectedImage:descriptorsImage];
+    jnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Journals" image:journalsImage selectedImage:journalsImage];
+    fnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];

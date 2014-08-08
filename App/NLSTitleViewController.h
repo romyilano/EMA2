@@ -1,5 +1,5 @@
 //
-//  NLSViewController.h
+//  NLSTitleViewController.h
 //  App
 //
 //  Created by Amir on 7/23/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
 
-@interface NLSViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface NLSTitleViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) NLSSQLAPI *sql;
 

@@ -1,21 +1,21 @@
 //
-//  NLSViewController.m
+//  NLSTitleViewController.m
 //  App
 //
 //  Created by Amir on 7/23/14.
 //  Copyright (c) 2014 Slyce. All rights reserved.
 //
 
-#import "NLSViewController.h"
+#import "NLSTitleViewController.h"
 #import "NLSTableViewCell.h"
 #import "NLSTitleModel.h"
 #import "NLSDetailViewController.h"
 
-@interface NLSViewController ()
+@interface NLSTitleViewController ()
 
 @end
 
-@implementation NLSViewController
+@implementation NLSTitleViewController
 
 @synthesize sql = _sql;
 
@@ -37,7 +37,7 @@
     [tableView reloadData];
     
     self.view = tableView;
-    self.title = @"EMA Titles";
+    self.title = @"Titles";
     
 }
 
@@ -83,7 +83,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     // The header for the section is the region name -- get this from the region at the section index.
 
-    return @"EMA Titles";
+    return @"All Titles";
 }
 
 

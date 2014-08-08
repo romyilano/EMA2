@@ -20,10 +20,13 @@
 
 -(void)initDatabase;
 -(int)getTitleCount;
+-(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId;
 -(NSArray*)getTitlesToLimit:(int)limit;
 -(NSString*)getTitleForId:(NSInteger)val;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId;
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
 -(NLSDetailModel*)getAbstractWithId:(NSUInteger)val;
 -(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str;
+
 @end

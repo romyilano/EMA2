@@ -92,6 +92,52 @@
     return tm;
 }
 
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT e.abstract_id,\
+                       e.title\
+                       FROM erpubtbl e\
+                       JOIN abstract_mesh am\
+                       ON am.abstract_id = e.abstract_id\
+                       JOIN mesh_descriptor md\
+                       ON md.id = am.mesh_id\
+                       WHERE md.id = %ld\
+                       ORDER BY e.title\
+                       LIMIT 1\
+                       OFFSET %ld", meshId, val];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+        NSLog(@"result Dict: %@", tm);
+    }
+    return tm;
+}
+
+-(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT count(*)\
+                       FROM erpubtbl e\
+                       JOIN abstract_mesh am\
+                       ON am.abstract_id = e.abstract_id\
+                       JOIN mesh_descriptor md\
+                       ON md.id = am.mesh_id\
+                       WHERE md.id = %ld", meshId];
+    
+    FMResultSet *count = [self.db executeQuery:query];
+
+    if ([count next]) {
+        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
+        return (NSUInteger)[count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+}
+
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"SELECT * FROM mesh_descriptor WHERE name LIKE '%@%%' ORDER BY name COLLATE NOCASE LIMIT 1 OFFSET %ld", str, val];
@@ -136,5 +182,6 @@
     }
     
 }
+
 @end
 

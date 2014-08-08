@@ -49,8 +49,9 @@
 		7BBDA4DD19920AE900D6E261 /* Favorites-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4DC19920AE900D6E261 /* Favorites-50@2x.png */; };
 		7BBDA4E01992C17F00D6E261 /* NLSDescriptorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4DF1992C17F00D6E261 /* NLSDescriptorViewController.m */; };
 		7BBDA4E31993E9DA00D6E261 /* NLSDescriptorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4E21993E9DA00D6E261 /* NLSDescriptorModel.m */; };
+		7BBDA4E71994395100D6E261 /* NLSDescriptorTitlesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */; };
 		7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BCB5C20197F39DF00CD91BA /* ema.sqlite */; };
-		7BCB5C2519805B2C00CD91BA /* NLSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSViewController.m */; };
+		7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */; };
 		7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */; };
 /* End PBXBuildFile section */
 
@@ -118,9 +119,11 @@
 		7BBDA4DF1992C17F00D6E261 /* NLSDescriptorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorViewController.m; sourceTree = "<group>"; };
 		7BBDA4E11993E9DA00D6E261 /* NLSDescriptorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDescriptorModel.h; sourceTree = "<group>"; };
 		7BBDA4E21993E9DA00D6E261 /* NLSDescriptorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorModel.m; sourceTree = "<group>"; };
+		7BBDA4E51994395100D6E261 /* NLSDescriptorTitlesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDescriptorTitlesViewController.h; sourceTree = "<group>"; };
+		7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorTitlesViewController.m; sourceTree = "<group>"; };
 		7BCB5C20197F39DF00CD91BA /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
-		7BCB5C2319805B2C00CD91BA /* NLSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSViewController.h; sourceTree = "<group>"; };
-		7BCB5C2419805B2C00CD91BA /* NLSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSViewController.m; sourceTree = "<group>"; };
+		7BCB5C2319805B2C00CD91BA /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
+		7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
 		7BCB5C2719806E2400CD91BA /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
 		7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLAPI.m; sourceTree = "<group>"; };
 		AF78171D92F14B558CB9B070 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -342,12 +345,14 @@
 		7BCB5C2219805AF700CD91BA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7BCB5C2319805B2C00CD91BA /* NLSViewController.h */,
-				7BCB5C2419805B2C00CD91BA /* NLSViewController.m */,
+				7BCB5C2319805B2C00CD91BA /* NLSTitleViewController.h */,
+				7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */,
 				7BBDA4DE1992C17F00D6E261 /* NLSDescriptorViewController.h */,
 				7BBDA4DF1992C17F00D6E261 /* NLSDescriptorViewController.m */,
 				7B1688371982CE57008229A3 /* NLSDetailViewController.h */,
 				7B1688381982CE57008229A3 /* NLSDetailViewController.m */,
+				7BBDA4E51994395100D6E261 /* NLSDescriptorTitlesViewController.h */,
+				7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -489,6 +494,7 @@
 				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				7BBDA4E31993E9DA00D6E261 /* NLSDescriptorModel.m in Sources */,
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
+				7BBDA4E71994395100D6E261 /* NLSDescriptorTitlesViewController.m in Sources */,
 				7B1688391982CE57008229A3 /* NLSDetailViewController.m in Sources */,
 				0629AEAA195B45D0000D2FE0 /* NLSUIKitExtras.m in Sources */,
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
@@ -500,7 +506,7 @@
 				7BBDA4E01992C17F00D6E261 /* NLSDescriptorViewController.m in Sources */,
 				0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */,
 				7B16883C1982DD72008229A3 /* NLSDetailModel.m in Sources */,
-				7BCB5C2519805B2C00CD91BA /* NLSViewController.m in Sources */,
+				7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */,
 				7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */,
 				060BE13B1946A814008FB3C5 /* main.m in Sources */,
 			);

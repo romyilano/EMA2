@@ -9,7 +9,9 @@
 #import "NLSDescriptorViewController.h"
 #import "NLSTableViewCell.h"
 #import "NLSTitleModel.h"
+#import "NLSTitleViewController.h"
 #import "NLSDetailViewController.h"
+#import "NLSDescriptorTitlesViewController.h"
 
 @interface NLSDescriptorViewController ()
 
@@ -29,7 +31,6 @@
     [self.sql initDatabase];
     
     self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z #" componentsSeparatedByString:@" "];
-    
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
@@ -125,10 +126,14 @@
     
     NSLog(@"cell id: %lu, name: %@", cell.rowId, cell.name);
     
+    NLSDescriptorTitlesViewController *dtvc = [[NLSDescriptorTitlesViewController alloc] init];
+
+    dtvc.letters = self.letters;
+    dtvc.meshId = cell.rowId;
+    dtvc.descriptor = cell.name;
+    
     //Push new view
-//    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
-//    dvc.abstractId = rowId;
-//    [self.navigationController pushViewController:dvc animated:TRUE];
+    [self.navigationController pushViewController:dtvc animated:TRUE];
 }
 
 
