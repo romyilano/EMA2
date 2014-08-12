@@ -26,9 +26,8 @@
 {
     
     NSLog(@"init NLSDescriptorViewController");
-    NLSSQLAPI *sqlapi = [[NLSSQLAPI alloc]  init];
+    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
     self.sql = sqlapi;
-    [self.sql initDatabase];
     
     self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z #" componentsSeparatedByString:@" "];
     

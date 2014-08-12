@@ -4,7 +4,7 @@
 //  Created by Patrick Piemonte on 3/26/13.
 //
 
-PRODUCT_NAME = Slyce
+PRODUCT_NAME = EMA
 INFOPLIST_FILE = $(TARGET_NAME)/$(TARGET_NAME)-Info.plist
 WRAPPER_EXTENSION = app
 

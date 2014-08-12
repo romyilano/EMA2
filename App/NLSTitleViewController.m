@@ -18,29 +18,48 @@
 @implementation NLSTitleViewController
 
 @synthesize sql = _sql;
+@synthesize searchBar = _searchBar;
+@synthesize searchBarController = _searchBarController;
+@synthesize isSearching = _isSearching;
+
 
 #pragma mark - view lifecycle
 
 - (void)loadView
 {
-    
-    NSLog(@"init NLSTitleModel");
-    NLSSQLAPI *sqlapi = [[NLSSQLAPI alloc]  init];
+    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
     self.sql = sqlapi;
-    [self.sql initDatabase];
     
-    NSLog(@"UIViewController loadView");
+    NSLog(@"UIViewController loadTitleView");
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView reloadData];
     
+    self.tableView = tableView;
     self.view = tableView;
-    self.title = @"Titles";
     
+    [self loadSearchBar];
 }
 
+-(void)loadSearchBar {
+    
+    NSLog(@"Loading SearchBar");
+    
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    self.searchBar.placeholder = @"Keyword Search";
+    self.searchBar.translucent = YES;
+    self.searchBar.delegate = self;
+    self.tableView.tableHeaderView = self.searchBar;
+    
+    self.searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+    self.searchBarController.delegate = self;
+    self.searchBarController.searchResultsDataSource = self;
+    self.searchBarController.searchResultsDelegate = self;    
+
+    self.title = @"Titles";
+}
 
 - (void)viewDidLoad
 {
@@ -75,9 +94,14 @@
 
     // Return the number of rows in the section.
     
-    NSLog(@"numberOfRowsInSection, %ld", (long)[self.sql getTitleCount]);
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
+        return [self.sql getTitleCountWhereTitleContains:self.searchBar.text];
+    }else{
+        return [self.sql getTitleCount];
+    }
     
-    return [self.sql getTitleCount];
+
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -90,7 +114,6 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *MyIdentifier = @"MyReuseIdentifier";
- 
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
     if (cell == nil) {
@@ -98,7 +121,16 @@
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row];
+
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView in cellForRowAtIndexPath: %ld", (long)indexPath.row);
+        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereTitleMatch:self.searchBar.text];
+    }else{
+        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row];
+    }
+    
+    
     
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;
@@ -124,6 +156,36 @@
     [self.navigationController pushViewController:dvc animated:TRUE];
 }
 
+
+#pragma mark Search Controller
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.isSearching = YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    NSLog(@"Text change - %d",self.isSearching);
+    
+    //Remove all objects first.
+//    [filteredContentList removeAllObjects];
+    
+    if([searchText length] != 0) {
+        self.isSearching = YES;
+//        [self searchTableList];
+    }
+    else {
+        self.isSearching = NO;
+    }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"Cancel clicked");
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"Search Clicked");
+//    [self searchTableList];
+}
 
 /*
 // Override to support conditional editing of the table view.

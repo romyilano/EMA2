@@ -9,6 +9,7 @@
 #import "NLSTitleViewController.h"
 #import "NLSDescriptorViewController.h"
 #import "NLSJournalViewController.h"
+#import "NLSFavoritesViewController.h"
 #import "PBJActivityIndicator.h"
 #import "FICImageCache.h"
 
@@ -44,7 +45,7 @@
     NLSJournalViewController *journalsController = [[NLSJournalViewController alloc] init];
     UINavigationController *jnc = [[UINavigationController alloc] initWithRootViewController:journalsController];
     
-    NLSTitleViewController *favoritesController = [[NLSTitleViewController alloc] init];
+    NLSFavoritesViewController *favoritesController = [[NLSFavoritesViewController alloc] init];
     UINavigationController *fnc = [[UINavigationController alloc] initWithRootViewController:favoritesController];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];

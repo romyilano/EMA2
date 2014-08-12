@@ -43,6 +43,8 @@
 		7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883519824041008229A3 /* NLSTableViewCell.m */; };
 		7B1688391982CE57008229A3 /* NLSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1688381982CE57008229A3 /* NLSDetailViewController.m */; };
 		7B16883C1982DD72008229A3 /* NLSDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883B1982DD72008229A3 /* NLSDetailModel.m */; };
+		7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */; };
+		7B7D3AFF1999352B00D8B695 /* NLSSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */; };
 		7BBDA4D81992072300D6E261 /* Document-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4D61992072300D6E261 /* Document-50@2x.png */; };
 		7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4D71992072300D6E261 /* Journals-50@2x.png */; };
 		7BBDA4DB199207D300D6E261 /* Descriptors-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4DA199207D300D6E261 /* Descriptors-50@2x.png */; };
@@ -59,7 +61,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		060BE1351946A814008FB3C5 /* Slyce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Slyce.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		060BE1351946A814008FB3C5 /* EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		060BE1391946A814008FB3C5 /* App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "App-Info.plist"; sourceTree = "<group>"; };
 		060BE13A1946A814008FB3C5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../Source/main.m; sourceTree = "<group>"; };
 		060BE13C1946A814008FB3C5 /* NLSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NLSAppDelegate.h; path = ../Source/NLSAppDelegate.h; sourceTree = "<group>"; };
@@ -114,6 +116,10 @@
 		7B1688381982CE57008229A3 /* NLSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDetailViewController.m; sourceTree = "<group>"; };
 		7B16883A1982DD72008229A3 /* NLSDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDetailModel.h; sourceTree = "<group>"; };
 		7B16883B1982DD72008229A3 /* NLSDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDetailModel.m; sourceTree = "<group>"; };
+		7B7D3AFA19991CF300D8B695 /* NLSFavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSFavoritesViewController.h; sourceTree = "<group>"; };
+		7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSFavoritesViewController.m; sourceTree = "<group>"; };
+		7B7D3AFD1999352B00D8B695 /* NLSSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSearchViewController.h; sourceTree = "<group>"; };
+		7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSearchViewController.m; sourceTree = "<group>"; };
 		7BBDA4D61992072300D6E261 /* Document-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-50@2x.png"; sourceTree = "<group>"; };
 		7BBDA4D71992072300D6E261 /* Journals-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Journals-50@2x.png"; sourceTree = "<group>"; };
 		7BBDA4DA199207D300D6E261 /* Descriptors-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Descriptors-50@2x.png"; sourceTree = "<group>"; };
@@ -166,7 +172,7 @@
 		060BE1361946A814008FB3C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				060BE1351946A814008FB3C5 /* Slyce.app */,
+				060BE1351946A814008FB3C5 /* EMA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -368,6 +374,10 @@
 				7BBDA4E61994395100D6E261 /* NLSDescriptorTitlesViewController.m */,
 				7BBDA4EE1994A9B800D6E261 /* NLSJournalTitlesViewController.h */,
 				7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */,
+				7B7D3AFA19991CF300D8B695 /* NLSFavoritesViewController.h */,
+				7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */,
+				7B7D3AFD1999352B00D8B695 /* NLSSearchViewController.h */,
+				7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -400,7 +410,7 @@
 			);
 			name = App;
 			productName = App;
-			productReference = 060BE1351946A814008FB3C5 /* Slyce.app */;
+			productReference = 060BE1351946A814008FB3C5 /* EMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -507,6 +517,7 @@
 			files = (
 				7BBDA4ED19949D6D00D6E261 /* NLSJournalModel.m in Sources */,
 				0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */,
+				7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */,
 				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				7BBDA4E31993E9DA00D6E261 /* NLSDescriptorModel.m in Sources */,
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
@@ -526,6 +537,7 @@
 				7B16883C1982DD72008229A3 /* NLSDetailModel.m in Sources */,
 				7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */,
 				7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */,
+				7B7D3AFF1999352B00D8B695 /* NLSSearchViewController.m in Sources */,
 				060BE13B1946A814008FB3C5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,13 +12,38 @@
 @interface NLSSQLAPI ()
 {
     NSMutableArray *_tableArray;
+    NSString *someProperty;
 }
+
+@property (nonatomic, retain) NSString *someProperty;
+
 @end
 
 @implementation NLSSQLAPI
 
 @synthesize tableArray = _tableArray;
 @synthesize db = _db;
+@synthesize someProperty;
+
+
+#pragma mark Singleton Methods
+
++ (id)sharedManager {
+    static NLSSQLAPI *sqlAPI = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sqlAPI = [[self alloc] init];
+    });
+    return sqlAPI;
+}
+
+- (id)init {
+    if (self = [super init]) {
+        someProperty = @"Default Property Value";
+        [self initDatabase];
+    }
+    return self;
+}
 
 - (void) initDatabase
 {
@@ -31,6 +56,8 @@
     if (![self.db open]) {
         NSLog(@"db not open");
         return;
+    }else{
+        [self createFTSTable];
     }
     
 }
@@ -46,6 +73,31 @@
         return 0;
     }
     
+}
+
+-(void)createFTSTable
+{
+    NSLog(@"Creating FTS table");
+    
+    NSString *sql =     @"DROP TABLE IF EXISTS titles;"
+                        @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(abstract_id, title);"
+                        @"INSERT INTO titles SELECT abstract_id, title FROM erpubtbl;";
+    BOOL success = [self.db executeStatements:sql];
+}
+
+-(NSUInteger)getTitleCountWhereTitleContains:(NSString*)str
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM titles WHERE title MATCH '%@'", str];
+    NSLog(@"%@", query);
+    
+    FMResultSet *count = [self.db executeQuery:query];
+    
+    if ([count next]) {
+//        NSLog(@"Total Rows in titles: %d where title MATCH %@", [count intForColumnIndex:0], str);
+        return [count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
 }
 
 -(NSArray*)getTitlesToLimit:(int)limit
@@ -92,6 +144,26 @@
     return tm;
 }
 
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereTitleMatch:(NSString *)str
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT title, abstract_id\
+                                                FROM titles\
+                                                WHERE title\
+                                                MATCH '%@'\
+                                                ORDER BY title\
+                                                LIMIT 1\
+                                                OFFSET %ld", str, (unsigned long)val];
+    NSLog(@"%@", query);
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+    }
+    return tm;
+}
+
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId
 {
@@ -105,7 +177,7 @@
                        WHERE md.id = %ld\
                        ORDER BY e.title\
                        LIMIT 1\
-                       OFFSET %ld", meshId, val];
+                       OFFSET %ld", (unsigned long)meshId, (unsigned long)val];
     
     FMResultSet *rs = [self.db executeQuery:query];
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
@@ -127,7 +199,7 @@
                        ON am.abstract_id = e.abstract_id\
                        JOIN mesh_descriptor md\
                        ON md.id = am.mesh_id\
-                       WHERE md.id = %ld", meshId];
+                       WHERE md.id = %ld", (unsigned long)meshId];
     
     FMResultSet *count = [self.db executeQuery:query];
 
@@ -146,7 +218,7 @@
                        FROM erpubtbl e\
                        JOIN journals j\
                        ON j.id = e.journal_id\
-                       WHERE j.id = %ld", journalId];
+                       WHERE j.id = %ld", (unsigned long)journalId];
     
     FMResultSet *count = [self.db executeQuery:query];
     
@@ -169,7 +241,7 @@
                        WHERE j.id = %ld\
                        ORDER BY e.title\
                        LIMIT 1\
-                       OFFSET %ld", journalId, val];    
+                       OFFSET %ld", (unsigned long)journalId, (unsigned long)val];
     
     FMResultSet *rs = [self.db executeQuery:query];
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
@@ -183,7 +255,7 @@
 
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM mesh_descriptor WHERE name LIKE '%@%%' ORDER BY name COLLATE NOCASE LIMIT 1 OFFSET %ld", str, val];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM mesh_descriptor WHERE name LIKE '%@%%' ORDER BY name COLLATE NOCASE LIMIT 1 OFFSET %ld", str, (unsigned long)val];
     FMResultSet *rs = [self.db executeQuery:query];
     NLSDescriptorModel *dm = [[NLSDescriptorModel alloc] init];
     
@@ -197,7 +269,7 @@
 
 -(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
-    NSString *query = [NSString stringWithFormat:@"SELECT * FROM journals WHERE journal_title LIKE '%@%%' ORDER BY journal_title COLLATE NOCASE LIMIT 1 OFFSET %ld", str, val];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM journals WHERE journal_title LIKE '%@%%' ORDER BY journal_title COLLATE NOCASE LIMIT 1 OFFSET %ld", str, (unsigned long)val];
     FMResultSet *rs = [self.db executeQuery:query];
     NLSJournalModel *jm = [[NLSJournalModel alloc] init];
     
@@ -225,10 +297,10 @@
 }
 
 -(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str{
-    
-    NSLog(@"table: %@, col: %@, like: %@", table, col, str);
 
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM %@ WHERE %@ LIKE '%@'", table, col, str];
+    
+    NSLog(@"%@", query);
     
     FMResultSet *count = [self.db executeQuery:query];
     if ([count next]) {

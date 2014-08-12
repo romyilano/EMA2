@@ -34,9 +34,8 @@
 {
     
     NSLog(@"init NLSTitleModel");
-    NLSSQLAPI *sqlapi = [[NLSSQLAPI alloc]  init];
+    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
     self.sql = sqlapi;
-    [self.sql initDatabase];
     
     NSLog(@"UIViewController loadView");
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];

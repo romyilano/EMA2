@@ -24,9 +24,8 @@
 - (void)loadView
 {
     
-    NLSSQLAPI *sqlapi = [[NLSSQLAPI alloc]  init];
+    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
     self.sql = sqlapi;
-    [self.sql initDatabase];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;

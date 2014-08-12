@@ -25,9 +25,8 @@
     self.view = view;
     NSLog(@"abstractId: %ld", (unsigned long)self.abstractId);
     
-    NLSSQLAPI *sqlapi = [[NLSSQLAPI alloc]  init];
+    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
     self.sql = sqlapi;
-    [self.sql initDatabase];
     
     
     NLSDetailModel *dm = [self.sql getAbstractWithId:self.abstractId];
