@@ -13,7 +13,7 @@
 		060BE1721946D8F4008FB3C5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16D1946D8C5008FB3C5 /* UIKit.framework */; };
 		060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */; };
 		060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */; };
-		060BE1791946DAB2008FB3C5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */; };
+		060BE1791946DAB2008FB3C5 /* Old-Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1761946DAB2008FB3C5 /* Old-Default-568h@2x.png */; };
 		060BE17A1946DAB2008FB3C5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1771946DAB2008FB3C5 /* Default.png */; };
 		060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1781946DAB2008FB3C5 /* Default@2x.png */; };
 		0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE97195B42BB000D2FE0 /* NLSGeometry.m */; };
@@ -35,7 +35,6 @@
 		06D952DD195902DE00EF30F2 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D0195902DE00EF30F2 /* Icon-Small.png */; };
 		06D952DE195902DE00EF30F2 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */; };
 		06D952DF195902DE00EF30F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D2195902DE00EF30F2 /* Icon.png */; };
-		06D952E0195902DE00EF30F2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D3195902DE00EF30F2 /* Icon@2x.png */; };
 		06D952E31959051000EF30F2 /* green-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952E21959051000EF30F2 /* green-button@2x.png */; };
 		06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */; };
 		1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 717001B3460B4D02A20E2852 /* libPods.a */; };
@@ -45,6 +44,9 @@
 		7B16883C1982DD72008229A3 /* NLSDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883B1982DD72008229A3 /* NLSDetailModel.m */; };
 		7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */; };
 		7B7D3AFF1999352B00D8B695 /* NLSSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */; };
+		7B7D3B03199A958300D8B695 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B02199A958300D8B695 /* ema.sqlite */; };
+		7B7D3B05199A973600D8B695 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B04199A973600D8B695 /* Icon@2x.png */; };
+		7B7D3B09199A980000D8B695 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B08199A980000D8B695 /* Default-568h@2x.png */; };
 		7BBDA4D81992072300D6E261 /* Document-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4D61992072300D6E261 /* Document-50@2x.png */; };
 		7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4D71992072300D6E261 /* Journals-50@2x.png */; };
 		7BBDA4DB199207D300D6E261 /* Descriptors-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4DA199207D300D6E261 /* Descriptors-50@2x.png */; };
@@ -55,7 +57,6 @@
 		7BBDA4EA199499AC00D6E261 /* NLSJournalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4E9199499AC00D6E261 /* NLSJournalViewController.m */; };
 		7BBDA4ED19949D6D00D6E261 /* NLSJournalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4EC19949D6D00D6E261 /* NLSJournalModel.m */; };
 		7BBDA4F01994A9B800D6E261 /* NLSJournalTitlesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */; };
-		7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BCB5C20197F39DF00CD91BA /* ema.sqlite */; };
 		7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */; };
 		7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */; };
 /* End PBXBuildFile section */
@@ -74,7 +75,7 @@
 		060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
+		060BE1761946DAB2008FB3C5 /* Old-Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Old-Default-568h@2x.png"; path = "Resources/Old-Default-568h@2x.png"; sourceTree = "<group>"; };
 		060BE1771946DAB2008FB3C5 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		060BE1781946DAB2008FB3C5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/Default@2x.png"; sourceTree = "<group>"; };
 		0629AE96195B42BB000D2FE0 /* NLSGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSGeometry.h; path = Source/NLSGeometry.h; sourceTree = SOURCE_ROOT; };
@@ -103,7 +104,6 @@
 		06D952D0195902DE00EF30F2 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Resources/Icon-Small.png"; sourceTree = "<group>"; };
 		06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Resources/Icon-Small@2x.png"; sourceTree = "<group>"; };
 		06D952D2195902DE00EF30F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		06D952D3195902DE00EF30F2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		06D952E21959051000EF30F2 /* green-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "green-button@2x.png"; path = "Resources/Interfaces/green-button@2x.png"; sourceTree = "<group>"; };
 		06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSLoginViewController.h; path = Source/NLSLoginViewController.h; sourceTree = SOURCE_ROOT; };
 		06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSLoginViewController.m; path = Source/NLSLoginViewController.m; sourceTree = SOURCE_ROOT; };
@@ -120,6 +120,9 @@
 		7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSFavoritesViewController.m; sourceTree = "<group>"; };
 		7B7D3AFD1999352B00D8B695 /* NLSSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSearchViewController.h; sourceTree = "<group>"; };
 		7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSearchViewController.m; sourceTree = "<group>"; };
+		7B7D3B02199A958300D8B695 /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
+		7B7D3B04199A973600D8B695 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		7B7D3B08199A980000D8B695 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7BBDA4D61992072300D6E261 /* Document-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-50@2x.png"; sourceTree = "<group>"; };
 		7BBDA4D71992072300D6E261 /* Journals-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Journals-50@2x.png"; sourceTree = "<group>"; };
 		7BBDA4DA199207D300D6E261 /* Descriptors-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Descriptors-50@2x.png"; sourceTree = "<group>"; };
@@ -136,7 +139,6 @@
 		7BBDA4EC19949D6D00D6E261 /* NLSJournalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalModel.m; sourceTree = "<group>"; };
 		7BBDA4EE1994A9B800D6E261 /* NLSJournalTitlesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalTitlesViewController.h; sourceTree = "<group>"; };
 		7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalTitlesViewController.m; sourceTree = "<group>"; };
-		7BCB5C20197F39DF00CD91BA /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
 		7BCB5C2319805B2C00CD91BA /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
 		7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
 		7BCB5C2719806E2400CD91BA /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
@@ -246,7 +248,8 @@
 				7BBDA4D51992071200D6E261 /* Tabs */,
 				7BCB5C1F197F39BD00CD91BA /* DB */,
 				06D952E1195904E600EF30F2 /* Interfaces */,
-				060BE1761946DAB2008FB3C5 /* Default-568h@2x.png */,
+				060BE1761946DAB2008FB3C5 /* Old-Default-568h@2x.png */,
+				7B7D3B08199A980000D8B695 /* Default-568h@2x.png */,
 				060BE1771946DAB2008FB3C5 /* Default.png */,
 				060BE1781946DAB2008FB3C5 /* Default@2x.png */,
 				06D952C7195902DE00EF30F2 /* Icon-60@2x.png */,
@@ -261,7 +264,7 @@
 				06D952D0195902DE00EF30F2 /* Icon-Small.png */,
 				06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */,
 				06D952D2195902DE00EF30F2 /* Icon.png */,
-				06D952D3195902DE00EF30F2 /* Icon@2x.png */,
+				7B7D3B04199A973600D8B695 /* Icon@2x.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -354,7 +357,7 @@
 		7BCB5C1F197F39BD00CD91BA /* DB */ = {
 			isa = PBXGroup;
 			children = (
-				7BCB5C20197F39DF00CD91BA /* ema.sqlite */,
+				7B7D3B02199A958300D8B695 /* ema.sqlite */,
 			);
 			name = DB;
 			sourceTree = "<group>";
@@ -451,19 +454,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */,
-				06D952E0195902DE00EF30F2 /* Icon@2x.png in Resources */,
+				7B7D3B05199A973600D8B695 /* Icon@2x.png in Resources */,
 				06D952DA195902DE00EF30F2 /* Icon-Small-40@2x.png in Resources */,
 				7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */,
 				06D952DB195902DE00EF30F2 /* Icon-Small-50.png in Resources */,
+				7B7D3B03199A958300D8B695 /* ema.sqlite in Resources */,
 				7BBDA4DB199207D300D6E261 /* Descriptors-50@2x.png in Resources */,
 				06D952DD195902DE00EF30F2 /* Icon-Small.png in Resources */,
 				06D952D5195902DE00EF30F2 /* Icon-72.png in Resources */,
+				7B7D3B09199A980000D8B695 /* Default-568h@2x.png in Resources */,
 				06D952D6195902DE00EF30F2 /* Icon-72@2x.png in Resources */,
 				06D952D9195902DE00EF30F2 /* Icon-Small-40.png in Resources */,
 				06D952DC195902DE00EF30F2 /* Icon-Small-50@2x.png in Resources */,
-				7BCB5C21197F39DF00CD91BA /* ema.sqlite in Resources */,
 				06D952D7195902DE00EF30F2 /* Icon-76.png in Resources */,
-				060BE1791946DAB2008FB3C5 /* Default-568h@2x.png in Resources */,
+				060BE1791946DAB2008FB3C5 /* Old-Default-568h@2x.png in Resources */,
 				7BBDA4D81992072300D6E261 /* Document-50@2x.png in Resources */,
 				060BE17A1946DAB2008FB3C5 /* Default.png in Resources */,
 				06D952D8195902DE00EF30F2 /* Icon-76@2x.png in Resources */,

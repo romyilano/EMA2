@@ -18,6 +18,8 @@
 
 @property (strong, nonatomic) NSMutableArray *tableArray;
 @property (strong, nonatomic) FMDatabase *db;
+@property (nonatomic,retain) NSFileManager *fileMgr;
+@property (nonatomic,retain) NSString *homeDir;
 
 + (id)sharedManager;
 

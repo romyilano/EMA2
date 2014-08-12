@@ -10,5 +10,8 @@
 @interface NLSAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic,retain) NSFileManager *fileMgr;
+@property (nonatomic,retain) NSString *homeDir;
+@property (nonatomic,retain) NSString *title;
 
 @end

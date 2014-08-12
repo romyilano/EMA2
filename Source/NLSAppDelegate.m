@@ -25,16 +25,40 @@
 @implementation NLSAppDelegate
 
 @synthesize window = _window;
+@synthesize fileMgr = _fileMgr;
+@synthesize homeDir = _homeDir;
 
 
 #pragma mark - init
+-(NSString *)GetDocumentDirectory{
+    self.fileMgr = [NSFileManager defaultManager];
+    self.homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    return self.homeDir;
+}
+
+-(void) checkAndCreateDatabase{
+    BOOL success;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *databasePath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
+    success = [fileManager fileExistsAtPath:databasePath];
+    if(success) {
+        NSLog(@"DB exists in writeable Docs dir");
+//        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
+//        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
+    }
+    else{
+        NSLog(@"DB does not exist in writeable Docs dir, copying...");
+        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
+        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
+    }
+}
 
 
 #pragma mark - App State Changes
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-// TODO: load the heirarchy in another place after login
+    [self checkAndCreateDatabase];
 
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
     UINavigationController *tnc = [[UINavigationController alloc] initWithRootViewController:titlesController];

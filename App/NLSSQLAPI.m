@@ -24,6 +24,8 @@
 @synthesize tableArray = _tableArray;
 @synthesize db = _db;
 @synthesize someProperty;
+@synthesize fileMgr = _fileMgr;
+@synthesize homeDir = _homeDir;
 
 
 #pragma mark Singleton Methods
@@ -47,9 +49,10 @@
 
 - (void) initDatabase
 {
+
+//    NSString *path = [[NSBundle mainBundle] pathForResource:@"ema" ofType:@"sqlite"];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"ema" ofType:@"sqlite"];
-    
+    NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
     FMDatabase *fmdb = [FMDatabase databaseWithPath:path];
     self.db = fmdb;
     
@@ -61,6 +64,13 @@
     }
     
 }
+
+-(NSString *)GetDocumentDirectory{
+    self.fileMgr = [NSFileManager defaultManager];
+    self.homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    return self.homeDir;
+}
+
 
 -(int)getTitleCount
 {
@@ -83,6 +93,7 @@
                         @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(abstract_id, title);"
                         @"INSERT INTO titles SELECT abstract_id, title FROM erpubtbl;";
     BOOL success = [self.db executeStatements:sql];
+    NSLog(@"FTS Success: %d", success);
 }
 
 -(NSUInteger)getTitleCountWhereTitleContains:(NSString*)str
