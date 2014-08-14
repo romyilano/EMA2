@@ -67,7 +67,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    NSLog(@"numberOfSectionsInTableView, %ld", [self.letters count]);
+    NSLog(@"numberOfSectionsInTableView, %ld", (unsigned long)[self.letters count]);
     return (NSInteger)[self.letters count];
 }
 
@@ -77,7 +77,7 @@
     // Return the number of rows in the section.
     NSString *letter = [NSString stringWithFormat:@"%@%%", [self.letters objectAtIndex:(NSUInteger)section]];
     NSInteger count = (long)[self.sql getCountFromTable:@"mesh_descriptor" whereCol:@"name" like:letter];
-    NSLog(@"Descriptors, numberOfRowsInSection, %ld for section: %ld", section, count);
+    NSLog(@"Descriptors, numberOfRowsInSection, %ld for section: %ld", (long)section, (long)count);
     
     return count;
 }
@@ -92,7 +92,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    NSLog(@"sectionForSectionIndexTitle: %@ atIndex: %ld", title, index);
+    NSLog(@"sectionForSectionIndexTitle: %@ atIndex: %ld", title, (long)index);
     return (NSInteger)[self.letters indexOfObject:title];
 }
 
@@ -106,7 +106,7 @@
         cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:myIdentifier];
     }
     
-    NSLog(@"indexPath.row: %ld, indexPath.section: %ld", indexPath.row, indexPath.section);
+    NSLog(@"indexPath.row: %ld, indexPath.section: %ld", (long)indexPath.row, (long)indexPath.section);
     NLSDescriptorModel *dm = [self.sql getDescriptorForRow:(NSUInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
     
     cell.name = dm.name;
@@ -123,7 +123,7 @@
     
     NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
-    NSLog(@"cell id: %lu, name: %@", cell.rowId, cell.name);
+    NSLog(@"cell id: %lu, name: %@", (unsigned long)cell.rowId, cell.name);
     
     NLSDescriptorTitlesViewController *dtvc = [[NLSDescriptorTitlesViewController alloc] init];
 

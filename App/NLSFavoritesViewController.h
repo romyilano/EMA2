@@ -12,5 +12,6 @@
 @interface NLSFavoritesViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) NLSSQLAPI *sql;
+@property (strong, nonatomic) UITableView *tableView;
 
 @end

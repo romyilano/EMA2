@@ -21,27 +21,12 @@
 @synthesize journal = _journal;
 @synthesize journalId = _journalId;
 
-- (void)loadView
-{
-    
-    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
-    self.sql = sqlapi;
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [tableView reloadData];
-    
-    self.view = tableView;
-    self.title = self.journal;
-    
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = self.journal;
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,10 +40,13 @@
 {
     
     // Return the number of rows in the section.
-    NSUInteger count = [self.sql getTitleCountWhereJournalEquals:self.journalId];
-    NSLog(@"numberOfRowsInSection %ld for meshId: %ld is: %ld", section, self.journalId, count);
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
+        return [self.sql getTitleCountWhereJournalEquals:self.journalId andTitleLike:self.searchBar.text];
+    }else{
+        return [self.sql getTitleCountWhereJournalEquals:self.journalId];
+    }
     
-    return (NSInteger)count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -72,8 +60,15 @@
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereJournalEquals:self.journalId];
-    
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView in cellForRowAtIndexPath: %ld", (long)indexPath.row);
+        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereJournalEquals:self.journalId andTitleLike:self.searchBar.text];
+    }else{
+        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereJournalEquals:self.journalId];
+    }
+        
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;
     

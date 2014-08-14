@@ -1,8 +1,8 @@
 //
 //  NLSAppDelegate.h
 //
-//  Created by Patrick Piemonte on 1/2/14.
-//  Copyright (c) 2014. All rights reserved.
+//  Created by 4m1r on 8/12/14.
+//  Copyright (c) 2014 4m1r. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

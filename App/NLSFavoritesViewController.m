@@ -17,6 +17,9 @@
 
 @implementation NLSFavoritesViewController
 
+@synthesize sql = _sql;
+@synthesize tableView = _tableView;
+
 #pragma mark - view lifecycle
 
 - (void)loadView
@@ -32,7 +35,7 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     [tableView reloadData];
-    
+    self.tableView = tableView;
     self.view = tableView;
     self.title = @"Favorites";
     
@@ -71,22 +74,19 @@
 {
     
     // Return the number of rows in the section.
-    
-    NSLog(@"numberOfRowsInSection, %ld", (long)[self.sql getTitleCount]);
-    
-    return [self.sql getTitleCount];
+    return [self.sql getCountFromTable:@"favorites"];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     // The header for the section is the region name -- get this from the region at the section index.
     
-    return @"All Titles";
+    return @"All Favorites";
 }
 
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *MyIdentifier = @"MyReuseIdentifier";
+    static NSString *MyIdentifier = @"Cell";
     
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
@@ -95,7 +95,7 @@
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row];
+    NLSTitleModel *tm = [self.sql get:@"id, title" from:@"favorites" forRow:indexPath.row];
     
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;
@@ -116,9 +116,15 @@
     NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
     
     //Push new view
-    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
+    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init]; 
     dvc.abstractId = rowId;
     [self.navigationController pushViewController:dvc animated:TRUE];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
 }
 
 

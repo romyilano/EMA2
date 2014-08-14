@@ -2,8 +2,8 @@
 //  main.m
 //  App
 //
-//  Created by Patrick Piemonte on 6/9/14.
-//  Copyright (c) 2014 Patrick Piemonte. All rights reserved.
+//  Created by 4m1r on 8/12/14.
+//  Copyright (c) 2014 4m1r. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

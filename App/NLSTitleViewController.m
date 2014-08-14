@@ -31,6 +31,8 @@
     self.sql = sqlapi;
     
     NSLog(@"UIViewController loadTitleView");
+
+    
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     tableView.delegate = self;
@@ -39,8 +41,10 @@
     
     self.tableView = tableView;
     self.view = tableView;
-    
+    self.isSearching = NO;
+
     [self loadSearchBar];
+
 }
 
 -(void)loadSearchBar {
@@ -51,28 +55,25 @@
     self.searchBar.placeholder = @"Keyword Search";
     self.searchBar.translucent = YES;
     self.searchBar.delegate = self;
-    self.tableView.tableHeaderView = self.searchBar;
     
     self.searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchBarController.delegate = self;
     self.searchBarController.searchResultsDataSource = self;
-    self.searchBarController.searchResultsDelegate = self;    
+    self.searchBarController.searchResultsDelegate = self;
 
+    self.tableView.tableHeaderView = self.searchBar;
+    
     self.title = @"Titles";
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
     
     NSLog(@"viewDidLoad");
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [super viewDidLoad];
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -85,7 +86,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    NSLog(@"numberOfSectionsInTableView, %d", 1);
     return 1;
 }
 
@@ -93,9 +93,8 @@
 {
 
     // Return the number of rows in the section.
-    
+    NSLog(@"tableView is: %@ ", tableView);
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
         return [self.sql getTitleCountWhereTitleContains:self.searchBar.text];
     }else{
         return [self.sql getTitleCount];
@@ -113,7 +112,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *MyIdentifier = @"MyReuseIdentifier";
+    static NSString *MyIdentifier = @"Cell";
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
     if (cell == nil) {
@@ -163,19 +162,18 @@
     self.isSearching = YES;
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    NSLog(@"Text change - %d",self.isSearching);
-    
-    //Remove all objects first.
-//    [filteredContentList removeAllObjects];
-    
-    if([searchText length] != 0) {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
+    if([searchString length] != 0) {
         self.isSearching = YES;
-//        [self searchTableList];
     }
     else {
         self.isSearching = NO;
     }
+    NSLog(@"shouldReloadTableForSearchString");
+    return 1;
+
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -185,6 +183,14 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"Search Clicked");
 //    [self searchTableList];
+}
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    self.isSearching = YES;
+}
+
+-(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+    self.isSearching = NO;
 }
 
 /*

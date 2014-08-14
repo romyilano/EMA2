@@ -21,37 +21,11 @@
 @synthesize meshId = _meshId;
 @synthesize descriptor = _descriptor;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)loadView
-{
-    
-    NSLog(@"init NLSTitleModel");
-    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
-    self.sql = sqlapi;
-    
-    NSLog(@"UIViewController loadView");
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [tableView reloadData];
-    
-    self.view = tableView;
-    self.title = self.descriptor;
-    
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.title = self.descriptor;
     // Do any additional setup after loading the view.
 }
 
@@ -66,24 +40,36 @@
 {
     
     // Return the number of rows in the section.
-    NSUInteger count = [self.sql getTitleCountWhereMeshEquals:self.meshId];
-    NSLog(@"numberOfRowsInSection %ld for meshId: %ld is: %ld", section, self.meshId, count);
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
+        return [self.sql getTitleCountWhereMeshEquals:self.meshId andTitleMatch:self.searchBar.text];
+    }else{
+        return [self.sql getTitleCountWhereMeshEquals:self.meshId];
+    }
     
-    return (NSInteger)count;
 }
+
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *identifier = @"Cell";
-    
-    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString *MyIdentifier = @"Cell";
+    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
     if (cell == nil) {
-        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereMeshEquals:self.meshId];
+    
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    if (tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView in cellForRowAtIndexPath: %ld", (long)indexPath.row);
+        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereMeshEquals:self.meshId andTitleLike:self.searchBar.text];
+    }else{
+        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereMeshEquals:self.meshId];
+    }
+    
+    
     
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;
@@ -91,16 +77,5 @@
     NSLog(@"cell.rowId: %lu, textLabel: %@", (unsigned long)cell.rowId, cell.textLabel.text);
     return cell;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
