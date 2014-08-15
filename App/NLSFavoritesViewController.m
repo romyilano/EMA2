@@ -19,6 +19,8 @@
 
 @synthesize sql = _sql;
 @synthesize tableView = _tableView;
+@synthesize button = _button;
+@synthesize window = _window;
 
 #pragma mark - view lifecycle
 
@@ -39,6 +41,33 @@
     self.view = tableView;
     self.title = @"Favorites";
     
+    //Add a remove all Favorites Button
+//    UIButton *button;
+//    NSUInteger hasFaves = [self.sql getCountFromFavorites];
+    UIScreen *screen = [UIScreen mainScreen];
+    CGRect screenRect = screen.bounds;
+//    NSLog(@"width: %f", screenRect.size.width);
+//    CGRect frame = CGRectMake(screenRect.size.width - 60.0, 123.0, 34.0, 65.0);
+//    button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//
+//    
+    
+//    if(hasFaves > 0){
+//        [button addTarget:self action:@selector(removeAllFavorites:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button addTarget:self
+               action:@selector(removeAllFavorites:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Remove All" forState:UIControlStateNormal];
+    button.frame = CGRectMake(screenRect.size.width - 110.0, 23.0, 100.0, 40.0);
+    self.button = button;
+    
+    //Create window reference
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    self.window = window;
+    
 }
 
 
@@ -52,13 +81,33 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.window addSubview:self.button];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)removeAllFavorites:(UIButton*)button
+{
+    NSLog(@"remove all favorites");
+    [self.sql deleteFavorites];
+    [self.tableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.parentViewController == nil) {
+        NSLog(@"viewDidDisappear doesn't have parent so it's been popped");
+        //release stuff here
+    } else {
+        //        NSLog(@"PersonViewController view just hidden");
+    }
+    
+    [self.button removeFromSuperview];
 }
 
 #pragma mark - Table view data source
@@ -74,7 +123,7 @@
 {
     
     // Return the number of rows in the section.
-    return [self.sql getCountFromTable:@"favorites"];
+    return [self.sql getCountFromFavorites];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -95,7 +144,7 @@
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql get:@"id, title" from:@"favorites" forRow:indexPath.row];
+    NLSTitleModel *tm = [self.sql getFavoriteForRow:indexPath.row];
     
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;
@@ -125,6 +174,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
+    [self.window addSubview:self.button];
 }
 
 
@@ -137,18 +187,20 @@
  }
  */
 
-/*
+
  // Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
  {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     if (editingStyle == UITableViewCellEditingStyleDelete) {
+     // Delete the row from the data source
+     NLSTableViewCell *cell = (NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+     [self.sql deleteFromFavorites:cell.rowId];
+     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
  }
- }
- */
+
 
 /*
  // Override to support rearranging the table view.

@@ -18,6 +18,7 @@
 
 @property (strong, nonatomic) NSMutableArray *tableArray;
 @property (strong, nonatomic) FMDatabase *db;
+@property (strong, nonatomic) FMDatabase *favesDb;
 @property (nonatomic,retain) NSFileManager *fileMgr;
 @property (nonatomic,retain) NSString *homeDir;
 
@@ -27,6 +28,8 @@
 -(int)getTitleCount;
 
 -(BOOL)insertIntoFavorites:(NSUInteger)emaId;
+-(BOOL)deleteFavorites;
+-(BOOL)deleteFromFavorites:(NSUInteger)emaId;
 -(BOOL)checkForFavoriteId:(NSUInteger)emaId;
 
 -(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId;
@@ -35,20 +38,23 @@
 -(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId;
 -(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId andTitleLike:(NSString*)str;
 
+-(NSUInteger)getCountFromFavorites;
 -(NSUInteger)getCountFromTable:(NSString*)table;
 -(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str;
 
 -(NSArray*)getTitlesToLimit:(int)limit;
 -(NSString*)getTitleForId:(NSInteger)val;
+-(NSString*)getTitleWhereId:(NSInteger)emaId;
 
--(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table forRow:(NSUInteger)val;
--(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table where:(NSString*)w like:(NSString*)l forRow:(NSUInteger)val;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereTitleMatch:(NSString *)str;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId andTitleLike:(NSString *)str;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)val andTitleLike:(NSString *)str;
+-(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table forRow:(NSUInteger)val;
+-(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table where:(NSString*)w like:(NSString*)l forRow:(NSUInteger)val;
+-(NLSTitleModel*)getFavoriteForRow:(NSUInteger)val;
 
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
 -(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str;

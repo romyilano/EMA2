@@ -43,14 +43,13 @@
     success = [fileManager fileExistsAtPath:databasePath];
     if(success) {
         NSLog(@"DB exists in writeable Docs dir");
-//        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
-//        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
     }
     else{
         NSLog(@"DB does not exist in writeable Docs dir, copying...");
         NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
         [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
     }
+
 }
 
 

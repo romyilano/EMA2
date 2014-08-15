@@ -48,6 +48,7 @@
     BOOL isFave = [self.sql checkForFavoriteId:self.abstractId];
     if(isFave){
         button = [NLSButton buttonWithNormalImageName:@"FavoritesHighlighted-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
+        [button addTarget:self action:@selector(removeFromFavorites:) forControlEvents:UIControlEventTouchUpInside];
     }else{
         button = [NLSButton buttonWithNormalImageName:@"Favorites-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
         [button addTarget:self action:@selector(insertIntoFavorites:) forControlEvents:UIControlEventTouchUpInside];
@@ -106,10 +107,23 @@
     NSLog(@"Button  clicked.");
     [self.sql insertIntoFavorites:self.abstractId];
     UIImage *image = [UIImage imageNamed:@"FavoritesHighlighted-50@2x.png"];
-    [self.button setImage:image forState:UIControlStateNormal];
-    [self.button removeTarget:nil
+    [button setImage:image forState:UIControlStateNormal];
+    [button removeTarget:nil
                        action:NULL
              forControlEvents:UIControlEventAllEvents];
+    [button addTarget:self action:@selector(removeFromFavorites:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)removeFromFavorites:(UIButton*)button
+{
+    NSLog(@"Button  clicked.");
+    [self.sql deleteFromFavorites:self.abstractId];
+    UIImage *image = [UIImage imageNamed:@"Favorites-50@2x.png"];
+    [button setImage:image forState:UIControlStateNormal];
+    [button removeTarget:nil
+                       action:NULL
+             forControlEvents:UIControlEventAllTouchEvents];
+    [button addTarget:self action:@selector(insertIntoFavorites:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning

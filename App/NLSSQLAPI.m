@@ -23,6 +23,7 @@
 
 @synthesize tableArray = _tableArray;
 @synthesize db = _db;
+@synthesize favesDb = _favesDb;
 @synthesize someProperty;
 @synthesize fileMgr = _fileMgr;
 @synthesize homeDir = _homeDir;
@@ -49,20 +50,34 @@
 
 - (void) initDatabase
 {
-
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"ema" ofType:@"sqlite"];
     
     NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
     FMDatabase *fmdb = [FMDatabase databaseWithPath:path];
     self.db = fmdb;
+
+
+    NSString *favesPath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"emafaves.sqlite"];
+    FMDatabase *favesDb = [FMDatabase databaseWithPath:favesPath];
+    self.favesDb = favesDb;
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSLog(@"faves exists: %d",[fileManager fileExistsAtPath:favesPath]);
+
     
     if (![self.db open]) {
         NSLog(@"db not open");
         return;
     }else{
         [self createFTSTable];
+    }
+    
+    if (![self.favesDb open]) {
+        NSLog(@"faves db not open");
+        return;
+    }else{
         [self createFavoritesTable];
     }
+    
     
 }
 
@@ -103,20 +118,45 @@
 
     NSLog(@"Creating Favorites table");
     
-    NSString *sql =     @"DROP TABLE IF EXISTS favorites;"
-    @"CREATE VIRTUAL TABLE IF NOT EXISTS favorites USING fts4(id, title);";
+    NSString *sql = @"CREATE TABLE IF NOT EXISTS favorites (id, title);";
     
-    BOOL success = [self.db executeStatements:sql];
+    BOOL success = [self.favesDb executeStatements:sql];
     NSLog(@"FTS Success: %d", success);
 }
 
 -(BOOL)insertIntoFavorites:(NSUInteger)emaId
 {
-    NSString *query = [NSString stringWithFormat:@"INSERT into favorites (id, title) SELECT id, title FROM erpubtbl WHERE id = %ld;", (unsigned long)emaId];
-    FMResultSet *count = [self.db executeQuery:query];
+    
+    NSString *title = [self getTitleWhereId:emaId];
+    NSString *query = [NSString stringWithFormat:@"INSERT INTO favorites (id, title) VALUES (%ld, ?) ", (unsigned long)emaId];
+    
+    NSLog(@"%@", query);
+    FMResultSet *count = [self.favesDb executeQuery:query, title];
     
     if ([count next]) {
-        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
+        return (NSUInteger)[count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+}
+
+-(BOOL)deleteFavorites
+{
+    NSString *query = [NSString stringWithFormat:@"DELETE FROM favorites"];
+    FMResultSet *count = [self.favesDb executeQuery:query];    
+    if ([count next]) {
+        return (NSUInteger)[count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+}
+
+-(BOOL)deleteFromFavorites:(NSUInteger)emaId
+{
+    NSString *query = [NSString stringWithFormat:@"DELETE FROM favorites WHERE id = %ld;", (unsigned long)emaId];
+    FMResultSet *count = [self.favesDb executeQuery:query];
+    
+    if ([count next]) {
         return (NSUInteger)[count intForColumnIndex:0];
     }else{
         return 0;
@@ -126,7 +166,7 @@
 -(BOOL)checkForFavoriteId:(NSUInteger)emaId
 {
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM favorites WHERE id = %ld;", (unsigned long)emaId];
-    FMResultSet *count = [self.db executeQuery:query];
+    FMResultSet *count = [self.favesDb executeQuery:query];
     
     if ([count next]) {
         NSLog(@"Total Count in favorites: %d", [count intForColumnIndex:0]);
@@ -136,6 +176,36 @@
             return 0;
         }
 
+    }
+}
+
+-(NLSTitleModel*)getFavoriteForRow:(NSUInteger)val
+{
+    FMResultSet *rs = [self.favesDb executeQueryWithFormat:@"SELECT id, title FROM favorites LIMIT 1 OFFSET %ld", (long)val];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result Dict: %@", tm);
+    }else{
+        NSLog(@"No favorite for row: %ld", (unsigned long)val);
+    }
+    return tm;
+}
+
+-(NSUInteger)getCountFromFavorites
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM favorites"];
+    NSLog(@"%@", query);
+    
+    FMResultSet *count = [self.favesDb executeQuery:query];
+    
+    if ([count next]) {
+        //        NSLog(@"Total Rows in titles: %d where title MATCH %@", [count intForColumnIndex:0], str);
+        return [count intForColumnIndex:0];
+    }else{
+        return 0;
     }
 }
 
@@ -175,6 +245,20 @@
 -(NSString*)getTitleForId:(NSInteger)val
 {
     FMResultSet *title = [self.db executeQueryWithFormat:@"SELECT title FROM erpubtbl LIMIT 1 OFFSET %ld", (long)val];
+    if ([title next]) {
+        //        NSString *title = [limitTen stringForColumn: @"title"];
+        //        NSLog(@"Title col in erpubtbl: %@", title);
+        NSLog(@"stringForTitle: %@", [title stringForColumn:@"title"]);
+        return [title stringForColumn:@"title"];
+    }else{
+        return @"No title";
+    }
+}
+
+-(NSString*)getTitleWhereId:(NSInteger)emaId
+{
+    NSString *query = [NSString stringWithFormat: @"SELECT title FROM erpubtbl WHERE id = %ld", (long)emaId];
+    FMResultSet *title = [self.db executeQuery:query];
     if ([title next]) {
         //        NSString *title = [limitTen stringForColumn: @"title"];
         //        NSLog(@"Title col in erpubtbl: %@", title);
