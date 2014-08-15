@@ -20,6 +20,7 @@
 @synthesize sql = _sql;
 @synthesize button = _button;
 @synthesize window = _window;
+@synthesize pmidRange = _pmidRange;
 
 - (void)loadView
 {
@@ -38,10 +39,52 @@
     UITextView *tv = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     tv.editable = NO;
     tv.font = [UIFont fontWithName: @"Courier" size: 12.0f];
-    tv.dataDetectorTypes = UIDataDetectorTypeAll;
+    tv.dataDetectorTypes = UIDataDetectorTypeAddress;
     tv.textAlignment = NSTextAlignmentLeft;
     tv.text = dm.abstract;
+
+
+    
+    
+    
+    
+    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor blueColor],
+                                     NSUnderlineColorAttributeName: [UIColor lightGrayColor],
+                                     NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+    
+    // assume that textView is a UITextView previously created (either by code or Interface Builder)
+    tv.linkTextAttributes = linkAttributes; // customizes the appearance of links
+    tv.attributedText = [self makeAttributedAbstract:dm.abstract];
+    tv.delegate = self;
+    
     [view addSubview:tv];
+    
+    
+    
+    
+    
+//    NSRange pmidRange = [self getRangeFrom:tv.text ofPattern:@"(PMID: [0-9]+)"];
+//    
+//    UITextPosition *Pos2 = [tv positionFromPosition: tv.endOfDocument offset: nil];
+//    UITextPosition *Pos1 = [tv positionFromPosition: tv.endOfDocument offset: -3];
+//    
+//    UITextRange *range = [tv textRangeFromPosition:Pos1 toPosition:Pos2];
+//    
+//    CGRect result1 = [tv firstRectForRange:(UITextRange *)range ];
+//    
+//    NSLog(@"%f, %f", result1.origin.x, result1.origin.y);
+//    
+//    CGRect pmidRect = [self frameOfTextRange:pmidRange inTextView:tv];
+//    NSLog(@"%@", NSStringFromCGRect(pmidRect));
+//    UIView *test = [[UIView alloc] initWithFrame:result1];
+////    UIView *test = [[UIView alloc] initWithFrame:CGRectMake(0,0,100,100)];
+//    test.backgroundColor  = [UIColor redColor];
+//    [tv addSubview:test];
+    
+
+
+    
+    
     
     //Add favorite button
     NLSButton *button;
@@ -131,6 +174,71 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - Data Detectors
+
+- (NSAttributedString *)makeAttributedAbstract:(NSString*)str
+{
+    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(PMID: [0-9]+)" options:kNilOptions error:nil];
+    
+    NSRange range = NSMakeRange(0, str.length);
+    
+    [regex enumerateMatchesInString:str options:kNilOptions range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+        NSRange subStringRange = [result rangeAtIndex:1];
+        [mutableAttributedString addAttribute:NSLinkAttributeName value:@"pmid://" range:subStringRange];
+    }];
+
+    return (NSAttributedString*)mutableAttributedString;
+}
+
+- (NSRange)getRangeFrom:(NSString*)str ofPattern:(NSString*)pat
+{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pat options:0 error:&error];
+    NSRange range = [regex rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
+    return range;
+}
+
+- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView
+{
+    textView.selectedRange = range;
+    UITextRange *textRange = [textView selectedTextRange];
+    CGRect rect = [textView firstRectForRange:textRange];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL scheme] isEqualToString:@"pmid"]) {
+//        NSString *username = [URL host];
+        // do something with this username
+
+        // ...
+        NSString *pmid = [NSString stringWithFormat:@"http://www.ncbi.nlm.nih.gov/pubmed/%@", [self.sql getPmidForId:self.abstractId] ];
+
+
+        NSURL *url = [NSURL URLWithString:pmid];
+                NSLog(@"pmid: %@", url);
+        [self pushWebViewWithURL:url];
+        
+        return NO;
+    }
+    return YES; // let the system open this URL
+}
+
+#pragma mark push web views
+-(void)pushWebViewWithURL:(NSURL*)url
+{
+    UIViewController *webViewController = [[UIViewController alloc] init];
+    
+    UIWebView *uiWebView = [[UIWebView alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    [uiWebView loadRequest:[NSURLRequest requestWithURL:url]];
+    
+    [webViewController.view addSubview: uiWebView];
+    [self.navigationController pushViewController: webViewController animated:YES];
+}
+
 
 /*
 #pragma mark - Navigation

@@ -45,6 +45,7 @@
 -(NSArray*)getTitlesToLimit:(int)limit;
 -(NSString*)getTitleForId:(NSInteger)val;
 -(NSString*)getTitleWhereId:(NSInteger)emaId;
+-(NSString*)getPmidForId:(NSInteger)emaId;
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereTitleMatch:(NSString *)str;

@@ -269,6 +269,18 @@
     }
 }
 
+-(NSString*)getPmidForId:(NSInteger)emaId
+{
+    NSString *query = [NSString stringWithFormat: @"SELECT pmid FROM erpubtbl WHERE id = %ld", (long)emaId];
+    FMResultSet *title = [self.db executeQuery:query];
+    if ([title next]) {
+        NSLog(@"stringForPMID: %@", [title stringForColumn:@"pmid"]);
+        return [title stringForColumn:@"pmid"];
+    }else{
+        return @"";
+    }
+}
+
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val
 {
     FMResultSet *rs = [self.db executeQueryWithFormat:@"SELECT id, title FROM erpubtbl LIMIT 1 OFFSET %ld", (long)val];

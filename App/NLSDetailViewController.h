@@ -10,11 +10,12 @@
 #import "NLSSQLAPI.h"
 #import "NLSButton.h"
 
-@interface NLSDetailViewController : UIViewController
+@interface NLSDetailViewController : UIViewController<UITextViewDelegate>
 
 @property (readwrite, assign) NSUInteger abstractId;
 @property (strong, nonatomic) NLSSQLAPI *sql;
 @property (strong, nonatomic) NLSButton *button;
 @property (strong, nonatomic) UIWindow *window;
+@property (readwrite, assign) NSRange pmidRange;
 
 @end
