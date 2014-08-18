@@ -42,9 +42,9 @@
     // Return the number of rows in the section.
     if (tableView == self.searchDisplayController.searchResultsTableView){
         NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
-        return [self.sql getTitleCountWhereMeshEquals:self.meshId andTitleMatch:self.searchBar.text];
+        return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId andTitleMatch:self.searchBar.text];
     }else{
-        return [self.sql getTitleCountWhereMeshEquals:self.meshId];
+        return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId];
     }
     
 }

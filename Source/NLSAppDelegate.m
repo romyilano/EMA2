@@ -10,8 +10,6 @@
 #import "NLSDescriptorViewController.h"
 #import "NLSJournalViewController.h"
 #import "NLSFavoritesViewController.h"
-#import "PBJActivityIndicator.h"
-#import "FICImageCache.h"
 
 
 @interface NLSAppDelegate ()
@@ -103,12 +101,11 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [[PBJActivityIndicator sharedActivityIndicator] setSuppressed:YES];
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    [[PBJActivityIndicator sharedActivityIndicator] setSuppressed:NO];
     NSLog(@"applicationWillEnterForeground");
 }
 
@@ -127,7 +124,7 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    [[FICImageCache sharedImageCache] reset];
+
 }
 
 #pragma mark - APNS

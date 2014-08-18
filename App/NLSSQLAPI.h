@@ -43,9 +43,9 @@
 -(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str;
 
 -(NSArray*)getTitlesToLimit:(int)limit;
--(NSString*)getTitleForId:(NSInteger)val;
--(NSString*)getTitleWhereId:(NSInteger)emaId;
--(NSString*)getPmidForId:(NSInteger)emaId;
+-(NSString*)getTitleForId:(NSUInteger)val;
+-(NSString*)getTitleWhereId:(NSUInteger)emaId;
+-(NSString*)getPmidForId:(NSUInteger)emaId;
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereTitleMatch:(NSString *)str;

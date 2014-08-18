@@ -175,7 +175,8 @@
         }else{
             return 0;
         }
-
+    }else{
+        return 0;
     }
 }
 
@@ -203,7 +204,7 @@
     
     if ([count next]) {
         //        NSLog(@"Total Rows in titles: %d where title MATCH %@", [count intForColumnIndex:0], str);
-        return [count intForColumnIndex:0];
+        return (NSUInteger)[count intForColumnIndex:0];
     }else{
         return 0;
     }
@@ -218,7 +219,7 @@
     
     if ([count next]) {
 //        NSLog(@"Total Rows in titles: %d where title MATCH %@", [count intForColumnIndex:0], str);
-        return [count intForColumnIndex:0];
+        return (NSUInteger)[count intForColumnIndex:0];
     }else{
         return 0;
     }
@@ -242,7 +243,7 @@
     
 }
 
--(NSString*)getTitleForId:(NSInteger)val
+-(NSString*)getTitleForId:(NSUInteger)val
 {
     FMResultSet *title = [self.db executeQueryWithFormat:@"SELECT title FROM erpubtbl LIMIT 1 OFFSET %ld", (long)val];
     if ([title next]) {
@@ -255,7 +256,7 @@
     }
 }
 
--(NSString*)getTitleWhereId:(NSInteger)emaId
+-(NSString*)getTitleWhereId:(NSUInteger)emaId
 {
     NSString *query = [NSString stringWithFormat: @"SELECT title FROM erpubtbl WHERE id = %ld", (long)emaId];
     FMResultSet *title = [self.db executeQuery:query];
@@ -269,7 +270,7 @@
     }
 }
 
--(NSString*)getPmidForId:(NSInteger)emaId
+-(NSString*)getPmidForId:(NSUInteger)emaId
 {
     NSString *query = [NSString stringWithFormat: @"SELECT pmid FROM erpubtbl WHERE id = %ld", (long)emaId];
     FMResultSet *title = [self.db executeQuery:query];

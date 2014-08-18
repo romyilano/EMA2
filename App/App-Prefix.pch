@@ -10,3 +10,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#ifndef DEBUG
+    #define NSLog(...) /* suppress NSLog when in release mode */
+#endif

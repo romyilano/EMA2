@@ -123,7 +123,7 @@
 {
     
     // Return the number of rows in the section.
-    return [self.sql getCountFromFavorites];
+    return (NSInteger)[self.sql getCountFromFavorites];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -144,7 +144,7 @@
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql getFavoriteForRow:indexPath.row];
+    NLSTitleModel *tm = [self.sql getFavoriteForRow:(NSUInteger)indexPath.row];
     
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;

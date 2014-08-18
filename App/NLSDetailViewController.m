@@ -8,6 +8,7 @@
 
 #import "NLSDetailViewController.h"
 #import "NLSDetailModel.h"
+#pragma GCC diagnostic ignored "-Wselector"
 
 
 @interface NLSDetailViewController ()
@@ -21,6 +22,7 @@
 @synthesize button = _button;
 @synthesize window = _window;
 @synthesize pmidRange = _pmidRange;
+
 
 - (void)loadView
 {
@@ -145,6 +147,14 @@
     [self.button removeFromSuperview];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Buttons
+
 - (void)insertIntoFavorites:(UIButton*)button
 {
     NSLog(@"Button  clicked.");
@@ -152,8 +162,8 @@
     UIImage *image = [UIImage imageNamed:@"FavoritesHighlighted-50@2x.png"];
     [button setImage:image forState:UIControlStateNormal];
     [button removeTarget:nil
-                       action:NULL
-             forControlEvents:UIControlEventAllEvents];
+                  action:NULL
+        forControlEvents:UIControlEventAllEvents];
     [button addTarget:self action:@selector(removeFromFavorites:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -164,15 +174,9 @@
     UIImage *image = [UIImage imageNamed:@"Favorites-50@2x.png"];
     [button setImage:image forState:UIControlStateNormal];
     [button removeTarget:nil
-                       action:NULL
-             forControlEvents:UIControlEventAllTouchEvents];
+                  action:NULL
+        forControlEvents:UIControlEventAllTouchEvents];
     [button addTarget:self action:@selector(insertIntoFavorites:) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -202,12 +206,6 @@
     return range;
 }
 
-- (CGRect)frameOfTextRange:(NSRange)range inTextView:(UITextView *)textView
-{
-    textView.selectedRange = range;
-    UITextRange *textRange = [textView selectedTextRange];
-    CGRect rect = [textView firstRectForRange:textRange];
-}
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if ([[URL scheme] isEqualToString:@"pmid"]) {
@@ -215,7 +213,7 @@
         // do something with this username
 
         // ...
-        NSString *pmid = [NSString stringWithFormat:@"http://www.ncbi.nlm.nih.gov/pubmed/%@", [self.sql getPmidForId:self.abstractId] ];
+        NSString *pmid = [NSString stringWithFormat:@"http://www.ncbi.nlm.nih.gov/pubmed/%@", [self.sql getPmidForId:self.abstractId]];
 
 
         NSURL *url = [NSURL URLWithString:pmid];

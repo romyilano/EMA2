@@ -18,8 +18,6 @@
 		060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 060BE1781946DAB2008FB3C5 /* Default@2x.png */; };
 		0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE97195B42BB000D2FE0 /* NLSGeometry.m */; };
 		0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE9A195B42F7000D2FE0 /* NLSNSStringExtras.m */; };
-		0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */; };
-		0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */; };
 		0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA6195B4546000D2FE0 /* NLSButton.m */; };
 		0629AEAA195B45D0000D2FE0 /* NLSUIKitExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 0629AEA9195B45D0000D2FE0 /* NLSUIKitExtras.m */; };
 		06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C6FAC71946E10700A4D4B9 /* NLSFoundationExtras.m */; };
@@ -35,8 +33,6 @@
 		06D952DD195902DE00EF30F2 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D0195902DE00EF30F2 /* Icon-Small.png */; };
 		06D952DE195902DE00EF30F2 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */; };
 		06D952DF195902DE00EF30F2 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952D2195902DE00EF30F2 /* Icon.png */; };
-		06D952E31959051000EF30F2 /* green-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D952E21959051000EF30F2 /* green-button@2x.png */; };
-		06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */; };
 		1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 717001B3460B4D02A20E2852 /* libPods.a */; };
 		7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1688321981B9F8008229A3 /* NLSTitleModel.m */; };
 		7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883519824041008229A3 /* NLSTableViewCell.m */; };
@@ -84,10 +80,6 @@
 		0629AE97195B42BB000D2FE0 /* NLSGeometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSGeometry.m; path = Source/NLSGeometry.m; sourceTree = SOURCE_ROOT; };
 		0629AE99195B42F7000D2FE0 /* NLSNSStringExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSNSStringExtras.h; path = Source/NLSNSStringExtras.h; sourceTree = SOURCE_ROOT; };
 		0629AE9A195B42F7000D2FE0 /* NLSNSStringExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSNSStringExtras.m; path = Source/NLSNSStringExtras.m; sourceTree = SOURCE_ROOT; };
-		0629AE9D195B4464000D2FE0 /* NLSBillComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSBillComposeViewController.h; path = Source/NLSBillComposeViewController.h; sourceTree = SOURCE_ROOT; };
-		0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSBillComposeViewController.m; path = Source/NLSBillComposeViewController.m; sourceTree = SOURCE_ROOT; };
-		0629AEA0195B4493000D2FE0 /* NLSStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSStatusViewController.h; path = Source/NLSStatusViewController.h; sourceTree = SOURCE_ROOT; };
-		0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSStatusViewController.m; path = Source/NLSStatusViewController.m; sourceTree = SOURCE_ROOT; };
 		0629AEA5195B4546000D2FE0 /* NLSButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSButton.h; path = Source/NLSButton.h; sourceTree = SOURCE_ROOT; };
 		0629AEA6195B4546000D2FE0 /* NLSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSButton.m; path = Source/NLSButton.m; sourceTree = SOURCE_ROOT; };
 		0629AEA8195B45D0000D2FE0 /* NLSUIKitExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSUIKitExtras.h; path = Source/NLSUIKitExtras.h; sourceTree = SOURCE_ROOT; };
@@ -106,9 +98,6 @@
 		06D952D0195902DE00EF30F2 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "Resources/Icon-Small.png"; sourceTree = "<group>"; };
 		06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "Resources/Icon-Small@2x.png"; sourceTree = "<group>"; };
 		06D952D2195902DE00EF30F2 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		06D952E21959051000EF30F2 /* green-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "green-button@2x.png"; path = "Resources/Interfaces/green-button@2x.png"; sourceTree = "<group>"; };
-		06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NLSLoginViewController.h; path = Source/NLSLoginViewController.h; sourceTree = SOURCE_ROOT; };
-		06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NLSLoginViewController.m; path = Source/NLSLoginViewController.m; sourceTree = SOURCE_ROOT; };
 		717001B3460B4D02A20E2852 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B1688311981B9F8008229A3 /* NLSTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleModel.h; sourceTree = "<group>"; };
 		7B1688321981B9F8008229A3 /* NLSTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleModel.m; sourceTree = "<group>"; };
@@ -147,6 +136,7 @@
 		7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
 		7BCB5C2719806E2400CD91BA /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
 		7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLAPI.m; sourceTree = "<group>"; };
+		7BF6613E19A277C500E6E67B /* TODO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TODO.h; sourceTree = "<group>"; };
 		AF78171D92F14B558CB9B070 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,10 +181,8 @@
 				7BCB5C2619806D7D00CD91BA /* SQL */,
 				7BCB5C2219805AF700CD91BA /* Views */,
 				060BE1631946D443008FB3C5 /* Application */,
-				0629AEA3195B44AD000D2FE0 /* Bills */,
-				060BE1641946D459008FB3C5 /* Core */,
+				060BE1641946D459008FB3C5 /* Buttons */,
 				06C6FAC51946E0E300A4D4B9 /* Extras */,
-				0629AEA4195B44BC000D2FE0 /* Status */,
 				060BE1751946DA8B008FB3C5 /* Resources */,
 				060BE1381946A814008FB3C5 /* Supporting Files */,
 			);
@@ -224,14 +212,13 @@
 			name = Application;
 			sourceTree = "<group>";
 		};
-		060BE1641946D459008FB3C5 /* Core */ = {
+		060BE1641946D459008FB3C5 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				0629AE95195B415B000D2FE0 /* Account */,
 				0629AEA5195B4546000D2FE0 /* NLSButton.h */,
 				0629AEA6195B4546000D2FE0 /* NLSButton.m */,
 			);
-			name = Core;
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 		060BE16F1946D8D3008FB3C5 /* Frameworks */ = {
@@ -251,7 +238,6 @@
 			children = (
 				7BBDA4D51992071200D6E261 /* Tabs */,
 				7BCB5C1F197F39BD00CD91BA /* DB */,
-				06D952E1195904E600EF30F2 /* Interfaces */,
 				060BE1761946DAB2008FB3C5 /* Old-Default-568h@2x.png */,
 				7B7D3B08199A980000D8B695 /* Default-568h@2x.png */,
 				060BE1771946DAB2008FB3C5 /* Default.png */,
@@ -269,35 +255,9 @@
 				06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */,
 				06D952D2195902DE00EF30F2 /* Icon.png */,
 				7B7D3B04199A973600D8B695 /* Icon@2x.png */,
+				7BF6613E19A277C500E6E67B /* TODO.h */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		0629AE95195B415B000D2FE0 /* Account */ = {
-			isa = PBXGroup;
-			children = (
-				06D952E4195949BD00EF30F2 /* NLSLoginViewController.h */,
-				06D952E5195949BD00EF30F2 /* NLSLoginViewController.m */,
-			);
-			name = Account;
-			sourceTree = "<group>";
-		};
-		0629AEA3195B44AD000D2FE0 /* Bills */ = {
-			isa = PBXGroup;
-			children = (
-				0629AE9D195B4464000D2FE0 /* NLSBillComposeViewController.h */,
-				0629AE9E195B4464000D2FE0 /* NLSBillComposeViewController.m */,
-			);
-			name = Bills;
-			sourceTree = "<group>";
-		};
-		0629AEA4195B44BC000D2FE0 /* Status */ = {
-			isa = PBXGroup;
-			children = (
-				0629AEA0195B4493000D2FE0 /* NLSStatusViewController.h */,
-				0629AEA1195B4493000D2FE0 /* NLSStatusViewController.m */,
-			);
-			name = Status;
 			sourceTree = "<group>";
 		};
 		06C6FAC51946E0E300A4D4B9 /* Extras */ = {
@@ -313,14 +273,6 @@
 				0629AEA9195B45D0000D2FE0 /* NLSUIKitExtras.m */,
 			);
 			name = Extras;
-			sourceTree = "<group>";
-		};
-		06D952E1195904E600EF30F2 /* Interfaces */ = {
-			isa = PBXGroup;
-			children = (
-				06D952E21959051000EF30F2 /* green-button@2x.png */,
-			);
-			name = Interfaces;
 			sourceTree = "<group>";
 		};
 		7B1688301981B9C0008229A3 /* Models */ = {
@@ -480,7 +432,6 @@
 				060BE17A1946DAB2008FB3C5 /* Default.png in Resources */,
 				06D952D8195902DE00EF30F2 /* Icon-76@2x.png in Resources */,
 				06D952DF195902DE00EF30F2 /* Icon.png in Resources */,
-				06D952E31959051000EF30F2 /* green-button@2x.png in Resources */,
 				06D952D4195902DE00EF30F2 /* Icon-60@2x.png in Resources */,
 				06D952DE195902DE00EF30F2 /* Icon-Small@2x.png in Resources */,
 				7BBDA4DD19920AE900D6E261 /* Favorites-50@2x.png in Resources */,
@@ -530,7 +481,6 @@
 				7BBDA4ED19949D6D00D6E261 /* NLSJournalModel.m in Sources */,
 				0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */,
 				7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */,
-				06D952E6195949BD00EF30F2 /* NLSLoginViewController.m in Sources */,
 				7BBDA4E31993E9DA00D6E261 /* NLSDescriptorModel.m in Sources */,
 				06C6FAC81946E10700A4D4B9 /* NLSFoundationExtras.m in Sources */,
 				7BBDA4E71994395100D6E261 /* NLSDescriptorTitlesViewController.m in Sources */,
@@ -539,9 +489,7 @@
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
 				7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */,
 				0629AE98195B42BB000D2FE0 /* NLSGeometry.m in Sources */,
-				0629AEA2195B4493000D2FE0 /* NLSStatusViewController.m in Sources */,
 				7BBDA4F01994A9B800D6E261 /* NLSJournalTitlesViewController.m in Sources */,
-				0629AE9F195B4464000D2FE0 /* NLSBillComposeViewController.m in Sources */,
 				7BBDA4EA199499AC00D6E261 /* NLSJournalViewController.m in Sources */,
 				7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */,
 				7BBDA4E01992C17F00D6E261 /* NLSDescriptorViewController.m in Sources */,

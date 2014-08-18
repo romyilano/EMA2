@@ -42,9 +42,9 @@
     // Return the number of rows in the section.
     if (tableView == self.searchDisplayController.searchResultsTableView){
         NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
-        return [self.sql getTitleCountWhereJournalEquals:self.journalId andTitleLike:self.searchBar.text];
+        return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId andTitleLike:self.searchBar.text];
     }else{
-        return [self.sql getTitleCountWhereJournalEquals:self.journalId];
+        return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId];
     }
     
 }

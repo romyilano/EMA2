@@ -18,4 +18,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (readwrite, assign) NSRange pmidRange;
 
+- (void)removeFromFavorites:(UIButton*)button;
+- (void)insertIntoFavorites:(UIButton*)button;
+
 @end

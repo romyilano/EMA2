@@ -21,6 +21,7 @@
 @synthesize searchBar = _searchBar;
 @synthesize searchBarController = _searchBarController;
 @synthesize isSearching = _isSearching;
+@synthesize tableView = _tableView;
 
 
 #pragma mark - view lifecycle
@@ -95,9 +96,9 @@
     // Return the number of rows in the section.
     NSLog(@"tableView is: %@ ", tableView);
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        return [self.sql getTitleCountWhereTitleContains:self.searchBar.text];
+        return (NSInteger)[self.sql getTitleCountWhereTitleContains:self.searchBar.text];
     }else{
-        return [self.sql getTitleCount];
+        return (NSInteger)[self.sql getTitleCount];
     }
     
 
