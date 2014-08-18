@@ -10,6 +10,7 @@
 #import "NLSTableViewCell.h"
 #import "NLSTitleModel.h"
 #import "NLSDetailViewController.h"
+#import "EDColor.h"
 
 @interface NLSTitleViewController ()
 
@@ -45,6 +46,8 @@
     self.isSearching = NO;
 
     [self loadSearchBar];
+    
+    self.title = @"Titles";
 
 }
 
@@ -63,8 +66,6 @@
     self.searchBarController.searchResultsDelegate = self;
 
     self.tableView.tableHeaderView = self.searchBar;
-    
-    self.title = @"Titles";
 }
 
 - (void)viewDidLoad
@@ -106,8 +107,12 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     // The header for the section is the region name -- get this from the region at the section index.
-
     return @"All Titles";
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 85;
 }
 
 
@@ -117,7 +122,7 @@
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
     if (cell == nil) {
-        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
+        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier];
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
@@ -128,14 +133,44 @@
         tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereTitleMatch:self.searchBar.text];
     }else{
         tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row];
+        
+        //Attribute string for year
+        NSMutableAttributedString *year;
+        NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@", tm.journal_abv, tm.year ];
+        year = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
+        
+        [year addAttribute:NSKernAttributeName
+                     value:[NSNumber numberWithFloat:0.5]
+                     range:NSMakeRange(0, [year length])];
+        
+        [year addAttribute:NSFontAttributeName
+                     value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                     range:NSMakeRange(0, [year length])];
+        
+        cell.detailTextLabel.attributedText = year;
+        cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
+        
     }
     
+    //Attribute string for label
+    NSMutableAttributedString *title;
     
+    title = [[NSMutableAttributedString alloc] initWithString:tm.title];
     
-    cell.textLabel.text = tm.title;
+    [title addAttribute:NSKernAttributeName
+                  value:[NSNumber numberWithFloat:0.5]
+                  range:NSMakeRange(0, [tm.title length])];
+    
+    [title addAttribute:NSFontAttributeName
+                  value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                  range:NSMakeRange(0, [tm.title length])];
+    
+    cell.textLabel.attributedText = title;
+
+    
+    //Set row id property of cell
     cell.rowId = tm.rowId;
     
-    NSLog(@"cell.rowId: %lu, textLabel: %@", (unsigned long)cell.rowId, cell.textLabel.text);
     return cell;
 }
 

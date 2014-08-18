@@ -12,5 +12,7 @@
 
 @property (readwrite, assign) NSUInteger rowId;
 @property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *year;
+@property (strong, nonatomic) NSString *journal_abv;
 
 @end

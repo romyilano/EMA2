@@ -29,7 +29,7 @@
     NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
     self.sql = sqlapi;
     
-    self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z #" componentsSeparatedByString:@" "];
+    self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" componentsSeparatedByString:@" "];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;

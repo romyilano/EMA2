@@ -18,9 +18,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.textLabel.font = [UIFont fontWithName: @"Courier" size: 12.0f];
+        self.textLabel.font = [UIFont fontWithName: @"AvenirNext-Medium" size: 12];
         //This allows for multiple lines
-        self.textLabel.numberOfLines = 4;
+        self.textLabel.numberOfLines = 3;
     }
     return self;
 }

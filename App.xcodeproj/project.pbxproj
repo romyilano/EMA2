@@ -41,7 +41,6 @@
 		7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */; };
 		7B7D3AFF1999352B00D8B695 /* NLSSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */; };
 		7B7D3B03199A958300D8B695 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B02199A958300D8B695 /* ema.sqlite */; };
-		7B7D3B05199A973600D8B695 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B04199A973600D8B695 /* Icon@2x.png */; };
 		7B7D3B09199A980000D8B695 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B08199A980000D8B695 /* Default-568h@2x.png */; };
 		7B7D3B0B199D2B6200D8B695 /* FavoritesHighlighted-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B0A199D2B6200D8B695 /* FavoritesHighlighted-50@2x.png */; };
 		7B7D3B0D199D738400D8B695 /* emafaves.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B0C199D738400D8B695 /* emafaves.sqlite */; };
@@ -57,6 +56,7 @@
 		7BBDA4F01994A9B800D6E261 /* NLSJournalTitlesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDA4EF1994A9B800D6E261 /* NLSJournalTitlesViewController.m */; };
 		7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2419805B2C00CD91BA /* NLSTitleViewController.m */; };
 		7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */; };
+		7BF6614219A2C26200E6E67B /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BF6614119A2C26200E6E67B /* Icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,7 +112,6 @@
 		7B7D3AFD1999352B00D8B695 /* NLSSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSearchViewController.h; sourceTree = "<group>"; };
 		7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSearchViewController.m; sourceTree = "<group>"; };
 		7B7D3B02199A958300D8B695 /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
-		7B7D3B04199A973600D8B695 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		7B7D3B08199A980000D8B695 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B7D3B0A199D2B6200D8B695 /* FavoritesHighlighted-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FavoritesHighlighted-50@2x.png"; sourceTree = "<group>"; };
 		7B7D3B0C199D738400D8B695 /* emafaves.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = emafaves.sqlite; sourceTree = "<group>"; };
@@ -137,6 +136,7 @@
 		7BCB5C2719806E2400CD91BA /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
 		7BCB5C2819806E2400CD91BA /* NLSSQLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLAPI.m; sourceTree = "<group>"; };
 		7BF6613E19A277C500E6E67B /* TODO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TODO.h; sourceTree = "<group>"; };
+		7BF6614119A2C26200E6E67B /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		AF78171D92F14B558CB9B070 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +242,7 @@
 				7B7D3B08199A980000D8B695 /* Default-568h@2x.png */,
 				060BE1771946DAB2008FB3C5 /* Default.png */,
 				060BE1781946DAB2008FB3C5 /* Default@2x.png */,
+				7BF6614119A2C26200E6E67B /* Icon@2x.png */,
 				06D952C7195902DE00EF30F2 /* Icon-60@2x.png */,
 				06D952C8195902DE00EF30F2 /* Icon-72.png */,
 				06D952C9195902DE00EF30F2 /* Icon-72@2x.png */,
@@ -254,7 +255,6 @@
 				06D952D0195902DE00EF30F2 /* Icon-Small.png */,
 				06D952D1195902DE00EF30F2 /* Icon-Small@2x.png */,
 				06D952D2195902DE00EF30F2 /* Icon.png */,
-				7B7D3B04199A973600D8B695 /* Icon@2x.png */,
 				7BF6613E19A277C500E6E67B /* TODO.h */,
 			);
 			name = Resources;
@@ -412,7 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */,
-				7B7D3B05199A973600D8B695 /* Icon@2x.png in Resources */,
+				7BF6614219A2C26200E6E67B /* Icon@2x.png in Resources */,
 				06D952DA195902DE00EF30F2 /* Icon-Small-40@2x.png in Resources */,
 				7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */,
 				06D952DB195902DE00EF30F2 /* Icon-Small-50.png in Resources */,
@@ -532,6 +532,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -541,6 +543,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

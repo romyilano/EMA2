@@ -284,13 +284,15 @@
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val
 {
-    FMResultSet *rs = [self.db executeQueryWithFormat:@"SELECT id, title FROM erpubtbl LIMIT 1 OFFSET %ld", (long)val];
+    FMResultSet *rs = [self.db executeQueryWithFormat:@"SELECT e.id, e.title, e.journal_year, j.journal_abv FROM erpubtbl e, journals j ON e.journal_id = j.id LIMIT 1 OFFSET %ld", (long)val];
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     
     if ([rs next]) {
         tm.title = [rs stringForColumn:@"title"];
+        tm.year = [rs stringForColumn:@"journal_year"];
+        tm.journal_abv = [rs stringForColumn:@"journal_abv"];
         tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
-        NSLog(@"result Dict: %@", tm);
+//        NSLog(@"result Dict: %@", tm);
     }
     return tm;
 }
