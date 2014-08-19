@@ -44,10 +44,8 @@
     tv.dataDetectorTypes = UIDataDetectorTypeAddress;
     tv.textAlignment = NSTextAlignmentLeft;
     tv.text = dm.abstract;
+    tv.contentInset = UIEdgeInsetsMake(4,0,10,0);
 
-
-    
-    
     
     
     NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor blueColor],
@@ -62,50 +60,9 @@
     [view addSubview:tv];
     
     
-    
-    
-    
-//    NSRange pmidRange = [self getRangeFrom:tv.text ofPattern:@"(PMID: [0-9]+)"];
-//    
-//    UITextPosition *Pos2 = [tv positionFromPosition: tv.endOfDocument offset: nil];
-//    UITextPosition *Pos1 = [tv positionFromPosition: tv.endOfDocument offset: -3];
-//    
-//    UITextRange *range = [tv textRangeFromPosition:Pos1 toPosition:Pos2];
-//    
-//    CGRect result1 = [tv firstRectForRange:(UITextRange *)range ];
-//    
-//    NSLog(@"%f, %f", result1.origin.x, result1.origin.y);
-//    
-//    CGRect pmidRect = [self frameOfTextRange:pmidRange inTextView:tv];
-//    NSLog(@"%@", NSStringFromCGRect(pmidRect));
-//    UIView *test = [[UIView alloc] initWithFrame:result1];
-////    UIView *test = [[UIView alloc] initWithFrame:CGRectMake(0,0,100,100)];
-//    test.backgroundColor  = [UIColor redColor];
-//    [tv addSubview:test];
-    
-
-
-    
-    
-    
     //Add favorite button
-    NLSButton *button;
-    BOOL isFave = [self.sql checkForFavoriteId:self.abstractId];
-    if(isFave){
-        button = [NLSButton buttonWithNormalImageName:@"FavoritesHighlighted-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
-        [button addTarget:self action:@selector(removeFromFavorites:) forControlEvents:UIControlEventTouchUpInside];
-    }else{
-        button = [NLSButton buttonWithNormalImageName:@"Favorites-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
-        [button addTarget:self action:@selector(insertIntoFavorites:) forControlEvents:UIControlEventTouchUpInside];
-    }
+    [self drawFavoriteButton];
     
-    UIScreen *screen = [UIScreen mainScreen];
-    CGRect screenRect = screen.bounds;
-    NSLog(@"width: %f", screenRect.size.width);
-    button.frame = CGRectMake(screenRect.size.width - 47.0, 23.0, 34.0, 34.0);
-
-    
-    self.button = button;
     
     //Create window reference
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
@@ -155,6 +112,28 @@
 
 #pragma mark - Buttons
 
+-(void)drawFavoriteButton
+{
+    NLSButton *button;
+    BOOL isFave = [self.sql checkForFavoriteId:self.abstractId];
+    if(isFave){
+        button = [NLSButton buttonWithNormalImageName:@"FavoritesHighlighted-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
+        [button addTarget:self action:@selector(removeFromFavorites:) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        button = [NLSButton buttonWithNormalImageName:@"Favorites-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
+        [button addTarget:self action:@selector(insertIntoFavorites:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    CGRect screenRect = screen.bounds;
+    NSLog(@"width: %f", screenRect.size.width);
+    button.frame = CGRectMake(screenRect.size.width - 47.0, 23.0, 34.0, 34.0);
+    
+    
+    self.button = button;
+
+}
+
 - (void)insertIntoFavorites:(UIButton*)button
 {
     NSLog(@"Button  clicked.");
@@ -189,6 +168,10 @@
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(PMID: [0-9]+)" options:kNilOptions error:nil];
     
     NSRange range = NSMakeRange(0, str.length);
+    
+    [mutableAttributedString addAttribute:NSFontAttributeName
+                 value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                 range:NSMakeRange(0, [mutableAttributedString length])];
     
     [regex enumerateMatchesInString:str options:kNilOptions range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
         NSRange subStringRange = [result rangeAtIndex:1];

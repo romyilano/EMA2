@@ -48,6 +48,15 @@
     return self;
 }
 
+#pragma mark Database Initialization
+
+
+-(NSString *)GetDocumentDirectory{
+    self.fileMgr = [NSFileManager defaultManager];
+    self.homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    return self.homeDir;
+}
+
 - (void) initDatabase
 {
     
@@ -81,41 +90,20 @@
     
 }
 
--(NSString *)GetDocumentDirectory{
-    self.fileMgr = [NSFileManager defaultManager];
-    self.homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    return self.homeDir;
-}
-
-
--(int)getTitleCount
-{
-    //count all rows
-    FMResultSet *count = [self.db executeQuery:@"SELECT COUNT(*) FROM erpubtbl"];
-    if ([count next]) {
-        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
-        return [count intForColumnIndex:0];
-    }else{
-        return 0;
-    }
-    
-}
-
 -(void)createFTSTable
 {
     NSLog(@"Creating FTS table");
     
     NSString *sql =     @"DROP TABLE IF EXISTS titles;"
-                        @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(abstract_id, title);"
-                        @"INSERT INTO titles SELECT abstract_id, title FROM erpubtbl;";
+    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(abstract_id, title);"
+    @"INSERT INTO titles SELECT abstract_id, title FROM erpubtbl;";
     BOOL success = [self.db executeStatements:sql];
     NSLog(@"FTS Success: %d", success);
 }
 
-
 -(void)createFavoritesTable
 {
-
+    
     NSLog(@"Creating Favorites table");
     
     NSString *sql = @"CREATE TABLE IF NOT EXISTS favorites (id, title);";
@@ -123,6 +111,8 @@
     BOOL success = [self.favesDb executeStatements:sql];
     NSLog(@"FTS Success: %d", success);
 }
+
+#pragma mark Favorites
 
 -(BOOL)insertIntoFavorites:(NSUInteger)emaId
 {
@@ -208,6 +198,21 @@
     }else{
         return 0;
     }
+}
+
+#pragma mark Titles
+
+-(int)getTitleCount
+{
+    //count all rows
+    FMResultSet *count = [self.db executeQuery:@"SELECT COUNT(*) FROM erpubtbl"];
+    if ([count next]) {
+        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
+        return [count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+    
 }
 
 -(NSUInteger)getTitleCountWhereTitleContains:(NSString*)str
