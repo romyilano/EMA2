@@ -36,46 +36,32 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark - SQL Overides
+
+-(NSInteger)getTitleCount
 {
-    
-    // Return the number of rows in the section.
-    if (tableView == self.searchDisplayController.searchResultsTableView){
-        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView");
-        return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId andTitleMatch:self.searchBar.text];
-    }else{
-        return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId];
-    }
+    NSLog(@"getTitleCount");
+    return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId];
+}
+
+-(NSInteger)getTitleCountWhereTitleContains
+{
+        NSLog(@"getTitleCountWhereTitleContains");
+    return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId andTitleMatch:self.searchBar.text];
     
 }
 
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *MyIdentifier = @"Cell";
-    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    
-    if (cell == nil) {
-        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
-    }
-    
-    NSLog(@"indexPath: %ld", (long)indexPath.row);
-    
-    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
-    if (tableView == self.searchDisplayController.searchResultsTableView){
-        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView in cellForRowAtIndexPath: %ld", (long)indexPath.row);
-        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereMeshEquals:self.meshId andTitleLike:self.searchBar.text];
-    }else{
-        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereMeshEquals:self.meshId];
-    }
-    
-    
-    
-    cell.textLabel.text = tm.title;
-    cell.rowId = tm.rowId;
-    
-    NSLog(@"cell.rowId: %lu, textLabel: %@", (unsigned long)cell.rowId, cell.textLabel.text);
-    return cell;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
+{
+        NSLog(@"getTitleAndIdForRow whereTitleMatch");
+    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId andTitleLike:str];
 }
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row
+{
+        NSLog(@"getTitleAndIdForRow");
+    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId];
+}
+
 
 @end

@@ -83,6 +83,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - SQL Overides
+
+-(NSInteger)getTitleCount
+{
+    return (NSInteger)[self.sql getTitleCount];
+}
+
+-(NSInteger)getTitleCountWhereTitleContains
+{
+    return (NSInteger)[self.sql getTitleCountWhereTitleContains:self.searchBar.text];
+}
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
+{
+    return [self.sql getTitleAndIdForRow:row whereTitleMatch:str];
+}
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row
+{
+    return [self.sql getTitleAndIdForRow:(NSUInteger)row];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -97,11 +119,10 @@
     // Return the number of rows in the section.
     NSLog(@"tableView is: %@ ", tableView);
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        return (NSInteger)[self.sql getTitleCountWhereTitleContains:self.searchBar.text];
+        return [self getTitleCountWhereTitleContains];
     }else{
-        return (NSInteger)[self.sql getTitleCount];
+        return [self getTitleCount];
     }
-    
 
 }
 
@@ -112,7 +133,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85;
+    return 110;
 }
 
 
@@ -125,18 +146,18 @@
         cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier];
     }
     
-    NSLog(@"indexPath: %ld", (long)indexPath.row);
+//    NSLog(@"indexPath: %ld", (long)indexPath.row);
 
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     if (tableView == self.searchDisplayController.searchResultsTableView){
         NSLog(@"tableView is self.searchDisplayController.searchResultsTableView in cellForRowAtIndexPath: %ld", (long)indexPath.row);
-        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row whereTitleMatch:self.searchBar.text];
+        tm = [self getTitleAndIdForRow:(NSUInteger)indexPath.row WhereTitleMatch:self.searchBar.text];
     }else{
-        tm = [self.sql getTitleAndIdForRow:(NSUInteger)indexPath.row];
+        tm = [self getTitleAndIdForRow:(NSUInteger)indexPath.row];
         
         //Attribute string for year
         NSMutableAttributedString *year;
-        NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@", tm.journal_abv, tm.year ];
+        NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@ \n", tm.journal_abv, tm.year ];
         year = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
         
         [year addAttribute:NSKernAttributeName
@@ -147,7 +168,25 @@
                      value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
                      range:NSMakeRange(0, [year length])];
         
-        cell.detailTextLabel.attributedText = year;
+        
+        //Descriptor strings
+        NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
+        NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:[tm.descriptors componentsJoinedByString:@", "]];
+        
+        for(id mesh in tm.descriptors){
+            NSLog(@"%@", mesh);
+//            [meshDescriptors addAttribute:NSLinkAttributeName
+//                     value:@"descriptor://"
+//                     range:NSMakeRange(0, [meshDescriptors length])];
+
+            [meshDescriptors addAttribute:NSFontAttributeName
+                      value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]            
+                      range:NSMakeRange(0, [meshDescriptors length])];
+        }
+                
+        [detailText appendAttributedString:meshDescriptors];
+        
+        cell.detailTextLabel.attributedText = detailText;
         cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
         
     }

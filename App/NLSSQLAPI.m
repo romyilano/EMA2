@@ -77,7 +77,8 @@
         NSLog(@"db not open");
         return;
     }else{
-        [self createFTSTable];
+        [self createTitles];
+        [self createDescriptors];
     }
     
     if (![self.favesDb open]) {
@@ -90,15 +91,29 @@
     
 }
 
--(void)createFTSTable
+#pragma mark Create
+
+-(void)createTitles
 {
-    NSLog(@"Creating FTS table");
+    NSLog(@"Creating FTS titles table");
     
     NSString *sql =     @"DROP TABLE IF EXISTS titles;"
     @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(abstract_id, title);"
     @"INSERT INTO titles SELECT abstract_id, title FROM erpubtbl;";
     BOOL success = [self.db executeStatements:sql];
     NSLog(@"FTS Success: %d", success);
+}
+
+-(void)createDescriptors
+{
+    NSLog(@"Creating FTS descriptors table");
+    
+    NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
+    @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id, descriptor);"
+    @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
+    BOOL success = [self.db executeStatements:sql];
+    NSLog(@"FTS Success: %d", success);
+
 }
 
 -(void)createFavoritesTable
@@ -202,34 +217,6 @@
 
 #pragma mark Titles
 
--(int)getTitleCount
-{
-    //count all rows
-    FMResultSet *count = [self.db executeQuery:@"SELECT COUNT(*) FROM erpubtbl"];
-    if ([count next]) {
-        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
-        return [count intForColumnIndex:0];
-    }else{
-        return 0;
-    }
-    
-}
-
--(NSUInteger)getTitleCountWhereTitleContains:(NSString*)str
-{
-    NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM titles WHERE title MATCH '%@'", str];
-    NSLog(@"%@", query);
-    
-    FMResultSet *count = [self.db executeQuery:query];
-    
-    if ([count next]) {
-//        NSLog(@"Total Rows in titles: %d where title MATCH %@", [count intForColumnIndex:0], str);
-        return (NSUInteger)[count intForColumnIndex:0];
-    }else{
-        return 0;
-    }
-}
-
 -(NSArray*)getTitlesToLimit:(int)limit
 {
     //show 10 rows
@@ -275,21 +262,27 @@
     }
 }
 
--(NSString*)getPmidForId:(NSUInteger)emaId
+-(NSArray *)getMeshDescriptorsForId:(NSUInteger)emaId
 {
-    NSString *query = [NSString stringWithFormat: @"SELECT pmid FROM erpubtbl WHERE id = %ld", (long)emaId];
-    FMResultSet *title = [self.db executeQuery:query];
-    if ([title next]) {
-        NSLog(@"stringForPMID: %@", [title stringForColumn:@"pmid"]);
-        return [title stringForColumn:@"pmid"];
-    }else{
-        return @"";
+    //Get associated mesh descriptors
+    NSString *query = [NSString stringWithFormat:@"SELECT a.mesh_id, m.name FROM erpubtbl e JOIN abstract_mesh a ON a.abstract_id = e.id JOIN mesh_descriptor m ON m.id = a.mesh_id WHERE e.id = %ld", emaId];
+    FMResultSet *rs = [self.db executeQuery:query];
+
+    NSMutableArray *mesh_array = [[NSMutableArray alloc] init];
+
+    while ([rs next]) {
+        //        NSLog(@"next: %@", [rs2 stringForColumn:@"name"]);
+        [mesh_array addObject:[rs stringForColumn:@"name"]];
     }
+    
+    return [NSArray arrayWithArray:(NSArray*)mesh_array];
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val
 {
-    FMResultSet *rs = [self.db executeQueryWithFormat:@"SELECT e.id, e.title, e.journal_year, j.journal_abv FROM erpubtbl e, journals j ON e.journal_id = j.id LIMIT 1 OFFSET %ld", (long)val];
+    NSString * query = [NSString stringWithFormat:@"SELECT e.id, e.title, e.journal_year, j.journal_abv FROM erpubtbl e join journals j ON e.journal_id = j.id LIMIT 1 OFFSET %ld;", (long)val];
+    FMResultSet *rs = [self.db executeQuery:query];
+    
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     
     if ([rs next]) {
@@ -297,37 +290,9 @@
         tm.year = [rs stringForColumn:@"journal_year"];
         tm.journal_abv = [rs stringForColumn:@"journal_abv"];
         tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
-//        NSLog(@"result Dict: %@", tm);
     }
-    return tm;
-}
-
--(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table forRow:(NSUInteger)val
-{
-    NSString *query = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT 1 OFFSET %ld", cols, table, (long)val];
-    FMResultSet *rs = [self.db executeQuery:query];
-    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     
-    if ([rs next]) {
-        tm.title = [rs stringForColumn:@"title"];
-        tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
-        NSLog(@"result Dict: %@", tm);
-    }
-    return tm;
-}
-
-
--(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table where:(NSString*)w like:(NSString*)l forRow:(NSUInteger)val
-{
-    NSString *query = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ LIKE '%%%@%%' LIMIT 1 OFFSET %ld", cols, table, w, l, (long)val];
-    FMResultSet *rs = [self.db executeQuery:query];
-    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
-    
-    if ([rs next]) {
-        tm.title = [rs stringForColumn:@"title"];
-        tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
-        NSLog(@"result Dict: %@", tm);
-    }
+    tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
     return tm;
 }
 
@@ -351,16 +316,17 @@
     return tm;
 }
 
-
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId
 {
-    NSString *query = [NSString stringWithFormat:@"SELECT e.abstract_id,\
-                       e.title\
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT e.abstract_id, e.title, e.journal_year, j.journal_abv\
                        FROM erpubtbl e\
                        JOIN abstract_mesh am\
                        ON am.abstract_id = e.abstract_id\
                        JOIN mesh_descriptor md\
                        ON md.id = am.mesh_id\
+                       JOIN journals j\
+                       ON e.journal_id = j.id\
                        WHERE md.id = %ld\
                        ORDER BY e.title\
                        LIMIT 1\
@@ -372,8 +338,13 @@
     if ([rs next]) {
         tm.title = [rs stringForColumn:@"title"];
         tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+        tm.year = [rs stringForColumn:@"journal_year"];
+        tm.journal_abv = [rs stringForColumn:@"journal_abv"];
         NSLog(@"result Dict: %@", tm);
     }
+    
+    tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
+    
     return tm;
 }
 
@@ -401,6 +372,84 @@
         NSLog(@"result Dict: %@", tm);
     }
     return tm;
+}
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId
+{
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT e.abstract_id, e.journal_year, j.journal_abv, e.title\
+                       FROM erpubtbl e\
+                       JOIN journals j\
+                       ON j.id = e.journal_id\
+                       WHERE j.id = %ld\
+                       ORDER BY e.title\
+                       LIMIT 1\
+                       OFFSET %ld", (unsigned long)journalId, (unsigned long)val];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+        tm.year = [rs stringForColumn:@"journal_year"];
+        tm.journal_abv = [rs stringForColumn:@"journal_abv"];
+    }
+    
+    tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
+    
+    return tm;
+}
+
+-(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId andTitleLike:(NSString *)str
+{
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT e.abstract_id,\
+                       e.title\
+                       FROM erpubtbl e\
+                       JOIN journals j\
+                       ON j.id = e.journal_id\
+                       WHERE j.id = %ld\
+                       AND e.title LIKE '%%%@%%'\
+                       ORDER BY e.title\
+                       LIMIT 1\
+                       OFFSET %ld", (unsigned long)journalId, str, (unsigned long)val];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+    }
+    return tm;
+}
+
+-(int)getTitleCount
+{
+    //count all rows
+    FMResultSet *count = [self.db executeQuery:@"SELECT COUNT(*) FROM erpubtbl"];
+    if ([count next]) {
+        NSLog(@"Total Rows in erpubtbl: %d", [count intForColumnIndex:0]);
+        return [count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
+}
+
+-(NSUInteger)getTitleCountWhereTitleContains:(NSString*)str
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM titles WHERE title MATCH '%@'", str];
+    NSLog(@"%@", query);
+    
+    FMResultSet *count = [self.db executeQuery:query];
+    
+    if ([count next]) {
+        //        NSLog(@"Total Rows in titles: %d where title MATCH %@", [count intForColumnIndex:0], str);
+        return (NSUInteger)[count intForColumnIndex:0];
+    }else{
+        return 0;
+    }
 }
 
 -(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId
@@ -444,7 +493,6 @@
     }
 }
 
-
 -(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId
 {
     NSString *query = [NSString stringWithFormat:@"\
@@ -484,53 +532,23 @@
     }
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId
-{
-    NSString *query = [NSString stringWithFormat:@"\
-                       SELECT e.abstract_id,\
-                       e.title\
-                       FROM erpubtbl e\
-                       JOIN journals j\
-                       ON j.id = e.journal_id\
-                       WHERE j.id = %ld\
-                       ORDER BY e.title\
-                       LIMIT 1\
-                       OFFSET %ld", (unsigned long)journalId, (unsigned long)val];
-    
-    FMResultSet *rs = [self.db executeQuery:query];
-    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
-    
-    if ([rs next]) {
-        tm.title = [rs stringForColumn:@"title"];
-        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
-    }
-    return tm;
-}
 
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId andTitleLike:(NSString *)str
+#pragma mark PMIDs
+
+-(NSString*)getPmidForId:(NSUInteger)emaId
 {
-    NSString *query = [NSString stringWithFormat:@"\
-                       SELECT e.abstract_id,\
-                       e.title\
-                       FROM erpubtbl e\
-                       JOIN journals j\
-                       ON j.id = e.journal_id\
-                       WHERE j.id = %ld\
-                       AND e.title LIKE '%%%@%%'\
-                       ORDER BY e.title\
-                       LIMIT 1\
-                       OFFSET %ld", (unsigned long)journalId, str, (unsigned long)val];
-    
-    FMResultSet *rs = [self.db executeQuery:query];
-    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
-    
-    if ([rs next]) {
-        tm.title = [rs stringForColumn:@"title"];
-        tm.rowId = (NSUInteger)[rs intForColumn:@"abstract_id"];
+    NSString *query = [NSString stringWithFormat: @"SELECT pmid FROM erpubtbl WHERE id = %ld", (long)emaId];
+    FMResultSet *title = [self.db executeQuery:query];
+    if ([title next]) {
+        NSLog(@"stringForPMID: %@", [title stringForColumn:@"pmid"]);
+        return [title stringForColumn:@"pmid"];
+    }else{
+        return @"";
     }
-    return tm;
 }
+
+#pragma mark Descriptors
 
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
@@ -546,6 +564,8 @@
     return dm;
 }
 
+#pragma mark Journals
+
 -(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"SELECT * FROM journals WHERE journal_title LIKE '%@%%' ORDER BY journal_title COLLATE NOCASE LIMIT 1 OFFSET %ld", str, (unsigned long)val];
@@ -560,6 +580,8 @@
     return jm;
 }
 
+#pragma mark Abstracts
+
 -(NLSDetailModel*)getAbstractWithId:(NSUInteger)val
 {
 
@@ -572,9 +594,9 @@
         NSLog(@"result DetailModel: %@", dm);
     }
     return dm;
-    
 }
 
+#pragma mark Counts
 
 -(NSUInteger)getCountFromTable:(NSString*)table
 {
@@ -605,6 +627,36 @@
         return 0;
     }
     
+}
+
+#pragma mark Unsafe
+
+-(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table forRow:(NSUInteger)val
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT 1 OFFSET %ld", cols, table, (long)val];
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result Dict: %@", tm);
+    }
+    return tm;
+}
+
+-(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table where:(NSString*)w like:(NSString*)l forRow:(NSUInteger)val
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ LIKE '%%%@%%' LIMIT 1 OFFSET %ld", cols, table, w, l, (long)val];
+    FMResultSet *rs = [self.db executeQuery:query];
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    if ([rs next]) {
+        tm.title = [rs stringForColumn:@"title"];
+        tm.rowId = (NSUInteger)[rs intForColumn:@"id"];
+        NSLog(@"result Dict: %@", tm);
+    }
+    return tm;
 }
 
 @end

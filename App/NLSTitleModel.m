@@ -14,5 +14,6 @@
 @synthesize title = _title;
 @synthesize year = _year;
 @synthesize journal_abv = _journal_abv;
+@synthesize descriptors = _descriptors;
 
 @end

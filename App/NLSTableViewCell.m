@@ -21,6 +21,7 @@
         self.textLabel.font = [UIFont fontWithName: @"AvenirNext-Medium" size: 12];
         //This allows for multiple lines
         self.textLabel.numberOfLines = 3;
+        self.detailTextLabel.numberOfLines = 3;
     }
     return self;
 }

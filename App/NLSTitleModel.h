@@ -14,5 +14,5 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *year;
 @property (strong, nonatomic) NSString *journal_abv;
-
+@property (strong, nonatomic) NSArray *descriptors;
 @end
