@@ -175,16 +175,17 @@
     NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
     NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:[tm.descriptors componentsJoinedByString:@", "]];
     
-    for(id mesh in tm.descriptors){
-        NSLog(@"%@", mesh);
-        //            [meshDescriptors addAttribute:NSLinkAttributeName
-        //                     value:@"descriptor://"
-        //                     range:NSMakeRange(0, [meshDescriptors length])];
-        
-        [meshDescriptors addAttribute:NSFontAttributeName
-                                value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]
-                                range:NSMakeRange(0, [meshDescriptors length])];
-    }
+//    for(id mesh in tm.descriptors){
+//        NSLog(@"%@", mesh);
+//        //            [meshDescriptors addAttribute:NSLinkAttributeName
+//        //                     value:@"descriptor://"
+//        //                     range:NSMakeRange(0, [meshDescriptors length])];
+//        
+//
+//    }
+    [meshDescriptors addAttribute:NSFontAttributeName
+                            value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]
+                            range:NSMakeRange(0, [meshDescriptors length])];
     
     [detailText appendAttributedString:meshDescriptors];
     

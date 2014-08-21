@@ -57,8 +57,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self checkAndCreateDatabase];
-    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
-    self.sql = sqlapi;
 
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
     UINavigationController *tnc = [[UINavigationController alloc] initWithRootViewController:titlesController];
@@ -90,8 +88,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = tabBarController;
-    [self.window makeKeyAndVisible];
-    
+    [self.window makeKeyAndVisible];    
 
     return YES;
 }

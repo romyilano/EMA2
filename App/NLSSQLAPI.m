@@ -77,8 +77,8 @@
         NSLog(@"db not open");
         return;
     }else{
-//        [self createTitles];
-//        [self createDescriptors];
+        [self createTitles];
+        [self createDescriptors];
     }
     
     if (![self.favesDb open]) {
@@ -107,7 +107,7 @@
                     GROUP BY a.abstract_id;";
     
     BOOL success = [self.db executeStatements:sql];
-    NSLog(@"FTS Success: %d", success);
+    NSLog(@"Titles Success: %d", success);
 }
 
 -(void)createDescriptors
@@ -118,7 +118,7 @@
     @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
     @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
     BOOL success = [self.db executeStatements:sql];
-    NSLog(@"FTS Success: %d", success);
+    NSLog(@"Descriptors Success: %d", success);
 
 }
 
@@ -130,7 +130,7 @@
     NSString *sql = @"CREATE TABLE IF NOT EXISTS favorites (id, title);";
     
     BOOL success = [self.favesDb executeStatements:sql];
-    NSLog(@"FTS Success: %d", success);
+    NSLog(@"Favorites Success: %d", success);
 }
 
 #pragma mark Favorites
