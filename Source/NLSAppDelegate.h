@@ -6,11 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NLSSQLAPI.h"
 
 @interface NLSAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic,retain) NSFileManager *fileMgr;
 @property (nonatomic,retain) NSString *homeDir;
+@property (strong, nonatomic) NLSSQLAPI *sql;
 
 @end

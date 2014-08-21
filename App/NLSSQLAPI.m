@@ -77,8 +77,8 @@
         NSLog(@"db not open");
         return;
     }else{
-        [self createTitles];
-        [self createDescriptors];
+//        [self createTitles];
+//        [self createDescriptors];
     }
     
     if (![self.favesDb open]) {
@@ -445,7 +445,7 @@
                        AND t.t MATCH '%@'\
                        ORDER BY e.title\
                        LIMIT 1\
-                       OFFSET %ld", (unsigned long)journalId, [self tokenizeSearchString:str], (unsigned long)val];    
+                       OFFSET %ld", (unsigned long)journalId, [self tokenizeSearchString:str], (unsigned long)val];
     
     FMResultSet *rs = [self.db executeQuery:query];
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];

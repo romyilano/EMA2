@@ -42,8 +42,8 @@
 		7B7D3B03199A958300D8B695 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B02199A958300D8B695 /* ema.sqlite */; };
 		7B7D3B0B199D2B6200D8B695 /* FavoritesHighlighted-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B0A199D2B6200D8B695 /* FavoritesHighlighted-50@2x.png */; };
 		7B7D3B0D199D738400D8B695 /* emafaves.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B0C199D738400D8B695 /* emafaves.sqlite */; };
-		7BBD0C4319A3C5C3005E92E4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBD0C4219A3C5C3005E92E4 /* Icon@2x.png */; };
 		7BBD0C4519A3D036005E92E4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBD0C4419A3D036005E92E4 /* Default-568h@2x.png */; };
+		7BBD0C4719A5733C005E92E4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBD0C4619A5733C005E92E4 /* Icon@2x.png */; };
 		7BBDA4D81992072300D6E261 /* Document-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4D61992072300D6E261 /* Document-50@2x.png */; };
 		7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4D71992072300D6E261 /* Journals-50@2x.png */; };
 		7BBDA4DB199207D300D6E261 /* Descriptors-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BBDA4DA199207D300D6E261 /* Descriptors-50@2x.png */; };
@@ -112,8 +112,8 @@
 		7B7D3B02199A958300D8B695 /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
 		7B7D3B0A199D2B6200D8B695 /* FavoritesHighlighted-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FavoritesHighlighted-50@2x.png"; sourceTree = "<group>"; };
 		7B7D3B0C199D738400D8B695 /* emafaves.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = emafaves.sqlite; sourceTree = "<group>"; };
-		7BBD0C4219A3C5C3005E92E4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		7BBD0C4419A3D036005E92E4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		7BBD0C4619A5733C005E92E4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		7BBDA4D61992072300D6E261 /* Document-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-50@2x.png"; sourceTree = "<group>"; };
 		7BBDA4D71992072300D6E261 /* Journals-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Journals-50@2x.png"; sourceTree = "<group>"; };
 		7BBDA4DA199207D300D6E261 /* Descriptors-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Descriptors-50@2x.png"; sourceTree = "<group>"; };
@@ -239,7 +239,6 @@
 				060BE1771946DAB2008FB3C5 /* Default.png */,
 				7BBD0C4419A3D036005E92E4 /* Default-568h@2x.png */,
 				060BE1781946DAB2008FB3C5 /* Default@2x.png */,
-				7BBD0C4219A3C5C3005E92E4 /* Icon@2x.png */,
 				06D952C7195902DE00EF30F2 /* Icon-60@2x.png */,
 				06D952C8195902DE00EF30F2 /* Icon-72.png */,
 				06D952C9195902DE00EF30F2 /* Icon-72@2x.png */,
@@ -311,6 +310,7 @@
 		7BCB5C1F197F39BD00CD91BA /* DB */ = {
 			isa = PBXGroup;
 			children = (
+				7BBD0C4619A5733C005E92E4 /* Icon@2x.png */,
 				7B7D3B02199A958300D8B695 /* ema.sqlite */,
 				7B7D3B0C199D738400D8B695 /* emafaves.sqlite */,
 			);
@@ -409,11 +409,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				060BE17B1946DAB2008FB3C5 /* Default@2x.png in Resources */,
-				7BBD0C4319A3C5C3005E92E4 /* Icon@2x.png in Resources */,
 				06D952DA195902DE00EF30F2 /* Icon-Small-40@2x.png in Resources */,
 				7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */,
 				06D952DB195902DE00EF30F2 /* Icon-Small-50.png in Resources */,
 				7B7D3B03199A958300D8B695 /* ema.sqlite in Resources */,
+				7BBD0C4719A5733C005E92E4 /* Icon@2x.png in Resources */,
 				7BBDA4DB199207D300D6E261 /* Descriptors-50@2x.png in Resources */,
 				06D952DD195902DE00EF30F2 /* Icon-Small.png in Resources */,
 				06D952D5195902DE00EF30F2 /* Icon-72.png in Resources */,

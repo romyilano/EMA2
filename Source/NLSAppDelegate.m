@@ -25,6 +25,7 @@
 @synthesize window = _window;
 @synthesize fileMgr = _fileMgr;
 @synthesize homeDir = _homeDir;
+@synthesize sql = _sql;
 
 
 #pragma mark - init
@@ -56,6 +57,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self checkAndCreateDatabase];
+    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
+    self.sql = sqlapi;
 
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
     UINavigationController *tnc = [[UINavigationController alloc] initWithRootViewController:titlesController];
@@ -101,7 +104,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-
+    NSLog(@"applicationDidEnterBackground");
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -113,7 +116,8 @@
 {
     
     NSLog(@"applicationDidBecomeActive");
-    
+    [self.sql createTitles];
+    [self.sql createDescriptors];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
