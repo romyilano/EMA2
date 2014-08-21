@@ -74,8 +74,7 @@
 {
     
     // Return the number of rows in the section.
-    NSString *letter = [NSString stringWithFormat:@"%@%%", [self.letters objectAtIndex:(NSUInteger)section]];
-    NSInteger count = (long)[self.sql getCountFromTable:@"mesh_descriptor" whereCol:@"name" like:letter];
+    NSInteger count = (long)[self.sql getCountFromDescriptorsWhereSectionLike:[self.letters objectAtIndex:(NSUInteger)section]];
     NSLog(@"Descriptors, numberOfRowsInSection, %ld for section: %ld", (long)section, (long)count);
     
     return count;

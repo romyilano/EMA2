@@ -68,11 +68,7 @@
 {
     
     // Return the number of rows in the section.
-    NSString *letter = [NSString stringWithFormat:@"%@%%", [self.letters objectAtIndex:(NSUInteger)section]];
-    NSInteger count = (long)[self.sql getCountFromTable:@"journals" whereCol:@"journal_title" like:letter];
-    NSLog(@"Journals, section: %ld, numberOfRows: %ld", (long)section, (long)count);
-    
-    return count;
+    return (NSInteger)[self.sql getCountFromJournalsWhereSectionLike:[self.letters objectAtIndex:(NSUInteger)section]];
     
 }
 

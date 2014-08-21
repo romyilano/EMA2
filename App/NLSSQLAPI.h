@@ -17,9 +17,8 @@
 @interface NLSSQLAPI : NSObject
 
 @property (strong, nonatomic) NSMutableArray *tableArray;
-@property (strong, nonatomic) FMDatabase *db;
 @property (strong, nonatomic) FMDatabaseQueue *queue;
-@property (strong, nonatomic) FMDatabase *favesDb;
+@property (strong, nonatomic) FMDatabaseQueue *favesQ;
 @property (nonatomic,retain) NSFileManager *fileMgr;
 @property (nonatomic,retain) NSString *homeDir;
 
@@ -52,24 +51,19 @@
 
 -(NLSTitleModel*)getFavoriteForRow:(NSUInteger)val;
 
--(NSUInteger)getCountFromTable:(NSString*)table;
--(NSUInteger)getCountFromTable:(NSString*)table whereCol:(NSString*)col like:(NSString*)str;
-
--(int)getTitleCount;
+-(NSUInteger)getTitleCount;
 -(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId;
 -(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId andTitleMatch:(NSString *)str;
 -(NSUInteger)getTitleCountWhereTitleMatch:(NSString*)str;
 -(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId;
 -(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId andTitleMatch:(NSString*)str;
 
+-(NSUInteger)getCountFromDescriptorsWhereSectionLike:str;
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
 
+-(NSUInteger)getCountFromJournalsWhereSectionLike:str;
 -(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
 
 -(NLSDetailModel*)getAbstractWithId:(NSUInteger)val;
-
--(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table forRow:(NSUInteger)val;
--(NLSTitleModel*)get:(NSString *)cols from:(NSString *)table where:(NSString*)w like:(NSString*)l forRow:(NSUInteger)val;
-
 
 @end
