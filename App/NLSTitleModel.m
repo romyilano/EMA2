@@ -16,4 +16,12 @@
 @synthesize journal_abv = _journal_abv;
 @synthesize descriptors = _descriptors;
 
+- (id) init
+{
+    self.title = @"Title"; // do your own initialisation here
+    self.year = @"Year";
+    self.journal_abv = @"Journal Abv";
+    return self;
+}
+
 @end

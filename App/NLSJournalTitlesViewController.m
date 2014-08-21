@@ -42,14 +42,14 @@
     return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId];
 }
 
--(NSInteger)getTitleCountWhereTitleContains
+-(NSInteger)getTitleCountWhereTitleMatch
 {
-    return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId andTitleLike:self.searchBar.text];
+    return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId andTitleMatch:self.searchBar.text];
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
 {
-    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereJournalEquals:self.journalId andTitleLike:self.searchBar.text];
+    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereJournalEquals:self.journalId andTitleMatch:str];
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row

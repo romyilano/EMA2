@@ -6,7 +6,7 @@
  
  About tab
  Advanced Search
- Fonts
+ Fonts in search, nav
  ISSN in Journals
  Colors
  Abstract Header
@@ -14,21 +14,7 @@
  Art for ICONS / Splash
  test on multi-device
  add mesh terms at bottom of abstract
- MR and CT caps in Titles
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+ MR and CT and ST caps in Titles
  
  
  */

@@ -44,22 +44,22 @@
     return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId];
 }
 
--(NSInteger)getTitleCountWhereTitleContains
+-(NSInteger)getTitleCountWhereTitleMatch
 {
-        NSLog(@"getTitleCountWhereTitleContains");
+    NSLog(@"getTitleCountWhereTitleContains");
     return (NSInteger)[self.sql getTitleCountWhereMeshEquals:self.meshId andTitleMatch:self.searchBar.text];
     
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
 {
-        NSLog(@"getTitleAndIdForRow whereTitleMatch");
-    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId andTitleLike:str];
+    NSLog(@"getTitleAndIdForRow whereTitleMatch");
+    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId andTitleMatch:str];
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row
 {
-        NSLog(@"getTitleAndIdForRow");
+    NSLog(@"getTitleAndIdForRow");
     return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId];
 }
 

@@ -90,9 +90,9 @@
     return (NSInteger)[self.sql getTitleCount];
 }
 
--(NSInteger)getTitleCountWhereTitleContains
+-(NSInteger)getTitleCountWhereTitleMatch
 {
-    return (NSInteger)[self.sql getTitleCountWhereTitleContains:self.searchBar.text];
+    return (NSInteger)[self.sql getTitleCountWhereTitleMatch:self.searchBar.text];
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
@@ -117,9 +117,9 @@
 {
 
     // Return the number of rows in the section.
-    NSLog(@"tableView is: %@ ", tableView);
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        return [self getTitleCountWhereTitleContains];
+        NSLog(@"tableView is searching count for: %@", self.searchBar.text);
+        return [self getTitleCountWhereTitleMatch];
     }else{
         return [self getTitleCount];
     }
@@ -150,46 +150,46 @@
 
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        NSLog(@"tableView is self.searchDisplayController.searchResultsTableView in cellForRowAtIndexPath: %ld", (long)indexPath.row);
+        NSLog(@"tableView is searching: %@", self.searchBar.text);
         tm = [self getTitleAndIdForRow:(NSUInteger)indexPath.row WhereTitleMatch:self.searchBar.text];
     }else{
         tm = [self getTitleAndIdForRow:(NSUInteger)indexPath.row];
         
-        //Attribute string for year
-        NSMutableAttributedString *year;
-        NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@ \n", tm.journal_abv, tm.year ];
-        year = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
-        
-        [year addAttribute:NSKernAttributeName
-                     value:[NSNumber numberWithFloat:0.5]
-                     range:NSMakeRange(0, [year length])];
-        
-        [year addAttribute:NSFontAttributeName
-                     value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
-                     range:NSMakeRange(0, [year length])];
-        
-        
-        //Descriptor strings
-        NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
-        NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:[tm.descriptors componentsJoinedByString:@", "]];
-        
-        for(id mesh in tm.descriptors){
-            NSLog(@"%@", mesh);
-//            [meshDescriptors addAttribute:NSLinkAttributeName
-//                     value:@"descriptor://"
-//                     range:NSMakeRange(0, [meshDescriptors length])];
-
-            [meshDescriptors addAttribute:NSFontAttributeName
-                      value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]            
-                      range:NSMakeRange(0, [meshDescriptors length])];
-        }
-                
-        [detailText appendAttributedString:meshDescriptors];
-        
-        cell.detailTextLabel.attributedText = detailText;
-        cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
-        
     }
+    
+    //Attribute string for year
+    NSMutableAttributedString *year;
+    NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@ \n", tm.journal_abv, tm.year ];
+    year = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
+    
+    [year addAttribute:NSKernAttributeName
+                 value:[NSNumber numberWithFloat:0.5]
+                 range:NSMakeRange(0, [year length])];
+    
+    [year addAttribute:NSFontAttributeName
+                 value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                 range:NSMakeRange(0, [year length])];
+    
+    
+    //Descriptor strings
+    NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
+    NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:[tm.descriptors componentsJoinedByString:@", "]];
+    
+    for(id mesh in tm.descriptors){
+        NSLog(@"%@", mesh);
+        //            [meshDescriptors addAttribute:NSLinkAttributeName
+        //                     value:@"descriptor://"
+        //                     range:NSMakeRange(0, [meshDescriptors length])];
+        
+        [meshDescriptors addAttribute:NSFontAttributeName
+                                value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]
+                                range:NSMakeRange(0, [meshDescriptors length])];
+    }
+    
+    [detailText appendAttributedString:meshDescriptors];
+    
+    cell.detailTextLabel.attributedText = detailText;
+    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
     
     //Attribute string for label
     NSMutableAttributedString *title;
@@ -240,14 +240,36 @@
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
+    
+    
     if([searchString length] != 0) {
         self.isSearching = YES;
-    }
-    else {
+    } else {
         self.isSearching = NO;
     }
-    NSLog(@"shouldReloadTableForSearchString");
-    return 1;
+
+    if([searchString length] > 1){
+
+        /*
+        //temporarily disable controller
+        controller.delegate = nil;
+
+        //update the boolean search text
+        NSMutableString *string = self.searchBar.text.mutableCopy;
+        for(NSString *key in replacements){
+            [string replaceOccurrencesOfString:key withString:replacements[key] options:0 range:NSMakeRange(0, string.length)];
+        }
+        self.searchBar.text = string.copy;
+
+        //re-enable controller
+        controller.delegate = self;
+        */
+        NSLog(@"shouldReloadTableForSearchString");
+        return YES;
+        
+    }else{
+        return NO;
+    }
 
 }
 
