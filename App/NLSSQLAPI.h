@@ -18,6 +18,7 @@
 
 @property (strong, nonatomic) NSMutableArray *tableArray;
 @property (strong, nonatomic) FMDatabase *db;
+@property (strong, nonatomic) FMDatabaseQueue *queue;
 @property (strong, nonatomic) FMDatabase *favesDb;
 @property (nonatomic,retain) NSFileManager *fileMgr;
 @property (nonatomic,retain) NSString *homeDir;
@@ -25,6 +26,7 @@
 + (id)sharedManager;
 
 -(void)initDatabase;
+-(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label;
 -(void)createTitles;
 -(void)createDescriptors;
 

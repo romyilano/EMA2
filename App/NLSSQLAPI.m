@@ -23,6 +23,7 @@
 
 @synthesize tableArray = _tableArray;
 @synthesize db = _db;
+@synthesize queue = _queue;
 @synthesize favesDb = _favesDb;
 @synthesize someProperty;
 @synthesize fileMgr = _fileMgr;
@@ -31,7 +32,7 @@
 
 #pragma mark Singleton Methods
 
-+ (id)sharedManager {
++(id)sharedManager {
     static NLSSQLAPI *sqlAPI = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -40,7 +41,7 @@
     return sqlAPI;
 }
 
-- (id)init {
+-(id)init {
     if (self = [super init]) {
         someProperty = @"Default Property Value";
         [self initDatabase];
@@ -62,8 +63,9 @@
     
     NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
     FMDatabase *fmdb = [FMDatabase databaseWithPath:path];
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:path];
     self.db = fmdb;
-
+    self.queue = queue;
 
     NSString *favesPath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"emafaves.sqlite"];
     FMDatabase *favesDb = [FMDatabase databaseWithPath:favesPath];
@@ -73,12 +75,11 @@
     NSLog(@"faves exists: %d",[fileManager fileExistsAtPath:favesPath]);
 
     
-    if (![self.db open]) {
-        NSLog(@"db not open");
+    if(![self.db open]){
         return;
     }else{
-        [self createTitles];
-        [self createDescriptors];
+        [self performSelectorInBackground:@selector(createTitles) withObject:nil];
+        [self performSelectorInBackground:@selector(createDescriptors) withObject:nil];
     }
     
     if (![self.favesDb open]) {
@@ -90,6 +91,16 @@
     
     
 }
+
+#pragma mark executeStatements
+-(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label
+{
+    [self.queue inDatabase:^(FMDatabase *db) {
+        BOOL success = [db executeStatements:sql];
+        NSLog(@"%@ Success: %d", label, success);
+    }];
+}
+
 
 #pragma mark Create
 
@@ -105,9 +116,9 @@
                     JOIN abstract_mesh a ON e.id = a.abstract_id\
                     JOIN mesh_descriptor m ON a.mesh_id = m.id\
                     GROUP BY a.abstract_id;";
-    
-    BOOL success = [self.db executeStatements:sql];
-    NSLog(@"Titles Success: %d", success);
+
+    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
+
 }
 
 -(void)createDescriptors
@@ -115,10 +126,10 @@
     NSLog(@"Creating FTS descriptors table");
     
     NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
-    @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
-    @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
-    BOOL success = [self.db executeStatements:sql];
-    NSLog(@"Descriptors Success: %d", success);
+                        @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
+                        @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
+
+    [self executeInQueueWithSQL:sql withLabel:@"Descriptors"];
 
 }
 
@@ -127,7 +138,7 @@
     
     NSLog(@"Creating Favorites table");
     
-    NSString *sql = @"CREATE TABLE IF NOT EXISTS favorites (id, title);";
+    NSString *sql = @"CREATE TABLE IF NOT EXISTS favorites (id NUMBER, title TEXT);";
     
     BOOL success = [self.favesDb executeStatements:sql];
     NSLog(@"Favorites Success: %d", success);
@@ -239,7 +250,6 @@
     for(NSString *key in replacements){
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:key options:NSRegularExpressionCaseInsensitive error:nil];
         NSString *modifiedString = [regex stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:replacements[key]];
-//        [string replaceOccurrencesOfString:key withString:replacements[key] options:0 range:NSMakeRange(0, string.length)];
         string = [modifiedString mutableCopy];
     }
     

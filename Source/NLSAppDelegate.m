@@ -15,7 +15,6 @@
 @interface NLSAppDelegate ()
 {
     UIWindow *_window;
-
 }
 
 @end
@@ -29,6 +28,7 @@
 
 
 #pragma mark - init
+
 -(NSString *)GetDocumentDirectory{
     self.fileMgr = [NSFileManager defaultManager];
     self.homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
@@ -48,6 +48,7 @@
         NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
         [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
     }
+    self.sql = [NLSSQLAPI sharedManager];
 
 }
 
@@ -88,8 +89,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = tabBarController;
-    [self.window makeKeyAndVisible];    
-
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -113,8 +114,6 @@
 {
     
     NSLog(@"applicationDidBecomeActive");
-    [self.sql createTitles];
-    [self.sql createDescriptors];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

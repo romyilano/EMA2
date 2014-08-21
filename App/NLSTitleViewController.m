@@ -29,8 +29,7 @@
 
 - (void)loadView
 {
-    NLSSQLAPI *sqlapi = [NLSSQLAPI sharedManager];
-    self.sql = sqlapi;
+    self.sql = [NLSSQLAPI sharedManager];
     
     NSLog(@"UIViewController loadTitleView");
 
