@@ -36,7 +36,6 @@
 -(BOOL)deleteFromFavorites:(NSUInteger)emaId;
 -(BOOL)checkForFavoriteId:(NSUInteger)emaId;
 
--(NSArray*)getTitlesToLimit:(int)limit;
 -(NSString*)getTitleWhereId:(NSUInteger)emaId;
 -(NSString*)getPmidForId:(NSUInteger)emaId;
 -(NSArray *)getMeshDescriptorsForId:(NSUInteger)emaId;

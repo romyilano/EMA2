@@ -78,8 +78,8 @@
     if(![self.db open]){
         return;
     }else{
-        [self performSelectorInBackground:@selector(createTitles) withObject:nil];
-        [self performSelectorInBackground:@selector(createDescriptors) withObject:nil];
+//        [self performSelectorInBackground:@selector(createTitles) withObject:nil];
+//        [self performSelectorInBackground:@selector(createDescriptors) withObject:nil];
     }
     
     if (![self.favesDb open]) {
@@ -108,8 +108,7 @@
 {
     NSLog(@"Creating FTS titles table");
     
-    NSString *sql = @"DROP TABLE IF EXISTS titles;"
-                    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
+    NSString *sql = @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
                     @"INSERT INTO titles\
                     SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year\
                     FROM erpubtbl e\
@@ -125,8 +124,7 @@
 {
     NSLog(@"Creating FTS descriptors table");
     
-    NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
-                        @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
+    NSString *sql =     @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
                         @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
 
     [self executeInQueueWithSQL:sql withLabel:@"Descriptors"];
@@ -254,24 +252,6 @@
     }
     
     return string.copy;
-    
-}
-
--(NSArray*)getTitlesToLimit:(int)limit
-{
-    //show 10 rows
-    FMResultSet *limitTen = [self.db executeQuery:@"SELECT * FROM erpubtbl limit ?", limit];
-    
-    NSMutableArray *titles = [[NSMutableArray alloc] init];
-    
-    while ([limitTen next]) {
-        //        NSString *title = [limitTen stringForColumn: @"title"];
-        //        NSLog(@"Title col in erpubtbl: %@", title);
-        [self.tableArray addObject:[limitTen stringForColumn:@"title"]];
-    }
-    
-    NSLog(@"tableArray: %@", titles);
-    return titles;
     
 }
 
@@ -669,9 +649,8 @@
         NSLog(@"Total Rows in %@: %d", table, [count intForColumnIndex:0]);
         return (NSUInteger)[count intForColumnIndex:0];
     }else{
-        return 0;
+        return (NSUInteger)0;
     }
-    
 }
 
 #pragma mark Unsafe
