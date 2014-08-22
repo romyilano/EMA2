@@ -1,6 +1,4 @@
-## SplitApp
-
-iOS special project
+## EMA (Emergency Medicine Abstracts)
 
 #### Installation
 
@@ -27,7 +25,7 @@ $ brew install wget
 - clone this repo
 
 ```sh
-git clone https://github.com/piemonte/SplitApp.git
+git clone https://github.com/adjavaherian/EMA2.git
 ```
 
 - install [cocoapods](http://cocoapods.org)
@@ -39,7 +37,7 @@ $ [sudo] gem install cocoapods
 - run the setup makefile
 
 ```sh
-cd SplitApp && make setup && make pods
+cd EMA2 && make setup && make pods
 ```
 
 - use the workspace to develop
