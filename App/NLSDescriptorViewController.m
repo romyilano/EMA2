@@ -44,6 +44,7 @@
 
 - (void)viewDidLoad
 {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [super viewDidLoad];
     
     NSLog(@"viewDidLoad");

@@ -8,6 +8,7 @@
 
 #import "NLSDetailViewController.h"
 #import "NLSDetailModel.h"
+#import "EDColor.h"
 #pragma GCC diagnostic ignored "-Wselector"
 
 
@@ -39,8 +40,7 @@
     
     UITextView *tv = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     tv.editable = NO;
-    tv.font = [UIFont fontWithName: @"Courier" size: 12.0f];
-    tv.dataDetectorTypes = UIDataDetectorTypeAddress;
+    tv.dataDetectorTypes = UIDataDetectorTypeAll;
     tv.textAlignment = NSTextAlignmentLeft;
     tv.text = dm.abstract;
     tv.contentInset = UIEdgeInsetsMake(4,0,10,0);
@@ -83,6 +83,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self.window addSubview:self.button];
 }
 
@@ -126,7 +127,7 @@
     UIScreen *screen = [UIScreen mainScreen];
     CGRect screenRect = screen.bounds;
     NSLog(@"width: %f", screenRect.size.width);
-    button.frame = CGRectMake(screenRect.size.width - 47.0, 23.0, 34.0, 34.0);
+    button.frame = CGRectMake(screenRect.size.width - 47.0f, 23.0f, 34.0f, 34.0f);
     
     
     self.button = button;
@@ -176,8 +177,31 @@
         NSRange subStringRange = [result rangeAtIndex:1];
         [mutableAttributedString addAttribute:NSLinkAttributeName value:@"pmid://" range:subStringRange];
     }];
+    
+    NSAttributedString *pLink = [self createPubMedCentralLink];
+    
+    [mutableAttributedString appendAttributedString:pLink];
 
     return (NSAttributedString*)mutableAttributedString;
+}
+
+-(NSAttributedString *)createPubMedCentralLink
+{
+    NSString *str = [[NSString alloc] initWithFormat:@"\n\nPubMed Central Citations"];
+    NSMutableAttributedString *link = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    NSRange range = NSMakeRange(0, [link length]);
+    [link addAttribute:NSFontAttributeName
+                 value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                 range:range];
+    
+    [link addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor colorWithHexString:@"#15829e"]
+                 range:range];
+    
+    [link addAttribute:NSLinkAttributeName value:@"pmc://" range:range];
+    
+    return (NSAttributedString *)link;
 }
 
 - (NSRange)getRangeFrom:(NSString*)str ofPattern:(NSString*)pat
@@ -187,7 +211,6 @@
     NSRange range = [regex rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
     return range;
 }
-
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if ([[URL scheme] isEqualToString:@"pmid"]) {
@@ -204,6 +227,18 @@
         
         return NO;
     }
+    
+    if ([[URL scheme] isEqualToString:@"pmc"]) {
+
+        NSString *pmc = [NSString stringWithFormat:@"http://www.ncbi.nlm.nih.gov/pmc/articles/pmid/%@/citedby/?tool=pubmed", [self.sql getPmidForId:self.abstractId]];
+        
+        NSURL *url = [NSURL URLWithString:pmc];
+        NSLog(@"pmid: %@", url);
+        [self pushWebViewWithURL:url];
+        
+        return NO;
+    }
+    
     return YES; // let the system open this URL
 }
 
@@ -211,6 +246,7 @@
 -(void)pushWebViewWithURL:(NSURL*)url
 {
     UIViewController *webViewController = [[UIViewController alloc] init];
+    webViewController.title = @"PubMed";
     
     UIWebView *uiWebView = [[UIWebView alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
     [uiWebView loadRequest:[NSURLRequest requestWithURL:url]];

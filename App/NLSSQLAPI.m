@@ -563,7 +563,7 @@
         return;
     }];
     
-    NSLog(@"count result: %ld", count);
+    NSLog(@"count result: %ld", (unsigned long)count);
     return count;
     
 }

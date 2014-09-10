@@ -10,7 +10,8 @@
 #import "NLSDescriptorViewController.h"
 #import "NLSJournalViewController.h"
 #import "NLSFavoritesViewController.h"
-
+#import "EDColor.h"
+#import "CRGradientNavigationBar.h"
 
 @interface NLSAppDelegate ()
 {
@@ -58,18 +59,23 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self checkAndCreateDatabase];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
-    UINavigationController *tnc = [[UINavigationController alloc] initWithRootViewController:titlesController];
+    UINavigationController *tnc = [self styledNavigationController];
+    [tnc setViewControllers:@[titlesController]];
     
     NLSDescriptorViewController *descriptorController = [[NLSDescriptorViewController alloc] init];
-    UINavigationController *dnc = [[UINavigationController alloc] initWithRootViewController:descriptorController];
+    UINavigationController *dnc = [self styledNavigationController];
+    [dnc setViewControllers:@[descriptorController]];
     
     NLSJournalViewController *journalsController = [[NLSJournalViewController alloc] init];
-    UINavigationController *jnc = [[UINavigationController alloc] initWithRootViewController:journalsController];
+    UINavigationController *jnc = [self styledNavigationController];
+    [jnc setViewControllers:@[journalsController]];
     
     NLSFavoritesViewController *favoritesController = [[NLSFavoritesViewController alloc] init];
-    UINavigationController *fnc = [[UINavigationController alloc] initWithRootViewController:favoritesController];
+    UINavigationController *fnc = [self styledNavigationController];
+    [fnc setViewControllers:@[favoritesController]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
@@ -89,11 +95,33 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = tabBarController;
+
     [self.window makeKeyAndVisible];
     
     return YES;
 }
 
+- (UINavigationController*)styledNavigationController
+{
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[CRGradientNavigationBar class] toolbarClass:nil];
+
+    UIColor *firstColor = [UIColor colorWithHexString:@"#55EFCB"];
+    UIColor *secondColor = [UIColor colorWithHexString:@"#5BCAFF"];
+    
+    NSArray *colors = [NSArray arrayWithObjects:firstColor, secondColor, nil];
+    
+    [[CRGradientNavigationBar appearance] setBarTintGradientColors:colors];
+    
+    navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                              [UIColor colorWithHexString:@"#FFFFFF"], NSForegroundColorAttributeName,
+                                                              [UIFont fontWithName:@"AvenirNext-Medium" size:20.0], NSFontAttributeName, nil];
+
+    navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    return navigationController;
+    
+}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application

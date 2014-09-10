@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad
 {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }

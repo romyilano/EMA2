@@ -10,6 +10,7 @@
 #import "NLSTableViewCell.h"
 #import "NLSTitleModel.h"
 #import "NLSDetailViewController.h"
+#import "EDColor.h"
 
 @interface NLSFavoritesViewController ()
 
@@ -60,7 +61,9 @@
                action:@selector(removeAllFavorites:)
      forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"Remove All" forState:UIControlStateNormal];
-    button.frame = CGRectMake(screenRect.size.width - 110.0, 23.0, 100.0, 40.0);
+    [button setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.0];
+    button.frame = CGRectMake(screenRect.size.width - 110.0f, 23.0f, 100.0f, 40.0f);
     self.button = button;
     
     //Create window reference
@@ -72,6 +75,8 @@
 
 - (void)viewDidLoad
 {
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [super viewDidLoad];
     
     NSLog(@"viewDidLoad");

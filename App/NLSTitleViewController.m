@@ -69,18 +69,17 @@
 
 - (void)viewDidLoad
 {
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     NSLog(@"viewDidLoad");
     [super viewDidLoad];
 }
-
-
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 #pragma mark - SQL Overides
 
@@ -168,7 +167,10 @@
     [year addAttribute:NSFontAttributeName
                  value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
                  range:NSMakeRange(0, [year length])];
-    
+
+    [year addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor colorWithHexString:@"#777"]
+                 range:NSMakeRange(0, [year length])];
     
     //Descriptor strings
     NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
@@ -189,7 +191,7 @@
     [detailText appendAttributedString:meshDescriptors];
     
     cell.detailTextLabel.attributedText = detailText;
-    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
+//    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
     
     //Attribute string for label
     NSMutableAttributedString *title;
