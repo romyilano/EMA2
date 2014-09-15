@@ -187,7 +187,7 @@
 
 -(NSAttributedString *)createPubMedCentralLink
 {
-    NSString *str = [[NSString alloc] initWithFormat:@"\n\nPubMed Central Citations"];
+    NSString *str = [[NSString alloc] initWithFormat:@"\nPubMed Central Citations"];
     NSMutableAttributedString *link = [[NSMutableAttributedString alloc] initWithString:str];
     
     NSRange range = NSMakeRange(0, [link length]);

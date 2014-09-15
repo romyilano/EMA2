@@ -57,9 +57,18 @@
     NSLog(@"Loading SearchBar");
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    self.searchBar.placeholder = @"Keyword Search";
-    self.searchBar.translucent = YES;
+    
+    self.searchBar.placeholder = @"Title, MeSH and Key Search";
+
     self.searchBar.delegate = self;
+    self.searchBar.translucent = YES;
+    
+    self.searchBar.backgroundImage = [[UIImage alloc] init];
+    self.searchBar.backgroundColor =  [UIColor colorWithHexString:@"#407993"];
+    self.searchBar.barTintColor = [UIColor colorWithHexString:@"#407993"];
+    self.searchBar.tintColor = [UIColor colorWithHexString:@"#407993"];
+    
+    
     
     self.searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchBarController.delegate = self;
@@ -69,11 +78,14 @@
     self.tableView.tableHeaderView = self.searchBar;
 }
 
+
 - (void)viewDidLoad
 {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    NSLog(@"viewDidLoad");
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self setNeedsStatusBarAppearanceUpdate];
     [super viewDidLoad];
 }
 
@@ -82,7 +94,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - SQL Overides
 

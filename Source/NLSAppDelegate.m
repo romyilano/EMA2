@@ -60,7 +60,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self checkAndCreateDatabase];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
     UINavigationController *tnc = [self styledNavigationController];
@@ -94,9 +93,9 @@
     fnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor blackColor];
+    self.window.backgroundColor = [UIColor colorWithHexString:@"#FFF"];
     self.window.rootViewController = tabBarController;
-
+    
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -118,7 +117,10 @@
                                                               [UIColor colorWithHexString:@"#FFFFFF"], NSForegroundColorAttributeName,
                                                               [UIFont fontWithName:@"AvenirNext-Medium" size:20.0], NSFontAttributeName, nil];
 
-    navigationController.navigationBar.tintColor = [UIColor blackColor];
+    navigationController.navigationBar.tintColor = [UIColor  whiteColor];
+    navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    
+    [[navigationController navigationBar] setTranslucent:YES];
     
     return navigationController;
     
