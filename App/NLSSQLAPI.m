@@ -7,6 +7,7 @@
 //
 
 #import "NLSSQLAPI.h"
+#import "PBJActivityIndicator.h"
 
 
 @interface NLSSQLAPI ()
@@ -50,7 +51,6 @@
 
 #pragma mark Database Initialization
 
-
 -(NSString *)GetDocumentDirectory{
     self.fileMgr = [NSFileManager defaultManager];
     self.homeDir = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
@@ -61,7 +61,6 @@
 {
     
     NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
-
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:path];
     self.queue = queue;
 
@@ -74,42 +73,43 @@
 
     [self createFavoritesTable];
     
-//    [self performSelectorInBackground:@selector(createTitles) withObject:nil];
-//    [self performSelectorInBackground:@selector(createDescriptors) withObject:nil];
-    
 }
+
+#pragma mark Spinner
+
+
 
 
 #pragma mark Create
 
--(void)createTitles
-{
-    NSLog(@"Creating FTS titles table");
-    
-    NSString *sql = @"DROP TABLE IF EXISTS titles;"
-                    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
-                    @"INSERT INTO titles\
-                    SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year\
-                    FROM erpubtbl e\
-                    JOIN abstract_mesh a ON e.id = a.abstract_id\
-                    JOIN mesh_descriptor m ON a.mesh_id = m.id\
-                    GROUP BY a.abstract_id;";
-
-    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
-
-}
-
--(void)createDescriptors
-{
-    NSLog(@"Creating FTS descriptors table");
-    
-    NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
-                        @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
-                        @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
-
-    [self executeInQueueWithSQL:sql withLabel:@"Descriptors"];
-
-}
+//-(void)createTitles
+//{
+//    NSLog(@"Creating FTS titles table");
+//    
+//    NSString *sql = @"DROP TABLE IF EXISTS titles;"
+//                    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
+//                    @"INSERT INTO titles\
+//                    SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year\
+//                    FROM erpubtbl e\
+//                    JOIN abstract_mesh a ON e.id = a.abstract_id\
+//                    JOIN mesh_descriptor m ON a.mesh_id = m.id\
+//                    GROUP BY a.abstract_id;";
+//
+//    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
+//
+//}
+//
+//-(void)createDescriptors
+//{
+//    NSLog(@"Creating FTS descriptors table");
+//    
+//    NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
+//                        @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
+//                        @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
+//
+//    [self executeInQueueWithSQL:sql withLabel:@"Descriptors"];
+//
+//}
 
 -(void)createFavoritesTable
 {
@@ -211,7 +211,6 @@
     
     return [self getMeshArrayForSQL:query];
 }
-
 
 -(NLSTitleModel*)getTitleForId:(NSUInteger)emaId
 {
@@ -335,7 +334,6 @@
     return [self getCountForSQL:query];
 }
 
-
 -(NSUInteger)getTitleCountWhereTitleMatch:(NSString*)str;
 {
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM titles WHERE t MATCH '%@'", [self tokenizeSearchString:str]];
@@ -419,7 +417,6 @@
     return [self getCountForSQL:query];
 }
 
-
 -(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
@@ -474,8 +471,10 @@
     
     __block FMResultSet *rs = nil;
     __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
             tm.title = [rs stringForColumn:@"title"];
@@ -483,6 +482,7 @@
             tm.journal_abv = [rs stringForColumn:@"journal_abv"];
             tm.rowId = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
@@ -498,11 +498,13 @@
     __block NLSDescriptorModel *dm = [[NLSDescriptorModel alloc] init];
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
             dm.name = [rs stringForColumn:@"name"];
             dm.rowId = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
@@ -517,11 +519,13 @@
     __block NLSDetailModel *dm = [[NLSDetailModel alloc] init];
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
             dm.abstract = [NSString stringWithFormat: @"%s", [rs UTF8StringForColumnName:@"abstract"]];
             dm.rowId = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
@@ -536,17 +540,19 @@
     __block NLSJournalModel *jm = [[NLSJournalModel alloc] init];
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
             jm.journal_title = [rs stringForColumn:@"journal_title"];
+            jm.issn = [rs stringForColumn:@"issn"];
             jm.rowId = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
     return jm;
 }
-
 
 -(NSUInteger)getCountForSQL:sql
 {
@@ -554,12 +560,12 @@
     __block NSUInteger count = 0;
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
-        if ([rs next]) {
+        while ([rs next]) {
             count = (NSUInteger)[rs intForColumnIndex:0];
-        }else{
-            count = 0;
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
@@ -572,15 +578,15 @@
 {
 
     __block FMResultSet *rs = nil;
-    __block NSString *str = nil;
+    __block NSString *str = @"";
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
-        if ([rs next]) {
+        while ([rs next]) {
             str = [rs stringForColumnIndex:0];
-        }else{
-            str = @"";
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     return str;
@@ -592,15 +598,16 @@
     __block NSUInteger myInt = 3;
     
     [self.queue inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
-        if ([rs next]) {
+        while ([rs next]) {
             myInt = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     return myInt;
 }
-
 
 -(NSArray *)getMeshArrayForSQL:sql
 {
@@ -619,23 +626,25 @@
     return [NSArray arrayWithArray:(NSArray*)mesh_array];
 }
 
--(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label
-{
-    __block BOOL success = 0;
-    
-    [self.queue inDatabase:^(FMDatabase *db){
-        success = [db executeStatements:sql];
-        NSLog(@"%@ Success: %d", label, success);
-    }];
-    
-}
+//-(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label
+//{
+//    __block BOOL success = 0;
+//    
+//    [self.queue inDatabase:^(FMDatabase *db){
+//        success = [db executeStatements:sql];
+//        NSLog(@"%@ executeInQueueWithSQL Success: %d", label, success);
+//    }];
+//    
+//}
 
 -(BOOL)runFavesSQL:(NSString*)sql withLabel:(NSString*)label
 {
     __block BOOL success = 0;
     
     [self.favesQ inDatabase:^(FMDatabase *db){
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         success = [db executeStatements:sql];
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
@@ -644,35 +653,36 @@
     
 }
 
-
 -(NSUInteger)getFavesIntForSQL:sql
 {
     __block FMResultSet *rs = nil;
     __block NSUInteger myInt = 0;
     
     [self.favesQ inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
-        if ([rs next]) {
+        while ([rs next]) {
             myInt = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     return myInt;
 }
 
-
 -(NLSTitleModel*)getTitleModelFromFavesForSQL:(NSString*)sql
 {
-    
     __block FMResultSet *rs = nil;
     __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     
     [self.favesQ inDatabase:^(FMDatabase *db) {
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
             tm.title = [rs stringForColumn:@"title"];
             tm.rowId = (NSUInteger)[rs intForColumnIndex:0];
         }
+        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     

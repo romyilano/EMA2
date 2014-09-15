@@ -12,6 +12,7 @@
 #import "NLSTitleViewController.h"
 #import "NLSDetailViewController.h"
 #import "NLSDescriptorTitlesViewController.h"
+#import "PBJActivityIndicator.h"
 
 @interface NLSDescriptorViewController ()
 
@@ -38,6 +39,7 @@
     
     self.view = tableView;
     self.title = @"MeSH Descriptors";
+    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     
 }
 
@@ -48,6 +50,7 @@
     [super viewDidLoad];
     
     NSLog(@"viewDidLoad");
+    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

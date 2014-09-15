@@ -12,5 +12,6 @@
 
 @synthesize rowId = _rowId;
 @synthesize journal_title = _journal_title;
+@synthesize issn = _issn;
 
 @end

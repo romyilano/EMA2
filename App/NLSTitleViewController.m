@@ -11,6 +11,7 @@
 #import "NLSTitleModel.h"
 #import "NLSDetailViewController.h"
 #import "EDColor.h"
+#import "PBJActivityIndicator.h"
 
 @interface NLSTitleViewController ()
 
@@ -45,6 +46,7 @@
     self.isSearching = NO;
 
     [self loadSearchBar];
+    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     
     self.title = @"Titles";
 
@@ -71,6 +73,7 @@
 {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     NSLog(@"viewDidLoad");
+    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
     [super viewDidLoad];
 }
 
@@ -191,7 +194,7 @@
     [detailText appendAttributedString:meshDescriptors];
     
     cell.detailTextLabel.attributedText = detailText;
-//    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#777"];
+    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#15829e"];
     
     //Attribute string for label
     NSMutableAttributedString *title;

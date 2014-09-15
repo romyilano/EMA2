@@ -12,6 +12,7 @@
 #import "NLSFavoritesViewController.h"
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
+#import "PBJActivityIndicator.h"
 
 @interface NLSAppDelegate ()
 {
@@ -93,7 +94,7 @@
     fnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor blackColor];
     self.window.rootViewController = tabBarController;
 
     [self.window makeKeyAndVisible];
@@ -117,7 +118,7 @@
                                                               [UIColor colorWithHexString:@"#FFFFFF"], NSForegroundColorAttributeName,
                                                               [UIFont fontWithName:@"AvenirNext-Medium" size:20.0], NSFontAttributeName, nil];
 
-    navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    navigationController.navigationBar.tintColor = [UIColor blackColor];
     
     return navigationController;
     

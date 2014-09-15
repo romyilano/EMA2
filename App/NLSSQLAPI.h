@@ -25,9 +25,9 @@
 + (id)sharedManager;
 
 -(void)initDatabase;
--(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label;
--(void)createTitles;
--(void)createDescriptors;
+//-(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label;
+//-(void)createTitles;
+//-(void)createDescriptors;
 
 -(NSUInteger)getCountFromFavorites;
 -(BOOL)insertIntoFavorites:(NSUInteger)emaId;
