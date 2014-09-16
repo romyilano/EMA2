@@ -10,7 +10,7 @@
 #import "NLSSQLAPI.h"
 #import "NLSButton.h"
 
-@interface NLSDetailViewController : UIViewController<UITextViewDelegate>
+@interface NLSDetailViewController : UIViewController<UITextViewDelegate, UIWebViewDelegate>
 
 @property (readwrite, assign) NSUInteger abstractId;
 @property (strong, nonatomic) NLSSQLAPI *sql;

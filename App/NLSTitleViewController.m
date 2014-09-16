@@ -25,6 +25,8 @@
 @synthesize isSearching = _isSearching;
 @synthesize tableView = _tableView;
 
+UIImageView *navBarHairlineImageView;
+NSString *hexGreen = @"#407993";
 
 #pragma mark - view lifecycle
 
@@ -64,11 +66,9 @@
     self.searchBar.translucent = YES;
     
     self.searchBar.backgroundImage = [[UIImage alloc] init];
-    self.searchBar.backgroundColor =  [UIColor colorWithHexString:@"#407993"];
-    self.searchBar.barTintColor = [UIColor colorWithHexString:@"#407993"];
-    self.searchBar.tintColor = [UIColor colorWithHexString:@"#407993"];
-    
-    
+    self.searchBar.backgroundColor =  [UIColor colorWithHexString:hexGreen];
+    self.searchBar.barTintColor = [UIColor colorWithHexString:hexGreen];
+    self.searchBar.tintColor = [UIColor colorWithHexString:hexGreen];
     
     self.searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     self.searchBarController.delegate = self;
@@ -86,7 +86,41 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    
+    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    
+    [navigationBar setShadowImage:[UIImage new]];
+    navBarHairlineImageView = [self findHairlineImageViewUnder:navigationBar];
+    
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    navBarHairlineImageView.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    navBarHairlineImageView.hidden = YES;
+}
+
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -183,7 +217,7 @@
                  range:NSMakeRange(0, [year length])];
 
     [year addAttribute:NSForegroundColorAttributeName
-                 value:[UIColor colorWithHexString:@"#777"]
+                 value:[UIColor colorWithHexString:@"#777777"]
                  range:NSMakeRange(0, [year length])];
     
     //Descriptor strings
@@ -205,7 +239,7 @@
     [detailText appendAttributedString:meshDescriptors];
     
     cell.detailTextLabel.attributedText = detailText;
-    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"#15829e"];
+    cell.detailTextLabel.textColor = [UIColor colorWithHexString:hexGreen];
     
     //Attribute string for label
     NSMutableAttributedString *title;

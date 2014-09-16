@@ -47,7 +47,7 @@
 
     
     
-    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor blueColor],
+    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#407993"],
                                      NSUnderlineColorAttributeName: [UIColor lightGrayColor],
                                      NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
     
@@ -248,13 +248,25 @@
     UIViewController *webViewController = [[UIViewController alloc] init];
     webViewController.title = @"PubMed";
     
-    UIWebView *uiWebView = [[UIWebView alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
-    [uiWebView loadRequest:[NSURLRequest requestWithURL:url]];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    [webView loadRequest:[NSURLRequest requestWithURL:url]];
+    webView.delegate = self;
     
-    [webViewController.view addSubview: uiWebView];
+    [webViewController.view addSubview: webView];
     [self.navigationController pushViewController: webViewController animated:YES];
 }
 
+- (void)webViewDidFinishLoad:(UIWebView *)theWebView
+{
+    CGSize contentSize = theWebView.scrollView.contentSize;
+    CGSize viewSize = self.view.bounds.size;
+    
+    CGFloat rw = viewSize.width / contentSize.width;
+    
+    theWebView.scrollView.minimumZoomScale = rw;
+//    theWebView.scrollView.maximumZoomScale = rw;
+    theWebView.scrollView.zoomScale = rw;
+}
 
 /*
 #pragma mark - Navigation

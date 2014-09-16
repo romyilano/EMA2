@@ -10,6 +10,8 @@
 #import "NLSDescriptorViewController.h"
 #import "NLSJournalViewController.h"
 #import "NLSFavoritesViewController.h"
+#import "NLSAboutViewController.h"
+#import "NLSDetailViewController.h"
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
 #import "PBJActivityIndicator.h"
@@ -77,20 +79,26 @@
     UINavigationController *fnc = [self styledNavigationController];
     [fnc setViewControllers:@[favoritesController]];
     
+    NLSAboutViewController *aboutController = [[NLSAboutViewController alloc ] init];
+    UINavigationController *anc = [self styledNavigationController];
+    [anc setViewControllers:@[aboutController]];
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
-    NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, nil];
+    NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, anc, nil];
     tabBarController.viewControllers = controllers;
     
     UIImage *titlesImage = [UIImage imageNamed:@"Document-50.png"];
     UIImage *descriptorsImage = [UIImage imageNamed:@"Descriptors-50.png"];
     UIImage *journalsImage = [UIImage imageNamed:@"Journals-50.png"];
     UIImage *favoritesImage = [UIImage imageNamed:@"Favorites-50.png"];
+    UIImage *aboutImage = [UIImage imageNamed:@"About-50.png"];
     
     tnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Titles" image:titlesImage selectedImage:titlesImage];
     dnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"MeSH Descriptors" image:descriptorsImage selectedImage:descriptorsImage];
     jnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Journals" image:journalsImage selectedImage:journalsImage];
     fnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
+    anc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"About" image:aboutImage selectedImage:aboutImage];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor colorWithHexString:@"#FFF"];
@@ -107,7 +115,7 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[CRGradientNavigationBar class] toolbarClass:nil];
 
     UIColor *firstColor = [UIColor colorWithHexString:@"#55EFCB"];
-    UIColor *secondColor = [UIColor colorWithHexString:@"#5BCAFF"];
+    UIColor *secondColor = [UIColor colorWithHexString:@"#5BCAFF"];    
     
     NSArray *colors = [NSArray arrayWithObjects:firstColor, secondColor, nil];
     
@@ -121,6 +129,9 @@
     navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
     [[navigationController navigationBar] setTranslucent:YES];
+    [[navigationController navigationBar] setShadowImage:[UIImage new]];
+    
+    
     
     return navigationController;
     
