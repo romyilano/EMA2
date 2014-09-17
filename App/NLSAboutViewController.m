@@ -17,7 +17,8 @@
 
 @implementation NLSAboutViewController
 
-@synthesize abstractId = _abstractId;
+@synthesize pmcString = _pmcString;
+
 
 - (void)loadView
 {
@@ -27,34 +28,34 @@
     
     NLSDetailModel *dm = [[NLSDetailModel alloc] init];
     
-    self.abstractId = @"PMC4076127";
+    self.pmcString = @"PMC4076127";
     
     dm.abstract =
     
     @"The Emergency Medicine Abstract, 2015.\n\n"
 
-    "The Emergency Medicine Abstract is a collection of relevant literature from a broad spectrum of biomedical information.  The Abstract contains relevant Emergency Medicine literature from over 1000 of the world's defacto journals.  Publications are sourced directly from the National Library of Medicine, PubMed Database. Publication dates range from 1978 to 2006.\n\n"
+    "The Emergency Medicine Abstract is a collection of relevant literature from a broad spectrum of biomedical information.  The Abstract contains relevant Emergency Medicine literature from over 1400 of the world's medical and scientific journals.  Abstracts are sourced from the National Library of Medicine PubMed Database. Publication dates range from 1978 to 2006.\n\n"
     
-    "The Abstract database contains over 100,000 abstracts.  The abstracts are stored offline for your convienience, so you do not need a network connection to read them. (A network connection is required for further citations).\n\n"
+    "The Emergency Medicine Abstract database contains over 100,000 abstracts which are stored offline for your convienience. You do not need a network connection to read them. (A network connection is required for related citations).\n\n"
     
-    "The Abstract contains over 12,000 Medical Subject Headings, or 'MeSH' descriptors.  The Descriptors can be used to narrow down search results to specific topics.  All title lists contain boolean search controllers which allow you to do a full text search of the database using 'AND, OR, NOT' (case insensitive) operators.  Other descriptors and years are included in the default search.\n\n"
+    "The Emergency Medicine Abstract encompasses over 12,000 Medical Subject Headings, or \"MeSH\" descriptors.  The Descriptors can be used to narrow down search results to specific topics.  Boolean search controllers allow you to do a full text search of the database using inline \"AND, OR, NOT\" (case insensitive) operators.  Descriptors, years and titles are included in the basic search.\n\n"
 
     "Read more about evidence-based medicine:\n"
     "PMID: PMC4076127\n\n"
     
     "[Legal Terms and Information]\n\n"
-    "Copyright 2014-2015 4m1r.\n\n"
+    "Copyright 2014-2015 @adjavaherian\n\n"
     
     "Licensed under the Apache License, Version 2.0 (the \"License\"); "
-    "you may not use this database except in compliance with the License."
+    "you may not use this database except in compliance with the License. "
     "You may obtain a copy of the License at\n\n"
     
     "http://www.apache.org/licenses/LICENSE-2.0\n\n"
     
-    "Unless required by applicable law or agreed to in writing, software"
-    "distributed under the License is distributed on an \"AS IS\" BASIS,"
-    "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied."
-    "See the License for the specific language governing permissions and"
+    "Unless required by applicable law or agreed to in writing, software "
+    "distributed under the License is distributed on an \"AS IS\" BASIS, "
+    "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. "
+    "See the License for the specific language governing permissions and "
     "limitations under the License."
     "";
     
@@ -66,9 +67,7 @@
     tv.text = dm.abstract;
     tv.contentInset = UIEdgeInsetsMake(4,0,10,0);
     
-    
-    
-    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#407993"],
+    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:emaGreen],
                                      NSUnderlineColorAttributeName: [UIColor lightGrayColor],
                                      NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
     
@@ -78,9 +77,6 @@
     tv.delegate = self;
     
     [view addSubview:tv];
-    
-    
-
     
 }
 
@@ -94,17 +90,6 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 #pragma mark - Data Detectors
 
 - (NSAttributedString *)makeAttributedAbstract:(NSString*)str
@@ -124,9 +109,6 @@
         [mutableAttributedString addAttribute:NSLinkAttributeName value:@"pmid://" range:subStringRange];
     }];
     
-//    NSAttributedString *pLink = [self createPubMedCentralLink];
-//    [mutableAttributedString appendAttributedString:pLink];
-    
     return (NSAttributedString*)mutableAttributedString;
 }
 
@@ -141,20 +123,12 @@
                  range:range];
     
     [link addAttribute:NSForegroundColorAttributeName
-                 value:[UIColor colorWithHexString:@"#15829e"]
+                 value:[UIColor colorWithHexString:emaGreen]
                  range:range];
     
     [link addAttribute:NSLinkAttributeName value:@"pmc://" range:range];
     
     return (NSAttributedString *)link;
-}
-
-- (NSRange)getRangeFrom:(NSString*)str ofPattern:(NSString*)pat
-{
-    NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pat options:0 error:&error];
-    NSRange range = [regex rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
-    return range;
 }
 
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
@@ -163,7 +137,7 @@
         // do something with this username
         
         // ...
-        NSString *pmid = @"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4076127/";
+        NSString *pmid = @"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4076127/?report=reader";
         
         
         NSURL *url = [NSURL URLWithString:pmid];
@@ -175,7 +149,7 @@
     
     if ([[URL scheme] isEqualToString:@"pmc"]) {
         
-        NSString *pmc = [NSString stringWithFormat:@"http://www.ncbi.nlm.nih.gov/pmc/articles/pmid/%@/citedby/?tool=pubmed", self.abstractId];
+        NSString *pmc = @"http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4076127/?report=reader";
         
         NSURL *url = [NSURL URLWithString:pmc];
         NSLog(@"pmid: %@", url);
@@ -187,29 +161,6 @@
     return YES; // let the system open this URL
 }
 
-#pragma mark push web views
--(void)pushWebViewWithURL:(NSURL*)url
-{
-    UIViewController *webViewController = [[UIViewController alloc] init];
-    webViewController.title = @"PubMed";
-    
-    UIWebView *uiWebView = [[UIWebView alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
-    [uiWebView loadRequest:[NSURLRequest requestWithURL:url]];
-    
-    [webViewController.view addSubview: uiWebView];
-    [self.navigationController pushViewController: webViewController animated:YES];
-}
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

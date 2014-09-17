@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
+#include "EMAConstants.h"
 
 @interface NLSTitleViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate>
 
@@ -16,5 +17,8 @@
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UISearchDisplayController *searchBarController;
 @property BOOL isSearching;
+
+- (void) hideNavShadow;
+- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height;
 
 @end

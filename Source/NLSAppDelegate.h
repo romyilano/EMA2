@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
+#include "EMAConstants.h"
 
 @interface NLSAppDelegate : UIResponder <UIApplicationDelegate>
 

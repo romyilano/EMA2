@@ -30,7 +30,6 @@
 @synthesize homeDir = _homeDir;
 @synthesize sql = _sql;
 
-
 #pragma mark - init
 
 -(NSString *)GetDocumentDirectory{
@@ -101,7 +100,7 @@
     anc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"About" image:aboutImage selectedImage:aboutImage];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor colorWithHexString:@"#FFF"];
+    self.window.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF"];
     self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];
@@ -111,11 +110,13 @@
 
 - (UINavigationController*)styledNavigationController
 {
+
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[CRGradientNavigationBar class] toolbarClass:nil];
 
     UIColor *firstColor = [UIColor colorWithHexString:@"#55EFCB"];
-    UIColor *secondColor = [UIColor colorWithHexString:@"#5BCAFF"];    
+    UIColor *secondColor = [UIColor colorWithHexString:@"#5BCAFF"];
     
     NSArray *colors = [NSArray arrayWithObjects:firstColor, secondColor, nil];
     
@@ -130,9 +131,7 @@
     
     [[navigationController navigationBar] setTranslucent:YES];
     [[navigationController navigationBar] setShadowImage:[UIImage new]];
-    
-    
-    
+        
     return navigationController;
     
 }

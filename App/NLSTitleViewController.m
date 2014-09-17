@@ -26,16 +26,13 @@
 @synthesize tableView = _tableView;
 
 UIImageView *navBarHairlineImageView;
-NSString *hexGreen = @"#407993";
 
 #pragma mark - view lifecycle
 
 - (void)loadView
 {
+    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     self.sql = [NLSSQLAPI sharedManager];
-    
-    NSLog(@"UIViewController loadTitleView");
-
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
@@ -46,57 +43,19 @@ NSString *hexGreen = @"#407993";
     self.tableView = tableView;
     self.view = tableView;
     self.isSearching = NO;
-
-    [self loadSearchBar];
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     
     self.title = @"Titles";
-
 }
-
--(void)loadSearchBar {
-    
-    NSLog(@"Loading SearchBar");
-    
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    
-    self.searchBar.placeholder = @"Title, MeSH and Key Search";
-
-    self.searchBar.delegate = self;
-    self.searchBar.translucent = YES;
-    
-    self.searchBar.backgroundImage = [[UIImage alloc] init];
-    self.searchBar.backgroundColor =  [UIColor colorWithHexString:hexGreen];
-    self.searchBar.barTintColor = [UIColor colorWithHexString:hexGreen];
-    self.searchBar.tintColor = [UIColor colorWithHexString:hexGreen];
-    
-    self.searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-    self.searchBarController.delegate = self;
-    self.searchBarController.searchResultsDataSource = self;
-    self.searchBarController.searchResultsDelegate = self;
-
-    self.tableView.tableHeaderView = self.searchBar;
-}
-
 
 - (void)viewDidLoad
 {
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self loadSearchBar];
+//    [self hideNavShadow];
     [self setNeedsStatusBarAppearanceUpdate];
-    
-    
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    
-    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
-    
-    [navigationBar setShadowImage:[UIImage new]];
-    navBarHairlineImageView = [self findHairlineImageViewUnder:navigationBar];
-    
     [super viewDidLoad];
 }
 
@@ -110,17 +69,8 @@ NSString *hexGreen = @"#407993";
     navBarHairlineImageView.hidden = YES;
 }
 
-- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
-    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
-        return (UIImageView *)view;
-    }
-    for (UIView *subview in view.subviews) {
-        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
-        if (imageView) {
-            return imageView;
-        }
-    }
-    return nil;
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning
@@ -164,7 +114,6 @@ NSString *hexGreen = @"#407993";
 
     // Return the number of rows in the section.
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        NSLog(@"tableView is searching count for: %@", self.searchBar.text);
         return [self getTitleCountWhereTitleMatch];
     }else{
         return [self getTitleCount];
@@ -172,7 +121,8 @@ NSString *hexGreen = @"#407993";
 
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     // The header for the section is the region name -- get this from the region at the section index.
     return @"All Titles";
 }
@@ -182,21 +132,18 @@ NSString *hexGreen = @"#407993";
     return 110;
 }
 
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
     static NSString *MyIdentifier = @"Cell";
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     
     if (cell == nil) {
         cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier];
-    }
-    
-//    NSLog(@"indexPath: %ld", (long)indexPath.row);
+    }    
 
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     if (tableView == self.searchDisplayController.searchResultsTableView){
-        NSLog(@"tableView is searching: %@", self.searchBar.text);
         tm = [self getTitleAndIdForRow:(NSUInteger)indexPath.row WhereTitleMatch:self.searchBar.text];
     }else{
         tm = [self getTitleAndIdForRow:(NSUInteger)indexPath.row];
@@ -224,14 +171,7 @@ NSString *hexGreen = @"#407993";
     NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
     NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:[tm.descriptors componentsJoinedByString:@", "]];
     
-//    for(id mesh in tm.descriptors){
-//        NSLog(@"%@", mesh);
-//        //            [meshDescriptors addAttribute:NSLinkAttributeName
-//        //                     value:@"descriptor://"
-//        //                     range:NSMakeRange(0, [meshDescriptors length])];
-//        
-//
-//    }
+
     [meshDescriptors addAttribute:NSFontAttributeName
                             value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]
                             range:NSMakeRange(0, [meshDescriptors length])];
@@ -239,7 +179,7 @@ NSString *hexGreen = @"#407993";
     [detailText appendAttributedString:meshDescriptors];
     
     cell.detailTextLabel.attributedText = detailText;
-    cell.detailTextLabel.textColor = [UIColor colorWithHexString:hexGreen];
+    cell.detailTextLabel.textColor = [UIColor colorWithHexString:emaGreen];
     
     //Attribute string for label
     NSMutableAttributedString *title;
@@ -283,6 +223,56 @@ NSString *hexGreen = @"#407993";
 
 #pragma mark Search Controller
 
+-(void)hideNavShadow
+{
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    
+    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    
+    [navigationBar setShadowImage:[UIImage new]];
+    navBarHairlineImageView = [self findHairlineImageViewUnder:navigationBar];
+
+}
+
+-(void)loadSearchBar {
+    
+    NSLog(@"Loading SearchBar");
+    
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"Avenir" size:14]];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:[UIColor blueColor]];
+    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTintColor:[UIColor blueColor]];
+    
+    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil]
+     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [UIColor whiteColor],NSForegroundColorAttributeName,
+                             [UIFont fontWithName:@"Avenir" size:16], NSFontAttributeName,
+                             nil] forState:UIControlStateNormal];
+    
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+
+    searchBar.barStyle = UISearchBarStyleDefault;
+    searchBar.placeholder = @"Title, MeSH and Year Search";
+    searchBar.delegate = self;
+    searchBar.translucent = YES;
+    searchBar.backgroundImage = [[UIImage alloc] init];
+    searchBar.backgroundColor =  [UIColor colorWithHexString:searchGreen];
+    searchBar.barTintColor = [UIColor colorWithHexString:searchGreen];
+    searchBar.tintColor = [UIColor colorWithHexString:searchGreen];
+    
+    UISearchDisplayController *searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+    searchBarController.delegate = self;
+    searchBarController.searchResultsDataSource = self;
+    searchBarController.searchResultsDelegate = self;
+    
+    self.searchBarController = searchBarController;
+    self.searchBar = self.searchBarController.searchBar;
+    self.tableView.tableHeaderView = self.searchBarController.searchBar;
+    
+}
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     self.isSearching = YES;
 }
@@ -290,7 +280,6 @@ NSString *hexGreen = @"#407993";
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
-    
     
     if([searchString length] != 0) {
         self.isSearching = YES;
@@ -329,10 +318,10 @@ NSString *hexGreen = @"#407993";
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"Search Clicked");
-//    [self searchTableList];
 }
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    NSLog(@"starting search");
     self.isSearching = YES;
 }
 
@@ -340,53 +329,37 @@ NSString *hexGreen = @"#407993";
     self.isSearching = NO;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+#pragma mark Utils
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height
 {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

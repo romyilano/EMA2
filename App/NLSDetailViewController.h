@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
 #import "NLSButton.h"
+#include "EMAConstants.h"
 
 @interface NLSDetailViewController : UIViewController<UITextViewDelegate, UIWebViewDelegate>
 
@@ -20,5 +21,6 @@
 
 - (void)removeFromFavorites:(UIButton*)button;
 - (void)insertIntoFavorites:(UIButton*)button;
+- (void)pushWebViewWithURL:(NSURL*)url;
 
 @end

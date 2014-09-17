@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
+#include "EMAConstants.h"
 
 @interface NLSJournalViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 

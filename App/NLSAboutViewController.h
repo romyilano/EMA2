@@ -6,11 +6,10 @@
 //  Copyright (c) 2014 4m1r. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "NLSButton.h"
+#import "NLSDetailViewController.h"
 
-@interface NLSAboutViewController : UIViewController<UITextViewDelegate>
+@interface NLSAboutViewController : NLSDetailViewController
 
-@property (strong, nonatomic) NSString *abstractId;
+@property (strong, nonatomic) NSString *pmcString;
 
 @end

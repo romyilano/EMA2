@@ -47,7 +47,7 @@
 
     
     
-    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"#407993"],
+    NSDictionary *linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:emaGreen],
                                      NSUnderlineColorAttributeName: [UIColor lightGrayColor],
                                      NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
     
@@ -256,27 +256,5 @@
     [self.navigationController pushViewController: webViewController animated:YES];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)theWebView
-{
-    CGSize contentSize = theWebView.scrollView.contentSize;
-    CGSize viewSize = self.view.bounds.size;
-    
-    CGFloat rw = viewSize.width / contentSize.width;
-    
-    theWebView.scrollView.minimumZoomScale = rw;
-//    theWebView.scrollView.maximumZoomScale = rw;
-    theWebView.scrollView.zoomScale = rw;
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

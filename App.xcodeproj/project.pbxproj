@@ -93,6 +93,7 @@
 		7B27260419C79B9A004C7323 /* NLSAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAboutViewController.h; sourceTree = "<group>"; };
 		7B27260519C79B9A004C7323 /* NLSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAboutViewController.m; sourceTree = "<group>"; };
 		7B27260919C7A5B7004C7323 /* About-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "About-50@2x.png"; sourceTree = "<group>"; };
+		7B27260B19C94489004C7323 /* EMAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAConstants.h; sourceTree = "<group>"; };
 		7B7D3AFA19991CF300D8B695 /* NLSFavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSFavoritesViewController.h; sourceTree = "<group>"; };
 		7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSFavoritesViewController.m; sourceTree = "<group>"; };
 		7B7D3AFD1999352B00D8B695 /* NLSSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSearchViewController.h; sourceTree = "<group>"; };
@@ -240,6 +241,7 @@
 				7BBDA4D51992071200D6E261 /* Tabs */,
 				7BCB5C1F197F39BD00CD91BA /* DB */,
 				7BF6613E19A277C500E6E67B /* TODO.h */,
+				7B27260B19C94489004C7323 /* EMAConstants.h */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
