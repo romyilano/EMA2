@@ -7,7 +7,6 @@
  About tab
  Advanced Search
  Fonts in search, nav
- ISSN in Journals
  Colors
  Abstract Header
  Header Art
@@ -18,7 +17,6 @@
  JAMA, QJM in Journals
  Link to this literature on EBM http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4076127/
  Add links from all articles to PMC http://www.ncbi.nlm.nih.gov/pmc/articles/pmid/901087/citedby/?tool=pubmed
- Force PUBMed WebView Zoom
  WebView open in Safari option
  
  */
