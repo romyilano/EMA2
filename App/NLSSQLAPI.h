@@ -37,6 +37,7 @@
 
 -(NSString*)getTitleWhereId:(NSUInteger)emaId;
 -(NSString*)getPmidForId:(NSUInteger)emaId;
+-(NSString*)getMeshForId:(NSUInteger)meshId;
 -(NSArray *)getMeshDescriptorsForId:(NSUInteger)emaId;
 
 -(NLSTitleModel*)getTitleForId:(NSUInteger)emaId;

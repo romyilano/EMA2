@@ -407,6 +407,15 @@
 
 #pragma mark Descriptors
 
+-(NSString*)getMeshForId:(NSUInteger)meshId
+{
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT name\
+                       FROM mesh_descriptor\
+                       WHERE id = %ld", (unsigned long)meshId];
+    return [self getStringForSQL:query];
+}
+
 -(NSUInteger)getCountFromDescriptorsWhereSectionLike:str
 {
     NSString *query = [NSString stringWithFormat:@"\
@@ -618,10 +627,15 @@
     [self.queue inDatabase:^(FMDatabase *db) {
         rs = [db executeQuery:sql];
         while ([rs next]) {
-            [mesh_array addObject:[rs stringForColumn:@"name"]];
+            [mesh_array addObject:@{
+                                    @"id" : [NSNumber numberWithInt:[rs intForColumn:@"mesh_id"]],
+                                    @"name" :[rs stringForColumn:@"name"]
+                                    }];
         }
         return;
     }];
+    
+    //NSLog(@"mesh array %@", mesh_array );
     
     return [NSArray arrayWithArray:(NSArray*)mesh_array];
 }

@@ -22,6 +22,7 @@
 		7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883519824041008229A3 /* NLSTableViewCell.m */; };
 		7B1688391982CE57008229A3 /* NLSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1688381982CE57008229A3 /* NLSDetailViewController.m */; };
 		7B16883C1982DD72008229A3 /* NLSDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B16883B1982DD72008229A3 /* NLSDetailModel.m */; };
+		7B26EBC819CA408400DB8D6B /* Share-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26EBC719CA408400DB8D6B /* Share-50@2x.png */; };
 		7B27260619C79B9A004C7323 /* NLSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B27260519C79B9A004C7323 /* NLSAboutViewController.m */; };
 		7B27260A19C7A5B7004C7323 /* About-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B27260919C7A5B7004C7323 /* About-50@2x.png */; };
 		7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */; };
@@ -90,6 +91,7 @@
 		7B1688381982CE57008229A3 /* NLSDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDetailViewController.m; sourceTree = "<group>"; };
 		7B16883A1982DD72008229A3 /* NLSDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDetailModel.h; sourceTree = "<group>"; };
 		7B16883B1982DD72008229A3 /* NLSDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDetailModel.m; sourceTree = "<group>"; };
+		7B26EBC719CA408400DB8D6B /* Share-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Share-50@2x.png"; sourceTree = "<group>"; };
 		7B27260419C79B9A004C7323 /* NLSAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAboutViewController.h; sourceTree = "<group>"; };
 		7B27260519C79B9A004C7323 /* NLSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAboutViewController.m; sourceTree = "<group>"; };
 		7B27260919C7A5B7004C7323 /* About-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "About-50@2x.png"; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 		7BBD0C4819A7B54B005E92E4 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7B26EBC719CA408400DB8D6B /* Share-50@2x.png */,
 				7BBD0C4919A7B54B005E92E4 /* Default-568h@2x.png */,
 				7BBD0C4A19A7B54B005E92E4 /* Default.png */,
 				7BBD0C4B19A7B54B005E92E4 /* Default@2x.png */,
@@ -424,6 +427,7 @@
 				7BBDA4D91992072300D6E261 /* Journals-50@2x.png in Resources */,
 				7BBD0C5A19A7B54B005E92E4 /* Default.png in Resources */,
 				7BBD0C5B19A7B54B005E92E4 /* Default@2x.png in Resources */,
+				7B26EBC819CA408400DB8D6B /* Share-50@2x.png in Resources */,
 				7BBD0C6319A7B54B005E92E4 /* Icon-Small-50.png in Resources */,
 				7BBD0C5F19A7B54B005E92E4 /* Icon-76.png in Resources */,
 				7BBD0C6819A7B54B005E92E4 /* Icon@2x.png in Resources */,

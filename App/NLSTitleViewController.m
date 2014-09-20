@@ -24,6 +24,8 @@
 @synthesize searchBarController = _searchBarController;
 @synthesize isSearching = _isSearching;
 @synthesize tableView = _tableView;
+@synthesize window = _window;
+@synthesize greenSub = _greenSub;
 
 UIImageView *navBarHairlineImageView;
 
@@ -44,6 +46,9 @@ UIImageView *navBarHairlineImageView;
     self.view = tableView;
     self.isSearching = NO;
     
+    self.greenSub = [[UIView alloc] initWithFrame:CGRectMake(0, -44, 320, 86)];
+    self.greenSub.backgroundColor = [UIColor colorWithHexString:searchGreen];
+    
     self.title = @"Titles";
 }
 
@@ -61,12 +66,15 @@ UIImageView *navBarHairlineImageView;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    navBarHairlineImageView.hidden = YES;
+    NSLog(@"view will appear");
+//    [self hideNavShadow];
+//    navBarHairlineImageView.hidden = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    navBarHairlineImageView.hidden = YES;
+//    [self hideNavShadow];    
+//    navBarHairlineImageView.hidden = YES;
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -169,8 +177,19 @@ UIImageView *navBarHairlineImageView;
     
     //Descriptor strings
     NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:year];
-    NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:[tm.descriptors componentsJoinedByString:@", "]];
     
+    NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:@""];
+    for(NSDictionary *dict in tm.descriptors){
+        NSString *str = [[NSString alloc] initWithFormat:@"%@, ", [dict valueForKey:@"name"]];
+        NSAttributedString *aStr = [[NSAttributedString alloc] initWithString:str];
+        [meshDescriptors appendAttributedString:aStr];
+    }
+    
+    //trim last comma
+    NSRange endComma;
+    endComma.location = ([meshDescriptors length] - 2);
+    endComma.length = 1;
+    [meshDescriptors deleteCharactersInRange:endComma];
 
     [meshDescriptors addAttribute:NSFontAttributeName
                             value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]
@@ -266,11 +285,19 @@ UIImageView *navBarHairlineImageView;
     searchBarController.delegate = self;
     searchBarController.searchResultsDataSource = self;
     searchBarController.searchResultsDelegate = self;
+    searchBarController.searchBar.translucent = YES;
+    searchBarController.searchBar.backgroundImage = [[UIImage alloc] init];
+    searchBarController.searchBar.backgroundColor =  [UIColor colorWithHexString:searchGreen];
+    searchBarController.searchBar.barTintColor = [UIColor colorWithHexString:searchGreen];
+    searchBarController.searchBar.tintColor = [UIColor colorWithHexString:searchGreen];
+
     
     self.searchBarController = searchBarController;
     self.searchBar = self.searchBarController.searchBar;
-    self.tableView.tableHeaderView = self.searchBarController.searchBar;
     
+    
+    self.tableView.tableHeaderView = self.searchBarController.searchBar;
+    [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
@@ -280,6 +307,15 @@ UIImageView *navBarHairlineImageView;
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
+    
+    for (UIView *subview in self.view.subviews)
+    {
+        if ([subview isKindOfClass:NSClassFromString(@"UISearchDisplayControllerContainerView")])
+        {
+            [self.greenSub removeFromSuperview];
+            [subview insertSubview:self.greenSub atIndex:1];
+        }
+    }    
     
     if([searchString length] != 0) {
         self.isSearching = YES;
@@ -323,17 +359,26 @@ UIImageView *navBarHairlineImageView;
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     NSLog(@"starting search");
     self.isSearching = YES;
+    [self.greenSub removeFromSuperview];
+    [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
 }
 
 -(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     self.isSearching = NO;
 }
 
+- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView
+{
+    NSLog(@"Did hide view clicked");
+}
+
 #pragma mark Utils
 
 - (UIImageView *)findHairlineImageViewUnder:(UIView *)view
 {
+     NSLog(@"Find hairline image %@", view);
     if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+         NSLog(@"found hairline image %@", view);
         return (UIImageView *)view;
     }
     for (UIView *subview in view.subviews) {

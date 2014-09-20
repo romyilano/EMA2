@@ -130,8 +130,8 @@
     navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
     [[navigationController navigationBar] setTranslucent:YES];
-    [[navigationController navigationBar] setShadowImage:[UIImage new]];
-        
+//    [[navigationController navigationBar] setShadowImage:[UIImage new]];
+    
     return navigationController;
     
 }
