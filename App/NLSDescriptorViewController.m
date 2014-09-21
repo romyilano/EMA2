@@ -13,6 +13,7 @@
 #import "NLSDetailViewController.h"
 #import "NLSDescriptorTitlesViewController.h"
 #import "PBJActivityIndicator.h"
+#import "EDColor.h"
 
 @interface NLSDescriptorViewController ()
 
@@ -35,10 +36,11 @@
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
     [tableView reloadData];
     
     self.view = tableView;
-    self.title = @"MeSH Descriptors";
+    self.title = @"Descriptors";
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     
 }

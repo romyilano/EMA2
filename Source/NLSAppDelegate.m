@@ -84,20 +84,33 @@
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     
+    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:favoritesColor]];
+    
     NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, anc, nil];
     tabBarController.viewControllers = controllers;
     
     UIImage *titlesImage = [UIImage imageNamed:@"Document-50.png"];
+    UIImage *titlesImageSelected = [UIImage imageNamed:@"Document-selected-50.png"];
     UIImage *descriptorsImage = [UIImage imageNamed:@"Descriptors-50.png"];
+    UIImage *descriptorsImageSelected = [UIImage imageNamed:@"Descriptors-selected-50.png"];
     UIImage *journalsImage = [UIImage imageNamed:@"Journals-50.png"];
+    UIImage *journalsImageSelected = [UIImage imageNamed:@"Journals-selected-50.png"];
     UIImage *favoritesImage = [UIImage imageNamed:@"Favorites-50.png"];
+    UIImage *favoritesImageSelected = [UIImage imageNamed:@"Favorites-selected-50.png"];
     UIImage *aboutImage = [UIImage imageNamed:@"About-50.png"];
+    UIImage *aboutImageSelected = [UIImage imageNamed:@"About-selected-50.png"];
     
     tnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Titles" image:titlesImage selectedImage:titlesImage];
-    dnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"MeSH Descriptors" image:descriptorsImage selectedImage:descriptorsImage];
+    dnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Descriptors" image:descriptorsImage selectedImage:descriptorsImage];
     jnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Journals" image:journalsImage selectedImage:journalsImage];
     fnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
     anc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"About" image:aboutImage selectedImage:aboutImage];
+    
+    [tnc.tabBarItem setSelectedImage: titlesImageSelected];
+    [dnc.tabBarItem setSelectedImage: descriptorsImageSelected];
+    [jnc.tabBarItem setSelectedImage: journalsImageSelected];
+    [fnc.tabBarItem setSelectedImage: favoritesImageSelected];
+    [anc.tabBarItem setSelectedImage: aboutImageSelected];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF"];

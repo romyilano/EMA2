@@ -50,6 +50,7 @@
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
     [tableView reloadData];
     
     self.view = tableView;
