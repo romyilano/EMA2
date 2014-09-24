@@ -7,13 +7,6 @@
 //
 
 #import "NLSJournalViewController.h"
-#import "NLSTableViewCell.h"
-#import "NLSJournalModel.h"
-#import "NLSTitleViewController.h"
-#import "NLSDetailViewController.h"
-#import "NLSJournalTitlesViewController.h"
-#import "EDColor.h"
-#import "PBJActivityIndicator.h"
 
 @interface NLSJournalViewController ()
 
@@ -106,7 +99,7 @@
     }
     
     NSLog(@"indexPath.row: %ld, indexPath.section: %ld", (long)indexPath.row, (long)indexPath.section);
-    NLSJournalModel *jm = [self.sql getJournalTitleForRow:(NSUInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
+    NLSJournalModel *jm = [self.sql getJournalTitleForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
     
     NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:jm.journal_title attributes:nil];
     NSString *issn = [[NSString alloc] initWithFormat:@"ISSN: %@", jm.issn];

@@ -11,12 +11,14 @@
 #import "NLSSQLAPI.h"
 #import "NLSButton.h"
 #import "NLSDescriptorTitlesViewController.h"
+#import "NLSDetailModel.h"
+#import "EDColor.h"
 #include "EMAConstants.h"
 
 
 @interface NLSDetailViewController : UIViewController<UITextViewDelegate, UIWebViewDelegate>
 
-@property (readwrite, assign) NSUInteger abstractId;
+@property (readwrite, assign) NSInteger abstractId;
 @property (strong, nonatomic) NLSSQLAPI *sql;
 @property (strong, nonatomic) NLSButton *button;
 @property (strong, nonatomic) NLSButton *shareButton;

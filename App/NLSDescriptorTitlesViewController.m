@@ -7,8 +7,6 @@
 //
 
 #import "NLSDescriptorTitlesViewController.h"
-#import "NLSTableViewCell.h"
-#import "NLSTitleModel.h"
 
 @interface NLSDescriptorTitlesViewController ()
 
@@ -51,16 +49,16 @@
     
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row WhereTitleMatch:str
 {
     NSLog(@"getTitleAndIdForRow whereTitleMatch");
-    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId andTitleMatch:str];
+    return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId andTitleMatch:str];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row
 {
     NSLog(@"getTitleAndIdForRow");
-    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereMeshEquals:self.meshId];
+    return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId];
 }
 
 

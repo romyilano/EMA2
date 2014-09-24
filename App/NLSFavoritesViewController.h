@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
 #import "NLSButton.h"
+#import "NLSTableViewCell.h"
+#import "NLSTitleModel.h"
+#import "NLSDetailViewController.h"
+#import "EDColor.h"
+
 
 @interface NLSFavoritesViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 

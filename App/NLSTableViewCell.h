@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NLSTitleModel.h"
 
 @interface NLSTableViewCell : UITableViewCell
 
-@property (readwrite, assign) NSUInteger rowId;
+@property (readwrite, assign) NSInteger rowId;
 @property (strong, nonatomic) NSString *name;
 
 @end

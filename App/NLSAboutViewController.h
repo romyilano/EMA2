@@ -7,6 +7,8 @@
 //
 
 #import "NLSDetailViewController.h"
+#import "NLSDetailModel.h"
+#import "EDColor.h"
 
 @interface NLSAboutViewController : NLSDetailViewController
 

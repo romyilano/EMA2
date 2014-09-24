@@ -29,42 +29,42 @@
 //-(void)createTitles;
 //-(void)createDescriptors;
 
--(NSUInteger)getCountFromFavorites;
--(BOOL)insertIntoFavorites:(NSUInteger)emaId;
+-(NSInteger)getCountFromFavorites;
+-(BOOL)insertIntoFavorites:(NSInteger)emaId;
 -(BOOL)deleteFavorites;
--(BOOL)deleteFromFavorites:(NSUInteger)emaId;
--(BOOL)checkForFavoriteId:(NSUInteger)emaId;
+-(BOOL)deleteFromFavorites:(NSInteger)emaId;
+-(BOOL)checkForFavoriteId:(NSInteger)emaId;
 
--(NSString*)getTitleWhereId:(NSUInteger)emaId;
--(NSString*)getPmidForId:(NSUInteger)emaId;
--(NSString*)getMeshForId:(NSUInteger)meshId;
--(NSArray *)getMeshDescriptorsForId:(NSUInteger)emaId;
+-(NSString*)getTitleWhereId:(NSInteger)emaId;
+-(NSString*)getPmidForId:(NSInteger)emaId;
+-(NSString*)getMeshForId:(NSInteger)meshId;
+-(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId;
 
--(NLSTitleModel*)getTitleForId:(NSUInteger)emaId;
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val;
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereTitleMatch:(NSString *)str;
+-(NLSTitleModel*)getTitleForId:(NSInteger)emaId;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereTitleMatch:(NSString *)str;
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId;
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId andTitleMatch:(NSString *)str;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereMeshEquals:(NSInteger)meshId;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)str;
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId;
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)val andTitleMatch:(NSString *)str;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereJournalEquals:(NSInteger)journalId;
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereJournalEquals:(NSInteger)val andTitleMatch:(NSString *)str;
 
--(NLSTitleModel*)getFavoriteForRow:(NSUInteger)val;
+-(NLSTitleModel*)getFavoriteForRow:(NSInteger)val;
 
--(NSUInteger)getTitleCount;
--(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId;
--(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId andTitleMatch:(NSString *)str;
--(NSUInteger)getTitleCountWhereTitleMatch:(NSString*)str;
--(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId;
--(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId andTitleMatch:(NSString*)str;
+-(NSInteger)getTitleCount;
+-(NSInteger)getTitleCountWhereMeshEquals:(NSInteger)meshId;
+-(NSInteger)getTitleCountWhereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)str;
+-(NSInteger)getTitleCountWhereTitleMatch:(NSString*)str;
+-(NSInteger)getTitleCountWhereJournalEquals:(NSInteger)journalId;
+-(NSInteger)getTitleCountWhereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString*)str;
 
--(NSUInteger)getCountFromDescriptorsWhereSectionLike:str;
--(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
+-(NSInteger)getCountFromDescriptorsWhereSectionLike:str;
+-(NLSDescriptorModel*)getDescriptorForRow:(NSInteger)val whereSectionLike:(NSString *)str;
 
--(NSUInteger)getCountFromJournalsWhereSectionLike:str;
--(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str;
+-(NSInteger)getCountFromJournalsWhereSectionLike:str;
+-(NLSJournalModel*)getJournalTitleForRow:(NSInteger)val whereSectionLike:(NSString *)str;
 
--(NLSDetailModel*)getAbstractWithId:(NSUInteger)val;
+-(NLSDetailModel*)getAbstractWithId:(NSInteger)val;
 
 @end

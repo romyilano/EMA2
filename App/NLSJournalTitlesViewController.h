@@ -7,12 +7,14 @@
 //
 
 #import "NLSTitleViewController.h"
+#import "NLSTableViewCell.h"
+#import "NLSTitleModel.h"
 
 @interface NLSJournalTitlesViewController : NLSTitleViewController
 
 @property (readwrite, assign) NSUInteger section;
 @property (strong, nonatomic) NSArray *letters;
 @property (strong, nonatomic) NSString *journal;
-@property (readwrite, assign) NSUInteger journalId;
+@property (readwrite, assign) NSInteger journalId;
 
 @end

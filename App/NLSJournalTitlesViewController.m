@@ -7,8 +7,6 @@
 //
 
 #import "NLSJournalTitlesViewController.h"
-#import "NLSTableViewCell.h"
-#import "NLSTitleModel.h"
 
 @interface NLSJournalTitlesViewController ()
 
@@ -47,14 +45,14 @@
     return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId andTitleMatch:self.searchBar.text];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row WhereTitleMatch:str
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row WhereTitleMatch:str
 {
-    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereJournalEquals:self.journalId andTitleMatch:str];
+    return [self.sql getTitleAndIdForRow:(NSInteger)row whereJournalEquals:self.journalId andTitleMatch:str];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)row
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row
 {
-    return [self.sql getTitleAndIdForRow:(NSUInteger)row whereJournalEquals:self.journalId];
+    return [self.sql getTitleAndIdForRow:(NSInteger)row whereJournalEquals:self.journalId];
 }
 
 

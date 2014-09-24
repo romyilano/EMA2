@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
+#import "NLSTableViewCell.h"
+#import "NLSTitleModel.h"
+#import "NLSDetailViewController.h"
+#import "NLSDescriptorTitlesViewController.h"
+#import "PBJActivityIndicator.h"
+#import "EDColor.h"
 
 @interface NLSDescriptorViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 

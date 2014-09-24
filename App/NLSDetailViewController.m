@@ -7,8 +7,6 @@
 //
 
 #import "NLSDetailViewController.h"
-#import "NLSDetailModel.h"
-#import "EDColor.h"
 #pragma GCC diagnostic ignored "-Wselector"
 
 
@@ -377,7 +375,7 @@
         
         NSString *meshURL = [[NSString alloc] initWithFormat:@"%@",URL];
         NSLog(@"meshPath: %@", meshURL);
-        NSUInteger meshId = (NSUInteger)[[meshURL stringByReplacingOccurrencesOfString:@"mesh://"withString:@""] integerValue];
+        NSInteger meshId = [[meshURL stringByReplacingOccurrencesOfString:@"mesh://"withString:@""] integerValue];
             
         NLSDescriptorTitlesViewController *dtvc = [[NLSDescriptorTitlesViewController alloc] init];
         dtvc.letters = nil;

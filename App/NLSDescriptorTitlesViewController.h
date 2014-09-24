@@ -7,12 +7,14 @@
 //
 
 #import "NLSTitleViewController.h"
+#import "NLSTableViewCell.h"
+#import "NLSTitleModel.h"
 
 @interface NLSDescriptorTitlesViewController : NLSTitleViewController
 
 @property (readwrite, assign) NSUInteger section;
 @property (strong, nonatomic) NSArray *letters;
 @property (strong, nonatomic) NSString *descriptor;
-@property (readwrite, assign) NSUInteger meshId;
+@property (readwrite, assign) NSInteger meshId;
 
 @end

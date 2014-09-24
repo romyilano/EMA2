@@ -7,8 +7,7 @@
 //
 
 #import "NLSAboutViewController.h"
-#import "NLSDetailModel.h"
-#import "EDColor.h"
+
 #pragma GCC diagnostic ignored "-Wselector"
 
 @interface NLSAboutViewController ()

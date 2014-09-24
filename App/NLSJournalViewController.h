@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "NLSSQLAPI.h"
+#import "NLSTableViewCell.h"
+#import "NLSJournalModel.h"
+#import "NLSDetailViewController.h"
+#import "NLSJournalTitlesViewController.h"
+#import "EDColor.h"
+#import "PBJActivityIndicator.h"
+
 #include "EMAConstants.h"
 
 @interface NLSJournalViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>

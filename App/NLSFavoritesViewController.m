@@ -7,10 +7,6 @@
 //
 
 #import "NLSFavoritesViewController.h"
-#import "NLSTableViewCell.h"
-#import "NLSTitleModel.h"
-#import "NLSDetailViewController.h"
-#import "EDColor.h"
 
 @interface NLSFavoritesViewController ()
 
@@ -153,7 +149,7 @@
     }
     
     NSLog(@"indexPath: %ld", (long)indexPath.row);
-    NLSTitleModel *tm = [self.sql getFavoriteForRow:(NSUInteger)indexPath.row];
+    NLSTitleModel *tm = [self.sql getFavoriteForRow:indexPath.row];
     
     cell.textLabel.text = tm.title;
     cell.rowId = tm.rowId;
@@ -170,7 +166,7 @@
     
     NSString *string = [[NSString alloc] init];
     string = cell.textLabel.text;
-    NSUInteger rowId = cell.rowId;
+    NSInteger rowId = cell.rowId;
     NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
     
     //Push new view

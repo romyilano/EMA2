@@ -7,13 +7,6 @@
 //
 
 #import "NLSDescriptorViewController.h"
-#import "NLSTableViewCell.h"
-#import "NLSTitleModel.h"
-#import "NLSTitleViewController.h"
-#import "NLSDetailViewController.h"
-#import "NLSDescriptorTitlesViewController.h"
-#import "PBJActivityIndicator.h"
-#import "EDColor.h"
 
 @interface NLSDescriptorViewController ()
 
@@ -111,7 +104,7 @@
     }
     
     NSLog(@"indexPath.row: %ld, indexPath.section: %ld", (long)indexPath.row, (long)indexPath.section);
-    NLSDescriptorModel *dm = [self.sql getDescriptorForRow:(NSUInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
+    NLSDescriptorModel *dm = [self.sql getDescriptorForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
     
     cell.name = dm.name;
     cell.rowId = dm.rowId;

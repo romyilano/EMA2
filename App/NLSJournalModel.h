@@ -10,7 +10,7 @@
 
 @interface NLSJournalModel : NSObject
 
-@property (readwrite, assign) NSUInteger rowId;
+@property (readwrite, assign) NSInteger rowId;
 @property (strong, nonatomic) NSString *journal_title;
 @property (strong, nonatomic) NSString *issn;
 

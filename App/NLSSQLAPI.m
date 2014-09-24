@@ -121,7 +121,7 @@
 
 #pragma mark Favorites
 
--(BOOL)insertIntoFavorites:(NSUInteger)emaId
+-(BOOL)insertIntoFavorites:(NSInteger)emaId
 {
     
     NSString *query = [NSString stringWithFormat:@"INSERT INTO favorites (id) VALUES (%ld) ", (unsigned long)emaId];
@@ -136,28 +136,28 @@
     return [self runFavesSQL:query withLabel:@"Deleting from Favorites"];
 }
 
--(BOOL)deleteFromFavorites:(NSUInteger)emaId
+-(BOOL)deleteFromFavorites:(NSInteger)emaId
 {
     NSString *query = [NSString stringWithFormat:@"DELETE FROM favorites WHERE id = %ld;", (unsigned long)emaId];
     
     return [self runFavesSQL:query withLabel:@"Deleting from Favorites"];
 }
 
--(BOOL)checkForFavoriteId:(NSUInteger)emaId
+-(BOOL)checkForFavoriteId:(NSInteger)emaId
 {
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM favorites WHERE id = %ld;", (unsigned long)emaId];
     NSLog(@" faves query %@", query);
     return (BOOL)[self getFavesIntForSQL:query];
 }
 
--(NLSTitleModel*)getFavoriteForRow:(NSUInteger)val
+-(NLSTitleModel*)getFavoriteForRow:(NSInteger)val
 {
     NSString *query = [NSString stringWithFormat:@"SELECT id FROM favorites LIMIT 1 OFFSET %ld", (long)val];
-    NSUInteger emaId = [self getFavesIntForSQL:query];
+    NSInteger emaId = [self getFavesIntForSQL:query];
     return [self getTitleForId:emaId];
 }
 
--(NSUInteger)getCountFromFavorites
+-(NSInteger)getCountFromFavorites
 {
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM favorites"];
     NSLog(@"%@", query);
@@ -190,14 +190,14 @@
     
 }
 
--(NSString*)getTitleWhereId:(NSUInteger)emaId
+-(NSString*)getTitleWhereId:(NSInteger)emaId
 {
     NSString *query = [NSString stringWithFormat: @"SELECT title FROM erpubtbl WHERE id = %ld", (long)emaId];
     
     return [self getStringForSQL:query];
 }
 
--(NSArray *)getMeshDescriptorsForId:(NSUInteger)emaId
+-(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId
 {
     //Get associated mesh descriptors
     NSString *query = [NSString stringWithFormat:@"\
@@ -207,12 +207,12 @@
                        ON a.abstract_id = e.id\
                        JOIN mesh_descriptor m\
                        ON m.id = a.mesh_id\
-                       WHERE e.id = %ld", (unsigned long)emaId];
+                       WHERE e.id = %ld", emaId];
     
     return [self getMeshArrayForSQL:query];
 }
 
--(NLSTitleModel*)getTitleForId:(NSUInteger)emaId
+-(NLSTitleModel*)getTitleForId:(NSInteger)emaId
 {
     NSString * query = [NSString stringWithFormat:@"SELECT e.id, e.title, e.journal_year, j.journal_abv "
                         "FROM erpubtbl e "
@@ -224,7 +224,7 @@
     return [self getTitleModelForSQL:query];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val
 {
     NSString * query = [NSString stringWithFormat:@"\
                         SELECT e.id, e.title, e.journal_year, j.journal_abv\
@@ -236,7 +236,7 @@
     return [self getTitleModelForSQL:query];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereTitleMatch:(NSString *)str
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereTitleMatch:(NSString *)str
 {
     
     NSString *query = [NSString stringWithFormat:@"SELECT a "
@@ -246,11 +246,11 @@
                        "LIMIT 1 "
                        "OFFSET %ld", [self tokenizeSearchString:str], (unsigned long)val];
 
-    NSUInteger myId = [self getIntForSQL:query];
+    NSInteger myId = [self getIntForSQL:query];
     return [self getTitleForId:myId];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereMeshEquals:(NSInteger)meshId
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT e.abstract_id, e.title, e.journal_year, j.journal_abv\
@@ -270,7 +270,7 @@
     return [self getTitleModelForSQL:query];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereMeshEquals:(NSUInteger)meshId andTitleMatch:(NSString *)str
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT t.a\
@@ -287,12 +287,12 @@
                        LIMIT 1\
                        OFFSET %ld", (unsigned long)meshId, [self tokenizeSearchString:str], (unsigned long)val];
     
-    NSUInteger myId = [self getIntForSQL:query];
+    NSInteger myId = [self getIntForSQL:query];
     return [self getTitleForId:myId];
 
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereJournalEquals:(NSInteger)journalId
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT e.abstract_id, e.journal_year, j.journal_abv, e.title\
@@ -307,7 +307,7 @@
     return [self getTitleModelForSQL:query];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSUInteger)val whereJournalEquals:(NSUInteger)journalId andTitleMatch:(NSString *)str
+-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT t.a\
@@ -322,11 +322,11 @@
                        LIMIT 1\
                        OFFSET %ld", (unsigned long)journalId, [self tokenizeSearchString:str], (unsigned long)val];
     
-    NSUInteger myId = [self getIntForSQL:query]; //get id first
+    NSInteger myId = [self getIntForSQL:query]; //get id first
     return [self getTitleForId:myId];
 }
 
--(NSUInteger)getTitleCount
+-(NSInteger)getTitleCount
 {
 
     NSString *query = [NSString stringWithFormat:@"SELECT count(0) FROM titles"];
@@ -334,14 +334,14 @@
     return [self getCountForSQL:query];
 }
 
--(NSUInteger)getTitleCountWhereTitleMatch:(NSString*)str;
+-(NSInteger)getTitleCountWhereTitleMatch:(NSString*)str;
 {
     NSString *query = [NSString stringWithFormat:@"SELECT COUNT(0) FROM titles WHERE t MATCH '%@'", [self tokenizeSearchString:str]];
 
     return [self getCountForSQL:query];
 }
 
--(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId
+-(NSInteger)getTitleCountWhereMeshEquals:(NSInteger)meshId
 {
     NSString *query = [NSString stringWithFormat:@"SELECT count(*)\
                        FROM erpubtbl e\
@@ -354,7 +354,7 @@
     return [self getCountForSQL:query];
 }
 
--(NSUInteger)getTitleCountWhereMeshEquals:(NSUInteger)meshId andTitleMatch:(NSString *)str
+-(NSInteger)getTitleCountWhereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT count(*)\
@@ -367,10 +367,10 @@
                        WHERE md.id = %ld\
                        AND t.t MATCH '%@'", (unsigned long)meshId, [self tokenizeSearchString:str]];
     
-    return[self getCountForSQL:query];
+    return [self getCountForSQL:query];
 }
 
--(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId
+-(NSInteger)getTitleCountWhereJournalEquals:(NSInteger)journalId
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT count(*)\
@@ -382,7 +382,7 @@
     return [self getCountForSQL:query];
 }
 
--(NSUInteger)getTitleCountWhereJournalEquals:(NSUInteger)journalId andTitleMatch:(NSString *)str
+-(NSInteger)getTitleCountWhereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT count(*)\
@@ -393,12 +393,12 @@
                        WHERE j.id = %ld\
                        AND t.t MATCH '%@'", (unsigned long)journalId, [self tokenizeSearchString:str]];
     
-    return[self getCountForSQL:query];
+    return [self getCountForSQL:query];
 }
 
 #pragma mark PMIDs
 
--(NSString*)getPmidForId:(NSUInteger)emaId
+-(NSString*)getPmidForId:(NSInteger)emaId
 {
     NSString *query = [NSString stringWithFormat: @"SELECT pmid FROM erpubtbl WHERE id = %ld", (long)emaId];
 
@@ -407,7 +407,7 @@
 
 #pragma mark Descriptors
 
--(NSString*)getMeshForId:(NSUInteger)meshId
+-(NSString*)getMeshForId:(NSInteger)meshId
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT name\
@@ -416,7 +416,7 @@
     return [self getStringForSQL:query];
 }
 
--(NSUInteger)getCountFromDescriptorsWhereSectionLike:str
+-(NSInteger)getCountFromDescriptorsWhereSectionLike:str
 {
     NSString *query = [NSString stringWithFormat:@"\
                                             SELECT count(0)\
@@ -426,7 +426,7 @@
     return [self getCountForSQL:query];
 }
 
--(NLSDescriptorModel*)getDescriptorForRow:(NSUInteger)val whereSectionLike:(NSString *)str
+-(NLSDescriptorModel*)getDescriptorForRow:(NSInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT *\
@@ -441,7 +441,7 @@
 
 #pragma mark Journals
 
--(NSUInteger)getCountFromJournalsWhereSectionLike:str
+-(NSInteger)getCountFromJournalsWhereSectionLike:str
 {
     NSString *query = [NSString stringWithFormat:@"\
                        SELECT count(0)\
@@ -451,7 +451,7 @@
     return [self getCountForSQL:query];
 }
 
--(NLSJournalModel*)getJournalTitleForRow:(NSUInteger)val whereSectionLike:(NSString *)str
+-(NLSJournalModel*)getJournalTitleForRow:(NSInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:   @"SELECT * FROM "
                                                     @"journals "
@@ -465,7 +465,7 @@
 
 #pragma mark Abstracts
 
--(NLSDetailModel*)getAbstractWithId:(NSUInteger)val
+-(NLSDetailModel*)getAbstractWithId:(NSInteger)val
 {
 
     NSString *query = [NSString stringWithFormat:@"SELECT id, abstract FROM abstracts WHERE id = %ld", (unsigned long)val];
@@ -478,6 +478,7 @@
 -(NLSTitleModel*)getTitleModelForSQL:(NSString*)sql
 {
     
+    NSLog(@"...getTitleModelForSQL");
     __block FMResultSet *rs = nil;
     __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
 
@@ -489,13 +490,14 @@
             tm.title = [rs stringForColumn:@"title"];
             tm.year = [rs stringForColumn:@"journal_year"];
             tm.journal_abv = [rs stringForColumn:@"journal_abv"];
-            tm.rowId = (NSUInteger)[rs intForColumnIndex:0];
+            tm.rowId = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
     tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
+    tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
     return tm;
 }
 
@@ -511,7 +513,7 @@
         rs = [db executeQuery:sql];
         while ([rs next]) {
             dm.name = [rs stringForColumn:@"name"];
-            dm.rowId = (NSUInteger)[rs intForColumnIndex:0];
+            dm.rowId = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
@@ -554,7 +556,7 @@
         while ([rs next]) {
             jm.journal_title = [rs stringForColumn:@"journal_title"];
             jm.issn = [rs stringForColumn:@"issn"];
-            jm.rowId = (NSUInteger)[rs intForColumnIndex:0];
+            jm.rowId = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
@@ -563,22 +565,21 @@
     return jm;
 }
 
--(NSUInteger)getCountForSQL:sql
+-(NSInteger)getCountForSQL:sql
 {
     __block FMResultSet *rs = nil;
-    __block NSUInteger count = 0;
+    __block NSInteger count = 0;
     
     [self.queue inDatabase:^(FMDatabase *db) {
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
-            count = (NSUInteger)[rs intForColumnIndex:0];
+            count = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
     }];
     
-    NSLog(@"count result: %ld", (unsigned long)count);
     return count;
     
 }
@@ -601,16 +602,16 @@
     return str;
 }
 
--(NSUInteger)getIntForSQL:sql
+-(NSInteger)getIntForSQL:sql
 {
     __block FMResultSet *rs = nil;
-    __block NSUInteger myInt = 3;
+    __block NSInteger myInt = 3;
     
     [self.queue inDatabase:^(FMDatabase *db) {
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
-            myInt = (NSUInteger)[rs intForColumnIndex:0];
+            myInt = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
@@ -667,16 +668,16 @@
     
 }
 
--(NSUInteger)getFavesIntForSQL:sql
+-(NSInteger)getFavesIntForSQL:sql
 {
     __block FMResultSet *rs = nil;
-    __block NSUInteger myInt = 0;
+    __block NSInteger myInt = 0;
     
     [self.favesQ inDatabase:^(FMDatabase *db) {
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
         rs = [db executeQuery:sql];
         while ([rs next]) {
-            myInt = (NSUInteger)[rs intForColumnIndex:0];
+            myInt = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
@@ -694,7 +695,7 @@
         rs = [db executeQuery:sql];
         while ([rs next]) {
             tm.title = [rs stringForColumn:@"title"];
-            tm.rowId = (NSUInteger)[rs intForColumnIndex:0];
+            tm.rowId = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;

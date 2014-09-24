@@ -33,7 +33,10 @@
 		7B26EBDA19CD991200DB8D6B /* Favorites-selected-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26EBD219CD991200DB8D6B /* Favorites-selected-50@2x.png */; };
 		7B26EBDB19CD991200DB8D6B /* Journals-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26EBD319CD991200DB8D6B /* Journals-50@2x.png */; };
 		7B26EBDC19CD991200DB8D6B /* Journals-selected-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B26EBD419CD991200DB8D6B /* Journals-selected-50@2x.png */; };
+		7B26EBE019D1CB9900DB8D6B /* PendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B26EBDF19D1CB9900DB8D6B /* PendingOperations.m */; };
+		7B26EBE319D1CF9900DB8D6B /* SQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B26EBE219D1CF9900DB8D6B /* SQLQuery.m */; };
 		7B27260619C79B9A004C7323 /* NLSAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B27260519C79B9A004C7323 /* NLSAboutViewController.m */; };
+		7B400FBC19D223F900DF3C2F /* GKCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B400FBB19D223F900DF3C2F /* GKCache.m */; };
 		7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */; };
 		7B7D3AFF1999352B00D8B695 /* NLSSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D3AFE1999352B00D8B695 /* NLSSearchViewController.m */; };
 		7B7D3B03199A958300D8B695 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7B7D3B02199A958300D8B695 /* ema.sqlite */; };
@@ -107,9 +110,15 @@
 		7B26EBD219CD991200DB8D6B /* Favorites-selected-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Favorites-selected-50@2x.png"; sourceTree = "<group>"; };
 		7B26EBD319CD991200DB8D6B /* Journals-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Journals-50@2x.png"; sourceTree = "<group>"; };
 		7B26EBD419CD991200DB8D6B /* Journals-selected-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Journals-selected-50@2x.png"; sourceTree = "<group>"; };
+		7B26EBDE19D1CB9900DB8D6B /* PendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PendingOperations.h; sourceTree = "<group>"; };
+		7B26EBDF19D1CB9900DB8D6B /* PendingOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PendingOperations.m; sourceTree = "<group>"; };
+		7B26EBE119D1CF9800DB8D6B /* SQLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLQuery.h; sourceTree = "<group>"; };
+		7B26EBE219D1CF9900DB8D6B /* SQLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLQuery.m; sourceTree = "<group>"; };
 		7B27260419C79B9A004C7323 /* NLSAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAboutViewController.h; sourceTree = "<group>"; };
 		7B27260519C79B9A004C7323 /* NLSAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAboutViewController.m; sourceTree = "<group>"; };
 		7B27260B19C94489004C7323 /* EMAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMAConstants.h; sourceTree = "<group>"; };
+		7B400FBA19D223F900DF3C2F /* GKCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCache.h; sourceTree = "<group>"; };
+		7B400FBB19D223F900DF3C2F /* GKCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKCache.m; sourceTree = "<group>"; };
 		7B7D3AFA19991CF300D8B695 /* NLSFavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSFavoritesViewController.h; sourceTree = "<group>"; };
 		7B7D3AFB19991CF300D8B695 /* NLSFavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSFavoritesViewController.m; sourceTree = "<group>"; };
 		7B7D3AFD1999352B00D8B695 /* NLSSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSearchViewController.h; sourceTree = "<group>"; };
@@ -189,6 +198,7 @@
 		060BE1371946A814008FB3C5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7B26EBDD19D1CB7700DB8D6B /* Cache */,
 				7BBDA4E41993F0F000D6E261 /* Cells */,
 				7B1688301981B9C0008229A3 /* Models */,
 				7BCB5C2619806D7D00CD91BA /* SQL */,
@@ -284,6 +294,19 @@
 				7BBDA4EC19949D6D00D6E261 /* NLSJournalModel.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		7B26EBDD19D1CB7700DB8D6B /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				7B400FBA19D223F900DF3C2F /* GKCache.h */,
+				7B400FBB19D223F900DF3C2F /* GKCache.m */,
+				7B26EBE119D1CF9800DB8D6B /* SQLQuery.h */,
+				7B26EBE219D1CF9900DB8D6B /* SQLQuery.m */,
+				7B26EBDE19D1CB9900DB8D6B /* PendingOperations.h */,
+				7B26EBDF19D1CB9900DB8D6B /* PendingOperations.m */,
+			);
+			name = Cache;
 			sourceTree = "<group>";
 		};
 		7BBD0C4819A7B54B005E92E4 /* Icons */ = {
@@ -513,6 +536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BBDA4ED19949D6D00D6E261 /* NLSJournalModel.m in Sources */,
+				7B26EBE019D1CB9900DB8D6B /* PendingOperations.m in Sources */,
 				7B27260619C79B9A004C7323 /* NLSAboutViewController.m in Sources */,
 				0629AEA7195B4546000D2FE0 /* NLSButton.m in Sources */,
 				7B7D3AFC19991CF300D8B695 /* NLSFavoritesViewController.m in Sources */,
@@ -524,10 +548,12 @@
 				060BE13E1946A814008FB3C5 /* NLSAppDelegate.m in Sources */,
 				7BCB5C2919806E2400CD91BA /* NLSSQLAPI.m in Sources */,
 				7BBDA4F01994A9B800D6E261 /* NLSJournalTitlesViewController.m in Sources */,
+				7B26EBE319D1CF9900DB8D6B /* SQLQuery.m in Sources */,
 				7BBDA4EA199499AC00D6E261 /* NLSJournalViewController.m in Sources */,
 				7B16883619824041008229A3 /* NLSTableViewCell.m in Sources */,
 				7BBDA4E01992C17F00D6E261 /* NLSDescriptorViewController.m in Sources */,
 				0629AE9B195B42F7000D2FE0 /* NLSNSStringExtras.m in Sources */,
+				7B400FBC19D223F900DF3C2F /* GKCache.m in Sources */,
 				7B16883C1982DD72008229A3 /* NLSDetailModel.m in Sources */,
 				7BCB5C2519805B2C00CD91BA /* NLSTitleViewController.m in Sources */,
 				7B1688331981B9F8008229A3 /* NLSTitleModel.m in Sources */,
