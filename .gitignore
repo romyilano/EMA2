@@ -1,6 +1,7 @@
 /* OS X and Xcode */
 .DS_Store
 Thumbs.db
+App.*
 xcuserdata/
 *.xcodeproj/*.pbxuser
 *.xcodeproj/*.perspectivev3
@@ -11,7 +12,7 @@ xcuserdata/
 App/*.sql
 App/*.sqlite
 App/*.sqlite3
-
+App/Resources/ema.sqlite
 /* Pods */
 Pods/
 Podfile.lock
