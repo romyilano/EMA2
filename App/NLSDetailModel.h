@@ -10,7 +10,7 @@
 
 @interface NLSDetailModel : NSObject
 
-@property (readwrite, assign) NSUInteger rowId;
+@property (readwrite, assign) NSInteger rowId;
 @property (strong, atomic) NSString *abstract;
 
 @end

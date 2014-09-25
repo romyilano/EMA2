@@ -12,7 +12,6 @@
 #import "NLSTableViewCell.h"
 #import "NLSTitleModel.h"
 
-#import "GKCache.h"
 #import "EDColor.h"
 #import "PBJActivityIndicator.h"
 #import "SQLQuery.h"
@@ -28,9 +27,13 @@
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UISearchDisplayController *searchBarController;
 @property (strong, nonatomic) UIView *greenSub;
-@property (nonatomic, strong) GKCache *titles;
-@property (nonatomic, strong) PendingOperations *pendingOperations;
+@property (strong, nonatomic) NSMutableDictionary *titles;
+@property (strong, nonatomic) NSMutableDictionary *searchTitles;
+@property (strong, nonatomic) PendingOperations *pendingOperations;
 @property (assign, atomic) BOOL isSearching;
+@property (assign, atomic) BOOL searchReset;
+@property (assign, atomic) NSInteger prevSearchRowCount;
+
 
 
 - (void) hideNavShadow;

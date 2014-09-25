@@ -1,14 +1,13 @@
 //
-//  ImageDownloader.h
-//  ClassicPhotos
+//  SQLQuery.h
+//  App
 //
-//  Created by Soheil M. Azarpour on 8/11/12.
-//  Copyright (c) 2012 iOS Developer. All rights reserved.
-//
+//  Created by 4m1r on 9/23/14.
+//  Copyright (c) 2014 4m1r. All rights reserved.
 
 #import <Foundation/Foundation.h>
 
-// 1: Import PhotoRecord.h so that you can independently set the image property of a PhotoRecord once it is successfully downloaded. If downloading fails, set its failed value to YES.
+// 1: Import TitleModel so that you can independently set model once it is successfully downloaded. If downloading fails, set its failed value to YES.
 #import "NLSSQLAPI.h"
 #import "NLSTitleModel.h"
 
@@ -31,6 +30,6 @@
 
 @protocol SQLQueryDelegate <NSObject>
 
-// 5: In your delegate method, pass the whole class as an object back to the caller so that the caller can access both indexPathInTableView and photoRecord. Because you need to cast the operation to NSObject and return it on the main thread, the delegate method can’t have more than one argument.
+// 5: In your delegate method, pass the whole class as an object back to the caller so that the caller can access both indexPathInTableView and photoRecord. Because you need to cast the operation to NSObject and return it on the main thread, the delegate method can't have more than one argument.
 - (void)sqlQueryDidFinish:(SQLQuery *)query;
 @end

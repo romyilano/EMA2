@@ -17,12 +17,12 @@
 @property (strong, nonatomic) NSString *journal_abv;
 @property (strong, nonatomic) NSArray *descriptors;
 @property (strong, nonatomic) NSData *data;
+@property (strong, nonatomic) NSString *searchText;
 
 
 @property (nonatomic, readonly) BOOL hasData; // Return YES if data is downloaded.
-@property (nonatomic, getter = isAttributed) BOOL attributed; // Return YES if image is attributed
-@property (nonatomic, getter = isFailed) BOOL failed; // Return Yes if image failed to be downloaded
+@property (nonatomic, getter = isFailed) BOOL failed; // Return Yes if TitleModel failed to be populated
 
 - (id)initWithCellId:(NSInteger)cellId;
-
+- (id)initWithCellId:(NSInteger)cellId andSearchBarText:(NSString*)str;
 @end

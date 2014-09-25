@@ -1,9 +1,9 @@
 //
-//  ImageDownloader.m
-//  ClassicPhotos
+//  SQLQuery.m
+//  App
 //
-//  Created by Soheil M. Azarpour on 8/11/12.
-//  Copyright (c) 2012 iOS Developer. All rights reserved.
+//  Created by 4m1r on 9/23/14.
+//  Copyright (c) 2014 4m1r. All rights reserved.
 //
 
 #import "SQLQuery.h"
@@ -58,6 +58,7 @@
             return;
         
         NSInteger cell = self.titleModel.cellId;
+        NSString *searchText = self.titleModel.searchText;
         
         if (self.isCancelled) {
             cell = -1;
@@ -65,8 +66,16 @@
         }
         
         if (cell >= 0) {
+
             NSLog(@"setting tm for row %ld", cell);
-            NLSTitleModel *tm = [self.sql getTitleAndIdForRow:cell];
+            
+            NLSTitleModel *tm = nil;
+            if(searchText){
+                tm = [self.sql getTitleAndIdForRow:cell whereTitleMatch:searchText];
+            }else{
+                tm = [self.sql getTitleAndIdForRow:cell];
+            }
+
             self.titleModel = tm;
         }
         else {

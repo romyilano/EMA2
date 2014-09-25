@@ -23,7 +23,7 @@
     if (!_queryQueue) {
         _queryQueue = [[NSOperationQueue alloc] init];
         _queryQueue.name = @"Query Queue";
-        _queryQueue.maxConcurrentOperationCount = 1;
+        _queryQueue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
     }
     return _queryQueue;
 }

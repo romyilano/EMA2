@@ -13,7 +13,7 @@
  Art for ICONS / Splash
  test on multi-device
  add mesh terms at bottom of abstract
- MR MRI and CT and ST, UK, ED caps in Titles
+ MR MRI and CT and ST, UK, ED 3D CPR caps in Titles
  JAMA, QJM in Journals
  Link to this literature on EBM http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4076127/
  Add links from all articles to PMC http://www.ncbi.nlm.nih.gov/pmc/articles/pmid/901087/citedby/?tool=pubmed

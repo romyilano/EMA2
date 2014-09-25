@@ -534,7 +534,7 @@
         rs = [db executeQuery:sql];
         while ([rs next]) {
             dm.abstract = [NSString stringWithFormat: @"%s", [rs UTF8StringForColumnName:@"abstract"]];
-            dm.rowId = (NSUInteger)[rs intForColumnIndex:0];
+            dm.rowId = [rs intForColumnIndex:0];
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;
