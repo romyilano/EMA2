@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "060BE1341946A814008FB3C5"
-               BuildableName = "EMA.app"
+               BuildableName = "Asclepius - EMA.app"
                BlueprintName = "App"
                ReferencedContainer = "container:App.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "060BE1341946A814008FB3C5"
-            BuildableName = "EMA.app"
+            BuildableName = "Asclepius - EMA.app"
             BlueprintName = "App"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>
@@ -53,7 +53,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "060BE1341946A814008FB3C5"
-            BuildableName = "EMA.app"
+            BuildableName = "Asclepius - EMA.app"
             BlueprintName = "App"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "060BE1341946A814008FB3C5"
-            BuildableName = "EMA.app"
+            BuildableName = "Asclepius - EMA.app"
             BlueprintName = "App"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>

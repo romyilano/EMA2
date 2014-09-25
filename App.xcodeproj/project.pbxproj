@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060BE1711946D8E7008FB3C5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1701946D8E7008FB3C5 /* Foundation.framework */; };
 		060BE1721946D8F4008FB3C5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16D1946D8C5008FB3C5 /* UIKit.framework */; };
 		060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */; };
 		060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */; };
-		1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 717001B3460B4D02A20E2852 /* libPods.a */; };
-		7BB9A97A19D4C63600ACFE7B /* App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A91D19D4C63600ACFE7B /* App-Info.plist */; };
+		7B7C40BE19D4D5590011331C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1701946D8E7008FB3C5 /* Foundation.framework */; };
+		7B7C40E219D4DB440011331C /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */; };
+		7B7C40E319D4DB440011331C /* libPods-CCHLinkTextView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */; };
+		7B7C40E419D4DB440011331C /* libPods-CRGradientNavigationBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */; };
+		7B7C40E519D4DB440011331C /* libPods-EDColor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DE19D4DB440011331C /* libPods-EDColor.a */; };
+		7B7C40E619D4DB440011331C /* libPods-FMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DF19D4DB440011331C /* libPods-FMDB.a */; };
+		7B7C40E719D4DB440011331C /* libPods-PBJActivityIndicator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40E019D4DB440011331C /* libPods-PBJActivityIndicator.a */; };
+		7B7C40E819D4DB440011331C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40E119D4DB440011331C /* libPods.a */; };
 		7BB9A97B19D4C63600ACFE7B /* Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A91F19D4C63600ACFE7B /* Base.xcconfig */; };
 		7BB9A97C19D4C63600ACFE7B /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */; };
 		7BB9A97D19D4C63600ACFE7B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92219D4C63600ACFE7B /* InfoPlist.strings */; };
@@ -37,13 +42,11 @@
 		7BB9A99019D4C63600ACFE7B /* NLSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A93919D4C63600ACFE7B /* NLSAppDelegate.m */; };
 		7BB9A99119D4C63600ACFE7B /* NLSButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A93B19D4C63600ACFE7B /* NLSButton.m */; };
 		7BB9A99219D4C63600ACFE7B /* NLSFoundationExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A93D19D4C63600ACFE7B /* NLSFoundationExtras.m */; };
-		7BB9A99319D4C63600ACFE7B /* NLSNSStringExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A93F19D4C63600ACFE7B /* NLSNSStringExtras.m */; };
 		7BB9A99419D4C63600ACFE7B /* NLSUIKitExtras.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94119D4C63600ACFE7B /* NLSUIKitExtras.m */; };
 		7BB9A99519D4C63600ACFE7B /* NLSDescriptorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94419D4C63600ACFE7B /* NLSDescriptorModel.m */; };
 		7BB9A99619D4C63600ACFE7B /* NLSDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94619D4C63600ACFE7B /* NLSDetailModel.m */; };
 		7BB9A99719D4C63600ACFE7B /* NLSJournalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94819D4C63600ACFE7B /* NLSJournalModel.m */; };
 		7BB9A99819D4C63600ACFE7B /* NLSTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94A19D4C63600ACFE7B /* NLSTitleModel.m */; };
-		7BB9A99919D4C63600ACFE7B /* GKCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94D19D4C63600ACFE7B /* GKCache.m */; };
 		7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */; };
 		7BB9A99B19D4C63600ACFE7B /* PendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95119D4C63600ACFE7B /* PendingOperations.m */; };
 		7BB9A99C19D4C63600ACFE7B /* SQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95319D4C63600ACFE7B /* SQLQuery.m */; };
@@ -74,12 +77,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		060BE1351946A814008FB3C5 /* .app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = .app; sourceTree = BUILT_PRODUCTS_DIR; };
+		060BE1351946A814008FB3C5 /* EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		717001B3460B4D02A20E2852 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CCHLinkTextView.a"; path = "Pods/build/Debug-iphoneos/libPods-CCHLinkTextView.a"; sourceTree = "<group>"; };
+		7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CRGradientNavigationBar.a"; path = "Pods/build/Debug-iphoneos/libPods-CRGradientNavigationBar.a"; sourceTree = "<group>"; };
+		7B7C40DE19D4DB440011331C /* libPods-EDColor.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-EDColor.a"; path = "Pods/build/Debug-iphoneos/libPods-EDColor.a"; sourceTree = "<group>"; };
+		7B7C40DF19D4DB440011331C /* libPods-FMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FMDB.a"; path = "Pods/build/Debug-iphoneos/libPods-FMDB.a"; sourceTree = "<group>"; };
+		7B7C40E019D4DB440011331C /* libPods-PBJActivityIndicator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PBJActivityIndicator.a"; path = "Pods/build/Debug-iphoneos/libPods-PBJActivityIndicator.a"; sourceTree = "<group>"; };
+		7B7C40E119D4DB440011331C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		7BB9A91D19D4C63600ACFE7B /* App-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "App-Info.plist"; sourceTree = "<group>"; };
 		7BB9A91E19D4C63600ACFE7B /* App-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "App-Prefix.pch"; sourceTree = "<group>"; };
 		7BB9A91F19D4C63600ACFE7B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
@@ -110,8 +119,6 @@
 		7BB9A93B19D4C63600ACFE7B /* NLSButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSButton.m; sourceTree = "<group>"; };
 		7BB9A93C19D4C63600ACFE7B /* NLSFoundationExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSFoundationExtras.h; sourceTree = "<group>"; };
 		7BB9A93D19D4C63600ACFE7B /* NLSFoundationExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSFoundationExtras.m; sourceTree = "<group>"; };
-		7BB9A93E19D4C63600ACFE7B /* NLSNSStringExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSNSStringExtras.h; sourceTree = "<group>"; };
-		7BB9A93F19D4C63600ACFE7B /* NLSNSStringExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSNSStringExtras.m; sourceTree = "<group>"; };
 		7BB9A94019D4C63600ACFE7B /* NLSUIKitExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSUIKitExtras.h; sourceTree = "<group>"; };
 		7BB9A94119D4C63600ACFE7B /* NLSUIKitExtras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSUIKitExtras.m; sourceTree = "<group>"; };
 		7BB9A94319D4C63600ACFE7B /* NLSDescriptorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDescriptorModel.h; sourceTree = "<group>"; };
@@ -122,8 +129,6 @@
 		7BB9A94819D4C63600ACFE7B /* NLSJournalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalModel.m; sourceTree = "<group>"; };
 		7BB9A94919D4C63600ACFE7B /* NLSTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleModel.h; sourceTree = "<group>"; };
 		7BB9A94A19D4C63600ACFE7B /* NLSTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleModel.m; sourceTree = "<group>"; };
-		7BB9A94C19D4C63600ACFE7B /* GKCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCache.h; sourceTree = "<group>"; };
-		7BB9A94D19D4C63600ACFE7B /* GKCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKCache.m; sourceTree = "<group>"; };
 		7BB9A94E19D4C63600ACFE7B /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
 		7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLAPI.m; sourceTree = "<group>"; };
 		7BB9A95019D4C63600ACFE7B /* PendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PendingOperations.h; sourceTree = "<group>"; };
@@ -172,11 +177,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B7C40E219D4DB440011331C /* libPods-AFNetworking.a in Frameworks */,
+				7B7C40E319D4DB440011331C /* libPods-CCHLinkTextView.a in Frameworks */,
+				7B7C40E419D4DB440011331C /* libPods-CRGradientNavigationBar.a in Frameworks */,
+				7B7C40E519D4DB440011331C /* libPods-EDColor.a in Frameworks */,
+				7B7C40E619D4DB440011331C /* libPods-FMDB.a in Frameworks */,
+				7B7C40E719D4DB440011331C /* libPods-PBJActivityIndicator.a in Frameworks */,
+				7B7C40E819D4DB440011331C /* libPods.a in Frameworks */,
+				7B7C40BE19D4D5590011331C /* Foundation.framework in Frameworks */,
 				060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */,
 				060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */,
 				060BE1721946D8F4008FB3C5 /* UIKit.framework in Frameworks */,
-				060BE1711946D8E7008FB3C5 /* Foundation.framework in Frameworks */,
-				1837A0BED5AA455FAD84A454 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,7 +206,7 @@
 		060BE1361946A814008FB3C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				060BE1351946A814008FB3C5 /* .app */,
+				060BE1351946A814008FB3C5 /* EMA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -207,16 +218,16 @@
 				7BB9A91E19D4C63600ACFE7B /* App-Prefix.pch */,
 				7BB9A91F19D4C63600ACFE7B /* Base.xcconfig */,
 				7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */,
+				7BB9A95419D4C63600ACFE7B /* Release.xcconfig */,
 				7BB9A92119D4C63600ACFE7B /* EMAConstants.h */,
+				7BB9A96419D4C63600ACFE7B /* TODO.h */,
 				7BB9A92219D4C63600ACFE7B /* InfoPlist.strings */,
 				7BB9A92419D4C63600ACFE7B /* Icons */,
 				7BB9A93619D4C63600ACFE7B /* Main */,
 				7BB9A94219D4C63600ACFE7B /* Models */,
 				7BB9A94B19D4C63600ACFE7B /* Queue */,
-				7BB9A95419D4C63600ACFE7B /* Release.xcconfig */,
 				7BB9A95519D4C63600ACFE7B /* Resources */,
 				7BB9A95719D4C63600ACFE7B /* Sprites */,
-				7BB9A96419D4C63600ACFE7B /* TODO.h */,
 				7BB9A96519D4C63600ACFE7B /* Views */,
 			);
 			path = App;
@@ -225,11 +236,17 @@
 		060BE16F1946D8D3008FB3C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */,
+				7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */,
+				7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */,
+				7B7C40DE19D4DB440011331C /* libPods-EDColor.a */,
+				7B7C40DF19D4DB440011331C /* libPods-FMDB.a */,
+				7B7C40E019D4DB440011331C /* libPods-PBJActivityIndicator.a */,
+				7B7C40E119D4DB440011331C /* libPods.a */,
 				060BE1701946D8E7008FB3C5 /* Foundation.framework */,
 				060BE16D1946D8C5008FB3C5 /* UIKit.framework */,
 				060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */,
 				060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */,
-				717001B3460B4D02A20E2852 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -268,8 +285,6 @@
 				7BB9A93B19D4C63600ACFE7B /* NLSButton.m */,
 				7BB9A93C19D4C63600ACFE7B /* NLSFoundationExtras.h */,
 				7BB9A93D19D4C63600ACFE7B /* NLSFoundationExtras.m */,
-				7BB9A93E19D4C63600ACFE7B /* NLSNSStringExtras.h */,
-				7BB9A93F19D4C63600ACFE7B /* NLSNSStringExtras.m */,
 				7BB9A94019D4C63600ACFE7B /* NLSUIKitExtras.h */,
 				7BB9A94119D4C63600ACFE7B /* NLSUIKitExtras.m */,
 			);
@@ -294,8 +309,6 @@
 		7BB9A94B19D4C63600ACFE7B /* Queue */ = {
 			isa = PBXGroup;
 			children = (
-				7BB9A94C19D4C63600ACFE7B /* GKCache.h */,
-				7BB9A94D19D4C63600ACFE7B /* GKCache.m */,
 				7BB9A94E19D4C63600ACFE7B /* NLSSQLAPI.h */,
 				7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */,
 				7BB9A95019D4C63600ACFE7B /* PendingOperations.h */,
@@ -379,7 +392,7 @@
 			);
 			name = App;
 			productName = App;
-			productReference = 060BE1351946A814008FB3C5 /* .app */;
+			productReference = 060BE1351946A814008FB3C5 /* EMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -425,7 +438,6 @@
 				7BB9A9A519D4C63600ACFE7B /* Favorites-50@2x.png in Resources */,
 				7BB9A99E19D4C63600ACFE7B /* ema.sqlite in Resources */,
 				7BB9A97B19D4C63600ACFE7B /* Base.xcconfig in Resources */,
-				7BB9A97A19D4C63600ACFE7B /* App-Info.plist in Resources */,
 				7BB9A9A419D4C63600ACFE7B /* Document-selected-50@2x.png in Resources */,
 				7BB9A9A719D4C63600ACFE7B /* FavoritesHighlighted-50@2x.png in Resources */,
 				7BB9A98219D4C63600ACFE7B /* Icon-60@2x.png in Resources */,
@@ -499,9 +511,7 @@
 			files = (
 				7BB9A98F19D4C63600ACFE7B /* main.m in Sources */,
 				7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */,
-				7BB9A99919D4C63600ACFE7B /* GKCache.m in Sources */,
 				7BB9A9AF19D4C63600ACFE7B /* NLSFavoritesViewController.m in Sources */,
-				7BB9A99319D4C63600ACFE7B /* NLSNSStringExtras.m in Sources */,
 				7BB9A9B119D4C63600ACFE7B /* NLSJournalViewController.m in Sources */,
 				7BB9A99C19D4C63600ACFE7B /* SQLQuery.m in Sources */,
 				7BB9A9AE19D4C63600ACFE7B /* NLSDetailViewController.m in Sources */,
@@ -540,40 +550,56 @@
 /* Begin XCBuildConfiguration section */
 		060BE1531946A814008FB3C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				PRODUCT_NAME = "Asclepius - EMA";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		060BE1541946A814008FB3C5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BB9A95419D4C63600ACFE7B /* Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				PRODUCT_NAME = "Asclepius - EMA";
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		060BE1561946A814008FB3C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/**";
 			};
 			name = Debug;
 		};
 		060BE1571946A814008FB3C5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BB9A95419D4C63600ACFE7B /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "";
+				PODS_ROOT = "${SRCROOT}/Pods";
+				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/**";
 			};
 			name = Release;
 		};
