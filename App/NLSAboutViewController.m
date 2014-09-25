@@ -31,9 +31,13 @@
     
     dm.abstract =
     
-    @"The Emergency Medicine Abstract, 2015.\n\n"
+    @"The Emergency Medicine Abstract, 1977-2006.\n\n"
+    
+    "As published by The Center for Medical Education"
+    
+    "http://www.ccme.org"
 
-    "The Emergency Medicine Abstract is a collection of relevant literature from a broad spectrum of biomedical information.  The Abstract contains relevant Emergency Medicine literature from over 1400 of the world's medical and scientific journals.  Abstracts are sourced from the National Library of Medicine PubMed Database. Publication dates range from 1978 to 2006.\n\n"
+    "The Emergency Medicine Abstract is a collection of relevant literature from a broad spectrum of biomedical information.  The Abstract contains relevant Emergency Medicine literature from over 1400 of the world's medical and scientific journals.  These abstracts are sourced from the National Library of Medicine PubMed Database. Publication dates range from 1978 to 2006.\n\n"
     
     "The Emergency Medicine Abstract database contains over 100,000 abstracts which are stored offline for your convienience. You do not need a network connection to read them. (A network connection is required for related citations).\n\n"
     
@@ -43,7 +47,7 @@
     "PMID: PMC4076127\n\n"
     
     "[Legal Terms and Information]\n\n"
-    "Copyright 2014-2015 @adjavaherian\n\n"
+    "Copyright 2014-2015 @asclepiusabstracta\n\n"
     
     "Licensed under the Apache License, Version 2.0 (the \"License\"); "
     "you may not use this database except in compliance with the License. "

@@ -207,7 +207,7 @@
                        ON a.abstract_id = e.id\
                        JOIN mesh_descriptor m\
                        ON m.id = a.mesh_id\
-                       WHERE e.id = %ld", emaId];
+                       WHERE e.id = %ld", (long)emaId];
     
     return [self getMeshArrayForSQL:query];
 }
