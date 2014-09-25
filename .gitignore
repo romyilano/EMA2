@@ -2,6 +2,7 @@
 .DS_Store
 Thumbs.db
 App.*
+App.xcodeproj/*
 xcuserdata/
 *.xcodeproj/*.pbxuser
 *.xcodeproj/*.perspectivev3
