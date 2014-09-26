@@ -139,14 +139,14 @@ UIImageView *navBarHairlineImageView;
         
         if(self.searchReset){
             self.searchReset = NO;
-            NSLog(@"Search reset prev row count: %ld", self.prevSearchRowCount);
+            NSLog(@"Search reset prev row count: %ld", (long)self.prevSearchRowCount);
             return self.prevSearchRowCount;
         }
         
-        NSLog(@"Title Count From Match: %ld", [self getTitleCountWhereTitleMatch]);
+        NSLog(@"Title Count From Match: %ld", (long)[self getTitleCountWhereTitleMatch]);
         return [self getTitleCountWhereTitleMatch];
     }else{
-        NSLog(@"Title Count %ld", [self getTitleCount]);
+        NSLog(@"Title Count %ld", (long)[self getTitleCount]);
         return [self getTitleCount];
     }
 
@@ -209,7 +209,7 @@ UIImageView *navBarHairlineImageView;
     if (tm.hasData) {
         
         
-        NSLog(@"tm hasData: %@ rowId: %ld", tm.data, tm.rowId);
+        NSLog(@"tm hasData: %@ rowId: %ld", tm.data, (long)tm.rowId);
         [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         
         //Attribute string for year

@@ -67,7 +67,7 @@
         
         if (cell >= 0) {
 
-            NSLog(@"setting tm for row %ld", cell);
+            NSLog(@"setting tm for row %ld", (long)cell);
             
             NLSTitleModel *tm = nil;
             if(searchText){

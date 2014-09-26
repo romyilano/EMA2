@@ -77,11 +77,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		060BE1351946A814008FB3C5 /* EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		060BE1351946A814008FB3C5 /* Asclepius - EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Asclepius - EMA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CCHLinkTextView.a"; path = "Pods/build/Debug-iphoneos/libPods-CCHLinkTextView.a"; sourceTree = "<group>"; };
 		7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CRGradientNavigationBar.a"; path = "Pods/build/Debug-iphoneos/libPods-CRGradientNavigationBar.a"; sourceTree = "<group>"; };
@@ -170,6 +171,7 @@
 		7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTableViewCell.m; sourceTree = "<group>"; };
 		7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
 		7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
+		D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,13 +202,14 @@
 				060BE1371946A814008FB3C5 /* App */,
 				060BE16F1946D8D3008FB3C5 /* Frameworks */,
 				060BE1361946A814008FB3C5 /* Products */,
+				F28D3E52049AFF7A8FCC9A50 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
 		060BE1361946A814008FB3C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				060BE1351946A814008FB3C5 /* EMA.app */,
+				060BE1351946A814008FB3C5 /* Asclepius - EMA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -373,6 +376,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		F28D3E52049AFF7A8FCC9A50 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */,
+				12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -392,7 +404,7 @@
 			);
 			name = App;
 			productName = App;
-			productReference = 060BE1351946A814008FB3C5 /* EMA.app */;
+			productReference = 060BE1351946A814008FB3C5 /* Asclepius - EMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -499,7 +511,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -548,21 +560,9 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		060BE1531946A814008FB3C5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				PRODUCT_NAME = "Asclepius - EMA";
-				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "";
-			};
-			name = Debug;
-		};
 		060BE1541946A814008FB3C5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BB9A95419D4C63600ACFE7B /* Release.xcconfig */;
+			baseConfigurationReference = D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -573,35 +573,48 @@
 			};
 			name = Release;
 		};
-		060BE1561946A814008FB3C5 /* Debug */ = {
+		060BE1571946A814008FB3C5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */;
+			baseConfigurationReference = D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "App/App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/**";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Release;
+		};
+		7B7C40EB19D4E5990011331C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				PRODUCT_NAME = "Asclepius - EMA";
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
-		060BE1571946A814008FB3C5 /* Release */ = {
+		7B7C40EC19D4E5990011331C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BB9A95419D4C63600ACFE7B /* Release.xcconfig */;
+			baseConfigurationReference = 12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				INFOPLIST_FILE = "App/App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
-				PODS_ROOT = "${SRCROOT}/Pods";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/Headers/**";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -609,8 +622,8 @@
 		060BE1301946A814008FB3C5 /* Build configuration list for PBXProject "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				060BE1531946A814008FB3C5 /* Debug */,
 				060BE1541946A814008FB3C5 /* Release */,
+				7B7C40EB19D4E5990011331C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -618,8 +631,8 @@
 		060BE1551946A814008FB3C5 /* Build configuration list for PBXNativeTarget "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				060BE1561946A814008FB3C5 /* Debug */,
 				060BE1571946A814008FB3C5 /* Release */,
+				7B7C40EC19D4E5990011331C /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
