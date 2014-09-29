@@ -12,5 +12,5 @@
 #endif
 
 #ifndef DEBUG
-    #define NSLog(...) /* suppress NSLog when in release mode */
+#define NSLog(...) /* suppress NSLog when in release mode */
 #endif
