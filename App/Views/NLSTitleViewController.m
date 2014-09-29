@@ -69,6 +69,7 @@ UIImageView *navBarHairlineImageView;
 
 - (void)viewDidLoad
 {
+    NSLog(@"View Did Load");
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self loadSearchBar];
@@ -94,10 +95,12 @@ UIImageView *navBarHairlineImageView;
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
     [self.titles removeAllObjects];
     [self.searchTitles removeAllObjects];
-    // Dispose of any resources that can be recreated.
+    [self.tableView reloadData];
+    [self.searchBarController.searchResultsTableView reloadData];
+    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - SQL Overides
@@ -133,7 +136,6 @@ UIImageView *navBarHairlineImageView;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-
     // Return the number of rows in the section.
     if (self.isSearching){
         
@@ -167,6 +169,7 @@ UIImageView *navBarHairlineImageView;
 {
     
 
+    //NSLog(@"Table View: %@", tableView);
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     if (!cell) {
@@ -186,6 +189,7 @@ UIImageView *navBarHairlineImageView;
     NLSTitleModel *tm = nil;
     
     if (self.isSearching){
+        NSLog(@"Using searchTitles cache");
         cachePointer = self.searchTitles;
         tm = [self getTitleAndIdForRow:indexPath.row WhereTitleMatch:self.searchBar.text];
     }else{
@@ -395,13 +399,12 @@ UIImageView *navBarHairlineImageView;
         [tv endUpdates];
         
     }else{
-        NSLog(@"is searching...");
+        NSLog(@"sqlQueryDidFinish is searching...");
         tv = self.searchDisplayController.searchResultsTableView;
         [self.searchTitles removeObjectForKey:indexPath];
         [self.searchTitles setObject:tm forKey:indexPath];
-        [tv beginUpdates];
         [tv reloadData];
-        [tv endUpdates];
+
     }
     
     
@@ -434,17 +437,17 @@ UIImageView *navBarHairlineImageView;
 
 #pragma mark Search Controller
 
-- (void)hideNavShadow {
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    
-    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
-                       forBarPosition:UIBarPositionAny
-                           barMetrics:UIBarMetricsDefault];
-    
-    [navigationBar setShadowImage:[UIImage new]];
-    navBarHairlineImageView = [self findHairlineImageViewUnder:navigationBar];
-
-}
+//- (void)hideNavShadow {
+//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+//    
+//    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
+//                       forBarPosition:UIBarPositionAny
+//                           barMetrics:UIBarMetricsDefault];
+//    
+//    [navigationBar setShadowImage:[UIImage new]];
+//    navBarHairlineImageView = [self findHairlineImageViewUnder:navigationBar];
+//
+//}
 
 - (void)loadSearchBar {
     
@@ -518,7 +521,6 @@ UIImageView *navBarHairlineImageView;
         //temporarily disable controller
         controller.delegate = nil;
         [self.searchTitles removeAllObjects];
-        
 
         //re-enable controller
         controller.delegate = self;
@@ -533,16 +535,8 @@ UIImageView *navBarHairlineImageView;
 
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    [self.searchTitles removeAllObjects];
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSLog(@"Search Clicked");
-}
-
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-    NSLog(@"starting search");
+    NSLog(@"Starting search");
     self.isSearching = YES;
     [self.greenSub removeFromSuperview];
     [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
@@ -562,36 +556,36 @@ UIImageView *navBarHairlineImageView;
 
 #pragma mark Utils
 
-- (UIImageView *) findHairlineImageViewUnder:(UIView *)view
-{
-     NSLog(@"Find hairline image %@", view);
-    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
-         NSLog(@"found hairline image %@", view);
-        return (UIImageView *)view;
-    }
-    for (UIView *subview in view.subviews) {
-        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
-        if (imageView) {
-            return imageView;
-        }
-    }
-    return nil;
-}
-
-- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height
-{
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, height);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
+//- (UIImageView *) findHairlineImageViewUnder:(UIView *)view
+//{
+//     NSLog(@"Find hairline image %@", view);
+//    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+//         NSLog(@"found hairline image %@", view);
+//        return (UIImageView *)view;
+//    }
+//    for (UIView *subview in view.subviews) {
+//        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+//        if (imageView) {
+//            return imageView;
+//        }
+//    }
+//    return nil;
+//}
+//
+//- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height
+//{
+//    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, height);
+//    UIGraphicsBeginImageContext(rect.size);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    
+//    CGContextSetFillColorWithColor(context, [color CGColor]);
+//    CGContextFillRect(context, rect);
+//    
+//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    
+//    return image;
+//}
 
 #pragma mark -
 #pragma mark - UIScrollView delegate

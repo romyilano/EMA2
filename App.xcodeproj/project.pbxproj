@@ -566,7 +566,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				PRODUCT_NAME = "Asclepius - EMA";
+				PRODUCT_NAME = "Colleen's - EMA";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
@@ -596,7 +596,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				PRODUCT_NAME = "Asclepius - EMA";
+				PRODUCT_NAME = "Colleen's - EMA";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;

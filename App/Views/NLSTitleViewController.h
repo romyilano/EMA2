@@ -36,8 +36,8 @@
 
 
 
-- (void) hideNavShadow;
-- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height;
+//- (void) hideNavShadow;
+//- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height;
 - (void)sqlQueryDidFinish:(SQLQuery *)query;
 
 @end
