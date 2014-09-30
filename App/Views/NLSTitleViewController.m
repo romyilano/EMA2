@@ -142,9 +142,9 @@
     __block NSString *bString = self.searchBar.text;
     
     if (self.isSearching){
-        NSLog(@"Using searchTitles cache");
+        NSLog(@"Using searchTitles cache with str: %@", bString);
         
-        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:self.searchBar.text];
+        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:bString];
         tm.sqlQuery = ^{
             return [self.sql getTitleAndIdForRow:bRow whereTitleMatch:bString];
         };
@@ -217,12 +217,14 @@
     }
     
     // 2: The data source contains instances of TitleModels. Get a hold of each of them based on the indexPath of the row.
-    [self addRowToCachesViaPath:indexPath];
+
     // Get tm from cache
     NLSTitleModel *tm = nil;
     
     if([self.cachePointer count] > indexPath.row){
         tm = [self.cachePointer objectAtIndex:indexPath.row];
+    }else{
+        [self addRowToCachesViaPath:indexPath];
     }
     
     // 3: Inspect the TitleModel. If its data is downloaded, display the data, and stop the activity indicator.
@@ -402,8 +404,6 @@
         tv = self.searchDisplayController.searchResultsTableView;
         [tv reloadData];
     }
-
-    
     
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
     [self.pendingOperations.queriesInProgress removeObjectForKey:indexPath];

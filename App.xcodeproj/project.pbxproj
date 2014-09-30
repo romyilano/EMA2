@@ -77,7 +77,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		060BE1351946A814008FB3C5 /* Asclepius - EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Asclepius - EMA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		060BE1351946A814008FB3C5 /* Colleen's - EMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Colleen's - EMA.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -209,7 +209,7 @@
 		060BE1361946A814008FB3C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				060BE1351946A814008FB3C5 /* Asclepius - EMA.app */,
+				060BE1351946A814008FB3C5 /* Colleen's - EMA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -404,7 +404,7 @@
 			);
 			name = App;
 			productName = App;
-			productReference = 060BE1351946A814008FB3C5 /* Asclepius - EMA.app */;
+			productReference = 060BE1351946A814008FB3C5 /* Colleen's - EMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

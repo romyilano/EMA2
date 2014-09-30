@@ -238,7 +238,7 @@
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereTitleMatch:(NSString *)str
 {
-    NSLog(@"getTitleAndIdForRow: %ld", (long)val);
+    NSLog(@"getTitleAndIdForRow: %ld where str: %@", (long)val, str);
     
     NSString *query = [NSString stringWithFormat:@"SELECT a "
                        "FROM titles "
