@@ -24,31 +24,54 @@
 @synthesize greenSub = _greenSub;
 @synthesize titles = _titles;
 @synthesize searchTitles = _searchTitles;
+@synthesize cachePointer = _cachePointer;
 @synthesize pendingOperations = _pendingOperations;
 @synthesize searchReset = _searchReset;
 @synthesize prevSearchRowCount = _prevSearchRowCount;
+@synthesize lastIndex = _lastIndex;
 
-UIImageView *navBarHairlineImageView;
-
-- (PendingOperations *)pendingOperations {
+//Setup titles cache
+- (PendingOperations *)pendingOperations
+{
     if (!_pendingOperations) {
         _pendingOperations = [[PendingOperations alloc] init];
     }
     return _pendingOperations;
 }
 
+- (NSMutableArray*)cachePointer
+{
+    if (self.isSearching){
+        NSLog(@"Using searchTitles cache");
+        return self.searchTitles;
+    }else{
+        return self.titles;
+    }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
 
 #pragma mark - view lifecycle
 
 - (void)loadView
 {
+    //Setup indicator
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
+    //Setup SQL for counts
     self.sql = [NLSSQLAPI sharedManager];
     
-    //setup titles cache
-    self.titles = [[NSMutableDictionary alloc] init];
-    self.searchTitles = [[NSMutableDictionary alloc] init];
+    //caches
+    self.titles = [[NSMutableArray alloc] init];
+    self.searchTitles = [[NSMutableArray alloc] init];
     
+    //Setup last index
+    self.lastIndex = [[NSIndexPath alloc] init];
+    
+    //Setup table view
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
     tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     tableView.delegate = self;
@@ -60,7 +83,6 @@ UIImageView *navBarHairlineImageView;
     self.isSearching = NO;
     self.searchReset = NO;
     self.prevSearchRowCount = 0;
-    
     self.greenSub = [[UIView alloc] initWithFrame:CGRectMake(0, -44, 320, 86)];
     self.greenSub.backgroundColor = [UIColor colorWithHexString:searchGreen];
     
@@ -71,26 +93,24 @@ UIImageView *navBarHairlineImageView;
 {
     NSLog(@"View Did Load");
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     [self loadSearchBar];
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    //Clear back button
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
     [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
     NSLog(@"view will appear");
+    [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-}
-
--(UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,14 +135,29 @@ UIImageView *navBarHairlineImageView;
     return (NSInteger)[self.sql getTitleCountWhereTitleMatch:self.searchBar.text];
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row WhereTitleMatch:str
+-(NLSTitleModel*)createTitleForRow:(NSInteger)row
 {
-    return [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:self.searchBar.text];
-}
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row
-{
-    return [[NLSTitleModel alloc] initWithCellId:row];
+    __block NSInteger bRow = row;
+    __block NSString *bString = self.searchBar.text;
+    
+    if (self.isSearching){
+        NSLog(@"Using searchTitles cache");
+        
+        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:self.searchBar.text];
+        tm.sqlQuery = ^{
+            return [self.sql getTitleAndIdForRow:bRow whereTitleMatch:bString];
+        };
+        return tm;
+    }else{
+        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:nil];
+        tm.sqlQuery = ^{
+            return [self.sql getTitleAndIdForRow:bRow];
+        };
+        
+        return tm;
+    }
+    
 }
 
 #pragma mark - Table view data source
@@ -167,7 +202,6 @@ UIImageView *navBarHairlineImageView;
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
 
     //NSLog(@"Table View: %@", tableView);
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -182,36 +216,17 @@ UIImageView *navBarHairlineImageView;
         cell.textLabel.attributedText = nil;
     }
     
-    
     // 2: The data source contains instances of TitleModels. Get a hold of each of them based on the indexPath of the row.
-    
-    NSMutableDictionary *cachePointer = nil;
+    [self addRowToCachesViaPath:indexPath];
+    // Get tm from cache
     NLSTitleModel *tm = nil;
     
-    if (self.isSearching){
-        NSLog(@"Using searchTitles cache");
-        cachePointer = self.searchTitles;
-        tm = [self getTitleAndIdForRow:indexPath.row WhereTitleMatch:self.searchBar.text];
-    }else{
-        cachePointer = self.titles;
-        tm = [self getTitleAndIdForRow:indexPath.row];
+    if([self.cachePointer count] > indexPath.row){
+        tm = [self.cachePointer objectAtIndex:indexPath.row];
     }
-    
-    //NSLog(@"tableview is %@, using cache: %@", tableView, cachePointer.allKeys);
-    
-    if(![cachePointer objectForKey:indexPath]){
-        //add to cache and begin operations
-        NSLog(@"Not found.  Adding to cache.");
-        [cachePointer setObject:tm forKey:indexPath];
-    }else{
-        NSLog(@"yay! found in cache: %@", indexPath);
-        tm = [cachePointer objectForKey:indexPath];
-    }
-    
     
     // 3: Inspect the TitleModel. If its data is downloaded, display the data, and stop the activity indicator.
     if (tm.hasData) {
-        
         
         NSLog(@"tm hasData: %@ rowId: %ld", tm.data, (long)tm.rowId);
         [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
@@ -298,24 +313,53 @@ UIImageView *navBarHairlineImageView;
     return cell;
 }
 
+//- (void)tableView:(UITableView *)tableView  willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    self.lastIndex = [self.tableView indexPathsForVisibleRows].lastObject;
+//    NSLog(@"LAST index, %@", self.lastIndex);
+//    if(indexPath == self.lastIndex){
+//        
+//        NSLog(@"Whoohoo, last index %@", indexPath);
+//        
+//        NSInteger lookAhead = 15;
+//        if((self.lastIndex.row + lookAhead) > [self getTitleCount]){
+//            lookAhead = 0;
+//        }
+//        
+//        for(int i = 0; i <= lookAhead; i++){
+//            NSIndexPath *newPath = [NSIndexPath indexPathForRow:(indexPath.row + i) inSection:indexPath.section];
+//            [self addPathToCaches:newPath];
+//        }
+//    }
+//    
+//}
 
-#pragma mark TM Operations
+#pragma mark Cache Operations
 
-// 1: To keep it simple, you pass in an instance of TitleModel that requires operations, along with its indexPath.
+- (void)addRowToCachesViaPath:(NSIndexPath*)path
+{
+    NLSTitleModel *tm = [self createTitleForRow:path.row];
+    NSLog(@"Adding %@ to cache.", tm);
+    [self.cachePointer addObject:tm];
+    [self startOperationsForTitleModel:tm atIndexPath:path];
+    
+}
+
 - (void)startOperationsForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath
 {
  
-    NSLog(@"operating on cell: %@", indexPath);
     // 2: You inspect it to see whether it has data if so, then ignore it.
     if (!tm.hasData) {
-        NSLog(@"tm does not have data %d", tm.hasData);
+        NSLog(@"tm at: %@ does not have data %d", indexPath, tm.hasData);
         // 3: If it does not have an title, start query by calling startQueryForTitleModel:atIndexPath:
         [self startQueryForTitleModel:tm atIndexPath:indexPath];
     }
     
 }
 
-- (void)startQueryForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath {
+- (void)startQueryForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath
+{
     
     // 1: First, check for the particular indexPath to see if there is already an operation in downloadsInProgress for it. If so, ignore it.
     if (![self.pendingOperations.queriesInProgress.allKeys containsObject:indexPath]) {
@@ -325,58 +369,12 @@ UIImageView *navBarHairlineImageView;
         SQLQuery *sqlQuery = [[SQLQuery alloc] initWithTitleModel:tm atIndexPath:indexPath delegate:self];
         [self.pendingOperations.queriesInProgress setObject:sqlQuery forKey:indexPath];
         [self.pendingOperations.queryQueue addOperation:sqlQuery];
+
     }
 }
 
-- (void)loadTitlesForOnscreenCells {
-    
-    // 1: Get a set of visible rows.
-    NSSet *visibleRows = nil;
-    NSMutableDictionary *cachePointer = nil;
-    
-    if(self.isSearching){
-        NSLog(@"is searching...");
-        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
-        cachePointer = self.searchTitles;
-    }else{
-        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
-        cachePointer = self.titles;
-    }
-    
-    // 2: Get a set of all pending operations
-    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.queriesInProgress allKeys]];
-    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
-    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
-    
-    // 3: Rows (or indexPaths) that need an operation = visible rows n pendings.
-    [toBeStarted minusSet:pendingOperations];
-    
-    // 4: Rows (or indexPaths) that their operations should be cancelled = pendings ñ visible rows.
-    [toBeCancelled minusSet:visibleRows];
-    
-    // 5: Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
-    for (NSIndexPath *anIndexPath in toBeCancelled) {
-        SQLQuery *pendingQuery = [self.pendingOperations.queriesInProgress objectForKey:anIndexPath];
-        [pendingQuery cancel];
-        [self.pendingOperations.queriesInProgress removeObjectForKey:anIndexPath];
-        
-    }
-    toBeCancelled = nil;
-    
-    // 6: Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
-    for (NSIndexPath *anIndexPath in toBeStarted) {
-        NLSTitleModel *tmToProcess = [cachePointer objectForKey:anIndexPath];
-        [self startOperationsForTitleModel:tmToProcess atIndexPath:anIndexPath];
-    }
-    toBeStarted = nil;
-    
-}
-
-
-#pragma mark - SQLQuery delegate
-
-
-- (void)sqlQueryDidFinish:(SQLQuery *)query {
+- (void)sqlQueryDidFinish:(SQLQuery *)query
+{
     
     // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
     NSIndexPath *indexPath = query.indexPathInTableView;
@@ -386,27 +384,25 @@ UIImageView *navBarHairlineImageView;
     NLSTitleModel *tm = query.titleModel;
     
     // 3: Replace the updated TitleModel in the main data source (Titles array).
-    NSLog(@"titles key %@", indexPath);
-    
+    if([self.cachePointer count] > indexPath.row){
+        NSLog(@"cachePointer has values, replacing %@ at index %ld", tm, (unsigned long)indexPath.row);
+        [self.cachePointer replaceObjectAtIndex:indexPath.row withObject:tm];
+    }
+
     // 4: Update UI.
     UITableView *tv = nil;
     if(!self.isSearching){
+        NSLog(@"sqlQueryDidFinish, not searching");
         tv = self.tableView;
-        [self.titles removeObjectForKey:indexPath];
-        [self.titles setObject:tm forKey:indexPath];
         [tv beginUpdates];
         [tv reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [tv endUpdates];
-        
     }else{
         NSLog(@"sqlQueryDidFinish is searching...");
         tv = self.searchDisplayController.searchResultsTableView;
-        [self.searchTitles removeObjectForKey:indexPath];
-        [self.searchTitles setObject:tm forKey:indexPath];
         [tv reloadData];
-
     }
-    
+
     
     
     // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
@@ -414,8 +410,69 @@ UIImageView *navBarHairlineImageView;
     
 }
 
-#pragma mark DidSelectRow
+//- (void)loadTitlesForOnscreenCells {
+//    
+//    // 1: Get a set of visible rows.
+//    NSSet *visibleRows = nil;
+//    NSMutableDictionary *cachePointer = nil;
+//    
+//    if(self.isSearching){
+//        NSLog(@"is searching...");
+//        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+//        cachePointer = self.searchTitles;
+//    }else{
+//        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+//        cachePointer = self.titles;
+//    }
+//    
+//    // 2: Get a set of all pending operations
+//    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.queriesInProgress allKeys]];
+//    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
+//    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
+//    
+//    // 3: Rows (or indexPaths) that need an operation = visible rows n pendings.
+//    [toBeStarted minusSet:pendingOperations];
+//    
+//    // 4: Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
+//    [toBeCancelled minusSet:visibleRows];
+//    
+//    // 5: Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
+//    for (NSIndexPath *anIndexPath in toBeCancelled) {
+//        SQLQuery *pendingQuery = [self.pendingOperations.queriesInProgress objectForKey:anIndexPath];
+//        [pendingQuery cancel];
+//        [self.pendingOperations.queriesInProgress removeObjectForKey:anIndexPath];
+//        
+//    }
+//    toBeCancelled = nil;
+//    
+//    // 6: Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
+//    for (NSIndexPath *anIndexPath in toBeStarted) {
+//        NLSTitleModel *tmToProcess = [cachePointer objectForKey:anIndexPath];
+//        [self startOperationsForTitleModel:tmToProcess atIndexPath:anIndexPath];
+//    }
+//    toBeStarted = nil;
+//    
+//}
 
+
+#pragma mark - Cancelling, suspending, resuming queues / operations
+
+- (void)suspendAllOperations
+{
+    [self.pendingOperations.queryQueue setSuspended:YES];
+}
+
+- (void)resumeAllOperations
+{
+    [self.pendingOperations.queryQueue setSuspended:NO];
+}
+
+- (void)cancelAllOperations
+{
+    [self.pendingOperations.queryQueue cancelAllOperations];
+}
+
+#pragma mark DidSelectRow
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -434,22 +491,10 @@ UIImageView *navBarHairlineImageView;
     [self.navigationController pushViewController:dvc animated:TRUE];
 }
 
-
 #pragma mark Search Controller
 
-//- (void)hideNavShadow {
-//    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-//    
-//    [navigationBar setBackgroundImage:[UIImage imageNamed:@"NavigationBarBackground"]
-//                       forBarPosition:UIBarPositionAny
-//                           barMetrics:UIBarMetricsDefault];
-//    
-//    [navigationBar setShadowImage:[UIImage new]];
-//    navBarHairlineImageView = [self findHairlineImageViewUnder:navigationBar];
-//
-//}
-
-- (void)loadSearchBar {
+- (void)loadSearchBar
+{
     
     NSLog(@"Loading SearchBar");
     
@@ -488,24 +533,15 @@ UIImageView *navBarHairlineImageView;
     
     self.searchBarController = searchBarController;
     self.searchBar = self.searchBarController.searchBar;
-    
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     self.tableView.tableHeaderView = self.searchBarController.searchBar;
     [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
 }
 
-//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-//    self.isSearching = YES;
-//
-//}
-//
-//-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-//    NSLog(@"Text search stopped");
-//    self.isSearching = NO;
-//
-//}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
     NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
     for (UIView *subview in self.view.subviews)
     {
@@ -514,14 +550,14 @@ UIImageView *navBarHairlineImageView;
             [self.greenSub removeFromSuperview];
             [subview insertSubview:self.greenSub atIndex:1];
         }
-    }    
-    
+    }
+
     if([searchString length] > 1){
         
         //temporarily disable controller
         controller.delegate = nil;
         [self.searchTitles removeAllObjects];
-
+        [self.searchDisplayController.searchResultsTableView reloadData];
         //re-enable controller
         controller.delegate = self;
 
@@ -535,14 +571,19 @@ UIImageView *navBarHairlineImageView;
 
 }
 
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+{
     NSLog(@"Starting search");
-    self.isSearching = YES;
     [self.greenSub removeFromSuperview];
     [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
 }
 
--(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+    self.isSearching = YES;
+}
+
+-(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
     NSLog(@"Cancel clicked or did end search");
     self.isSearching = NO;
     self.searchReset = YES;
@@ -550,88 +591,29 @@ UIImageView *navBarHairlineImageView;
     [self.searchTitles removeAllObjects];
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView {
-    NSLog(@"Did hide view clicked");
-}
-
-#pragma mark Utils
-
-//- (UIImageView *) findHairlineImageViewUnder:(UIView *)view
-//{
-//     NSLog(@"Find hairline image %@", view);
-//    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
-//         NSLog(@"found hairline image %@", view);
-//        return (UIImageView *)view;
-//    }
-//    for (UIView *subview in view.subviews) {
-//        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
-//        if (imageView) {
-//            return imageView;
-//        }
-//    }
-//    return nil;
-//}
-//
-//- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height
-//{
-//    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, height);
-//    UIGraphicsBeginImageContext(rect.size);
-//    CGContextRef context = UIGraphicsGetCurrentContext();
-//    
-//    CGContextSetFillColorWithColor(context, [color CGColor]);
-//    CGContextFillRect(context, rect);
-//    
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    return image;
-//}
-
-#pragma mark -
 #pragma mark - UIScrollView delegate
 
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
 }
 
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
     // 2: If the value of decelerate is NO, that means the user stopped dragging the table view. Therefore you want to resume suspended operations, cancel operations for offscreen cells, and start operations for onscreen cells.
     if (!decelerate) {
-        [self loadTitlesForOnscreenCells];
+//        [self loadTitlesForOnscreenCells];
         [self resumeAllOperations];
     }
 }
 
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     // 3: This delegate method tells you that table view stopped scrolling, so you will do the same as in #2.
-    [self loadTitlesForOnscreenCells];
+//    [self loadTitlesForOnscreenCells];
     [self resumeAllOperations];
 }
-
-#pragma mark -
-#pragma mark - Cancelling, suspending, resuming queues / operations
-
-
-- (void)suspendAllOperations {
-    [self.pendingOperations.queryQueue setSuspended:YES];
-}
-
-
-- (void)resumeAllOperations {
-    [self.pendingOperations.queryQueue setSuspended:NO];
-}
-
-
-- (void)cancelAllOperations {
-    [self.pendingOperations.queryQueue cancelAllOperations];
-}
-
-
-
 
 
 

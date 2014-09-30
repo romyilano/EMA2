@@ -31,22 +31,25 @@
     
     dm.abstract =
     
-    @"The Emergency Medicine Abstract, 2015.\n\n"
+    @"Colleen's - The Emergency Medicine Abstract 2015.\n\n"
 
     "The Emergency Medicine Abstract is a collection of relevant literature from a broad spectrum of biomedical information.  The Abstract contains relevant Emergency Medicine literature from over 1400 of the world's medical and scientific journals.  Abstracts are sourced from the National Library of Medicine PubMed Database. Publication dates range from 1978 to 2006.\n\n"
+
+    "Read more about EMA:\n"
+    "http://www.ccme.org/EMA/ \n\n"
     
-    "The Emergency Medicine Abstract database contains over 100,000 abstracts which are stored offline for your convienience. You do not need a network connection to read them. (A network connection is required for related citations).\n\n"
+    "Colleen's EMA Edition contains over 100,000 abstracts from EMA which are stored in the App. You do not need a network connection to read or search them. (A network connection is required to view related citations).\n\n"
     
-    "The Emergency Medicine Abstract encompasses over 12,000 Medical Subject Headings, or \"MeSH\" descriptors.  The Descriptors can be used to narrow down search results to specific topics.  Boolean search controllers allow you to do a full text search of the database using inline \"AND, OR, NOT\" (case insensitive) operators.  Descriptors, years and titles are included in the basic search.\n\n"
+    "This edition covers 12,000 Medical Subject Headings, or \"MeSH\" descriptors.  The Descriptors can be used to narrow down search results or specific topics.  Boolean search controllers allow you to do a full text search of the database using inline \"AND, OR, NOT\" (case insensitive) operators.  Descriptors, years and titles are included in the basic search.\n\n"
 
     "Read more about evidence-based medicine:\n"
     "PMID: PMC4076127\n\n"
     
     "[Legal Terms and Information]\n\n"
-    "Copyright 2014-2015 @adjavaherian\n\n"
+    "Copyright 2014-2015 Colleen's Inc.\n\n"
     
     "Licensed under the Apache License, Version 2.0 (the \"License\"); "
-    "you may not use this database except in compliance with the License. "
+    "you may not use this software except in compliance with the License. "
     "You may obtain a copy of the License at\n\n"
     
     "http://www.apache.org/licenses/LICENSE-2.0\n\n"

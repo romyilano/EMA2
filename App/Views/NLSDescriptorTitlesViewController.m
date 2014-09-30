@@ -61,5 +61,16 @@
     return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId];
 }
 
+//-(NLSTitleModel*)createTitleForRow:(NSInteger)row
+//{
+//    if (self.isSearching){
+//        NSLog(@"Using searchTitles cache");
+//        return [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:self.searchBar.text];
+//    }else{
+//        return [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:nil];
+//    }
+//    
+//}
+
 
 @end

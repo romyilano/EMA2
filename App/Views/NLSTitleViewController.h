@@ -27,17 +27,16 @@
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UISearchDisplayController *searchBarController;
 @property (strong, nonatomic) UIView *greenSub;
-@property (strong, nonatomic) NSMutableDictionary *titles;
-@property (strong, nonatomic) NSMutableDictionary *searchTitles;
+@property (strong, nonatomic) NSMutableArray *titles;
+@property (strong, nonatomic) NSMutableArray *searchTitles;
+@property (strong, nonatomic) NSMutableArray *cachePointer;
 @property (strong, nonatomic) PendingOperations *pendingOperations;
 @property (assign, atomic) BOOL isSearching;
 @property (assign, atomic) BOOL searchReset;
 @property (assign, atomic) NSInteger prevSearchRowCount;
+@property (strong, nonatomic) NSIndexPath *lastIndex;
 
 
-
-//- (void) hideNavShadow;
-//- (UIImage*) imageWithColor:(UIColor*)color andHeight:(CGFloat)height;
 - (void)sqlQueryDidFinish:(SQLQuery *)query;
 
 @end

@@ -238,6 +238,7 @@
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereTitleMatch:(NSString *)str
 {
+    NSLog(@"getTitleAndIdForRow: %ld", (long)val);
     
     NSString *query = [NSString stringWithFormat:@"SELECT a "
                        "FROM titles "
@@ -247,6 +248,8 @@
                        "OFFSET %ld", [self tokenizeSearchString:str], (unsigned long)val];
 
     NSInteger myId = [self getIntForSQL:query];
+    NSLog(@"myId: %ld", (long)myId);
+    
     return [self getTitleForId:myId];
 }
 
@@ -478,7 +481,7 @@
 -(NLSTitleModel*)getTitleModelForSQL:(NSString*)sql
 {
     
-    NSLog(@"...getTitleModelForSQL");
+    NSLog(@"SQLAPI - getTitleModelForSQL %@", sql);
     __block FMResultSet *rs = nil;
     __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
 
@@ -491,6 +494,7 @@
             tm.year = [rs stringForColumn:@"journal_year"];
             tm.journal_abv = [rs stringForColumn:@"journal_abv"];
             tm.rowId = [rs intForColumnIndex:0];
+            NSLog(@"rowId: %ld", (long)tm.rowId);
         }
         [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
         return;

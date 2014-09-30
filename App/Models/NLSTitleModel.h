@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSData *data;
 @property (strong, nonatomic) NSString *searchText;
 
+@property (copy) NLSTitleModel* (^sqlQuery)(void);
 
 @property (nonatomic, readonly) BOOL hasData; // Return YES if data is downloaded.
 @property (nonatomic, getter = isFailed) BOOL failed; // Return Yes if TitleModel failed to be populated

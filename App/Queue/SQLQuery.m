@@ -69,12 +69,7 @@
 
             NSLog(@"setting tm for row %ld", (long)cell);
             
-            NLSTitleModel *tm = nil;
-            if(searchText){
-                tm = [self.sql getTitleAndIdForRow:cell whereTitleMatch:searchText];
-            }else{
-                tm = [self.sql getTitleAndIdForRow:cell];
-            }
+            NLSTitleModel *tm = self.titleModel.sqlQuery();
 
             self.titleModel = tm;
         }
