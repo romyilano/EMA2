@@ -1,5 +1,7 @@
 ## EMA (Emergency Medicine Abstracts)
 
+[Imgur](http://i.imgur.com/wtJY3y6.png)
+
 #### Installation
 
 - install [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
