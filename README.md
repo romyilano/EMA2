@@ -1,6 +1,6 @@
 ## EMA (Emergency Medicine Abstracts)
 
-[Imgur](http://i.imgur.com/wtJY3y6.png)
+![alt text](http://i.imgur.com/wtJY3y6.png "")
 
 #### Installation
 
