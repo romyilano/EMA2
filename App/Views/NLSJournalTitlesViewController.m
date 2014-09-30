@@ -55,5 +55,31 @@
     return [self.sql getTitleAndIdForRow:(NSInteger)row whereJournalEquals:self.journalId];
 }
 
+-(NLSTitleModel*)createTitleForRow:(NSInteger)row
+{
+    
+    __block NSInteger bRow = row;
+    __block NSString *bString = self.searchBar.text;
+    __block NSInteger bJournal = self.journalId;
+    
+    if (self.isSearching){
+        NSLog(@"Using searchTitles cache with str: %@", bString);
+        
+        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:bString];
+        tm.sqlQuery = ^{
+            return [self.sql getTitleAndIdForRow:bRow whereJournalEquals:bJournal andTitleMatch:bString];
+        };
+        return tm;
+    }else{
+        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:nil];
+        tm.sqlQuery = ^{
+            return [self.sql getTitleAndIdForRow:bRow whereJournalEquals:bJournal];
+        };
+        
+        return tm;
+    }
+    
+}
+
 
 @end

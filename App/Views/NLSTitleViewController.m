@@ -144,13 +144,13 @@
     if (self.isSearching){
         NSLog(@"Using searchTitles cache with str: %@", bString);
         
-        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:bString];
+        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:bString];
         tm.sqlQuery = ^{
             return [self.sql getTitleAndIdForRow:bRow whereTitleMatch:bString];
         };
         return tm;
     }else{
-        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:nil];
+        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:nil];
         tm.sqlQuery = ^{
             return [self.sql getTitleAndIdForRow:bRow];
         };

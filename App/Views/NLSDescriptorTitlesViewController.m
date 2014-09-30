@@ -49,28 +49,43 @@
     
 }
 
--(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row WhereTitleMatch:str
-{
-    NSLog(@"getTitleAndIdForRow whereTitleMatch");
-    return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId andTitleMatch:str];
-}
-
--(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row
-{
-    NSLog(@"getTitleAndIdForRow");
-    return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId];
-}
-
-//-(NLSTitleModel*)createTitleForRow:(NSInteger)row
+//-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row WhereTitleMatch:str
 //{
-//    if (self.isSearching){
-//        NSLog(@"Using searchTitles cache");
-//        return [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:self.searchBar.text];
-//    }else{
-//        return [[NLSTitleModel alloc] initWithCellId:row andSearchBarText:nil];
-//    }
-//    
+//    NSLog(@"getTitleAndIdForRow whereTitleMatch");
+//    return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId andTitleMatch:str];
 //}
+//
+//-(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row
+//{
+//    NSLog(@"getTitleAndIdForRow");
+//    return [self.sql getTitleAndIdForRow:(NSInteger)row whereMeshEquals:self.meshId];
+//}
+
+-(NLSTitleModel*)createTitleForRow:(NSInteger)row
+{
+    
+    __block NSInteger bRow = row;
+    __block NSString *bString = self.searchBar.text;
+    __block NSInteger bMesh = self.meshId;
+    
+    if (self.isSearching){
+        NSLog(@"Using searchTitles cache with str: %@", bString);
+        
+        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:bString];
+        tm.sqlQuery = ^{
+            return [self.sql getTitleAndIdForRow:bRow whereMeshEquals:bMesh andTitleMatch:bString];
+        };
+        return tm;
+    }else{
+        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:nil];
+        tm.sqlQuery = ^{
+            return [self.sql getTitleAndIdForRow:bRow whereMeshEquals:bMesh];
+        };
+        
+        return tm;
+    }
+    
+}
 
 
 @end
