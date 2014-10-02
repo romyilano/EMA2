@@ -212,8 +212,8 @@
         UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         cell.accessoryView = activityIndicatorView;
     }else{
-        cell.detailTextLabel.attributedText = nil;
-        cell.textLabel.attributedText = nil;
+        cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+        cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
     }
     
     // 2: The data source contains instances of TitleModels. Get a hold of each of them based on the indexPath of the row.
@@ -410,49 +410,46 @@
     
 }
 
-//- (void)loadTitlesForOnscreenCells {
-//    
-//    // 1: Get a set of visible rows.
-//    NSSet *visibleRows = nil;
-//    NSMutableDictionary *cachePointer = nil;
-//    
-//    if(self.isSearching){
-//        NSLog(@"is searching...");
-//        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
-//        cachePointer = self.searchTitles;
-//    }else{
-//        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
-//        cachePointer = self.titles;
-//    }
-//    
-//    // 2: Get a set of all pending operations
-//    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.queriesInProgress allKeys]];
-//    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
-//    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
-//    
-//    // 3: Rows (or indexPaths) that need an operation = visible rows n pendings.
-//    [toBeStarted minusSet:pendingOperations];
-//    
-//    // 4: Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
-//    [toBeCancelled minusSet:visibleRows];
-//    
-//    // 5: Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
-//    for (NSIndexPath *anIndexPath in toBeCancelled) {
-//        SQLQuery *pendingQuery = [self.pendingOperations.queriesInProgress objectForKey:anIndexPath];
-//        [pendingQuery cancel];
-//        [self.pendingOperations.queriesInProgress removeObjectForKey:anIndexPath];
-//        
-//    }
-//    toBeCancelled = nil;
-//    
-//    // 6: Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
-//    for (NSIndexPath *anIndexPath in toBeStarted) {
-//        NLSTitleModel *tmToProcess = [cachePointer objectForKey:anIndexPath];
-//        [self startOperationsForTitleModel:tmToProcess atIndexPath:anIndexPath];
-//    }
-//    toBeStarted = nil;
-//    
-//}
+- (void)loadTitlesForOnscreenCells {
+    
+    // 1: Get a set of visible rows.
+    NSSet *visibleRows = nil;
+    
+    if(self.isSearching){
+        NSLog(@"is searching...");
+        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+    }else{
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+    }
+    
+    // 2: Get a set of all pending operations
+    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.queriesInProgress allKeys]];
+    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
+    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
+    
+    // 3: Rows (or indexPaths) that need an operation = visible rows n pendings.
+    [toBeStarted minusSet:pendingOperations];
+    
+    // 4: Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
+    [toBeCancelled minusSet:visibleRows];
+    
+    // 5: Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
+    for (NSIndexPath *anIndexPath in toBeCancelled) {
+        SQLQuery *pendingQuery = [self.pendingOperations.queriesInProgress objectForKey:anIndexPath];
+        [pendingQuery cancel];
+        [self.pendingOperations.queriesInProgress removeObjectForKey:anIndexPath];
+        
+    }
+    toBeCancelled = nil;
+    
+    // 6: Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
+    for (NSIndexPath *anIndexPath in toBeStarted) {
+        NLSTitleModel *tmToProcess = [self.cachePointer objectAtIndex:anIndexPath.row];
+        [self startOperationsForTitleModel:tmToProcess atIndexPath:anIndexPath];
+    }
+    toBeStarted = nil;
+    
+}
 
 
 #pragma mark - Cancelling, suspending, resuming queues / operations
@@ -589,6 +586,7 @@
     self.searchReset = YES;
     self.prevSearchRowCount = [self.searchDisplayController.searchResultsTableView numberOfRowsInSection:0];
     [self.searchTitles removeAllObjects];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UIScrollView delegate
@@ -603,7 +601,7 @@
 {
     // 2: If the value of decelerate is NO, that means the user stopped dragging the table view. Therefore you want to resume suspended operations, cancel operations for offscreen cells, and start operations for onscreen cells.
     if (!decelerate) {
-//        [self loadTitlesForOnscreenCells];
+        [self loadTitlesForOnscreenCells];
         [self resumeAllOperations];
     }
 }
@@ -611,7 +609,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 3: This delegate method tells you that table view stopped scrolling, so you will do the same as in #2.
-//    [self loadTitlesForOnscreenCells];
+    [self loadTitlesForOnscreenCells];
     [self resumeAllOperations];
 }
 

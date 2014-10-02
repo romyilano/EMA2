@@ -21,8 +21,6 @@
 		7B7C40E619D4DB440011331C /* libPods-FMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DF19D4DB440011331C /* libPods-FMDB.a */; };
 		7B7C40E719D4DB440011331C /* libPods-PBJActivityIndicator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40E019D4DB440011331C /* libPods-PBJActivityIndicator.a */; };
 		7B7C40E819D4DB440011331C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40E119D4DB440011331C /* libPods.a */; };
-		7BB9A97B19D4C63600ACFE7B /* Base.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A91F19D4C63600ACFE7B /* Base.xcconfig */; };
-		7BB9A97C19D4C63600ACFE7B /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92019D4C63600ACFE7B /* Debug.xcconfig */; };
 		7BB9A97D19D4C63600ACFE7B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92219D4C63600ACFE7B /* InfoPlist.strings */; };
 		7BB9A98119D4C63600ACFE7B /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92819D4C63600ACFE7B /* Icon-60.png */; };
 		7BB9A98219D4C63600ACFE7B /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92919D4C63600ACFE7B /* Icon-60@2x.png */; };
@@ -50,7 +48,6 @@
 		7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */; };
 		7BB9A99B19D4C63600ACFE7B /* PendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95119D4C63600ACFE7B /* PendingOperations.m */; };
 		7BB9A99C19D4C63600ACFE7B /* SQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95319D4C63600ACFE7B /* SQLQuery.m */; };
-		7BB9A99D19D4C63600ACFE7B /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95419D4C63600ACFE7B /* Release.xcconfig */; };
 		7BB9A99E19D4C63600ACFE7B /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95619D4C63600ACFE7B /* ema.sqlite */; };
 		7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95819D4C63600ACFE7B /* About-50@2x.png */; };
 		7BB9A9A019D4C63600ACFE7B /* About-selected-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95919D4C63600ACFE7B /* About-selected-50@2x.png */; };
@@ -450,7 +447,6 @@
 				7BB9A98119D4C63600ACFE7B /* Icon-60.png in Resources */,
 				7BB9A9A519D4C63600ACFE7B /* Favorites-50@2x.png in Resources */,
 				7BB9A99E19D4C63600ACFE7B /* ema.sqlite in Resources */,
-				7BB9A97B19D4C63600ACFE7B /* Base.xcconfig in Resources */,
 				7BB9A9A419D4C63600ACFE7B /* Document-selected-50@2x.png in Resources */,
 				7BB9A9A719D4C63600ACFE7B /* FavoritesHighlighted-50@2x.png in Resources */,
 				7BB9A98219D4C63600ACFE7B /* Icon-60@2x.png in Resources */,
@@ -464,7 +460,6 @@
 				7BB9A9A119D4C63600ACFE7B /* Descriptors-50@2x.png in Resources */,
 				7BB9A98319D4C63600ACFE7B /* Icon-72.png in Resources */,
 				7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */,
-				7BB9A99D19D4C63600ACFE7B /* Release.xcconfig in Resources */,
 				7BB9A9AA19D4C63600ACFE7B /* Share-50@2x.png in Resources */,
 				7BB9A9A319D4C63600ACFE7B /* Document-50@2x.png in Resources */,
 				7BB9A9A219D4C63600ACFE7B /* Descriptors-selected-50@2x.png in Resources */,
@@ -476,7 +471,6 @@
 				7BB9A98C19D4C63600ACFE7B /* Icon-Small@2x.png in Resources */,
 				7BB9A9A619D4C63600ACFE7B /* Favorites-selected-50@2x.png in Resources */,
 				7BB9A98E19D4C63600ACFE7B /* Icon@2x.png in Resources */,
-				7BB9A97C19D4C63600ACFE7B /* Debug.xcconfig in Resources */,
 				7BB9A98419D4C63600ACFE7B /* Icon-72@2x.png in Resources */,
 				7BB9A9A819D4C63600ACFE7B /* Journals-50@2x.png in Resources */,
 			);
@@ -600,6 +594,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Colleen's - EMA";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "";
