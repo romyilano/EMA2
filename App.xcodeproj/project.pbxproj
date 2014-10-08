@@ -10,6 +10,7 @@
 		060BE1721946D8F4008FB3C5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16D1946D8C5008FB3C5 /* UIKit.framework */; };
 		060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */; };
 		060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */; };
+		7B4E620C19E2F602004E90BD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B4E620B19E2F602004E90BD /* Images.xcassets */; };
 		7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED319D92117000D058F /* Default-568h@2x.png */; };
 		7B584ED719D92117000D058F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED419D92117000D058F /* Default.png */; };
 		7B584ED819D92117000D058F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED519D92117000D058F /* Default@2x.png */; };
@@ -80,6 +81,7 @@
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		7B4E620B19E2F602004E90BD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7B584ED319D92117000D058F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B584ED419D92117000D058F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7B584ED519D92117000D058F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				7BB9A95519D4C63600ACFE7B /* Resources */,
 				7BB9A95719D4C63600ACFE7B /* Sprites */,
 				7BB9A96519D4C63600ACFE7B /* Views */,
+				7B4E620B19E2F602004E90BD /* Images.xcassets */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -443,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BB9A98819D4C63600ACFE7B /* Icon-Small-40@2x.png in Resources */,
+				7B4E620C19E2F602004E90BD /* Images.xcassets in Resources */,
 				7BB9A9A919D4C63600ACFE7B /* Journals-selected-50@2x.png in Resources */,
 				7BB9A98119D4C63600ACFE7B /* Icon-60.png in Resources */,
 				7BB9A9A519D4C63600ACFE7B /* Favorites-50@2x.png in Resources */,
@@ -560,8 +564,12 @@
 			baseConfigurationReference = D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Colleen's - EMA";
+				PROVISIONING_PROFILE = "35b73f02-5012-4119-ac49-f112635e5ec3";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
@@ -574,13 +582,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Amir Djavaherian (B4N5M6952G)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Amir Djavaherian (B4N5M6952G)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREFIX_HEADER = "App/App-Prefix.pch";
 				INFOPLIST_FILE = "App/App-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -590,12 +599,15 @@
 		};
 		7B7C40EB19D4E5990011331C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ONLY_ACTIVE_ARCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "Colleen's - EMA";
+				PROVISIONING_PROFILE = "35b73f02-5012-4119-ac49-f112635e5ec3";
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "";
 				VALIDATE_PRODUCT = YES;
@@ -604,12 +616,12 @@
 		};
 		7B7C40EC19D4E5990011331C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Amir Djavaherian (56ZK246NBA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Amir Djavaherian (56ZK246NBA)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREFIX_HEADER = "App/App-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -618,8 +630,9 @@
 					"DEBUG=1",
 				);
 				INFOPLIST_FILE = "App/App-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(CONTENTS_FOLDER_PATH)/Headers";
 				TARGETED_DEVICE_FAMILY = "1,2";
