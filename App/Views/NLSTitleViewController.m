@@ -224,7 +224,10 @@
     if([self.cachePointer count] > indexPath.row){
         tm = [self.cachePointer objectAtIndex:indexPath.row];
     }else{
-        [self addRowToCachesViaPath:indexPath];
+        tm = [self createTitleForRow:indexPath.row];
+        NSLog(@"Adding %@ to cache.", tm);
+        [self.cachePointer addObject:tm];
+        //[self addRowToCachesViaPath:indexPath];
     }
     
     // 3: Inspect the TitleModel. If its data is downloaded, display the data, and stop the activity indicator.
@@ -304,7 +307,7 @@
         cell.textLabel.text = @"Failed to load";
         
     }
-    // 5: Otherwise, the title has not been downloaded yet. Start the download and filtering operations (theyíre not yet implemented), and display a placeholder that indicates you are working on it. Start the activity indicator to show user something is going on.
+    // 5: Otherwise, the title has not been downloaded yet. Start the query, and display a placeholder that indicates you are working on it. Start the activity indicator to show user something is going on.
     else {
         [((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
         cell.textLabel.text = @"Loading...";
@@ -339,14 +342,14 @@
 
 #pragma mark Cache Operations
 
-- (void)addRowToCachesViaPath:(NSIndexPath*)path
-{
-    NLSTitleModel *tm = [self createTitleForRow:path.row];
-    NSLog(@"Adding %@ to cache.", tm);
-    [self.cachePointer addObject:tm];
-    [self startOperationsForTitleModel:tm atIndexPath:path];
-    
-}
+//- (void)addRowToCachesViaPath:(NSIndexPath*)path
+//{
+//    NLSTitleModel *tm = [self createTitleForRow:path.row];
+//    NSLog(@"Adding %@ to cache.", tm);
+//    [self.cachePointer addObject:tm];
+//    [self startOperationsForTitleModel:tm atIndexPath:path];
+//    
+//}
 
 - (void)startOperationsForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath
 {
@@ -394,13 +397,13 @@
     // 4: Update UI.
     UITableView *tv = nil;
     if(!self.isSearching){
-        NSLog(@"sqlQueryDidFinish, not searching");
+        NSLog(@"self.isSearching not searching");
         tv = self.tableView;
         [tv beginUpdates];
         [tv reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [tv endUpdates];
     }else{
-        NSLog(@"sqlQueryDidFinish is searching...");
+        NSLog(@"self.isSearching is searching...");
         tv = self.searchDisplayController.searchResultsTableView;
         [tv reloadData];
     }

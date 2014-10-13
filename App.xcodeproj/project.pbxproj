@@ -352,6 +352,8 @@
 		7BB9A96519D4C63600ACFE7B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */,
+				7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */,
 				7BB9A96619D4C63600ACFE7B /* NLSAboutViewController.h */,
 				7BB9A96719D4C63600ACFE7B /* NLSAboutViewController.m */,
 				7BB9A96819D4C63600ACFE7B /* NLSDescriptorTitlesViewController.h */,
@@ -370,8 +372,6 @@
 				7BB9A97519D4C63600ACFE7B /* NLSSearchViewController.m */,
 				7BB9A97619D4C63600ACFE7B /* NLSTableViewCell.h */,
 				7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */,
-				7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */,
-				7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
