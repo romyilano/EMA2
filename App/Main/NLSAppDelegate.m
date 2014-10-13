@@ -39,18 +39,18 @@
 }
 
 -(void) checkAndCreateDatabase{
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *databasePath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
-    success = [fileManager fileExistsAtPath:databasePath];
-    if(success) {
-        NSLog(@"DB exists in writeable Docs dir");
-    }
-    else{
-        NSLog(@"DB does not exist in writeable Docs dir, copying...");
-        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
-        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
-    }
+//    BOOL success;
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSString *databasePath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
+//    success = [fileManager fileExistsAtPath:databasePath];
+//    if(success) {
+//        NSLog(@"DB exists in writeable Docs dir");
+//    }
+//    else{
+//        NSLog(@"DB does not exist in writeable Docs dir, copying...");
+//        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
+//        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
+//    }
     self.sql = [NLSSQLAPI sharedManager];
 
 }

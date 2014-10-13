@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir on 7/23/14.
-//  Copyright (c) 2014 Slyce. All rights reserved.
+//  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 
 #import "NLSSQLAPI.h"
@@ -60,7 +60,8 @@
 - (void) initDatabase
 {
     
-    NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
+//    NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
+    NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:path];
     self.queue = queue;
 
@@ -69,6 +70,7 @@
     self.favesQ = favesQ;
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSLog(@"erpubdb exists: %d",[fileManager fileExistsAtPath:path]);
     NSLog(@"faves exists: %d",[fileManager fileExistsAtPath:favesPath]);
 
     [self createFavoritesTable];
