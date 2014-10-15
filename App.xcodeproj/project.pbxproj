@@ -49,7 +49,6 @@
 		7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */; };
 		7BB9A99B19D4C63600ACFE7B /* PendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95119D4C63600ACFE7B /* PendingOperations.m */; };
 		7BB9A99C19D4C63600ACFE7B /* SQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95319D4C63600ACFE7B /* SQLQuery.m */; };
-		7BB9A99E19D4C63600ACFE7B /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95619D4C63600ACFE7B /* ema.sqlite */; };
 		7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95819D4C63600ACFE7B /* About-50@2x.png */; };
 		7BB9A9A019D4C63600ACFE7B /* About-selected-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95919D4C63600ACFE7B /* About-selected-50@2x.png */; };
 		7BB9A9A119D4C63600ACFE7B /* Descriptors-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95A19D4C63600ACFE7B /* Descriptors-50@2x.png */; };
@@ -72,6 +71,7 @@
 		7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97519D4C63600ACFE7B /* NLSSearchViewController.m */; };
 		7BB9A9B319D4C63600ACFE7B /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */; };
 		7BB9A9B419D4C63600ACFE7B /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */; };
+		7BC81FF019ED8F5E009F4915 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BC81FEF19ED8F5E009F4915 /* ema.sqlite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,7 +136,6 @@
 		7BB9A95219D4C63600ACFE7B /* SQLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLQuery.h; sourceTree = "<group>"; };
 		7BB9A95319D4C63600ACFE7B /* SQLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLQuery.m; sourceTree = "<group>"; };
 		7BB9A95419D4C63600ACFE7B /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		7BB9A95619D4C63600ACFE7B /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
 		7BB9A95819D4C63600ACFE7B /* About-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "About-50@2x.png"; sourceTree = "<group>"; };
 		7BB9A95919D4C63600ACFE7B /* About-selected-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "About-selected-50@2x.png"; sourceTree = "<group>"; };
 		7BB9A95A19D4C63600ACFE7B /* Descriptors-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Descriptors-50@2x.png"; sourceTree = "<group>"; };
@@ -170,6 +169,7 @@
 		7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTableViewCell.m; sourceTree = "<group>"; };
 		7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
 		7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
+		7BC81FEF19ED8F5E009F4915 /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
 		D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -325,7 +325,7 @@
 		7BB9A95519D4C63600ACFE7B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7BB9A95619D4C63600ACFE7B /* ema.sqlite */,
+				7BC81FEF19ED8F5E009F4915 /* ema.sqlite */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -450,7 +450,6 @@
 				7BB9A9A919D4C63600ACFE7B /* Journals-selected-50@2x.png in Resources */,
 				7BB9A98119D4C63600ACFE7B /* Icon-60.png in Resources */,
 				7BB9A9A519D4C63600ACFE7B /* Favorites-50@2x.png in Resources */,
-				7BB9A99E19D4C63600ACFE7B /* ema.sqlite in Resources */,
 				7BB9A9A419D4C63600ACFE7B /* Document-selected-50@2x.png in Resources */,
 				7BB9A9A719D4C63600ACFE7B /* FavoritesHighlighted-50@2x.png in Resources */,
 				7BB9A98219D4C63600ACFE7B /* Icon-60@2x.png in Resources */,
@@ -472,6 +471,7 @@
 				7BB9A98A19D4C63600ACFE7B /* Icon-Small-50@2x.png in Resources */,
 				7B584ED819D92117000D058F /* Default@2x.png in Resources */,
 				7BB9A98919D4C63600ACFE7B /* Icon-Small-50.png in Resources */,
+				7BC81FF019ED8F5E009F4915 /* ema.sqlite in Resources */,
 				7BB9A98C19D4C63600ACFE7B /* Icon-Small@2x.png in Resources */,
 				7BB9A9A619D4C63600ACFE7B /* Favorites-selected-50@2x.png in Resources */,
 				7BB9A98E19D4C63600ACFE7B /* Icon@2x.png in Resources */,

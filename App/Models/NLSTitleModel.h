@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir on 7/24/14.
-//  Copyright (c) 2014 4m1r. All rights reserved.
+//  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
