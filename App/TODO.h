@@ -8,8 +8,7 @@
  Header Art
  Art for ICONS / Splash
  test on multi-device
- MR MRI and CT and ST, WHO, UK, ED 3D CPR HIV IV caps in Titles
- 'S es
+ IGA caps in Titles
  JAMA, QJM in Journals
  WebView open in Safari option
  springer links http://link.springer.com/journal/10654/12/6/page/1

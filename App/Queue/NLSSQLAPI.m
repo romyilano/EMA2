@@ -75,11 +75,6 @@
     
 }
 
-#pragma mark Spinner
-
-
-
-
 #pragma mark Create
 
 //-(void)createTitles
@@ -201,12 +196,12 @@
 {
     //Get associated mesh descriptors
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT a.mesh_id, m.name\
-                       FROM erpubtbl e\
-                       JOIN abstract_mesh a\
-                       ON a.abstract_id = e.id\
-                       JOIN mesh_descriptor m\
-                       ON m.id = a.mesh_id\
+                       SELECT a.mesh_id, m.name \
+                       FROM erpubtbl e \
+                       JOIN abstract_mesh a \
+                       ON a.abstract_id = e.id \
+                       JOIN mesh_descriptor m \
+                       ON m.id = a.mesh_id \
                        WHERE e.id = %ld", (long)emaId];
     
     return [self getMeshArrayForSQL:query];
@@ -227,11 +222,13 @@
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val
 {
     NSString * query = [NSString stringWithFormat:@"\
-                        SELECT e.id, e.title, e.journal_year, j.journal_abv\
-                        FROM erpubtbl e\
-                        JOIN journals j\
-                        ON e.journal_id = j.id\
-                        LIMIT 1 OFFSET %ld;", (long)val];
+                        SELECT e.id, e.title, e.journal_year, j.journal_abv \
+                        FROM erpubtbl e \
+                        JOIN journals j \
+                        ON e.journal_id = j.id \
+                        ORDER BY e.journal_year DESC \
+                        LIMIT 1 \
+                        OFFSET %ld;", (long)val];
     
     return [self getTitleModelForSQL:query];
 }
@@ -240,12 +237,15 @@
 {
     NSLog(@"getTitleAndIdForRow: %ld where str: %@", (long)val, str);
     
-    NSString *query = [NSString stringWithFormat:@"SELECT a "
-                       "FROM titles "
-                       "WHERE t MATCH '%@' "
-                       "ORDER BY t "
-                       "LIMIT 1 "
-                       "OFFSET %ld", [self tokenizeSearchString:str], (unsigned long)val];
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT t.a \
+                       FROM erpubtbl e \
+                       JOIN titles t \
+                       ON e.abstract_id = t.a \
+                       WHERE t.t MATCH '%@' \
+                       ORDER BY e.journal_year DESC \
+                       LIMIT 1 \
+                       OFFSET %ld", [self tokenizeSearchString:str], (unsigned long)val];
 
     NSInteger myId = [self getIntForSQL:query];
     NSLog(@"myId: %ld", (long)myId);
@@ -256,17 +256,17 @@
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereMeshEquals:(NSInteger)meshId
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT e.abstract_id, e.title, e.journal_year, j.journal_abv\
-                       FROM erpubtbl e\
-                       JOIN abstract_mesh am\
-                       ON am.abstract_id = e.abstract_id\
-                       JOIN mesh_descriptor md\
-                       ON md.id = am.mesh_id\
-                       JOIN journals j\
-                       ON e.journal_id = j.id\
-                       WHERE md.id = %ld\
-                       ORDER BY e.title\
-                       LIMIT 1\
+                       SELECT e.abstract_id, e.title, e.journal_year, j.journal_abv \
+                       FROM erpubtbl e \
+                       JOIN abstract_mesh am \
+                       ON am.abstract_id = e.abstract_id \
+                       JOIN mesh_descriptor md \
+                       ON md.id = am.mesh_id \
+                       JOIN journals j \
+                       ON e.journal_id = j.id \
+                       WHERE md.id = %ld \
+                       ORDER BY e.journal_year DESC \
+                       LIMIT 1 \
                        OFFSET %ld", (unsigned long)meshId, (unsigned long)val];
     
     NSLog(@"get title and id for row where mesh = %@", query);
@@ -276,18 +276,18 @@
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT t.a\
-                       FROM erpubtbl e\
-                       JOIN abstract_mesh am\
-                       ON am.abstract_id = e.abstract_id\
-                       JOIN mesh_descriptor md\
-                       ON md.id = am.mesh_id\
-                       JOIN titles t\
-                       ON e.abstract_id = t.a\
-                       WHERE md.id = %ld\
-                       AND t.t MATCH '%@'\
-                       ORDER BY e.title\
-                       LIMIT 1\
+                       SELECT t.a \
+                       FROM erpubtbl e \
+                       JOIN abstract_mesh am \
+                       ON am.abstract_id = e.abstract_id \
+                       JOIN mesh_descriptor md \
+                       ON md.id = am.mesh_id \
+                       JOIN titles t \
+                       ON e.abstract_id = t.a \
+                       WHERE md.id = %ld \
+                       AND t.t MATCH '%@' \
+                       ORDER BY e.journal_year DESC \
+                       LIMIT 1 \
                        OFFSET %ld", (unsigned long)meshId, [self tokenizeSearchString:str], (unsigned long)val];
     
     NSInteger myId = [self getIntForSQL:query];
@@ -298,13 +298,13 @@
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereJournalEquals:(NSInteger)journalId
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT e.abstract_id, e.journal_year, j.journal_abv, e.title\
-                       FROM erpubtbl e\
-                       JOIN journals j\
-                       ON j.id = e.journal_id\
-                       WHERE j.id = %ld\
-                       ORDER BY e.title\
-                       LIMIT 1\
+                       SELECT e.abstract_id, e.journal_year, j.journal_abv, e.title \
+                       FROM erpubtbl e \
+                       JOIN journals j \
+                       ON j.id = e.journal_id \
+                       WHERE j.id = %ld \
+                       ORDER BY e.journal_year DESC \
+                       LIMIT 1 \
                        OFFSET %ld", (unsigned long)journalId, (unsigned long)val];
     
     return [self getTitleModelForSQL:query];
@@ -313,16 +313,16 @@
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT t.a\
-                       FROM erpubtbl e\
-                       JOIN journals j\
-                       ON j.id = e.journal_id\
-                       JOIN titles t\
-                       ON e.abstract_id = t.a\
-                       WHERE j.id = %ld\
-                       AND t.t MATCH '%@'\
-                       ORDER BY e.title\
-                       LIMIT 1\
+                       SELECT t.a \
+                       FROM erpubtbl e \
+                       JOIN journals j \
+                       ON j.id = e.journal_id \
+                       JOIN titles t \
+                       ON e.abstract_id = t.a \
+                       WHERE j.id = %ld \
+                       AND t.t MATCH '%@' \
+                       ORDER BY e.journal_year DESC \
+                       LIMIT 1 \
                        OFFSET %ld", (unsigned long)journalId, [self tokenizeSearchString:str], (unsigned long)val];
     
     NSInteger myId = [self getIntForSQL:query]; //get id first
@@ -346,12 +346,12 @@
 
 -(NSInteger)getTitleCountWhereMeshEquals:(NSInteger)meshId
 {
-    NSString *query = [NSString stringWithFormat:@"SELECT count(*)\
-                       FROM erpubtbl e\
-                       JOIN abstract_mesh am\
-                       ON am.abstract_id = e.abstract_id\
-                       JOIN mesh_descriptor md\
-                       ON md.id = am.mesh_id\
+    NSString *query = [NSString stringWithFormat:@"SELECT count(*) \
+                       FROM erpubtbl e \
+                       JOIN abstract_mesh am \
+                       ON am.abstract_id = e.abstract_id \
+                       JOIN mesh_descriptor md \
+                       ON md.id = am.mesh_id \
                        WHERE md.id = %ld", (unsigned long)meshId];
     
     return [self getCountForSQL:query];
@@ -360,14 +360,14 @@
 -(NSInteger)getTitleCountWhereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT count(*)\
-                       FROM erpubtbl e\
-                       JOIN abstract_mesh am\
-                       ON am.abstract_id = e.abstract_id\
-                       JOIN mesh_descriptor md\
-                       ON md.id = am.mesh_id\
-                       JOIN titles t on e.abstract_id = t.a\
-                       WHERE md.id = %ld\
+                       SELECT count(*) \
+                       FROM erpubtbl e \
+                       JOIN abstract_mesh am \
+                       ON am.abstract_id = e.abstract_id \
+                       JOIN mesh_descriptor md \
+                       ON md.id = am.mesh_id \
+                       JOIN titles t on e.abstract_id = t.a \
+                       WHERE md.id = %ld \
                        AND t.t MATCH '%@'", (unsigned long)meshId, [self tokenizeSearchString:str]];
     
     return [self getCountForSQL:query];
@@ -376,10 +376,10 @@
 -(NSInteger)getTitleCountWhereJournalEquals:(NSInteger)journalId
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT count(*)\
-                       FROM erpubtbl e\
-                       JOIN journals j\
-                       ON j.id = e.journal_id\
+                       SELECT count(*) \
+                       FROM erpubtbl e \
+                       JOIN journals j \
+                       ON j.id = e.journal_id \
                        WHERE j.id = %ld", (unsigned long)journalId];
     
     return [self getCountForSQL:query];
@@ -387,13 +387,13 @@
 
 -(NSInteger)getTitleCountWhereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString *)str
 {
-    NSString *query = [NSString stringWithFormat:@"\
-                       SELECT count(*)\
-                       FROM erpubtbl e\
-                       JOIN journals j\
-                       ON j.id = e.journal_id\
-                       JOIN titles t on e.abstract_id = t.a\
-                       WHERE j.id = %ld\
+    NSString *query = [NSString stringWithFormat:@" \
+                       SELECT count(*) \
+                       FROM erpubtbl e \
+                       JOIN journals j \
+                       ON j.id = e.journal_id \
+                       JOIN titles t on e.abstract_id = t.a \
+                       WHERE j.id = %ld \
                        AND t.t MATCH '%@'", (unsigned long)journalId, [self tokenizeSearchString:str]];
     
     return [self getCountForSQL:query];
@@ -413,8 +413,8 @@
 -(NSString*)getMeshForId:(NSInteger)meshId
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT name\
-                       FROM mesh_descriptor\
+                       SELECT name \
+                       FROM mesh_descriptor \
                        WHERE id = %ld", (unsigned long)meshId];
     return [self getStringForSQL:query];
 }
@@ -422,9 +422,9 @@
 -(NSInteger)getCountFromDescriptorsWhereSectionLike:str
 {
     NSString *query = [NSString stringWithFormat:@"\
-                                            SELECT count(0)\
-                                            FROM mesh_descriptor\
-                                            WHERE name\
+                                            SELECT count(0) \
+                                            FROM mesh_descriptor \
+                                            WHERE name \
                                             LIKE '%@%%'", str];
     return [self getCountForSQL:query];
 }
@@ -432,11 +432,11 @@
 -(NLSDescriptorModel*)getDescriptorForRow:(NSInteger)val whereSectionLike:(NSString *)str
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT *\
-                       FROM mesh_descriptor m\
-                       WHERE name LIKE '%@%%'\
-                       ORDER BY name\
-                       COLLATE NOCASE\
+                       SELECT * \
+                       FROM mesh_descriptor m \
+                       WHERE name LIKE '%@%%' \
+                       ORDER BY name \
+                       COLLATE NOCASE \
                        LIMIT 1 OFFSET %ld", str, (unsigned long)val];
 
     return [self getDescriptorModelForSQL:query];
@@ -447,9 +447,9 @@
 -(NSInteger)getCountFromJournalsWhereSectionLike:str
 {
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT count(0)\
-                       FROM journals\
-                       WHERE journal_title\
+                       SELECT count(0) \
+                       FROM journals \
+                       WHERE journal_title \
                        LIKE '%@%%'", str];
     return [self getCountForSQL:query];
 }
