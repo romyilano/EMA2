@@ -21,7 +21,6 @@
 @synthesize isSearching = _isSearching;
 @synthesize tableView = _tableView;
 @synthesize window = _window;
-@synthesize greenSub = _greenSub;
 @synthesize titles = _titles;
 @synthesize searchTitles = _searchTitles;
 @synthesize cachePointer = _cachePointer;
@@ -83,8 +82,8 @@
     self.isSearching = NO;
     self.searchReset = NO;
     self.prevSearchRowCount = 0;
-    self.greenSub = [[UIView alloc] initWithFrame:CGRectMake(0, -44, 320, 86)];
-    self.greenSub.backgroundColor = [UIColor colorWithHexString:searchGreen];
+//    self.greenSub = [[UIView alloc] initWithFrame:CGRectMake(0, -44, 320, 86)];
+//    self.greenSub.backgroundColor = [UIColor colorWithHexString:searchGreen];
     
     self.title = @"Titles";
 }
@@ -537,20 +536,20 @@
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
     self.tableView.tableHeaderView = self.searchBarController.searchBar;
-    [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
+//    [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
     NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
-    for (UIView *subview in self.view.subviews)
-    {
-        if ([subview isKindOfClass:NSClassFromString(@"UISearchDisplayControllerContainerView")])
-        {
-            [self.greenSub removeFromSuperview];
-            [subview insertSubview:self.greenSub atIndex:1];
-        }
-    }
+//    for (UIView *subview in self.view.subviews)
+//    {
+//        if ([subview isKindOfClass:NSClassFromString(@"UISearchDisplayControllerContainerView")])
+//        {
+//            [self.greenSub removeFromSuperview];
+//            [subview insertSubview:self.greenSub atIndex:1];
+//        }
+//    }
 
     if([searchString length] > 1){
         
@@ -574,8 +573,8 @@
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
 {
     NSLog(@"Starting search");
-    [self.greenSub removeFromSuperview];
-    [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
+    //[self.greenSub removeFromSuperview];
+    //[self.view insertSubview:self.greenSub belowSubview:self.searchBar];
 }
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {

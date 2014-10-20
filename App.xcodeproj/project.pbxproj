@@ -81,7 +81,7 @@
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		7B4E620B19E2F602004E90BD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		7B4E620B19E2F602004E90BD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		7B584ED319D92117000D058F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B584ED419D92117000D058F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7B584ED519D92117000D058F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -231,7 +231,6 @@
 				7BB9A95519D4C63600ACFE7B /* Resources */,
 				7BB9A95719D4C63600ACFE7B /* Sprites */,
 				7BB9A96519D4C63600ACFE7B /* Views */,
-				7B4E620B19E2F602004E90BD /* Images.xcassets */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -257,6 +256,7 @@
 		7BB9A92419D4C63600ACFE7B /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7B4E620B19E2F602004E90BD /* Images.xcassets */,
 				7B584ED319D92117000D058F /* Default-568h@2x.png */,
 				7B584ED419D92117000D058F /* Default.png */,
 				7B584ED519D92117000D058F /* Default@2x.png */,

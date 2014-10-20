@@ -14,7 +14,6 @@
 #import "NLSDetailViewController.h"
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
-#import "PBJActivityIndicator.h"
 
 @interface NLSAppDelegate ()
 {

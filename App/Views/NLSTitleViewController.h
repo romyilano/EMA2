@@ -26,7 +26,7 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UISearchDisplayController *searchBarController;
-@property (strong, nonatomic) UIView *greenSub;
+
 @property (strong, nonatomic) NSMutableArray *titles;
 @property (strong, nonatomic) NSMutableArray *searchTitles;
 @property (strong, nonatomic) NSMutableArray *cachePointer;

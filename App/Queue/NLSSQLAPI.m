@@ -7,8 +7,6 @@
 //
 
 #import "NLSSQLAPI.h"
-#import "PBJActivityIndicator.h"
-
 
 @interface NLSSQLAPI ()
 {
@@ -489,7 +487,7 @@
 
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             tm.title = [rs stringForColumn:@"title"];
@@ -498,7 +496,7 @@
             tm.rowId = [rs intForColumnIndex:0];
             NSLog(@"rowId: %ld", (long)tm.rowId);
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
@@ -515,13 +513,13 @@
     __block NLSDescriptorModel *dm = [[NLSDescriptorModel alloc] init];
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             dm.name = [rs stringForColumn:@"name"];
             dm.rowId = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
@@ -536,13 +534,13 @@
     __block NLSDetailModel *dm = [[NLSDetailModel alloc] init];
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             dm.abstract = [NSString stringWithFormat: @"%s", [rs UTF8StringForColumnName:@"abstract"]];
             dm.rowId = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
@@ -557,14 +555,14 @@
     __block NLSJournalModel *jm = [[NLSJournalModel alloc] init];
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             jm.journal_title = [rs stringForColumn:@"journal_title"];
             jm.issn = [rs stringForColumn:@"issn"];
             jm.rowId = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
@@ -577,12 +575,12 @@
     __block NSInteger count = 0;
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             count = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
@@ -597,12 +595,12 @@
     __block NSString *str = @"";
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             str = [rs stringForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     return str;
@@ -614,12 +612,12 @@
     __block NSInteger myInt = 3;
     
     [self.queue inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             myInt = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     return myInt;
@@ -642,30 +640,18 @@
         return;
     }];
     
-    //NSLog(@"mesh array %@", mesh_array );
-    
     return [NSArray arrayWithArray:(NSArray*)mesh_array];
 }
 
-//-(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label
-//{
-//    __block BOOL success = 0;
-//    
-//    [self.queue inDatabase:^(FMDatabase *db){
-//        success = [db executeStatements:sql];
-//        NSLog(@"%@ executeInQueueWithSQL Success: %d", label, success);
-//    }];
-//    
-//}
 
 -(BOOL)runFavesSQL:(NSString*)sql withLabel:(NSString*)label
 {
     __block BOOL success = 0;
     
     [self.favesQ inDatabase:^(FMDatabase *db){
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         success = [db executeStatements:sql];
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
@@ -680,12 +666,12 @@
     __block NSInteger myInt = 0;
     
     [self.favesQ inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             myInt = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     return myInt;
@@ -697,13 +683,13 @@
     __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     
     [self.favesQ inDatabase:^(FMDatabase *db) {
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+
         rs = [db executeQuery:sql];
         while ([rs next]) {
             tm.title = [rs stringForColumn:@"title"];
             tm.rowId = [rs intForColumnIndex:0];
         }
-        [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
         return;
     }];
     
