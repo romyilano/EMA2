@@ -11,7 +11,8 @@
 #import "PendingOperations.h"
 #import "NLSTableViewCell.h"
 #import "NLSTitleModel.h"
-
+#import "NLSUIKitExtras.h"
+#import "NLSBaseTableViewController.h"
 #import "EDColor.h"
 #import "PBJActivityIndicator.h"
 #import "SQLQuery.h"
@@ -19,14 +20,20 @@
 #include "EMAConstants.h"
 
 
-@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchDisplayDelegate, NSCacheDelegate, SQLQueryDelegate>
+@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, SQLQueryDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) NLSSQLAPI *sql;
+//table view
 @property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) UISearchBar *searchBar;
-@property (strong, nonatomic) UISearchDisplayController *searchBarController;
 
+//search controller
+@property (strong, nonatomic) UISearchController *searchController;
+@property BOOL searchControllerWasActive;
+@property BOOL searchControllerSearchFieldWasFirstResponder;
+@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) UITableViewController *searchResultsController;
+
+//props
+@property (strong, nonatomic) NLSSQLAPI *sql;
 @property (strong, nonatomic) NSMutableArray *titles;
 @property (strong, nonatomic) NSMutableArray *searchTitles;
 @property (strong, nonatomic) NSMutableArray *cachePointer;

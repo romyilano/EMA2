@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EMAConstants.h"
 
 // Colors
 
@@ -39,5 +40,19 @@
 
 + (UIFont *)NLSFontSize:(CGFloat)size;
 //+ (UIFont *)fontSymbolSize:(CGFloat)size;
+
+@end
+
+@interface UIImage (NLSUIKitExtras)
+
+/* public function that creates the actual image */
++ (UIImage *)fillImgOfSize:(CGSize)imgSize withColor:(UIColor*)imgColor;
+
+@end
+
+@interface UINavigationController (NLSUIKitExtras)
+
+/* public function that creates the actual image */
++ (UINavigationController *)initStyled;
 
 @end

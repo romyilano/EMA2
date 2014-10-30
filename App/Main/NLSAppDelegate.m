@@ -14,13 +14,8 @@
 #import "NLSDetailViewController.h"
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
+#import "NLSUIKitExtras.h"
 
-@interface NLSAppDelegate ()
-{
-    UIWindow *_window;
-}
-
-@end
 
 @implementation NLSAppDelegate
 
@@ -38,18 +33,7 @@
 }
 
 -(void) checkAndCreateDatabase{
-//    BOOL success;
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    NSString *databasePath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
-//    success = [fileManager fileExistsAtPath:databasePath];
-//    if(success) {
-//        NSLog(@"DB exists in writeable Docs dir");
-//    }
-//    else{
-//        NSLog(@"DB does not exist in writeable Docs dir, copying...");
-//        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
-//        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
-//    }
+
     self.sql = [NLSSQLAPI sharedManager];
 
 }
@@ -60,30 +44,44 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self checkAndCreateDatabase];
+    
+    //setup global styles
+    [[UINavigationBar appearance] setShadowImage:[UIImage fillImgOfSize:CGSizeMake(1,1) withColor:[UIColor colorWithHexString:searchGreen]]];
+    
+    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil]
+     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                             [UIColor whiteColor],NSForegroundColorAttributeName,
+                             [UIFont fontWithName:@"Helvetica Neue" size:16], NSFontAttributeName,
+                             nil] forState:UIControlStateNormal];
+    
+    
+    [[UISearchBar appearance] setBackgroundImage:[UIImage fillImgOfSize:CGSizeMake(1,1) withColor:[UIColor colorWithHexString:searchGreen]]];
+    
+    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:favoritesColor]];
 
+    //setup view controllers
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
-    UINavigationController *tnc = [self styledNavigationController];
+    UINavigationController *tnc = [UINavigationController initStyled];
     [tnc setViewControllers:@[titlesController]];
     
     NLSDescriptorViewController *descriptorController = [[NLSDescriptorViewController alloc] init];
-    UINavigationController *dnc = [self styledNavigationController];
+    UINavigationController *dnc = [UINavigationController initStyled];
     [dnc setViewControllers:@[descriptorController]];
     
     NLSJournalViewController *journalsController = [[NLSJournalViewController alloc] init];
-    UINavigationController *jnc = [self styledNavigationController];
+    UINavigationController *jnc = [UINavigationController initStyled];
     [jnc setViewControllers:@[journalsController]];
     
     NLSFavoritesViewController *favoritesController = [[NLSFavoritesViewController alloc] init];
-    UINavigationController *fnc = [self styledNavigationController];
+    UINavigationController *fnc = [UINavigationController initStyled];
     [fnc setViewControllers:@[favoritesController]];
     
     NLSAboutViewController *aboutController = [[NLSAboutViewController alloc ] init];
-    UINavigationController *anc = [self styledNavigationController];
+    UINavigationController *anc = [UINavigationController initStyled];
     [anc setViewControllers:@[aboutController]];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
-    
-    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:favoritesColor]];
+    tabBarController.tabBar.translucent = NO;
     
     NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, anc, nil];
     tabBarController.viewControllers = controllers;
@@ -112,42 +110,13 @@
     [anc.tabBarItem setSelectedImage: aboutImageSelected];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor colorWithHexString:@"#FFFFFF"];
+    self.window.backgroundColor = [UIColor colorWithHexString:searchGreen];
     self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];
     
     return YES;
 }
-
-- (UINavigationController*)styledNavigationController
-{
-
-    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
-    
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:[CRGradientNavigationBar class] toolbarClass:nil];
-
-    UIColor *firstColor = [UIColor colorWithHexString:@"#55EFCB"];
-    UIColor *secondColor = [UIColor colorWithHexString:@"#5BCAFF"];
-    
-    NSArray *colors = [NSArray arrayWithObjects:firstColor, secondColor, nil];
-    
-    [[CRGradientNavigationBar appearance] setBarTintGradientColors:colors];
-    
-    navigationController.navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                              [UIColor colorWithHexString:@"#FFFFFF"], NSForegroundColorAttributeName,
-                                                              [UIFont fontWithName:@"AvenirNext-Medium" size:20.0], NSFontAttributeName, nil];
-
-    navigationController.navigationBar.tintColor = [UIColor  whiteColor];
-    navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    
-    [[navigationController navigationBar] setTranslucent:YES];
-//    [[navigationController navigationBar] setShadowImage:[UIImage new]];
-    
-    return navigationController;
-    
-}
-
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

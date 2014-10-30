@@ -22,6 +22,7 @@
 		7B7C40E619D4DB440011331C /* libPods-FMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DF19D4DB440011331C /* libPods-FMDB.a */; };
 		7B7C40E719D4DB440011331C /* libPods-PBJActivityIndicator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40E019D4DB440011331C /* libPods-PBJActivityIndicator.a */; };
 		7B7C40E819D4DB440011331C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40E119D4DB440011331C /* libPods.a */; };
+		7B911F5F1A003ED100C56815 /* NLSBaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B911F5E1A003ED100C56815 /* NLSBaseTableViewController.m */; };
 		7BB9A97D19D4C63600ACFE7B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92219D4C63600ACFE7B /* InfoPlist.strings */; };
 		7BB9A98119D4C63600ACFE7B /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92819D4C63600ACFE7B /* Icon-60.png */; };
 		7BB9A98219D4C63600ACFE7B /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A92919D4C63600ACFE7B /* Icon-60@2x.png */; };
@@ -92,6 +93,8 @@
 		7B7C40DF19D4DB440011331C /* libPods-FMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-FMDB.a"; path = "Pods/build/Debug-iphoneos/libPods-FMDB.a"; sourceTree = "<group>"; };
 		7B7C40E019D4DB440011331C /* libPods-PBJActivityIndicator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PBJActivityIndicator.a"; path = "Pods/build/Debug-iphoneos/libPods-PBJActivityIndicator.a"; sourceTree = "<group>"; };
 		7B7C40E119D4DB440011331C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		7B911F5D1A003ED100C56815 /* NLSBaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSBaseTableViewController.h; sourceTree = "<group>"; };
+		7B911F5E1A003ED100C56815 /* NLSBaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSBaseTableViewController.m; sourceTree = "<group>"; };
 		7BB9A91D19D4C63600ACFE7B /* App-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "App-Info.plist"; sourceTree = "<group>"; };
 		7BB9A91E19D4C63600ACFE7B /* App-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "App-Prefix.pch"; sourceTree = "<group>"; };
 		7BB9A91F19D4C63600ACFE7B /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
@@ -372,6 +375,8 @@
 				7BB9A97519D4C63600ACFE7B /* NLSSearchViewController.m */,
 				7BB9A97619D4C63600ACFE7B /* NLSTableViewCell.h */,
 				7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */,
+				7B911F5D1A003ED100C56815 /* NLSBaseTableViewController.h */,
+				7B911F5E1A003ED100C56815 /* NLSBaseTableViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -414,7 +419,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = NLS;
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = 4m1r;
 				TargetAttributes = {
 					060BE1341946A814008FB3C5 = {
@@ -520,6 +525,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B911F5F1A003ED100C56815 /* NLSBaseTableViewController.m in Sources */,
 				7BB9A98F19D4C63600ACFE7B /* main.m in Sources */,
 				7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */,
 				7BB9A9AF19D4C63600ACFE7B /* NLSFavoritesViewController.m in Sources */,
@@ -605,7 +611,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Colleen's - EMA";
 				PROVISIONING_PROFILE = "35b73f02-5012-4119-ac49-f112635e5ec3";
 				SDKROOT = iphoneos;

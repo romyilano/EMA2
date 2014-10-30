@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir on 7/23/14.
-//  Copyright (c) 2014 Slyce. All rights reserved.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
 #import "NLSTitleViewController.h"
@@ -17,10 +17,10 @@
 
 @synthesize sql = _sql;
 @synthesize searchBar = _searchBar;
-@synthesize searchBarController = _searchBarController;
+@synthesize searchController = _searchController;
+@synthesize searchResultsController = _searchResultsController;
 @synthesize isSearching = _isSearching;
 @synthesize tableView = _tableView;
-@synthesize window = _window;
 @synthesize titles = _titles;
 @synthesize searchTitles = _searchTitles;
 @synthesize cachePointer = _cachePointer;
@@ -57,8 +57,6 @@
 
 - (void)loadView
 {
-    //Setup indicator
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
 
     //Setup SQL for counts
     self.sql = [NLSSQLAPI sharedManager];
@@ -69,34 +67,32 @@
     
     //Setup last index
     self.lastIndex = [[NSIndexPath alloc] init];
-    
-    //Setup table view
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    //[tableView reloadData];
-    
-    self.tableView = tableView;
-    self.view = tableView;
-    self.isSearching = NO;
-    self.searchReset = NO;
-    self.prevSearchRowCount = 0;
-//    self.greenSub = [[UIView alloc] initWithFrame:CGRectMake(0, -44, 320, 86)];
-//    self.greenSub.backgroundColor = [UIColor colorWithHexString:searchGreen];
-    
+
+    //Set title
     self.title = @"Titles";
 }
 
 - (void)viewDidLoad
 {
     NSLog(@"View Did Load");
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+    //Setup table view
+    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    
+    self.tableView = tableView;
+    self.view = self.tableView;
+    self.isSearching = NO;
+    self.searchReset = NO;
+    self.prevSearchRowCount = 0;
+    
+    //load searchbar
     [self loadSearchBar];
-    [self setNeedsStatusBarAppearanceUpdate];
     
     //Clear back button
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+
     
     [super viewDidLoad];
 }
@@ -112,13 +108,13 @@
     [super viewWillDisappear:animated];
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     // Dispose of any resources that can be recreated.
     [self.titles removeAllObjects];
     [self.searchTitles removeAllObjects];
     [self.tableView reloadData];
-    [self.searchBarController.searchResultsTableView reloadData];
     [super didReceiveMemoryWarning];
 }
 
@@ -226,7 +222,6 @@
         tm = [self createTitleForRow:indexPath.row];
         NSLog(@"Adding %@ to cache.", tm);
         [self.cachePointer addObject:tm];
-        //[self addRowToCachesViaPath:indexPath];
     }
     
     // 3: Inspect the TitleModel. If its data is downloaded, display the data, and stop the activity indicator.
@@ -267,7 +262,7 @@
         [meshDescriptors deleteCharactersInRange:endComma];
         
         [meshDescriptors addAttribute:NSFontAttributeName
-                                value:[UIFont fontWithName:@"AvenirNext-Medium" size:10]
+                                value:[UIFont fontWithName:@"Helvetica Neue" size:10]
                                 range:NSMakeRange(0, [meshDescriptors length])];
         [meshDescriptors addAttribute:NSForegroundColorAttributeName
                             value:[UIColor colorWithHexString:emaGreen]
@@ -289,7 +284,7 @@
                       range:NSMakeRange(0, [tm.title length])];
         
         [title addAttribute:NSFontAttributeName
-                      value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                      value:[UIFont fontWithName:@"Helvetica Neue" size:12]
                       range:NSMakeRange(0, [tm.title length])];
 
         cell.detailTextLabel.attributedText = detailText;
@@ -317,38 +312,26 @@
     return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView  willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//    self.lastIndex = [self.tableView indexPathsForVisibleRows].lastObject;
-//    NSLog(@"LAST index, %@", self.lastIndex);
-//    if(indexPath == self.lastIndex){
-//        
-//        NSLog(@"Whoohoo, last index %@", indexPath);
-//        
-//        NSInteger lookAhead = 15;
-//        if((self.lastIndex.row + lookAhead) > [self getTitleCount]){
-//            lookAhead = 0;
-//        }
-//        
-//        for(int i = 0; i <= lookAhead; i++){
-//            NSIndexPath *newPath = [NSIndexPath indexPathForRow:(indexPath.row + i) inSection:indexPath.section];
-//            [self addPathToCaches:newPath];
-//        }
-//    }
-//    
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+    
+    NSString *string = [[NSString alloc] init];
+    string = cell.textLabel.text;
+    NSInteger rowId = cell.rowId;
+    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
+    
+    //Push new view
+    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
+    dvc.abstractId = rowId;
+    [self.navigationController pushViewController:dvc animated:TRUE];
+}
+
 
 #pragma mark Cache Operations
 
-//- (void)addRowToCachesViaPath:(NSIndexPath*)path
-//{
-//    NLSTitleModel *tm = [self createTitleForRow:path.row];
-//    NSLog(@"Adding %@ to cache.", tm);
-//    [self.cachePointer addObject:tm];
-//    [self startOperationsForTitleModel:tm atIndexPath:path];
-//    
-//}
 
 - (void)startOperationsForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath
 {
@@ -403,7 +386,8 @@
         [tv endUpdates];
     }else{
         NSLog(@"self.isSearching is searching...");
-        tv = self.searchDisplayController.searchResultsTableView;
+//        tv = self.searchDisplayController.searchResultsTableView;
+        tv = self.searchResultsController.tableView;
         [tv reloadData];
     }
     
@@ -419,7 +403,8 @@
     
     if(self.isSearching){
         NSLog(@"is searching...");
-        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+//        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        visibleRows = [NSSet setWithArray:[self.searchResultsController.tableView indexPathsForVisibleRows]];
     }else{
         visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
     }
@@ -471,125 +456,92 @@
     [self.pendingOperations.queryQueue cancelAllOperations];
 }
 
-#pragma mark DidSelectRow
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    
-    NSString *string = [[NSString alloc] init];
-    string = cell.textLabel.text;
-    NSInteger rowId = cell.rowId;
-    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
-    
-    //Push new view
-    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
-    dvc.abstractId = rowId;
-    [self.navigationController pushViewController:dvc animated:TRUE];
-}
-
-#pragma mark Search Controller
+#pragma mark Search Controller Delegates
 
 - (void)loadSearchBar
 {
     
     NSLog(@"Loading SearchBar");
     
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTextColor:[UIColor whiteColor]];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setFont:[UIFont fontWithName:@"Avenir" size:14]];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setBackgroundColor:[UIColor blueColor]];
-    [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setTintColor:[UIColor blueColor]];
+    UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    searchResultsController.tableView.dataSource = self;
+    searchResultsController.tableView.delegate = self;
+    self.searchResultsController = searchResultsController;
     
-    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil]
-     setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                             [UIColor whiteColor],NSForegroundColorAttributeName,
-                             [UIFont fontWithName:@"Avenir" size:16], NSFontAttributeName,
-                             nil] forState:UIControlStateNormal];
-    
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
 
-    searchBar.barStyle = UISearchBarStyleDefault;
-    searchBar.placeholder = @"Title, MeSH and Year Search";
-    searchBar.delegate = self;
-    searchBar.translucent = YES;
-    searchBar.backgroundImage = [[UIImage alloc] init];
-    searchBar.backgroundColor =  [UIColor colorWithHexString:searchGreen];
-    searchBar.barTintColor = [UIColor colorWithHexString:searchGreen];
-    searchBar.tintColor = [UIColor colorWithHexString:searchGreen];
-    
-    UISearchDisplayController *searchBarController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-    searchBarController.delegate = self;
-    searchBarController.searchResultsDataSource = self;
-    searchBarController.searchResultsDelegate = self;
-    searchBarController.searchBar.translucent = YES;
-    searchBarController.searchBar.backgroundImage = [[UIImage alloc] init];
-    searchBarController.searchBar.backgroundColor =  [UIColor colorWithHexString:searchGreen];
-    searchBarController.searchBar.barTintColor = [UIColor colorWithHexString:searchGreen];
-    searchBarController.searchBar.tintColor = [UIColor colorWithHexString:searchGreen];
 
-    
-    self.searchBarController = searchBarController;
-    self.searchBar = self.searchBarController.searchBar;
+    self.searchBar = self.searchController.searchBar;
     self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.searchBar.delegate = self;
+    self.searchBar.translucent = YES;
     
-    self.tableView.tableHeaderView = self.searchBarController.searchBar;
-//    [self.view insertSubview:self.greenSub belowSubview:self.searchBar];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
+
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
-//    for (UIView *subview in self.view.subviews)
-//    {
-//        if ([subview isKindOfClass:NSClassFromString(@"UISearchDisplayControllerContainerView")])
-//        {
-//            [self.greenSub removeFromSuperview];
-//            [subview insertSubview:self.greenSub atIndex:1];
-//        }
-//    }
-
+    
+    NSString *searchString = [self.searchController.searchBar text];
+    NSLog(@"updateSearchResultsForSearchController: %@", searchString);
+    [self.tableView reloadData];
+    
     if([searchString length] > 1){
-        
-        //temporarily disable controller
-        controller.delegate = nil;
         [self.searchTitles removeAllObjects];
-        [self.searchDisplayController.searchResultsTableView reloadData];
-        //re-enable controller
-        controller.delegate = self;
-
+        [self.searchResultsController.tableView reloadData];
+        self.title = searchString;
         NSLog(@"shouldReloadTableForSearchString");
-        return YES;
         
-    }else{
- 
-        return NO;
     }
 
 }
 
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
-{
-    NSLog(@"Starting search");
-    //[self.greenSub removeFromSuperview];
-    //[self.view insertSubview:self.greenSub belowSubview:self.searchBar];
-}
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+- (void)presentSearchController:(UISearchController *)searchController
+{
+    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     self.isSearching = YES;
 }
 
--(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+- (void)willPresentSearchController:(UISearchController *)searchController
 {
-    NSLog(@"Cancel clicked or did end search");
-    self.isSearching = NO;
-    self.searchReset = YES;
-    self.prevSearchRowCount = [self.searchDisplayController.searchResultsTableView numberOfRowsInSection:0];
-    [self.searchTitles removeAllObjects];
-    [self.tableView reloadData];
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+
 }
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
+
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    self.isSearching = NO;
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    self.isSearching = NO;
+    [self.tableView reloadData];
+    self.title = @"Titles";
+}
+
+
 
 #pragma mark - UIScrollView delegate
 

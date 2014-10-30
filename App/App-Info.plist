@@ -28,11 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.9</string>
-	<key>FacebookAppID</key>
-	<string>264678703732974</string>
-	<key>FacebookDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>1.0.1.0</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -50,8 +46,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<array>
-		<string></string>
-	</array>
+	<true/>
 </dict>
 </plist>

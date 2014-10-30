@@ -15,3 +15,62 @@
  Add scholar links http://scholar.google.com  Sci Justice. 2001 Jul-Sep;41(3):197-9
 
  */
+
+//    BOOL success;
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSString *databasePath = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
+//    success = [fileManager fileExistsAtPath:databasePath];
+//    if(success) {
+//        NSLog(@"DB exists in writeable Docs dir");
+//    }
+//    else{
+//        NSLog(@"DB does not exist in writeable Docs dir, copying...");
+//        NSString *databasePathFromApp = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
+//        [fileManager copyItemAtPath:databasePathFromApp toPath:databasePath error:nil];
+//    }
+
+//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+//{
+//    NSLog(@"Text change isSearching: %d for: %@",self.isSearching, searchString);
+//
+//    if([searchString length] > 1){
+//
+//        //temporarily disable controller
+//        controller.delegate = nil;
+//        [self.searchTitles removeAllObjects];
+//        [self.searchDisplayController.searchResultsTableView reloadData];
+//        //re-enable controller
+//        controller.delegate = self;
+//
+//        NSLog(@"shouldReloadTableForSearchString");
+//        return YES;
+//
+//    }else{
+//
+//        return NO;
+//    }
+//
+//}
+//
+//
+//- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+//{
+//    NSLog(@"Starting search");
+//    controller.  searchResultsTableView.tableHeaderView.tintColor = [UIColor redColor];
+//}
+//
+//- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+//    self.isSearching = YES;
+//    NSLog(@"didShowSearchResultsTableView");
+//
+//}
+//
+//-(void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+//{
+//    NSLog(@"Cancel clicked or did end search");
+//    self.isSearching = NO;
+//    self.searchReset = YES;
+//    self.prevSearchRowCount = [self.searchDisplayController.searchResultsTableView numberOfRowsInSection:0];
+//    [self.searchTitles removeAllObjects];
+//    [self.tableView reloadData];
+//}

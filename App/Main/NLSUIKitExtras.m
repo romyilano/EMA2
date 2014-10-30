@@ -214,3 +214,50 @@
 //}
 
 @end
+
+@implementation UIImage (NLSUIKitExtras)
+
++ (UIImage*) fillImgOfSize:(CGSize)imgSize withColor:(UIColor*)imgColor{
+    
+    /* begin the graphic context */
+    UIGraphicsBeginImageContext(imgSize);
+    
+    /* set the color */
+    [imgColor set];
+    
+    /* fill the rect */
+    UIRectFill(CGRectMake(0, 0, imgSize.width, imgSize.height));
+    
+    /* get the image, end the context */
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    /* return the value */
+    return scaledImage;
+}
+
+@end
+
+@implementation UINavigationController (NLSUIKitExtras)
+
++ (UINavigationController*) initStyled{
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:nil toolbarClass:nil];
+    UINavigationBar *navigationBar = navigationController.navigationBar;
+    
+    [navigationBar setBackgroundImage:[UIImage fillImgOfSize:CGSizeMake(1,1) withColor:[UIColor colorWithHexString:searchGreen]]
+                       forBarPosition:UIBarPositionAny
+                           barMetrics:UIBarMetricsDefault];
+    
+    
+    navigationBar.titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                         [UIColor colorWithHexString:@"#FFFFFF"], NSForegroundColorAttributeName,
+                                         [UIFont fontWithName:@"Helvetica Neue" size:20.0], NSFontAttributeName, nil];
+    
+    navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    navigationBar.tintColor = [UIColor  whiteColor];
+    navigationBar.barTintColor = [UIColor colorWithHexString:searchGreen];
+    
+    [[navigationController navigationBar] setTranslucent:YES];
+    
+    return navigationController;
+}
+@end
