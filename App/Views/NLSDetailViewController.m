@@ -86,7 +86,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.window addSubview:self.button];
+    [self.view addSubview:self.button];
 }
 
 - (void)viewWillAppear:(BOOL)animated

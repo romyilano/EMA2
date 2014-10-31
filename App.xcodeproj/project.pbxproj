@@ -14,6 +14,7 @@
 		7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED319D92117000D058F /* Default-568h@2x.png */; };
 		7B584ED719D92117000D058F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED419D92117000D058F /* Default.png */; };
 		7B584ED819D92117000D058F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED519D92117000D058F /* Default@2x.png */; };
+		7B65DF001A041225006814E7 /* NLSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B65DEFF1A041225006814E7 /* NLSTableView.m */; };
 		7B7C40BE19D4D5590011331C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1701946D8E7008FB3C5 /* Foundation.framework */; };
 		7B7C40E219D4DB440011331C /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */; };
 		7B7C40E319D4DB440011331C /* libPods-CCHLinkTextView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */; };
@@ -86,6 +87,8 @@
 		7B584ED319D92117000D058F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B584ED419D92117000D058F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		7B584ED519D92117000D058F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		7B65DEFE1A041225006814E7 /* NLSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTableView.h; sourceTree = "<group>"; };
+		7B65DEFF1A041225006814E7 /* NLSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTableView.m; sourceTree = "<group>"; };
 		7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CCHLinkTextView.a"; path = "Pods/build/Debug-iphoneos/libPods-CCHLinkTextView.a"; sourceTree = "<group>"; };
 		7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CRGradientNavigationBar.a"; path = "Pods/build/Debug-iphoneos/libPods-CRGradientNavigationBar.a"; sourceTree = "<group>"; };
@@ -377,6 +380,8 @@
 				7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */,
 				7B911F5D1A003ED100C56815 /* NLSBaseTableViewController.h */,
 				7B911F5E1A003ED100C56815 /* NLSBaseTableViewController.m */,
+				7B65DEFE1A041225006814E7 /* NLSTableView.h */,
+				7B65DEFF1A041225006814E7 /* NLSTableView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -534,6 +539,7 @@
 				7BB9A9AE19D4C63600ACFE7B /* NLSDetailViewController.m in Sources */,
 				7BB9A99B19D4C63600ACFE7B /* PendingOperations.m in Sources */,
 				7BB9A9AB19D4C63600ACFE7B /* NLSAboutViewController.m in Sources */,
+				7B65DF001A041225006814E7 /* NLSTableView.m in Sources */,
 				7BB9A99119D4C63600ACFE7B /* NLSButton.m in Sources */,
 				7BB9A9B419D4C63600ACFE7B /* NLSTitleViewController.m in Sources */,
 				7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */,
@@ -588,7 +594,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREFIX_HEADER = "App/App-Prefix.pch";
@@ -626,7 +632,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREFIX_HEADER = "App/App-Prefix.pch";

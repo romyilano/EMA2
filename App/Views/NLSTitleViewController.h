@@ -33,6 +33,7 @@
 @property (strong, nonatomic) UITableViewController *searchResultsController;
 
 //props
+@property (strong, nonatomic) NSString *defactoTitle;
 @property (strong, nonatomic) NLSSQLAPI *sql;
 @property (strong, nonatomic) NSMutableArray *titles;
 @property (strong, nonatomic) NSMutableArray *searchTitles;

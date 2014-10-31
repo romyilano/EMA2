@@ -110,7 +110,7 @@
     [anc.tabBarItem setSelectedImage: aboutImageSelected];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor colorWithHexString:searchGreen];
+    self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];

@@ -2,8 +2,8 @@
 //  NLSJournalTitlesViewController.m
 //  App
 //
-//  Created by Amir on 8/7/14.
-//  Copyright (c) 2014 Slyce. All rights reserved.
+//  Created by Amir Djavaherian on 8/7/14.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
 #import "NLSJournalTitlesViewController.h"
@@ -25,6 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = self.journal;
+    self.defactoTitle = self.journal;
 }
 
 - (void)didReceiveMemoryWarning

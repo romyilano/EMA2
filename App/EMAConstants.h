@@ -12,10 +12,16 @@
 #define emaGreen  @"#15829e"
 #define searchGreen @"#407993"
 #define linkBlue @"#00CCCC"
-#define linkRed @"990033"
+#define linkRed @"#990033"
+#define textFieldBlue @"#CDE7F0"
 #define favoritesColor @"#FFAA33"
 #define textInset 4.0f
 #define pubMedUrl @"http://www.ncbi.nlm.nih.gov/pubmed/%@"
 #define shareSubject @"Article from PubMed"
+
+#define titlesString @"Titles"
+#define descriptorsString @"Descriptors"
+#define journalsString @"Journals"
+#define favoritesString @"Favorites"
 
 #endif

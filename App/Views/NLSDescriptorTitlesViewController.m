@@ -24,6 +24,7 @@
 {
     [super viewDidLoad];
     self.title = self.descriptor;
+    self.defactoTitle = self.descriptor;
     // Do any additional setup after loading the view.
 }
 

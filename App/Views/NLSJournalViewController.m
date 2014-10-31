@@ -47,7 +47,7 @@
     [tableView reloadData];
     
     self.view = tableView;
-    self.title = @"Journals";
+    self.navigationItem.title = journalsString;
     [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     
 }

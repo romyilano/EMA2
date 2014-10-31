@@ -16,6 +16,7 @@
 @implementation NLSTitleViewController
 
 @synthesize sql = _sql;
+@synthesize defactoTitle = _defactoTitle;
 @synthesize searchBar = _searchBar;
 @synthesize searchController = _searchController;
 @synthesize searchResultsController = _searchResultsController;
@@ -69,7 +70,8 @@
     self.lastIndex = [[NSIndexPath alloc] init];
 
     //Set title
-    self.title = @"Titles";
+    self.defactoTitle = titlesString;
+    self.navigationItem.title = self.defactoTitle;
 }
 
 - (void)viewDidLoad
@@ -99,7 +101,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"view will appear");
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     [super viewWillAppear:animated];
 }
 
@@ -240,7 +242,7 @@
                      range:NSMakeRange(0, [journalLine length])];
         
         [journalLine addAttribute:NSFontAttributeName
-                     value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                     value:[UIFont fontWithName:@"Helvetica Neue" size:12]
                      range:NSMakeRange(0, [journalLine length])];
         
         [journalLine addAttribute:NSForegroundColorAttributeName
@@ -465,9 +467,14 @@
     NSLog(@"Loading SearchBar");
     
     UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    UITableView *myTv = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    searchResultsController.tableView = myTv;
     searchResultsController.tableView.dataSource = self;
     searchResultsController.tableView.delegate = self;
+    searchResultsController.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    
     self.searchResultsController = searchResultsController;
+    
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     self.searchController.delegate = self;
@@ -485,6 +492,12 @@
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.definesPresentationContext = YES;
+    
+    //add color to search field
+    UIView *subviews = [self.searchBar.subviews lastObject];
+    UITextField *textView = (id)[subviews.subviews objectAtIndex:1];
+    
+    textView.backgroundColor = [UIColor colorWithHexString:textFieldBlue];
 
 }
 
@@ -498,7 +511,7 @@
     if([searchString length] > 1){
         [self.searchTitles removeAllObjects];
         [self.searchResultsController.tableView reloadData];
-        self.title = searchString;
+        self.navigationItem.title = searchString;
         NSLog(@"shouldReloadTableForSearchString");
         
     }
@@ -538,7 +551,7 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     self.isSearching = NO;
     [self.tableView reloadData];
-    self.title = @"Titles";
+    self.navigationItem.title = self.defactoTitle;
 }
 
 

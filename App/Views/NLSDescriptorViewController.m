@@ -16,25 +16,24 @@
 
 @synthesize sql = _sql;
 @synthesize letters = _letters;
+@synthesize tableView = _tableView;
+@synthesize defactoTitle = _defactoTitle;
+@synthesize isSearching = _isSearching;
+@synthesize searchBar = _searchBar;
+@synthesize searchController = _searchController;
+@synthesize searchResultsController = _searchResultsController;
+
 
 - (void)loadView
 {
     
     NSLog(@"init NLSDescriptorViewController");
     self.sql = [NLSSQLAPI sharedManager];
-    
     self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" componentsSeparatedByString:@" "];
     
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
-    [tableView reloadData];
+    self.defactoTitle = descriptorsString;
     
-    self.view = tableView;
-    self.title = @"Descriptors";
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
+//    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
     
 }
 
@@ -42,16 +41,24 @@
 - (void)viewDidLoad
 {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    
+    NLSTableView *tableView = [[NLSTableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
+    
+    self.tableView = tableView;
+    self.view = tableView;
+    
+    self.navigationItem.title = self.defactoTitle;
+    
+    [self loadSearchBar];
     [super viewDidLoad];
     
     NSLog(@"viewDidLoad");
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+//    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,6 +138,98 @@
     //Push new view
     [self.navigationController pushViewController:dtvc animated:TRUE];
 }
+
+#pragma mark Search Controller Delegates
+
+- (void)loadSearchBar
+{
+    
+    NSLog(@"Loading SearchBar");
+    
+    UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    UITableView *myTv = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    searchResultsController.tableView = myTv;
+    searchResultsController.tableView.dataSource = self;
+    searchResultsController.tableView.delegate = self;
+    searchResultsController.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    
+    self.searchResultsController = searchResultsController;
+    
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+    
+    
+    self.searchBar = self.searchController.searchBar;
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.searchBar.delegate = self;
+    self.searchBar.translucent = YES;
+    
+    
+    UIView *wrap = [[UIView alloc] initWithFrame:self.searchBar.frame];
+    [wrap addSubview:self.searchBar];
+    self.tableView.tableHeaderView = self.searchBar;
+    self.tableView.tableHeaderView.layer.zPosition++;
+    
+    UIView *subviews = [self.searchBar.subviews lastObject];
+    UITextField *textView = (id)[subviews.subviews objectAtIndex:1];
+
+    textView.backgroundColor = [UIColor colorWithHexString:textFieldBlue];
+    self.definesPresentationContext = YES;
+    
+}
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    
+    NSString *searchString = [self.searchController.searchBar text];
+    NSLog(@"updateSearchResultsForSearchController: %@", searchString);
+    [self.tableView reloadData];
+    
+}
+
+
+- (void)presentSearchController:(UISearchController *)searchController
+{
+    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
+    self.isSearching = YES;
+}
+
+- (void)willPresentSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
+}
+
+- (void)didPresentSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
+    
+}
+
+- (void)willDismissSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    self.isSearching = NO;
+}
+
+- (void)didDismissSearchController:(UISearchController *)searchController
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    self.isSearching = NO;
+    [self.tableView reloadData];
+    self.navigationItem.title = self.defactoTitle;
+}
+
+#pragma mark ScrollView Delegate
 
 
 @end

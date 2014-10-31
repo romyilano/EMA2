@@ -35,7 +35,7 @@
     [tableView reloadData];
     self.tableView = tableView;
     self.view = tableView;
-    self.title = @"Favorites";
+    self.navigationItem.title = favoritesString;
     
     //Add a remove all Favorites Button
 //    UIButton *button;
