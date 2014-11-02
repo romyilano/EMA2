@@ -23,5 +23,7 @@
 #define descriptorsString @"Descriptors"
 #define journalsString @"Journals"
 #define favoritesString @"Favorites"
+#define searchingString @"Searching"
+#define resultsString @"Results"
 
 #endif

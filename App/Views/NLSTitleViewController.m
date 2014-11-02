@@ -472,6 +472,7 @@
     searchResultsController.tableView.dataSource = self;
     searchResultsController.tableView.delegate = self;
     searchResultsController.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    searchResultsController.tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
     
     self.searchResultsController = searchResultsController;
     
@@ -489,6 +490,7 @@
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.searchBar.delegate = self;
     self.searchBar.translucent = YES;
+    self.tableView.tableHeaderView.layer.zPosition++;
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     self.definesPresentationContext = YES;
@@ -508,16 +510,19 @@
     NSLog(@"updateSearchResultsForSearchController: %@", searchString);
     [self.tableView reloadData];
     
-    if([searchString length] > 1){
+    if([searchString length] <= 1 && self.isSearching){
+        self.navigationItem.title = searchingString;
+    }else if([searchString length] > 1){
         [self.searchTitles removeAllObjects];
         [self.searchResultsController.tableView reloadData];
         self.navigationItem.title = searchString;
         NSLog(@"shouldReloadTableForSearchString");
         
+    }else{
+    
     }
 
 }
-
 
 - (void)presentSearchController:(UISearchController *)searchController
 {
@@ -525,6 +530,7 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     self.isSearching = YES;
+    self.navigationItem.title = searchingString;
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController
@@ -544,6 +550,7 @@
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     self.isSearching = NO;
+    self.navigationItem.title = self.defactoTitle;
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController

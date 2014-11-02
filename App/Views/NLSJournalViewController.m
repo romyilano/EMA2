@@ -19,37 +19,11 @@
 
 - (void)viewDidLoad
 {
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView
-{
-    
-    NSLog(@"init NLSJournalViewController");
-    self.sql  = [NLSSQLAPI sharedManager];
-    
-    self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" componentsSeparatedByString:@" "];
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
-    [tableView reloadData];
-    
-    self.view = tableView;
-    self.navigationItem.title = journalsString;
-    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
-    
+    self.defactoTitle = journalsString;
+    self.navigationItem.title = self.defactoTitle;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -59,35 +33,25 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    NSLog(@"numberOfSectionsInTableView, %ld", (unsigned long)[self.letters count]);
-    return (NSInteger)[self.letters count];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    // Return the number of rows in the section
+    if (self.isSearching){
+        
+        if(self.searchReset){
+            self.searchReset = NO;
+            NSLog(@"Search reset prev row count: %ld", (long)self.prevSearchRowCount);
+            return self.prevSearchRowCount;
+        }
+        NSInteger count = (long)[self.sql getCountFromJournalsWhereSectionLike:self.searchBar.text];
+        return count;
+    }else{
+        
+        NSInteger count = (long)[self.sql getCountFromJournalsWhereSectionLike:[self.letters objectAtIndex:(NSUInteger)section]];
+        return count;
+    }
     
-    // Return the number of rows in the section.
-    return (NSInteger)[self.sql getCountFromJournalsWhereSectionLike:[self.letters objectAtIndex:(NSUInteger)section]];
-    
 }
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    // The header for the section is the region name -- get this from the region at the section index.
-    return [self.letters objectAtIndex:(NSUInteger)section];
-}
-
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-    return self.letters;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-    NSLog(@"sectionForSectionIndexTitle: %@ atIndex: %ld", title, (long)index);
-    return (NSInteger)[self.letters indexOfObject:title];
-}
-
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -99,7 +63,13 @@
     }
     
     NSLog(@"indexPath.row: %ld, indexPath.section: %ld", (long)indexPath.row, (long)indexPath.section);
-    NLSJournalModel *jm = [self.sql getJournalTitleForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
+    NLSJournalModel *jm = nil;
+    
+    if(self.isSearching){
+        jm = [self.sql getJournalTitleForRow:(NSInteger)indexPath.row whereSectionLike:self.searchBar.text];
+    }else{
+        jm = [self.sql getJournalTitleForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
+    }
     
     NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:jm.journal_title attributes:nil];
     NSString *issn = [[NSString alloc] initWithFormat:@"ISSN: %@", jm.issn];
@@ -141,7 +111,6 @@
 
     [self.navigationController pushViewController:jtvc animated:TRUE];
 }
-
 
 
 @end

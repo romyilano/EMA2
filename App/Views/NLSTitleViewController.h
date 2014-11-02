@@ -46,5 +46,6 @@
 
 
 - (void)sqlQueryDidFinish:(SQLQuery *)query;
+- (void)loadSearchBar;
 
 @end

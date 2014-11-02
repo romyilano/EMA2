@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir on 8/6/14.
-//  Copyright (c) 2014 Slyce. All rights reserved.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
 #import "NLSDescriptorViewController.h"
@@ -30,6 +30,7 @@
     NSLog(@"init NLSDescriptorViewController");
     self.sql = [NLSSQLAPI sharedManager];
     self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" componentsSeparatedByString:@" "];
+    self.searchTitles = [[NSMutableArray alloc] init];
     
     self.defactoTitle = descriptorsString;
     
@@ -54,7 +55,7 @@
     self.navigationItem.title = self.defactoTitle;
     
     [self loadSearchBar];
-    [super viewDidLoad];
+
     
     NSLog(@"viewDidLoad");
 //    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
@@ -67,28 +68,56 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - TableView Delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
     NSLog(@"numberOfSectionsInTableView, %ld", (unsigned long)[self.letters count]);
-    return (NSInteger)[self.letters count];
+    
+    if(self.isSearching){
+        return 1;
+    }else{
+        return (NSInteger)[self.letters count];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
     // Return the number of rows in the section.
-    NSInteger count = (long)[self.sql getCountFromDescriptorsWhereSectionLike:[self.letters objectAtIndex:(NSUInteger)section]];
-    NSLog(@"Descriptors, numberOfRowsInSection, %ld for section: %ld", (long)section, (long)count);
+    // Return the number of rows in the section.
+    if (self.isSearching){
+        
+        if(self.searchReset){
+            self.searchReset = NO;
+            NSLog(@"Search reset prev row count: %ld", (long)self.prevSearchRowCount);
+            return self.prevSearchRowCount;
+        }        
+        NSInteger count = (long)[self.sql getCountFromDescriptorsWhereSectionLike:self.searchBar.text];
+        return count;
+    }else{
+
+        NSInteger count = (long)[self.sql getCountFromDescriptorsWhereSectionLike:[self.letters objectAtIndex:(NSUInteger)section]];
+        return count;
+    }
     
-    return count;
+    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    // The header for the section is the region name -- get this from the region at the section index.
-    return [self.letters objectAtIndex:(NSUInteger)section];
+    if(self.isSearching && [self.searchBar.text length] > 1){
+        return resultsString;
+    }else{
+        return [self.letters objectAtIndex:(NSUInteger)section];
+    }
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -111,7 +140,14 @@
     }
     
     NSLog(@"indexPath.row: %ld, indexPath.section: %ld", (long)indexPath.row, (long)indexPath.section);
-    NLSDescriptorModel *dm = [self.sql getDescriptorForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
+    
+    NLSDescriptorModel *dm = nil;
+    if(self.isSearching){
+        dm = [self.sql getDescriptorForRow:(NSInteger)indexPath.row whereSectionLike:self.searchBar.text];
+    }else{
+        dm = [self.sql getDescriptorForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
+    }
+    
     
     cell.name = dm.name;
     cell.rowId = dm.rowId;
@@ -152,6 +188,7 @@
     searchResultsController.tableView.dataSource = self;
     searchResultsController.tableView.delegate = self;
     searchResultsController.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    searchResultsController.tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
     
     self.searchResultsController = searchResultsController;
     
@@ -189,6 +226,20 @@
     
     NSString *searchString = [self.searchController.searchBar text];
     NSLog(@"updateSearchResultsForSearchController: %@", searchString);
+
+    [self.searchResultsController.tableView reloadData];
+    if([searchString length] <= 1 && self.isSearching){
+        self.navigationItem.title = searchingString;
+    }else if ([searchString length] > 1){
+        [self.searchTitles removeAllObjects];
+        [self.searchResultsController.tableView reloadData];
+        self.navigationItem.title = searchString;
+    }else{
+    
+    }
+    
+    NSLog(@"shouldReloadTableForSearchString");
+    
     [self.tableView reloadData];
     
 }
@@ -200,6 +251,7 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     self.isSearching = YES;
+    self.navigationItem.title = searchingString;
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController
@@ -211,7 +263,7 @@
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
+//    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     
 }
 
@@ -219,6 +271,7 @@
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     self.isSearching = NO;
+    self.navigationItem.title = self.defactoTitle;
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
@@ -229,7 +282,19 @@
     self.navigationItem.title = self.defactoTitle;
 }
 
-#pragma mark ScrollView Delegate
+#pragma mark - UIScrollView delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+}
 
 
 @end

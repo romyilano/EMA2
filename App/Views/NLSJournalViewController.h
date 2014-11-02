@@ -14,10 +14,11 @@
 #import "NLSJournalTitlesViewController.h"
 #import "EDColor.h"
 #import "PBJActivityIndicator.h"
+#import "NLSDescriptorViewController.h"
 
 #include "EMAConstants.h"
 
-@interface NLSJournalViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface NLSJournalViewController : NLSDescriptorViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) NLSSQLAPI *sql;
 @property (strong, nonatomic) NSArray *letters;

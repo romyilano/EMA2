@@ -15,8 +15,9 @@
 #import "PBJActivityIndicator.h"
 #import "EDColor.h"
 #import "NLSTableView.h"
+#import "NLSTitleViewController.h"
 
-@interface NLSDescriptorViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UIScrollViewDelegate>
+@interface NLSDescriptorViewController : NLSTitleViewController<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NLSSQLAPI *sql;
 @property (strong, nonatomic) NSArray *letters;
@@ -31,6 +32,5 @@
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UITableViewController *searchResultsController;
 
--(void)loadSearchBar;
 
 @end
