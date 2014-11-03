@@ -15,6 +15,8 @@
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
 #import "NLSUIKitExtras.h"
+#import "UIViewController+CWPopup.h"
+#import "NLSSearchViewController.h"
 
 
 @implementation NLSAppDelegate
@@ -58,6 +60,9 @@
     [[UISearchBar appearance] setBackgroundImage:[UIImage fillImgOfSize:CGSizeMake(1,1) withColor:[UIColor colorWithHexString:searchGreen]]];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:favoritesColor]];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenSearchTut"];
+
 
     //setup view controllers
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];
@@ -110,7 +115,7 @@
     [anc.tabBarItem setSelectedImage: aboutImageSelected];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor whiteColor];    
     self.window.rootViewController = tabBarController;
     
     [self.window makeKeyAndVisible];

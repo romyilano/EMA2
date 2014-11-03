@@ -28,7 +28,9 @@
 @synthesize pendingOperations = _pendingOperations;
 @synthesize searchReset = _searchReset;
 @synthesize prevSearchRowCount = _prevSearchRowCount;
+@synthesize resultsCount = _resultsCount;
 @synthesize lastIndex = _lastIndex;
+@synthesize translucentView = _translucentView;
 
 //Setup titles cache
 - (PendingOperations *)pendingOperations
@@ -72,10 +74,13 @@
     //Set title
     self.defactoTitle = titlesString;
     self.navigationItem.title = self.defactoTitle;
+    
 }
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     NSLog(@"View Did Load");
     //Setup table view
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
@@ -94,9 +99,75 @@
     
     //Clear back button
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-
     
-    [super viewDidLoad];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSearchTut"]){
+
+
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        UIVisualEffectView *translucentView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        CGRect bounds = [[UIScreen mainScreen] bounds];
+        bounds.origin.y = 44;
+        [translucentView setFrame:bounds];
+        [self.view addSubview:translucentView];
+        
+        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
+        UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+        [vibrancyEffectView setFrame:bounds];
+        
+        // Label for vibrant text
+        UILabel *searchLabel = [[UILabel alloc] init];
+        [searchLabel setText:@"Search"];
+        [searchLabel setFont:[UIFont systemFontOfSize:72.0f]];
+        [searchLabel sizeToFit];
+        [searchLabel setCenter: self.view.center];
+        
+        NLSAutoSizeTextview *instructionLabel = [[NLSAutoSizeTextview alloc] initWithFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, 1)];
+        
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"Tap the search field above to begin searching.\n\n" attributes:nil];
+        [attString addAttribute:NSFontAttributeName
+                                        value:[UIFont fontWithName:@"Helvetica Neue" size:14]
+                                        range:NSMakeRange(0, [attString length])];
+        
+        NSMutableAttributedString *attStringCont = [[NSMutableAttributedString alloc] initWithString:@"Searchable terms include: subject headings, keywords in titles or abstracts, numerical years, journal names or abbreviations.  The @ or * symbols are wildcards.\n\n" attributes:nil];
+        [attStringCont addAttribute:NSFontAttributeName
+                          value:[UIFont fontWithName:@"Helvetica Neue" size:14]
+                          range:NSMakeRange(0, [attStringCont length])];
+        
+        NSMutableAttributedString *attStringContEx = [[NSMutableAttributedString alloc] initWithString:@"Searching is full-text and boolean with implicit \"ands\".  For example: baseball not injur@ 2005 or softball injury." attributes:nil];
+        [attStringContEx addAttribute:NSFontAttributeName
+                              value:[UIFont fontWithName:@"Helvetica Neue" size:14]
+                              range:NSMakeRange(0, [attStringContEx length])];
+
+        [attString appendAttributedString:attStringCont];
+        [attString appendAttributedString:attStringContEx];
+        
+        instructionLabel.attributedText = attString;
+        
+        instructionLabel.textAlignment = NSTextAlignmentCenter;
+        
+        instructionLabel.backgroundColor = [UIColor clearColor];
+        instructionLabel.scrollEnabled = NO;
+        
+        [instructionLabel textViewDidChange:instructionLabel];
+        
+
+        UIImageView *up = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Up"]];
+        up.frame = CGRectMake((bounds.size.width/2) - (up.frame.size.width/2), 0, up.frame.size.width, up.frame.size.height);
+        
+        // Add assets to the vibrancy view
+        [vibrancyEffectView.contentView addSubview:searchLabel];
+        [vibrancyEffectView.contentView addSubview:instructionLabel];
+        [vibrancyEffectView.contentView addSubview:up];
+        
+        // Add the vibrancy view to the blur view
+        [translucentView.contentView addSubview:vibrancyEffectView];
+        
+        self.translucentView = translucentView;
+
+        self.tableView.tableHeaderView.layer.zPosition++;
+        
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -158,6 +229,32 @@
 }
 
 #pragma mark - Table view data source
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UILabel *myLabel = [[UILabel alloc] init];
+    myLabel.frame = CGRectMake(self.view.frame.origin.x + 4, self.view.frame.origin.y + 4, self.view.frame.size.width, 20);
+    
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:[self tableView:tableView titleForHeaderInSection:section] attributes:nil];
+    [attString addAttribute:NSFontAttributeName
+                      value:[UIFont fontWithName:@"HelveticaNeue" size:14]
+                      range:NSMakeRange(0, [attString length])];
+    [attString addAttribute:NSForegroundColorAttributeName
+                      value:[UIColor grayColor]
+                      range:NSMakeRange(0, [attString length])];
+    myLabel.attributedText = attString;
+    
+    
+
+    
+//    myLabel.bounds = CGRectInset(myLabel.frame, 10.0f, 10.0f);
+    
+    UIToolbar *headerView = [[UIToolbar alloc] init];
+    headerView.translucent = YES;
+    headerView.tintColor = [UIColor colorWithHexString:searchGreen];
+    [headerView addSubview:myLabel];
+    
+    return headerView;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -178,9 +275,11 @@
         }
         
         NSLog(@"Title Count From Match: %ld", (long)[self getTitleCountWhereTitleMatch]);
+        self.resultsCount = [self getTitleCountWhereTitleMatch];
         return [self getTitleCountWhereTitleMatch];
     }else{
         NSLog(@"Title Count %ld", (long)[self getTitleCount]);
+        self.resultsCount = [self getTitleCount];
         return [self getTitleCount];
     }
 
@@ -189,7 +288,15 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     // The header for the section is the region name -- get this from the region at the section index.
-    return @"All Titles";
+    
+    if (self.isSearching){
+        NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, @(self.resultsCount).stringValue];
+        return header;
+    }else{
+        NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, @(self.resultsCount).stringValue];
+        return header;
+    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -531,6 +638,7 @@
     NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     self.isSearching = YES;
     self.navigationItem.title = searchingString;
+    self.translucentView.layer.zPosition++;
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController
@@ -569,6 +677,20 @@
 {
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
+    // Fade out the view right away
+    [UIView animateWithDuration:0.5
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.translucentView.alpha = 0.0;
+                     }
+                     completion:^(BOOL finished){
+                         if([self.translucentView isDescendantOfView:self.view]){
+                             [self.translucentView removeFromSuperview];
+                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
+                         }
+                     }];
+
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

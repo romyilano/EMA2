@@ -259,7 +259,7 @@
     NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:str];
     
     [mutableAttributedString addAttribute:NSFontAttributeName
-                                    value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                                    value:[UIFont fontWithName:@"Helvetica Neue" size:12]
                                     range:NSMakeRange(0, [mutableAttributedString length])];
     
 
@@ -302,7 +302,7 @@
     NSDictionary *firstLine = @{
                                 @"regex"    : @"(^.*)\\n\\n",
                                 @"attributes" : @{
-                                        NSFontAttributeName : [UIFont fontWithName:@"Avenir-Black" size:14],
+                                        NSFontAttributeName : [UIFont fontWithName:@"Helvetica" size:14],
                                         NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)
                                         }
                                 };
@@ -323,7 +323,7 @@
     
     NSRange range = NSMakeRange(0, [link length]);
     [link addAttribute:NSFontAttributeName
-                 value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                 value:[UIFont fontWithName:@"Helvetica Neue" size:12]
                  range:range];
     
     [link addAttribute:NSForegroundColorAttributeName

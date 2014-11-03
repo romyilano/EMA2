@@ -14,6 +14,7 @@ pod 'PBJActivityIndicator', '0.2.1'
 pod 'EDColor', '0.4.0'
 pod 'CRGradientNavigationBar'
 pod 'CCHLinkTextView'
+pod 'CWPopup', '~> 1.2.4'
 
 # SDKs
 #pod 'Facebook-iOS-SDK', '3.15.0'

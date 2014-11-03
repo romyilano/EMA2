@@ -16,6 +16,9 @@
 #import "EDColor.h"
 #import "PBJActivityIndicator.h"
 #import "SQLQuery.h"
+#import "NLSSearchViewController.h"
+#import "ILTranslucentView.h"
+#import "NLSAutoSizeTextview.h"
 
 #include "EMAConstants.h"
 
@@ -42,8 +45,9 @@
 @property (assign, atomic) BOOL isSearching;
 @property (assign, atomic) BOOL searchReset;
 @property (assign, atomic) NSInteger prevSearchRowCount;
+@property (assign, atomic) NSInteger resultsCount;
 @property (strong, nonatomic) NSIndexPath *lastIndex;
-
+@property (strong, nonatomic) UIVisualEffectView *translucentView;
 
 - (void)sqlQueryDidFinish:(SQLQuery *)query;
 - (void)loadSearchBar;
