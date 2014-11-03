@@ -19,6 +19,11 @@
 @synthesize journal = _journal;
 @synthesize journalId = _journalId;
 
+- (void)loadView
+{
+    [super loadView];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
+}
 
 - (void)viewDidLoad
 {

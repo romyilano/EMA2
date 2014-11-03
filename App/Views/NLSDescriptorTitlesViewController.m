@@ -19,6 +19,11 @@
 @synthesize meshId = _meshId;
 @synthesize descriptor = _descriptor;
 
+- (void)loadView
+{
+    [super loadView];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
+}
 
 - (void)viewDidLoad
 {

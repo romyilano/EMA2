@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIViewController+CWPopup.h"
 
 @interface NLSSearchViewController : UIViewController
 

@@ -91,7 +91,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.window addSubview:self.button];
+    [self.navigationController.view addSubview:self.button];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

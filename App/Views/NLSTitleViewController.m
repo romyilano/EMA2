@@ -102,72 +102,146 @@
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSearchTut"]){
 
-
-        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-        UIVisualEffectView *translucentView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        CGRect bounds = [[UIScreen mainScreen] bounds];
-        bounds.origin.y = 44;
-        [translucentView setFrame:bounds];
-        [self.view addSubview:translucentView];
-        
-        UIVibrancyEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
-        UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
-        [vibrancyEffectView setFrame:bounds];
-        
-        // Label for vibrant text
-        UILabel *searchLabel = [[UILabel alloc] init];
-        [searchLabel setText:@"Search"];
-        [searchLabel setFont:[UIFont systemFontOfSize:72.0f]];
-        [searchLabel sizeToFit];
-        [searchLabel setCenter: self.view.center];
-        
-        NLSAutoSizeTextview *instructionLabel = [[NLSAutoSizeTextview alloc] initWithFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, 1)];
-        
-        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"Tap the search field above to begin searching.\n\n" attributes:nil];
-        [attString addAttribute:NSFontAttributeName
-                                        value:[UIFont fontWithName:@"Helvetica Neue" size:14]
-                                        range:NSMakeRange(0, [attString length])];
-        
-        NSMutableAttributedString *attStringCont = [[NSMutableAttributedString alloc] initWithString:@"Searchable terms include: subject headings, keywords in titles or abstracts, numerical years, journal names or abbreviations.  The @ or * symbols are wildcards.\n\n" attributes:nil];
-        [attStringCont addAttribute:NSFontAttributeName
-                          value:[UIFont fontWithName:@"Helvetica Neue" size:14]
-                          range:NSMakeRange(0, [attStringCont length])];
-        
-        NSMutableAttributedString *attStringContEx = [[NSMutableAttributedString alloc] initWithString:@"Searching is full-text and boolean with implicit \"ands\".  For example: baseball not injur@ 2005 or softball injury." attributes:nil];
-        [attStringContEx addAttribute:NSFontAttributeName
-                              value:[UIFont fontWithName:@"Helvetica Neue" size:14]
-                              range:NSMakeRange(0, [attStringContEx length])];
-
-        [attString appendAttributedString:attStringCont];
-        [attString appendAttributedString:attStringContEx];
-        
-        instructionLabel.attributedText = attString;
-        
-        instructionLabel.textAlignment = NSTextAlignmentCenter;
-        
-        instructionLabel.backgroundColor = [UIColor clearColor];
-        instructionLabel.scrollEnabled = NO;
-        
-        [instructionLabel textViewDidChange:instructionLabel];
-        
-
-        UIImageView *up = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Up"]];
-        up.frame = CGRectMake((bounds.size.width/2) - (up.frame.size.width/2), 0, up.frame.size.width, up.frame.size.height);
-        
-        // Add assets to the vibrancy view
-        [vibrancyEffectView.contentView addSubview:searchLabel];
-        [vibrancyEffectView.contentView addSubview:instructionLabel];
-        [vibrancyEffectView.contentView addSubview:up];
-        
-        // Add the vibrancy view to the blur view
-        [translucentView.contentView addSubview:vibrancyEffectView];
-        
-        self.translucentView = translucentView;
-
+        [self loadTranslucentView];
         self.tableView.tableHeaderView.layer.zPosition++;
         
     }
     
+}
+
+- (void)loadSearchBar
+{
+    
+    NSLog(@"Loading SearchBar");
+    
+    UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    UITableView *myTv = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
+    searchResultsController.tableView = myTv;
+    searchResultsController.tableView.dataSource = self;
+    searchResultsController.tableView.delegate = self;
+    searchResultsController.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    searchResultsController.tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
+    
+    self.searchResultsController = searchResultsController;
+    
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.delegate = self;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+    
+    
+    self.searchBar = self.searchController.searchBar;
+    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.searchBar.delegate = self;
+    self.searchBar.translucent = YES;
+    self.tableView.tableHeaderView.layer.zPosition++;
+    
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
+    
+    //add color to search field
+    UIView *subviews = [self.searchBar.subviews lastObject];
+    UITextField *textView = (id)[subviews.subviews objectAtIndex:1];
+    
+    textView.backgroundColor = [UIColor colorWithHexString:textFieldBlue];
+    
+}
+
+- (void)loadTranslucentView
+{
+    
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [blurEffectView setFrame:self.navigationController.view.bounds];
+    
+    UIVisualEffect *vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
+    UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
+    [vibrancyEffectView setFrame:self.navigationController.view.bounds];
+    
+    
+    [blurEffectView.contentView addSubview:vibrancyEffectView];
+    
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    UITextView *messageText = [[UITextView alloc] initWithFrame:CGRectMake(0,110,bounds.size.width,bounds.size.height)];
+
+
+    messageText.layer.shadowColor = [[UIColor blackColor] CGColor];
+    messageText.layer.shadowOffset = CGSizeMake(1.0,1.0);
+    messageText.layer.shadowRadius = 3.0;
+    [messageText setFont:[UIFont fontWithName:@"AppleSDGothicNeo-Thin" size:16]];
+    [messageText setBackgroundColor:[UIColor clearColor]];
+    [messageText setTextColor:[UIColor whiteColor]];
+    [messageText setTextAlignment:NSTextAlignmentCenter];
+    [messageText setEditable:NO];
+
+    
+    messageText.text =  @"EMA is an offline, searchable citations database.\n\n"
+                        @"Searchable terms include: subject headings, keywords in titles or abstracts, numerical years, journal names or abbreviations.  The @ or * symbols are wildcards.\n\n"
+                        @"All searches are full-text and boolean. \"Ands\" are implicit.\n\n"
+                        @"For example: baseball not injur@ 2005 or softball injury.\n\n"
+                        @"Example 2: 2006 tick@ mite@ spider@ not allergy\n\n"
+                        @"Tap or swipe the screen to start.";
+
+    // Label for vibrant text
+    UILabel *searchLabel = [[UILabel alloc] init];
+    [searchLabel setText:@"Welcome"];
+    [searchLabel setFont:[UIFont systemFontOfSize:70.0f]];
+    [searchLabel sizeToFit];
+    [searchLabel setCenter: self.view.center];
+    CGRect searchRect = searchLabel.frame;
+    searchRect.origin.y = 30;
+    searchLabel.frame = searchRect;
+
+    UIImageView *up = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Up"]];
+    up.frame = CGRectMake((bounds.size.width/2) - (up.frame.size.width/2), 0, up.frame.size.width, up.frame.size.height);
+
+    
+    [vibrancyEffectView.contentView addSubview:messageText];
+    [vibrancyEffectView.contentView addSubview:searchLabel];
+    [vibrancyEffectView.contentView addSubview:up];
+    
+    self.translucentView = blurEffectView;
+    
+    UITapGestureRecognizer *dismiss = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fadeTranslucentView)];
+    UISwipeGestureRecognizer *swipeH = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(fadeTranslucentView)];
+    UISwipeGestureRecognizer *swipeV = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(fadeTranslucentView)];
+    [swipeH setDirection:(UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft )];
+    [swipeV setDirection:(UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown )];
+
+    
+    [self.translucentView addGestureRecognizer:dismiss];
+    [self.translucentView addGestureRecognizer:swipeH];
+    [self.translucentView addGestureRecognizer:swipeV];
+    [self.navigationController.view addSubview:self.translucentView];
+
+    [UIView animateWithDuration:0.2 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [self.translucentView setAlpha:1.0];
+    } completion:nil];
+    
+    
+}
+
+- (void)fadeTranslucentView
+{
+    [UIView animateWithDuration:0.5
+                          delay: 0.0
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.translucentView.alpha = 0.0;
+                     }
+                     completion:^(BOOL finished){
+                         if([self.translucentView isDescendantOfView:self.view]){
+                             [self.translucentView removeFromSuperview];
+                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
+                         }
+                     }];
+    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -568,47 +642,6 @@
 
 #pragma mark Search Controller Delegates
 
-- (void)loadSearchBar
-{
-    
-    NSLog(@"Loading SearchBar");
-    
-    UITableViewController *searchResultsController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
-    UITableView *myTv = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
-    searchResultsController.tableView = myTv;
-    searchResultsController.tableView.dataSource = self;
-    searchResultsController.tableView.delegate = self;
-    searchResultsController.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    searchResultsController.tableView.sectionIndexColor = [UIColor colorWithHexString:linkBlue];
-    
-    self.searchResultsController = searchResultsController;
-    
-    
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
-    self.searchController.delegate = self;
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = YES;
-    self.searchController.hidesNavigationBarDuringPresentation = NO;
-    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
-
-
-    self.searchBar = self.searchController.searchBar;
-    self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    self.searchBar.delegate = self;
-    self.searchBar.translucent = YES;
-    self.tableView.tableHeaderView.layer.zPosition++;
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
-    self.definesPresentationContext = YES;
-    
-    //add color to search field
-    UIView *subviews = [self.searchBar.subviews lastObject];
-    UITextField *textView = (id)[subviews.subviews objectAtIndex:1];
-    
-    textView.backgroundColor = [UIColor colorWithHexString:textFieldBlue];
-
-}
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
@@ -638,7 +671,8 @@
     NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     self.isSearching = YES;
     self.navigationItem.title = searchingString;
-    self.translucentView.layer.zPosition++;
+
+    [self fadeTranslucentView];
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController
@@ -678,18 +712,7 @@
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
     // Fade out the view right away
-    [UIView animateWithDuration:0.5
-                          delay: 0.0
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.translucentView.alpha = 0.0;
-                     }
-                     completion:^(BOOL finished){
-                         if([self.translucentView isDescendantOfView:self.view]){
-                             [self.translucentView removeFromSuperview];
-                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
-                         }
-                     }];
+    [self fadeTranslucentView];
 
 }
 

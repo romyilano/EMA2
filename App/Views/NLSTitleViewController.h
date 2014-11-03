@@ -51,5 +51,7 @@
 
 - (void)sqlQueryDidFinish:(SQLQuery *)query;
 - (void)loadSearchBar;
+- (void)loadTranslucentView;
+- (void)fadeTranslucentView;
 
 @end

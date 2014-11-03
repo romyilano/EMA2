@@ -15,7 +15,6 @@
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
 #import "NLSUIKitExtras.h"
-#import "UIViewController+CWPopup.h"
 #import "NLSSearchViewController.h"
 
 
