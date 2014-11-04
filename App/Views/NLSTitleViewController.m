@@ -180,7 +180,7 @@
     [messageText setEditable:NO];
 
     
-    messageText.text =  @"EMA is an offline, searchable citations database.\n\n"
+    messageText.text =  @"EMA is an powerful, searchable Readers' Advisory.\n\n"
                         @"Searchable terms include: subject headings, keywords in titles or abstracts, numerical years, journal names or abbreviations.  The @ or * symbols are wildcards.\n\n"
                         @"All searches are full-text and boolean. \"Ands\" are implicit.\n\n"
                         @"For example: baseball not injur@ 2005 or softball injury.\n\n"
