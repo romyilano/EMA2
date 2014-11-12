@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir on 8/7/14.
-//  Copyright (c) 2014 Slyce. All rights reserved.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
 #import "NLSTitleViewController.h"

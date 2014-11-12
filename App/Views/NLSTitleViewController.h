@@ -16,6 +16,7 @@
 #import "EDColor.h"
 #import "PBJActivityIndicator.h"
 #import "SQLQuery.h"
+#import "NLSQuery.h"
 #import "NLSSearchViewController.h"
 #import "ILTranslucentView.h"
 #import "NLSAutoSizeTextview.h"
@@ -23,7 +24,7 @@
 #include "EMAConstants.h"
 
 
-@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, SQLQueryDelegate>
+@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, SQLQueryDelegate, NLSQueryDelegate>
 
 //table view
 @property (strong, nonatomic) UITableView *tableView;
@@ -45,6 +46,7 @@
 @property (assign, atomic) BOOL isSearching;
 @property (assign, atomic) BOOL searchReset;
 @property (assign, atomic) NSInteger prevSearchRowCount;
+@property (assign, atomic) NSInteger titleCount;
 @property (assign, atomic) NSInteger resultsCount;
 @property (strong, nonatomic) NSIndexPath *lastIndex;
 @property (strong, nonatomic) UIVisualEffectView *translucentView;

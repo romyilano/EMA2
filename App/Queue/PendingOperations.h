@@ -11,6 +11,7 @@
 @interface PendingOperations : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary *queriesInProgress;
+@property (nonatomic, strong) NSMutableArray *countsInProgress;
 @property (nonatomic, strong) NSOperationQueue *queryQueue;
 
 @end

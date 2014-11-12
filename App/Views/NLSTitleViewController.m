@@ -2,7 +2,7 @@
 //  NLSTitleViewController.m
 //  App
 //
-//  Created by Amir on 7/23/14.
+//  Created by Amir Djavaherian on 7/23/14.
 //  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
@@ -29,6 +29,7 @@
 @synthesize searchReset = _searchReset;
 @synthesize prevSearchRowCount = _prevSearchRowCount;
 @synthesize resultsCount = _resultsCount;
+@synthesize titleCount = _titleCount;
 @synthesize lastIndex = _lastIndex;
 @synthesize translucentView = _translucentView;
 
@@ -44,7 +45,6 @@
 - (NSMutableArray*)cachePointer
 {
     if (self.isSearching){
-        NSLog(@"Using searchTitles cache");
         return self.searchTitles;
     }else{
         return self.titles;
@@ -93,6 +93,8 @@
     self.isSearching = NO;
     self.searchReset = NO;
     self.prevSearchRowCount = 0;
+    self.resultsCount = 0;
+    self.titleCount = 0;
     
     //load searchbar
     [self loadSearchBar];
@@ -106,6 +108,9 @@
         self.tableView.tableHeaderView.layer.zPosition++;
         
     }
+    
+    //get title count
+    [self getTitleCount];
     
 }
 
@@ -154,7 +159,6 @@
 - (void)loadTranslucentView
 {
     
-    
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     [blurEffectView setFrame:self.navigationController.view.bounds];
@@ -163,12 +167,10 @@
     UIVisualEffectView *vibrancyEffectView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
     [vibrancyEffectView setFrame:self.navigationController.view.bounds];
     
-    
     [blurEffectView.contentView addSubview:vibrancyEffectView];
     
     CGRect bounds = [[UIScreen mainScreen] bounds];
     UITextView *messageText = [[UITextView alloc] initWithFrame:CGRectMake(0,110,bounds.size.width,bounds.size.height)];
-
 
     messageText.layer.shadowColor = [[UIColor blackColor] CGColor];
     messageText.layer.shadowOffset = CGSizeMake(1.0,1.0);
@@ -178,9 +180,8 @@
     [messageText setTextColor:[UIColor whiteColor]];
     [messageText setTextAlignment:NSTextAlignmentCenter];
     [messageText setEditable:NO];
-
     
-    messageText.text =  @"EMA is an powerful, searchable Readers' Advisory.\n\n"
+    messageText.text =  @"EMA is a powerful, searchable Readers' Advisory From CCME.org\n\n"
                         @"Searchable terms include: subject headings, keywords in titles or abstracts, numerical years, journal names or abbreviations.  The @ or * symbols are wildcards.\n\n"
                         @"All searches are full-text and boolean. \"Ands\" are implicit.\n\n"
                         @"For example: baseball not injur@ 2005 or softball injury.\n\n"
@@ -196,14 +197,9 @@
     CGRect searchRect = searchLabel.frame;
     searchRect.origin.y = 30;
     searchLabel.frame = searchRect;
-
-    UIImageView *up = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Up"]];
-    up.frame = CGRectMake((bounds.size.width/2) - (up.frame.size.width/2), 0, up.frame.size.width, up.frame.size.height);
-
     
     [vibrancyEffectView.contentView addSubview:messageText];
     [vibrancyEffectView.contentView addSubview:searchLabel];
-    [vibrancyEffectView.contentView addSubview:up];
     
     self.translucentView = blurEffectView;
     
@@ -255,7 +251,6 @@
     [super viewWillDisappear:animated];
 }
 
-
 - (void)didReceiveMemoryWarning
 {
     // Dispose of any resources that can be recreated.
@@ -269,12 +264,42 @@
 
 -(NSInteger)getTitleCount
 {
-    return (NSInteger)[self.sql getTitleCount];
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+
+    // create a singature from the selector
+    SEL selector = @selector(getTitleCount);
+    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    
+    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];    
+    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+    
 }
 
 -(NSInteger)getTitleCountWhereTitleMatch
 {
-    return (NSInteger)[self.sql getTitleCountWhereTitleMatch:self.searchBar.text];
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+
+    //get ref to prop
+    NSString *match = self.searchBar.text;
+    
+    // create a singature from the selector
+    SEL selector = @selector(getTitleCountWhereTitleMatch:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&match atIndex:2];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+    
 }
 
 -(NLSTitleModel*)createTitleForRow:(NSInteger)row
@@ -303,7 +328,8 @@
 }
 
 #pragma mark - Table view data source
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     
     UILabel *myLabel = [[UILabel alloc] init];
     myLabel.frame = CGRectMake(self.view.frame.origin.x + 4, self.view.frame.origin.y + 4, self.view.frame.size.width, 20);
@@ -316,11 +342,6 @@
                       value:[UIColor grayColor]
                       range:NSMakeRange(0, [attString length])];
     myLabel.attributedText = attString;
-    
-    
-
-    
-//    myLabel.bounds = CGRectInset(myLabel.frame, 10.0f, 10.0f);
     
     UIToolbar *headerView = [[UIToolbar alloc] init];
     headerView.translucent = YES;
@@ -338,36 +359,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
-    // Return the number of rows in the section.
-    if (self.isSearching){
-        
-        if(self.searchReset){
-            self.searchReset = NO;
-            NSLog(@"Search reset prev row count: %ld", (long)self.prevSearchRowCount);
-            return self.prevSearchRowCount;
-        }
-        
-        NSLog(@"Title Count From Match: %ld", (long)[self getTitleCountWhereTitleMatch]);
-        self.resultsCount = [self getTitleCountWhereTitleMatch];
-        return [self getTitleCountWhereTitleMatch];
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    if(self.isSearching){
+        return self.resultsCount;
     }else{
-        NSLog(@"Title Count %ld", (long)[self getTitleCount]);
-        self.resultsCount = [self getTitleCount];
-        return [self getTitleCount];
+        return self.titleCount;
     }
-
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     // The header for the section is the region name -- get this from the region at the section index.
-    
+
     if (self.isSearching){
         NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, @(self.resultsCount).stringValue];
         return header;
     }else{
-        NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, @(self.resultsCount).stringValue];
+        NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, @(self.titleCount).stringValue];
         return header;
     }
     
@@ -380,7 +388,6 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     //NSLog(@"Table View: %@", tableView);
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
@@ -410,7 +417,7 @@
     // 3: Inspect the TitleModel. If its data is downloaded, display the data, and stop the activity indicator.
     if (tm.hasData) {
         
-        NSLog(@"tm hasData: %@ rowId: %ld", tm.data, (long)tm.rowId);
+//        NSLog(@"tm hasData: %@ rowId: %ld", tm.data, (long)tm.rowId);
         [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         
         //Attribute string for year
@@ -543,6 +550,20 @@
     }
 }
 
+- (void)queryDidFinish:(NLSQuery*)query
+{
+    NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
+
+    if(self.isSearching){
+        self.resultsCount = query.result;
+        [self.searchResultsController.tableView reloadData];
+    }else{
+        self.titleCount = query.result;
+        [self.tableView reloadData];
+    }
+
+}
+
 - (void)sqlQueryDidFinish:(SQLQuery *)query
 {
     
@@ -560,21 +581,17 @@
     }
 
     // 4: Update UI.
-    UITableView *tv = nil;
-    if(!self.isSearching){
-        NSLog(@"self.isSearching not searching");
-        tv = self.tableView;
-        [tv beginUpdates];
-        [tv reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [tv endUpdates];
-    }else{
+    if(self.isSearching){
         NSLog(@"self.isSearching is searching...");
-//        tv = self.searchDisplayController.searchResultsTableView;
-        tv = self.searchResultsController.tableView;
-        [tv reloadData];
+        [self.searchResultsController.tableView reloadData];
+    }else{
+        NSLog(@"self.isSearching not searching");
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
     }
     
-    // 5: Remove the operation from downloadsInProgress (or filtrationsInProgress).
+    // 5: Remove the operation from queriesInProgress
     [self.pendingOperations.queriesInProgress removeObjectForKey:indexPath];
     
 }
@@ -647,60 +664,49 @@
 {
     
     NSString *searchString = [self.searchController.searchBar text];
-    NSLog(@"updateSearchResultsForSearchController: %@", searchString);
-    [self.tableView reloadData];
-    
-    if([searchString length] <= 1 && self.isSearching){
-        self.navigationItem.title = searchingString;
-    }else if([searchString length] > 1){
-        [self.searchTitles removeAllObjects];
-        [self.searchResultsController.tableView reloadData];
-        self.navigationItem.title = searchString;
-        NSLog(@"shouldReloadTableForSearchString");
-        
-    }else{
-    
+    NSLog(@"updateSearchResultsForSearchController, searchString: %@", searchString);
+
+    if(self.isSearching){
+        if([searchString length] > 1){
+            [self getTitleCountWhereTitleMatch];
+            [self.searchTitles removeAllObjects];
+            self.navigationItem.title = searchString;
+            NSLog(@"shouldReloadTableForSearchString");
+        }else{
+            self.navigationItem.title = searchingString;
+        }
     }
 
 }
 
 - (void)presentSearchController:(UISearchController *)searchController
 {
-    
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
     self.isSearching = YES;
     self.navigationItem.title = searchingString;
-
-    [self fadeTranslucentView];
 }
 
 - (void)willPresentSearchController:(UISearchController *)searchController
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-
 }
 
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    NSLog(@"y: %f", self.searchController.searchBar.frame.origin.y);
-
 }
 
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    self.isSearching = NO;
-    self.navigationItem.title = self.defactoTitle;
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     self.isSearching = NO;
-    [self.tableView reloadData];
     self.navigationItem.title = self.defactoTitle;
+    [self.tableView reloadData];
 }
 
 
@@ -711,9 +717,6 @@
 {
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
-    // Fade out the view right away
-    [self fadeTranslucentView];
-
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

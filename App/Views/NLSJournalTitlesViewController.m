@@ -43,22 +43,49 @@
 
 -(NSInteger)getTitleCount
 {
-    return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId];
+    //get ref to prop
+    NSInteger *journalId = self.journalId;
+    
+    // create a singature from the selector
+    SEL selector = @selector(getTitleCountWhereJournalEquals:);
+    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&journalId atIndex:2];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+    
 }
 
 -(NSInteger)getTitleCountWhereTitleMatch
 {
-    return (NSInteger)[self.sql getTitleCountWhereJournalEquals:self.journalId andTitleMatch:self.searchBar.text];
-}
-
--(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row WhereTitleMatch:str
-{
-    return [self.sql getTitleAndIdForRow:(NSInteger)row whereJournalEquals:self.journalId andTitleMatch:str];
-}
-
--(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)row
-{
-    return [self.sql getTitleAndIdForRow:(NSInteger)row whereJournalEquals:self.journalId];
+    
+    //get ref to prop
+    NSInteger *journalId = self.journalId;
+    NSString *match = self.searchBar.text;
+    
+    // create a singature from the selector
+    SEL selector = @selector(getTitleCountWhereJournalEquals:andTitleMatch:);
+    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&journalId atIndex:2];
+    [invocation setArgument:&match atIndex:3];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+    
 }
 
 -(NLSTitleModel*)createTitleForRow:(NSInteger)row
