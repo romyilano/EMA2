@@ -88,28 +88,59 @@
     
 }
 
--(NLSTitleModel*)createTitleForRow:(NSInteger)row
+- (void)startQueryForIndexPath:(NSIndexPath *)indexPath
 {
+    NSMutableDictionary *queriesInProgress = nil;
+    NLSTMQuery *tmQuery = nil;
+    NSInvocation *invocation = nil;
+    NSUInteger *row = indexPath.row;
+    NSInteger *journalId = self.journalId;
     
-    __block NSInteger bRow = row;
-    __block NSString *bString = self.searchBar.text;
-    __block NSInteger bJournal = self.journalId;
-    
-    if (self.isSearching){
-        NSLog(@"Using searchTitles cache with str: %@", bString);
+    if(self.isSearching){
         
-        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:bString];
-        tm.sqlQuery = ^{
-            return [self.sql getTitleAndIdForRow:bRow whereJournalEquals:bJournal andTitleMatch:bString];
-        };
-        return tm;
+        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
+        
+        //get args row and match
+        NSString *match = self.searchBar.text;
+        
+        // create a singature from the selector
+        SEL selector = @selector(getTitleAndIdForRow:whereJournalEquals:andTitleMatch:);
+        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
+        
+        //setup invocation and args
+        [invocation setTarget:self.sql];
+        [invocation setSelector:selector];
+        [invocation setArgument:&row atIndex:2];
+        [invocation setArgument:&journalId atIndex:3];
+        [invocation setArgument:&match atIndex:4];
+        [invocation retainArguments];
+        
     }else{
-        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:nil];
-        tm.sqlQuery = ^{
-            return [self.sql getTitleAndIdForRow:bRow whereJournalEquals:bJournal];
-        };
         
-        return tm;
+        queriesInProgress = self.pendingOperations.queriesInProgress;
+        
+        // create a singature from the selector
+        SEL selector = @selector(getTitleAndIdForRow:whereJournalEquals:);
+        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
+        
+        //setup invocation
+        [invocation setTarget:self.sql];
+        [invocation setSelector:selector];
+        [invocation setArgument:&row atIndex:2];
+        [invocation setArgument:&journalId atIndex:3];
+        [invocation retainArguments];
+        
+    }
+    
+    if (![queriesInProgress.allKeys containsObject:indexPath]) {
+        NSLog(@"not in pending operations %@", indexPath);
+        
+        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation atIndexPath:indexPath andDelegate:self];
+        
+        [queriesInProgress setObject:tmQuery forKey:indexPath];
+        [self.pendingOperations.queryQueue addOperation:tmQuery];
     }
     
 }

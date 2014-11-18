@@ -11,7 +11,7 @@
 		060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */; };
 		060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */; };
 		7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B11D7961A080A650069D7A1 /* Images.xcassets */; };
-		7B444ADE1A0763E000A7D869 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B444ADD1A0763E000A7D869 /* ILTranslucentView.m */; };
+		7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1528081A1A735000F0F871 /* NLSTMQuery.m */; };
 		7B444AE11A07EF2800A7D869 /* NLSAutoSizeTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */; };
 		7B4E620C19E2F602004E90BD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B4E620B19E2F602004E90BD /* Images.xcassets */; };
 		7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED319D92117000D058F /* Default-568h@2x.png */; };
@@ -54,7 +54,7 @@
 		7BB9A99719D4C63600ACFE7B /* NLSJournalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94819D4C63600ACFE7B /* NLSJournalModel.m */; };
 		7BB9A99819D4C63600ACFE7B /* NLSTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94A19D4C63600ACFE7B /* NLSTitleModel.m */; };
 		7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */; };
-		7BB9A99B19D4C63600ACFE7B /* PendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95119D4C63600ACFE7B /* PendingOperations.m */; };
+		7BB9A99B19D4C63600ACFE7B /* NLSPendingOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95119D4C63600ACFE7B /* NLSPendingOperations.m */; };
 		7BB9A99C19D4C63600ACFE7B /* SQLQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A95319D4C63600ACFE7B /* SQLQuery.m */; };
 		7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95819D4C63600ACFE7B /* About-50@2x.png */; };
 		7BB9A9A019D4C63600ACFE7B /* About-selected-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7BB9A95919D4C63600ACFE7B /* About-selected-50@2x.png */; };
@@ -89,8 +89,8 @@
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		7B11D7961A080A650069D7A1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		7B444ADC1A0763E000A7D869 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
-		7B444ADD1A0763E000A7D869 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		7B1528071A1A735000F0F871 /* NLSTMQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTMQuery.h; sourceTree = "<group>"; };
+		7B1528081A1A735000F0F871 /* NLSTMQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTMQuery.m; sourceTree = "<group>"; };
 		7B444ADF1A07EF2800A7D869 /* NLSAutoSizeTextview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAutoSizeTextview.h; sourceTree = "<group>"; };
 		7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAutoSizeTextview.m; sourceTree = "<group>"; };
 		7B4E620B19E2F602004E90BD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
@@ -151,8 +151,8 @@
 		7BB9A94A19D4C63600ACFE7B /* NLSTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleModel.m; sourceTree = "<group>"; };
 		7BB9A94E19D4C63600ACFE7B /* NLSSQLAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSQLAPI.h; sourceTree = "<group>"; };
 		7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLAPI.m; sourceTree = "<group>"; };
-		7BB9A95019D4C63600ACFE7B /* PendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PendingOperations.h; sourceTree = "<group>"; };
-		7BB9A95119D4C63600ACFE7B /* PendingOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PendingOperations.m; sourceTree = "<group>"; };
+		7BB9A95019D4C63600ACFE7B /* NLSPendingOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSPendingOperations.h; sourceTree = "<group>"; };
+		7BB9A95119D4C63600ACFE7B /* NLSPendingOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSPendingOperations.m; sourceTree = "<group>"; };
 		7BB9A95219D4C63600ACFE7B /* SQLQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLQuery.h; sourceTree = "<group>"; };
 		7BB9A95319D4C63600ACFE7B /* SQLQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLQuery.m; sourceTree = "<group>"; };
 		7BB9A95419D4C63600ACFE7B /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -336,12 +336,14 @@
 			children = (
 				7BB9A94E19D4C63600ACFE7B /* NLSSQLAPI.h */,
 				7BB9A94F19D4C63600ACFE7B /* NLSSQLAPI.m */,
-				7BB9A95019D4C63600ACFE7B /* PendingOperations.h */,
-				7BB9A95119D4C63600ACFE7B /* PendingOperations.m */,
+				7BB9A95019D4C63600ACFE7B /* NLSPendingOperations.h */,
+				7BB9A95119D4C63600ACFE7B /* NLSPendingOperations.m */,
 				7BB9A95219D4C63600ACFE7B /* SQLQuery.h */,
 				7BB9A95319D4C63600ACFE7B /* SQLQuery.m */,
 				7B5CDA621A0D81E2005099C0 /* NLSQuery.h */,
 				7B5CDA631A0D81E2005099C0 /* NLSQuery.m */,
+				7B1528071A1A735000F0F871 /* NLSTMQuery.h */,
+				7B1528081A1A735000F0F871 /* NLSTMQuery.m */,
 			);
 			path = Queue;
 			sourceTree = "<group>";
@@ -377,8 +379,6 @@
 		7BB9A96519D4C63600ACFE7B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7B444ADC1A0763E000A7D869 /* ILTranslucentView.h */,
-				7B444ADD1A0763E000A7D869 /* ILTranslucentView.m */,
 				7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */,
 				7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */,
 				7BB9A96619D4C63600ACFE7B /* NLSAboutViewController.h */,
@@ -560,8 +560,9 @@
 				7BB9A9AF19D4C63600ACFE7B /* NLSFavoritesViewController.m in Sources */,
 				7BB9A9B119D4C63600ACFE7B /* NLSJournalViewController.m in Sources */,
 				7BB9A99C19D4C63600ACFE7B /* SQLQuery.m in Sources */,
+				7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */,
 				7BB9A9AE19D4C63600ACFE7B /* NLSDetailViewController.m in Sources */,
-				7BB9A99B19D4C63600ACFE7B /* PendingOperations.m in Sources */,
+				7BB9A99B19D4C63600ACFE7B /* NLSPendingOperations.m in Sources */,
 				7BB9A9AB19D4C63600ACFE7B /* NLSAboutViewController.m in Sources */,
 				7B5CDA611A0D6DB4005099C0 /* NLSSQLCount.m in Sources */,
 				7B65DF001A041225006814E7 /* NLSTableView.m in Sources */,
@@ -573,7 +574,6 @@
 				7BB9A9B319D4C63600ACFE7B /* NLSTableViewCell.m in Sources */,
 				7BB9A99519D4C63600ACFE7B /* NLSDescriptorModel.m in Sources */,
 				7BB9A99419D4C63600ACFE7B /* NLSUIKitExtras.m in Sources */,
-				7B444ADE1A0763E000A7D869 /* ILTranslucentView.m in Sources */,
 				7BB9A9AC19D4C63600ACFE7B /* NLSDescriptorTitlesViewController.m in Sources */,
 				7BB9A99219D4C63600ACFE7B /* NLSFoundationExtras.m in Sources */,
 				7BB9A99019D4C63600ACFE7B /* NLSAppDelegate.m in Sources */,

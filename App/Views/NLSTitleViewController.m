@@ -34,10 +34,10 @@
 @synthesize translucentView = _translucentView;
 
 //Setup titles cache
-- (PendingOperations *)pendingOperations
+- (NLSPendingOperations *)pendingOperations
 {
     if (!_pendingOperations) {
-        _pendingOperations = [[PendingOperations alloc] init];
+        _pendingOperations = [[NLSPendingOperations alloc] init];
     }
     return _pendingOperations;
 }
@@ -302,31 +302,6 @@
     
 }
 
--(NLSTitleModel*)createTitleForRow:(NSInteger)row
-{
-
-    __block NSInteger bRow = row;
-    __block NSString *bString = self.searchBar.text;
-    
-    if (self.isSearching){
-        NSLog(@"Using searchTitles cache with str: %@", bString);
-        
-        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:bString];
-        tm.sqlQuery = ^{
-            return [self.sql getTitleAndIdForRow:bRow whereTitleMatch:bString];
-        };
-        return tm;
-    }else{
-        NLSTitleModel *tm  = [[NLSTitleModel alloc] initWithCellId:bRow andSearchBarText:nil];
-        tm.sqlQuery = ^{
-            return [self.sql getTitleAndIdForRow:bRow];
-        };
-        
-        return tm;
-    }
-    
-}
-
 #pragma mark - Table view data source
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -409,7 +384,8 @@
     if([self.cachePointer count] > indexPath.row){
         tm = [self.cachePointer objectAtIndex:indexPath.row];
     }else{
-        tm = [self createTitleForRow:indexPath.row];
+//        tm = [self createTitleForRow:indexPath.row];
+        tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
         NSLog(@"Adding %@ to cache.", tm);
         [self.cachePointer addObject:tm];
     }
@@ -529,25 +505,65 @@
     // 2: You inspect it to see whether it has data if so, then ignore it.
     if (!tm.hasData) {
         NSLog(@"tm at: %@ does not have data %d", indexPath, tm.hasData);
-        // 3: If it does not have an title, start query by calling startQueryForTitleModel:atIndexPath:
-        [self startQueryForTitleModel:tm atIndexPath:indexPath];
+        // 3: If it does not have an title, start query by calling startQueryForIndexPath:
+        [self startQueryForIndexPath:indexPath];
     }
     
 }
 
-- (void)startQueryForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath
+- (void)startQueryForIndexPath:(NSIndexPath *)indexPath
 {
+    NSMutableDictionary *queriesInProgress = nil;
+    NLSTMQuery *tmQuery = nil;
+    NSInvocation *invocation = nil;
+    NSUInteger *row = indexPath.row;
     
-    // 1: First, check for the particular indexPath to see if there is already an operation in downloadsInProgress for it. If so, ignore it.
-    if (![self.pendingOperations.queriesInProgress.allKeys containsObject:indexPath]) {
-        NSLog(@"not in pending operations %@", indexPath);
-
-        // 2: If not, create an instance of SQLQuery by using the designated initializer, and set TitleViewController as the delegate. Pass in the appropriate indexPath and a pointer to the instance of TitleModel, and then add it to the download queue.
-        SQLQuery *sqlQuery = [[SQLQuery alloc] initWithTitleModel:tm atIndexPath:indexPath delegate:self];
-        [self.pendingOperations.queriesInProgress setObject:sqlQuery forKey:indexPath];
-        [self.pendingOperations.queryQueue addOperation:sqlQuery];
-
+    if(self.isSearching){
+        
+        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
+        
+        //get args row and match
+        NSString *match = self.searchBar.text;
+        
+        // create a singature from the selector
+        SEL selector = @selector(getTitleAndIdForRow:whereTitleMatch:);
+        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
+        
+        //setup invocation and args
+        [invocation setTarget:self.sql];
+        [invocation setSelector:selector];
+        [invocation setArgument:&row atIndex:2];
+        [invocation setArgument:&match atIndex:3];
+        [invocation retainArguments];
+    
+    }else{
+        
+        queriesInProgress = self.pendingOperations.queriesInProgress;
+        
+        // create a singature from the selector
+        SEL selector = @selector(getTitleAndIdForRow:);
+        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
+        
+        //setup invocation
+        [invocation setTarget:self.sql];
+        [invocation setSelector:selector];
+        [invocation setArgument:&row atIndex:2];
+        [invocation retainArguments];
+    
     }
+    
+    if (![queriesInProgress.allKeys containsObject:indexPath]) {
+        NSLog(@"not in pending operations %@", indexPath);
+        
+        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation atIndexPath:indexPath andDelegate:self];
+        
+        [queriesInProgress setObject:tmQuery forKey:indexPath];
+        [self.pendingOperations.queryQueue addOperation:tmQuery];
+    }
+    
+    
 }
 
 - (void)queryDidFinish:(NLSQuery*)query
@@ -564,7 +580,7 @@
 
 }
 
-- (void)sqlQueryDidFinish:(SQLQuery *)query
+- (void)sqlQueryDidFinish:(NLSTMQuery *)query
 {
     
     // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
@@ -584,15 +600,15 @@
     if(self.isSearching){
         NSLog(@"self.isSearching is searching...");
         [self.searchResultsController.tableView reloadData];
+        [self.pendingOperations.searchQueriesInProgress removeObjectForKey:indexPath];
     }else{
         NSLog(@"self.isSearching not searching");
         [self.tableView beginUpdates];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView endUpdates];
+        [self.pendingOperations.queriesInProgress removeObjectForKey:indexPath];
     }
-    
-    // 5: Remove the operation from queriesInProgress
-    [self.pendingOperations.queriesInProgress removeObjectForKey:indexPath];
+
     
 }
 
@@ -600,17 +616,19 @@
     
     // 1: Get a set of visible rows.
     NSSet *visibleRows = nil;
+    NSMutableDictionary *queriesInProgress = nil;
     
     if(self.isSearching){
         NSLog(@"is searching...");
-//        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
         visibleRows = [NSSet setWithArray:[self.searchResultsController.tableView indexPathsForVisibleRows]];
+        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
     }else{
         visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+        queriesInProgress = self.pendingOperations.queriesInProgress;
     }
     
     // 2: Get a set of all pending operations
-    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[self.pendingOperations.queriesInProgress allKeys]];
+    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[queriesInProgress allKeys]];
     NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
     NSMutableSet *toBeStarted = [visibleRows mutableCopy];
     
@@ -622,9 +640,9 @@
     
     // 5: Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
     for (NSIndexPath *anIndexPath in toBeCancelled) {
-        SQLQuery *pendingQuery = [self.pendingOperations.queriesInProgress objectForKey:anIndexPath];
+        NLSTMQuery *pendingQuery = [queriesInProgress objectForKey:anIndexPath];
         [pendingQuery cancel];
-        [self.pendingOperations.queriesInProgress removeObjectForKey:anIndexPath];
+        [queriesInProgress removeObjectForKey:anIndexPath];
         
     }
     toBeCancelled = nil;

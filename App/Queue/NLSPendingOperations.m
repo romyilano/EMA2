@@ -1,15 +1,16 @@
 //
-//  PendingOperations.m
+//  NLSPendingOperations.m
 //  ClassicPhotos
 //
 //  Created by Amir Djavaherian on 11/7/14.
 //  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
-#import "PendingOperations.h"
+#import "NLSPendingOperations.h"
 
-@implementation PendingOperations
+@implementation NLSPendingOperations
 @synthesize queriesInProgress = _queriesInProgress;
+@synthesize searchQueriesInProgress = _searchQueriesInProgress;
 @synthesize countsInProgress = _countsInProgress;
 @synthesize queryQueue = _queryQueue;
 
@@ -18,6 +19,13 @@
         _queriesInProgress = [[NSMutableDictionary alloc] init];
     }
     return _queriesInProgress;
+}
+
+- (NSMutableDictionary *)searchQueriesInProgress {
+    if (!_searchQueriesInProgress) {
+        _searchQueriesInProgress = [[NSMutableDictionary alloc] init];
+    }
+    return _searchQueriesInProgress;
 }
 
 - (NSMutableArray *)countsInProgress{

@@ -1,16 +1,17 @@
 //
-//  PendingOperations.h
-//  ClassicPhotos
+//  NLSPendingOperations.h
 //
-//  Created by Soheil M. Azarpour on 8/11/12.
-//  Copyright (c) 2012 iOS Developer. All rights reserved.
+//  Created by Amir Djavaherian on 11/7/14.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
+
 //
 
 #import <Foundation/Foundation.h>
 
-@interface PendingOperations : NSObject
+@interface NLSPendingOperations : NSObject
 
 @property (nonatomic, strong) NSMutableDictionary *queriesInProgress;
+@property (nonatomic, strong) NSMutableDictionary *searchQueriesInProgress;
 @property (nonatomic, strong) NSMutableArray *countsInProgress;
 @property (nonatomic, strong) NSOperationQueue *queryQueue;
 
