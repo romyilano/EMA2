@@ -8,22 +8,11 @@
 
 #import "NLSSQLAPI.h"
 
-@interface NLSSQLAPI ()
-{
-    NSMutableArray *_tableArray;
-    NSString *someProperty;
-}
-
-@property (nonatomic, retain) NSString *someProperty;
-
-@end
 
 @implementation NLSSQLAPI
 
-@synthesize tableArray = _tableArray;
 @synthesize queue = _queue;
 @synthesize favesQ = _favesQ;
-@synthesize someProperty;
 @synthesize fileMgr = _fileMgr;
 @synthesize homeDir = _homeDir;
 
@@ -41,7 +30,6 @@
 
 -(id)init {
     if (self = [super init]) {
-        someProperty = @"Default Property Value";
         [self initDatabase];
     }
     return self;
@@ -58,7 +46,6 @@
 - (void) initDatabase
 {
     
-//    NSString *path = [self.GetDocumentDirectory stringByAppendingPathComponent:@"ema.sqlite"];
     NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"ema.sqlite"];
     FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:path];
     self.queue = queue;
@@ -76,35 +63,6 @@
 }
 
 #pragma mark Create
-
-//-(void)createTitles
-//{
-//    NSLog(@"Creating FTS titles table");
-//    
-//    NSString *sql = @"DROP TABLE IF EXISTS titles;"
-//                    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
-//                    @"INSERT INTO titles\
-//                    SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year\
-//                    FROM erpubtbl e\
-//                    JOIN abstract_mesh a ON e.id = a.abstract_id\
-//                    JOIN mesh_descriptor m ON a.mesh_id = m.id\
-//                    GROUP BY a.abstract_id;";
-//
-//    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
-//
-//}
-//
-//-(void)createDescriptors
-//{
-//    NSLog(@"Creating FTS descriptors table");
-//    
-//    NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
-//                        @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
-//                        @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
-//
-//    [self executeInQueueWithSQL:sql withLabel:@"Descriptors"];
-//
-//}
 
 -(void)createFavoritesTable
 {
@@ -194,15 +152,13 @@
 
 -(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId
 {
+    
     //Get associated mesh descriptors
-    NSString *query = [NSString stringWithFormat:@"\
-                       SELECT a.mesh_id, m.name \
-                       FROM erpubtbl e \
-                       JOIN abstract_mesh a \
-                       ON a.abstract_id = e.id \
-                       JOIN mesh_descriptor m \
-                       ON m.id = a.mesh_id \
-                       WHERE e.id = %ld", (long)emaId];
+    NSString *query = [NSString stringWithFormat:  @"SELECT a.mesh_id, m.name "
+                                                   @"FROM abstract_mesh a "
+                                                   @"JOIN mesh_descriptor m "
+                                                   @"ON m.id = a.mesh_id "
+                                                   @"WHERE a.abstract_id = %ld", (long)emaId];
     
     return [self getMeshArrayForSQL:query];
 }
@@ -221,14 +177,13 @@
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val
 {
-    NSString * query = [NSString stringWithFormat:@"\
-                        SELECT e.id, e.title, e.journal_year, j.journal_abv \
-                        FROM erpubtbl e \
-                        JOIN journals j \
-                        ON e.journal_id = j.id \
-                        ORDER BY e.journal_year DESC \
-                        LIMIT 1 \
-                        OFFSET %ld;", (long)val];
+    NSString * query = [NSString stringWithFormat:  @"SELECT e.id, e.title, e.journal_year, j.journal_abv "
+                                                    @"FROM erpubtbl e "
+                                                    @"JOIN journals j "
+                                                    @"ON e.journal_id = j.id "
+                                                    @"ORDER BY e.journal_year DESC "
+                                                    @"LIMIT 1 "
+                                                    @"OFFSET %ld;", (long)val];
     
     return [self getTitleModelForSQL:query];
 }
@@ -626,6 +581,7 @@
 -(NSArray *)getMeshArrayForSQL:sql
 {
     
+    NSLog(@"SQLAPI - getMeshArrayForSQL %@", sql);
     __block FMResultSet *rs = nil;
     __block NSMutableArray *mesh_array = [[NSMutableArray alloc] init];
     

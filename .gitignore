@@ -17,5 +17,5 @@ App/Resources/ema.sqlite
 /* Pods */
 Pods/
 Podfile.lock
-
+App.xcodeproj/xcshareddata/xcschemes/Release.xcscheme
 

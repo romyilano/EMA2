@@ -76,3 +76,32 @@
 //    [self.searchTitles removeAllObjects];
 //    [self.tableView reloadData];
 //}
+
+//-(void)createTitles
+//{
+//    NSLog(@"Creating FTS titles table");
+//
+//    NSString *sql = @"DROP TABLE IF EXISTS titles;"
+//                    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
+//                    @"INSERT INTO titles\
+//                    SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year\
+//                    FROM erpubtbl e\
+//                    JOIN abstract_mesh a ON e.id = a.abstract_id\
+//                    JOIN mesh_descriptor m ON a.mesh_id = m.id\
+//                    GROUP BY a.abstract_id;";
+//
+//    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
+//
+//}
+//
+//-(void)createDescriptors
+//{
+//    NSLog(@"Creating FTS descriptors table");
+//
+//    NSString *sql =     @"DROP TABLE IF EXISTS descriptors;"
+//                        @"CREATE VIRTUAL TABLE IF NOT EXISTS descriptors USING fts4(mesh_id NUMBER, descriptor TEXT);"
+//                        @"INSERT INTO descriptors SELECT id, name FROM mesh_descriptor;";
+//
+//    [self executeInQueueWithSQL:sql withLabel:@"Descriptors"];
+//
+//}

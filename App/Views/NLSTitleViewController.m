@@ -244,6 +244,23 @@
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     [super viewWillAppear:animated];
+    
+    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+
+    CGFloat height = self.tableView.bounds.size.height;
+    frame.size.height += height;
+
+
+    insets.top = height;
+    insets.bottom = height;
+
+    
+    self.tableView.frame = frame;
+    self.tableView.scrollIndicatorInsets = insets;
+//    self.tableView.contentInset = insets;
+    
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -364,40 +381,36 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //NSLog(@"Table View: %@", tableView);
-    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    NSString *identifier = @"CellIdentifier";
+    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (!cell) {
-        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
-        // 1: To provide feedback to the user, create a UIActivityIndicatorView and set it as the cellís accessory view.
+        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
         UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         cell.accessoryView = activityIndicatorView;
-    }else{
-        cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-        cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
     }
-    
-    // 2: The data source contains instances of TitleModels. Get a hold of each of them based on the indexPath of the row.
 
+    cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+    cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+
+    
     // Get tm from cache
     NLSTitleModel *tm = nil;
     
     if([self.cachePointer count] > indexPath.row){
         tm = [self.cachePointer objectAtIndex:indexPath.row];
     }else{
-//        tm = [self createTitleForRow:indexPath.row];
         tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
         NSLog(@"Adding %@ to cache.", tm);
         [self.cachePointer addObject:tm];
     }
     
-    // 3: Inspect the TitleModel. If its data is downloaded, display the data, and stop the activity indicator.
+    // Check for data
     if (tm.hasData) {
         
-//        NSLog(@"tm hasData: %@ rowId: %ld", tm.data, (long)tm.rowId);
         [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         
         //Attribute string for year
-
         NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@ \n", tm.journal_abv, tm.year ];
         NSMutableAttributedString *journalLine = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
         
@@ -439,7 +452,6 @@
         NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:journalLine];
         [detailText appendAttributedString:meshDescriptors];
         
-        
         //Attribute string for label
         NSMutableAttributedString *title;
         
@@ -459,16 +471,14 @@
         //Set row id property of cell
         cell.rowId = tm.rowId;
         
-    }
-    // 4: If downloading the title has failed, display a placeholder to display the failure, and stop the activity indicator.
-    else if (tm.isFailed) {
+    } else if (tm.isFailed) {
+        
         NSLog(@"tm is failed");
         [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
         cell.textLabel.text = @"Failed to load";
         
-    }
-    // 5: Otherwise, the title has not been downloaded yet. Start the query, and display a placeholder that indicates you are working on it. Start the activity indicator to show user something is going on.
-    else {
+    } else {
+        
         [((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
         cell.textLabel.text = @"Loading...";
         [self startOperationsForTitleModel:tm atIndexPath:indexPath];
@@ -505,7 +515,6 @@
     // 2: You inspect it to see whether it has data if so, then ignore it.
     if (!tm.hasData) {
         NSLog(@"tm at: %@ does not have data %d", indexPath, tm.hasData);
-        // 3: If it does not have an title, start query by calling startQueryForIndexPath:
         [self startQueryForIndexPath:indexPath];
     }
     
@@ -571,6 +580,7 @@
     NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
 
     if(self.isSearching){
+        [self.cachePointer removeAllObjects];
         self.resultsCount = query.result;
         [self.searchResultsController.tableView reloadData];
     }else{
@@ -583,20 +593,20 @@
 - (void)sqlQueryDidFinish:(NLSTMQuery *)query
 {
     
-    // 1: Check for the indexPath of the operation, whether it is a download, or filtration.
+    // get indexPath
     NSIndexPath *indexPath = query.indexPathInTableView;
     NSLog(@"sqlQueryDidFinish. will update cell at: %@", indexPath);
     
-    // 2: Get hold of the TitleModel instance.
+    // Get the TitleModel instance.
     NLSTitleModel *tm = query.titleModel;
     
-    // 3: Replace the updated TitleModel in the main data source (Titles array).
+    // Replace the updated TitleModel in the main data source.
     if([self.cachePointer count] > indexPath.row){
         NSLog(@"cachePointer has values, replacing %@ at index %ld", tm, (unsigned long)indexPath.row);
         [self.cachePointer replaceObjectAtIndex:indexPath.row withObject:tm];
     }
 
-    // 4: Update UI.
+    // Update UI.
     if(self.isSearching){
         NSLog(@"self.isSearching is searching...");
         [self.searchResultsController.tableView reloadData];
@@ -614,7 +624,7 @@
 
 - (void)loadTitlesForOnscreenCells {
     
-    // 1: Get a set of visible rows.
+    // Get a set of visible rows.
     NSSet *visibleRows = nil;
     NSMutableDictionary *queriesInProgress = nil;
     
@@ -627,18 +637,18 @@
         queriesInProgress = self.pendingOperations.queriesInProgress;
     }
     
-    // 2: Get a set of all pending operations
+    // Get a set of all pending operations
     NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[queriesInProgress allKeys]];
     NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
     NSMutableSet *toBeStarted = [visibleRows mutableCopy];
     
-    // 3: Rows (or indexPaths) that need an operation = visible rows n pendings.
+    // Rows (or indexPaths) that need an operation = visible rows n pendings.
     [toBeStarted minusSet:pendingOperations];
     
-    // 4: Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
+    // Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
     [toBeCancelled minusSet:visibleRows];
     
-    // 5: Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
+    // Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
     for (NSIndexPath *anIndexPath in toBeCancelled) {
         NLSTMQuery *pendingQuery = [queriesInProgress objectForKey:anIndexPath];
         [pendingQuery cancel];
@@ -647,7 +657,7 @@
     }
     toBeCancelled = nil;
     
-    // 6: Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
+    // Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
     for (NSIndexPath *anIndexPath in toBeStarted) {
         NLSTitleModel *tmToProcess = [self.cachePointer objectAtIndex:anIndexPath.row];
         [self startOperationsForTitleModel:tmToProcess atIndexPath:anIndexPath];
@@ -686,8 +696,8 @@
 
     if(self.isSearching){
         if([searchString length] > 1){
+            [self cancelAllOperations];
             [self getTitleCountWhereTitleMatch];
-            [self.searchTitles removeAllObjects];
             self.navigationItem.title = searchString;
             NSLog(@"shouldReloadTableForSearchString");
         }else{

@@ -16,7 +16,6 @@
 
 @interface NLSSQLAPI : NSObject
 
-@property (strong, nonatomic) NSMutableArray *tableArray;
 @property (strong, nonatomic) FMDatabaseQueue *queue;
 @property (strong, nonatomic) FMDatabaseQueue *favesQ;
 @property (nonatomic,retain) NSFileManager *fileMgr;
@@ -25,9 +24,6 @@
 + (id)sharedManager;
 
 -(void)initDatabase;
-//-(void)executeInQueueWithSQL:(NSString*)sql withLabel:(NSString*)label;
-//-(void)createTitles;
-//-(void)createDescriptors;
 
 -(NSInteger)getCountFromFavorites;
 -(BOOL)insertIntoFavorites:(NSInteger)emaId;
