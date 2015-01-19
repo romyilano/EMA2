@@ -228,10 +228,12 @@
     }
 
     //trim last comma
-    NSRange endComma;
-    endComma.location = ([finalString length] - 2);
-    endComma.length = 1;
-    [finalString deleteCharactersInRange:endComma];
+    if([finalString length] >= 1){
+        NSRange endComma;
+        endComma.location = ([finalString length] - 2);
+        endComma.length = 1;
+        [finalString deleteCharactersInRange:endComma];
+    }
 
     NSMutableParagraphStyle *pStyle = [[NSMutableParagraphStyle alloc] init];
     [pStyle setLineSpacing:6];

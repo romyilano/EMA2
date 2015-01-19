@@ -19,6 +19,7 @@
 #import "NLSPendingOperations.h"
 #import "EDColor.h"
 #import "PBJActivityIndicator.h"
+#import "NLSSettingsViewController.h"
 
 #include "EMAConstants.h"
 
@@ -49,6 +50,8 @@
 @property (assign, atomic) NSInteger resultsCount;
 @property (strong, nonatomic) NSIndexPath *lastIndex;
 @property (strong, nonatomic) UIVisualEffectView *translucentView;
+@property (strong, nonatomic) NLSSettingsViewController *settings;
+
 
 - (void)loadSearchBar;
 - (void)loadTranslucentView;

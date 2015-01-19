@@ -83,12 +83,12 @@
 //
 //    NSString *sql = @"DROP TABLE IF EXISTS titles;"
 //                    @"CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);"
-//                    @"INSERT INTO titles\
-//                    SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year\
-//                    FROM erpubtbl e\
-//                    JOIN abstract_mesh a ON e.id = a.abstract_id\
-//                    JOIN mesh_descriptor m ON a.mesh_id = m.id\
-//                    GROUP BY a.abstract_id;";
+//                    @"INSERT INTO titles
+//                    SELECT e.abstract_id, e.title || ' ' || group_concat(name, ' ') || ' ' || e.author || ' ' || e.country || ' ' || e.journal_year
+//                    FROM erpubtbl e
+//                    JOIN abstract_mesh a ON e.id = a.abstract_id
+//                    JOIN mesh_descriptor m ON a.mesh_id = m.id
+//                    GROUP BY a.abstract_id;
 //
 //    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
 //

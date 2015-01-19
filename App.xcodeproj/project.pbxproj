@@ -10,8 +10,12 @@
 		060BE1721946D8F4008FB3C5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16D1946D8C5008FB3C5 /* UIKit.framework */; };
 		060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */; };
 		060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */; };
+		7B0088B91A6503CB0043889E /* NLSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */; };
+		7B0B93AD1A3FBC0900C47A1C /* CreateFTSTitles.sql in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */; };
 		7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B11D7961A080A650069D7A1 /* Images.xcassets */; };
 		7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1528081A1A735000F0F871 /* NLSTMQuery.m */; };
+		7B27CA051A6391810093499A /* Options-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B27CA041A6391810093499A /* Options-50@2x.png */; };
+		7B27CA071A639BE60093499A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B27CA061A639BE60093499A /* Settings.bundle */; };
 		7B444AE11A07EF2800A7D869 /* NLSAutoSizeTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */; };
 		7B4E620C19E2F602004E90BD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B4E620B19E2F602004E90BD /* Images.xcassets */; };
 		7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED319D92117000D058F /* Default-568h@2x.png */; };
@@ -87,9 +91,14 @@
 		060BE16D1946D8C5008FB3C5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		060BE1701946D8E7008FB3C5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		7B0088B71A6503CB0043889E /* NLSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSettingsViewController.h; sourceTree = "<group>"; };
+		7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSettingsViewController.m; sourceTree = "<group>"; };
+		7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CreateFTSTitles.sql; sourceTree = "<group>"; };
 		7B11D7961A080A650069D7A1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7B1528071A1A735000F0F871 /* NLSTMQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTMQuery.h; sourceTree = "<group>"; };
 		7B1528081A1A735000F0F871 /* NLSTMQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTMQuery.m; sourceTree = "<group>"; };
+		7B27CA041A6391810093499A /* Options-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Options-50@2x.png"; path = "../Icons/Options-50@2x.png"; sourceTree = "<group>"; };
+		7B27CA061A639BE60093499A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7B444ADF1A07EF2800A7D869 /* NLSAutoSizeTextview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAutoSizeTextview.h; sourceTree = "<group>"; };
 		7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAutoSizeTextview.m; sourceTree = "<group>"; };
 		7B4E620B19E2F602004E90BD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
@@ -233,6 +242,8 @@
 		060BE1371946A814008FB3C5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7B27CA061A639BE60093499A /* Settings.bundle */,
+				7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */,
 				7BB9A91D19D4C63600ACFE7B /* App-Info.plist */,
 				7BB9A91E19D4C63600ACFE7B /* App-Prefix.pch */,
 				7BB9A91F19D4C63600ACFE7B /* Base.xcconfig */,
@@ -354,6 +365,7 @@
 		7BB9A95719D4C63600ACFE7B /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				7B27CA041A6391810093499A /* Options-50@2x.png */,
 				7BB9A95819D4C63600ACFE7B /* About-50@2x.png */,
 				7BB9A95919D4C63600ACFE7B /* About-selected-50@2x.png */,
 				7BB9A95A19D4C63600ACFE7B /* Descriptors-50@2x.png */,
@@ -400,6 +412,8 @@
 				7B65DEFF1A041225006814E7 /* NLSTableView.m */,
 				7B444ADF1A07EF2800A7D869 /* NLSAutoSizeTextview.h */,
 				7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */,
+				7B0088B71A6503CB0043889E /* NLSSettingsViewController.h */,
+				7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -489,12 +503,15 @@
 				7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */,
 				7BB9A98719D4C63600ACFE7B /* Icon-Small-40.png in Resources */,
 				7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */,
+				7B27CA071A639BE60093499A /* Settings.bundle in Resources */,
 				7BB9A9A119D4C63600ACFE7B /* Descriptors-50@2x.png in Resources */,
+				7B0B93AD1A3FBC0900C47A1C /* CreateFTSTitles.sql in Resources */,
 				7BB9A98319D4C63600ACFE7B /* Icon-72.png in Resources */,
 				7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */,
 				7BB9A9AA19D4C63600ACFE7B /* Share-50@2x.png in Resources */,
 				7BB9A9A319D4C63600ACFE7B /* Document-50@2x.png in Resources */,
 				7BB9A9A219D4C63600ACFE7B /* Descriptors-selected-50@2x.png in Resources */,
+				7B27CA051A6391810093499A /* Options-50@2x.png in Resources */,
 				7BB9A9A019D4C63600ACFE7B /* About-selected-50@2x.png in Resources */,
 				7BB9A97D19D4C63600ACFE7B /* InfoPlist.strings in Resources */,
 				7BB9A98A19D4C63600ACFE7B /* Icon-Small-50@2x.png in Resources */,
@@ -564,6 +581,7 @@
 				7BB9A9B419D4C63600ACFE7B /* NLSTitleViewController.m in Sources */,
 				7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */,
 				7B444AE11A07EF2800A7D869 /* NLSAutoSizeTextview.m in Sources */,
+				7B0088B91A6503CB0043889E /* NLSSettingsViewController.m in Sources */,
 				7BB9A9AD19D4C63600ACFE7B /* NLSDescriptorViewController.m in Sources */,
 				7BB9A9B319D4C63600ACFE7B /* NLSTableViewCell.m in Sources */,
 				7BB9A99519D4C63600ACFE7B /* NLSDescriptorModel.m in Sources */,

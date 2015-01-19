@@ -24,6 +24,7 @@
 + (id)sharedManager;
 
 -(void)initDatabase;
+-(void)checkRankFunction;
 
 -(NSInteger)getCountFromFavorites;
 -(BOOL)insertIntoFavorites:(NSInteger)emaId;

@@ -32,6 +32,7 @@
 @synthesize titleCount = _titleCount;
 @synthesize lastIndex = _lastIndex;
 @synthesize translucentView = _translucentView;
+@synthesize settings = _settings;
 
 //Setup titles cache
 - (NLSPendingOperations *)pendingOperations
@@ -102,15 +103,39 @@
     //Clear back button
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"seenSearchTut"]){
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"SettingsShowWelcomeOnLaunch"]){
 
         [self loadTranslucentView];
         self.tableView.tableHeaderView.layer.zPosition++;
         
     }
     
+    //Options button
+    UIImage *optionsImage = [UIImage imageNamed:@"Options-50"];
+    UIBarButtonItem *newButton = [[UIBarButtonItem alloc]
+                                  initWithImage:optionsImage style:UIBarButtonItemStylePlain target:self action:@selector(presentSettingsController)];
+    self.navigationItem.rightBarButtonItem = newButton;
+    
     //get title count
     [self getTitleCount];
+    
+}
+
+-(void)presentSettingsController
+{
+    NSLog(@"present settings controller");
+
+    
+    
+    
+    NLSSettingsViewController *settingsController = [[NLSSettingsViewController alloc] init];
+    
+    settingsController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    settingsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    self.settings = settingsController;
+    
+    [self.navigationController presentViewController:settingsController animated:YES completion:nil];
     
 }
 
@@ -213,7 +238,8 @@
     [self.translucentView addGestureRecognizer:dismiss];
     [self.translucentView addGestureRecognizer:swipeH];
     [self.translucentView addGestureRecognizer:swipeV];
-    [self.navigationController.view addSubview:self.translucentView];
+    
+    [super.view addSubview:self.translucentView];
 
     [UIView animateWithDuration:0.2 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
         [self.translucentView setAlpha:1.0];
@@ -233,7 +259,7 @@
                      completion:^(BOOL finished){
                          if([self.translucentView isDescendantOfView:self.view]){
                              [self.translucentView removeFromSuperview];
-                             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
+                             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SettingsShowWelcomeOnLaunch"];
                          }
                      }];
     
@@ -435,18 +461,22 @@
         }
         
         //Trim last comma
-        NSRange endComma;
-        endComma.location = ([meshDescriptors length] - 2);
-        endComma.length = 1;
-        [meshDescriptors deleteCharactersInRange:endComma];
+        if([meshDescriptors length] >= 1){
+            NSRange endComma;
+            endComma.location = ([meshDescriptors length] - 2);
+            endComma.length = 1;
+            [meshDescriptors deleteCharactersInRange:endComma];
+            
+
+            
+        }
         
         [meshDescriptors addAttribute:NSFontAttributeName
                                 value:[UIFont fontWithName:@"Helvetica Neue" size:10]
                                 range:NSMakeRange(0, [meshDescriptors length])];
         [meshDescriptors addAttribute:NSForegroundColorAttributeName
-                            value:[UIColor colorWithHexString:emaGreen]
-                            range:NSMakeRange(0, [meshDescriptors length])];
-        
+                                value:[UIColor colorWithHexString:emaGreen]
+                                range:NSMakeRange(0, [meshDescriptors length])];
         
         //Create Detail Text and append journal line and descriptors
         NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:journalLine];
@@ -535,7 +565,7 @@
         NSString *match = self.searchBar.text;
         
         // create a singature from the selector
-        SEL selector = @selector(getTitleAndIdForRow:whereTitleMatch:);
+        SEL selector = @selector(getTitleAndIdForRowOkapi:whereTitleMatch:);
         NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
         invocation = [NSInvocation invocationWithMethodSignature:sig];
         

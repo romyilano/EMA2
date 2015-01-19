@@ -24,6 +24,7 @@
 @synthesize fileMgr = _fileMgr;
 @synthesize homeDir = _homeDir;
 @synthesize sql = _sql;
+@synthesize controller = _controller;
 
 #pragma mark - init
 
@@ -60,7 +61,7 @@
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:favoritesColor]];
     
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"seenSearchTut"];
+    //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SettingsShowWelcomeOnLaunch"];
 
 
     //setup view controllers

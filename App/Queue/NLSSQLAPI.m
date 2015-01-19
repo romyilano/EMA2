@@ -60,7 +60,80 @@
 
     [self createFavoritesTable];
     
+    [queue inDatabase:^(FMDatabase *db) {
+        [db makeFunctionNamed:@"CustomRank" maximumArguments:1 withBlock:^(sqlite3_context *context, int argc, sqlite3_value **argv) {
+            if (argc != 1)
+                sqlite3_result_null(context);
+            if (sqlite3_value_type(argv[0]) == SQLITE_NULL)
+                sqlite3_result_null(context);
+            
+            int weight = 0;
+            unsigned int *blob = (unsigned int *)sqlite3_value_blob(argv[0]);
+            
+            unsigned int numberOfPhrases = blob[0];
+            unsigned int numberOfColumns = blob[1];
+            
+            // Ranking details left out.
+            
+            sqlite3_result_int(context, weight);
+        }];
+    }];
+    
+    [queue inDatabase:^(FMDatabase *db) {
+        [db makeFunctionNamed:@"okapi_bm25" maximumArguments:2 withBlock:^(sqlite3_context *context, int argc, sqlite3_value **argv) {
+            assert(sizeof(int) == 4);
+            
+            unsigned int *matchinfo = (unsigned int *)sqlite3_value_blob(argv[0]);
+            int searchTextCol = sqlite3_value_int(argv[1]);
+            
+            double K1 = ((argc >= 3) ? sqlite3_value_double(argv[2]) : 1.2);
+            double B = ((argc >= 4) ? sqlite3_value_double(argv[3]) : 0.75);
+            
+            int P_OFFSET = 0;
+            int C_OFFSET = 1;
+            int N_OFFSET = 2;
+            int A_OFFSET = 3;
+            
+            int termCount = matchinfo[P_OFFSET];
+            int colCount = matchinfo[C_OFFSET];
+            
+            int L_OFFSET = (A_OFFSET + colCount);
+            int X_OFFSET = (L_OFFSET + colCount);
+            
+            double totalDocs = matchinfo[N_OFFSET];
+            double avgLength = matchinfo[A_OFFSET + searchTextCol];
+            double docLength = matchinfo[L_OFFSET + searchTextCol];
+            
+            double sum = 0.0;
+            
+            for (int i = 0; i < termCount; i++) {
+                int currentX = X_OFFSET + (3 * searchTextCol * (i + 1));
+                double termFrequency = matchinfo[currentX];
+                double docsWithTerm = matchinfo[currentX + 2];
+                
+                double idf = log(
+                                 (totalDocs - docsWithTerm + 0.5) /
+                                 (docsWithTerm + 0.5)
+                                 );
+                
+                double rightSide = (
+                                    (termFrequency * (K1 + 1)) /
+                                    (termFrequency + (K1 * (1 - B + (B * (docLength / avgLength)))))
+                                    );
+                
+                sum += (idf * rightSide);
+            }
+            
+            sqlite3_result_double(context, sum);
+            
+        }];
+    }];
+    
+    [self checkRankFunction];
+    [self checkOkapiFunction];
+    
 }
+
 
 #pragma mark Create
 
@@ -202,6 +275,24 @@
                        LIMIT 1 \
                        OFFSET %ld", [self tokenizeSearchString:str], (unsigned long)val];
 
+    NSInteger myId = [self getIntForSQL:query];
+    NSLog(@"myId: %ld", (long)myId);
+    
+    return [self getTitleForId:myId];
+}
+
+-(NLSTitleModel*)getTitleAndIdForRowOkapi:(NSInteger)val whereTitleMatch:(NSString *)str
+{
+    NSLog(@"getTitleAndIdForRowOkapi: %ld where str: %@", (long)val, str);
+    //SELECT t FROM titles WHERE titles MATCH '%@' ORDER BY okapi_bm25(matchinfo(titles, \'pcnalx\'), 0) DESC;
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT a \
+                       FROM titles \
+                       WHERE titles MATCH '%@' \
+                       ORDER BY okapi_bm25(matchinfo(titles, \'pcnalx\'), 0) DESC \
+                       LIMIT 1 \
+                       OFFSET %ld", [self tokenizeSearchString:str], (unsigned long)val];
+    
     NSInteger myId = [self getIntForSQL:query];
     NSLog(@"myId: %ld", (long)myId);
     
@@ -652,6 +743,37 @@
     return tm;
 }
 
+-(void)checkRankFunction{
+
+    __block FMResultSet *rs = nil;
+    __block NSString *query = nil;
+    
+    [self.queue inDatabase:^(FMDatabase *db) {
+        query = [NSString stringWithFormat:@"SELECT t FROM titles WHERE titles MATCH '%@' ORDER BY CustomRank(matchinfo(titles)) DESC;", @"baseball"];
+        rs = [db executeQuery:query];
+        while ([rs next]) {
+            NSLog(@"%d %@",[rs intForColumnIndex:0],[rs stringForColumn:@"t"]);
+        }
+        return;
+    }];
+}
+
+-(void)checkOkapiFunction{
+    
+    __block FMResultSet *rs = nil;
+    __block NSString *query = nil;
+    
+    NSLog(@"------------------------------------\n");
+    
+    [self.queue inDatabase:^(FMDatabase *db) {
+        query = [NSString stringWithFormat:@"SELECT t FROM titles WHERE titles MATCH '%@' ORDER BY okapi_bm25(matchinfo(titles, \'pcnalx\'), 0) DESC;", @"baseball"];
+        rs = [db executeQuery:query];
+        while ([rs next]) {
+            NSLog(@"%d %@",[rs intForColumnIndex:0],[rs stringForColumn:@"t"]);
+        }
+        return;
+    }];
+}
 
 
 @end
