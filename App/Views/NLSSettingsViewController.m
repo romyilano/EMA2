@@ -14,6 +14,11 @@
 
 @implementation NLSSettingsViewController
 
+@synthesize standardSlider = _standardSlider;
+@synthesize lowerLabel = _lowerLabel;
+@synthesize upperLabel = _upperLabel;
+@synthesize purchaseButton = _purchaseButton;
+
 -(void)viewDidLoad{
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
@@ -49,7 +54,7 @@
     searchLabel.adjustsFontSizeToFitWidth = YES;
     
     // Search settings section
-    UITextView *messageText = [[UITextView alloc] initWithFrame:CGRectMake(0, 110, bounds.size.width, bounds.size.height)];
+    UITextView *messageText = [[UITextView alloc] initWithFrame:CGRectMake(0, 110, bounds.size.width, 50)];
     messageText.text =  @"Search Settings";
     messageText.layer.shadowColor = [[UIColor blackColor] CGColor];
     messageText.layer.shadowOffset = CGSizeMake(1.0,1.0);
@@ -60,37 +65,97 @@
     [messageText setTextAlignment:NSTextAlignmentCenter];
     [messageText setEditable:NO];
     
-    NSArray *segArray = @[@"Okapi", @"Date Asc", @"Date Desc"];
+    NSArray *segArray = @[@"Relevance", @"Date Asc", @"Date Desc"];
     UISegmentedControl *searchSeg = [[UISegmentedControl alloc] initWithItems:segArray];
     [searchSeg setCenter: self.view.center];
     searchSeg.frame = CGRectMake(self.view.center.x - 150, 175, 300, 50);
     
+    // Search settings section
+    UITextView *maxYear = [[UITextView alloc] initWithFrame:CGRectMake(0, 250, bounds.size.width, 50)];
+    maxYear.text =  @"Year Range";
+    maxYear.layer.shadowColor = [[UIColor blackColor] CGColor];
+    maxYear.layer.shadowOffset = CGSizeMake(1.0,1.0);
+    maxYear.layer.shadowRadius = 3.0;
+    [maxYear setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
+    [maxYear setBackgroundColor:[UIColor clearColor]];
+    [maxYear setTextColor:[UIColor blackColor]];
+    [maxYear setTextAlignment:NSTextAlignmentCenter];
+    [maxYear setEditable:NO];
+    
+    //Slider Labels
+    UILabel *lowerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
+    [lowerLabel setBackgroundColor:[UIColor clearColor]];
+    [lowerLabel setCenter: self.view.center];
+    [lowerLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
+    [lowerLabel setTextColor:[UIColor whiteColor]];
+    lowerLabel.frame = CGRectMake(self.view.center.x - 132, 280, 128, 16);
+    lowerLabel.text = @"1977";
+    self.lowerLabel = lowerLabel;
+    
+    UILabel *upperLabel  = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
+    [upperLabel setBackgroundColor:[UIColor clearColor]];
+    [upperLabel setCenter: self.view.center];
+    [upperLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
+    [upperLabel setTextColor:[UIColor whiteColor]];
+    upperLabel.frame = CGRectMake(self.view.center.x + 100, 280, 128, 16);
+    upperLabel.text = @"2015";
+    self.upperLabel = upperLabel;
+    
+    //Slider
+    NMRangeSlider* slider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
+    slider.minimumValue = 0;
+    slider.maximumValue = 38;
+    slider.lowerValue = 0;
+    slider.upperValue = 38;
+    slider.minimumRange = 2;
+    [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
+    [slider setBackgroundColor:[UIColor clearColor]];
+    [slider setCenter: self.view.center];
+    slider.frame = CGRectMake(self.view.center.x - 150, 300, 300, 50);
+    self.standardSlider = slider;
+    
+    //Purchase Button
+    UIButton* purchaseButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
+    [purchaseButton addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
+    [purchaseButton setBackgroundColor:[UIColor blackColor]];
+    [purchaseButton setCenter: self.view.center];
+    purchaseButton.frame = CGRectMake(self.view.center.x - 150, 384, 300, 100);
+    purchaseButton.titleLabel.text = @"Purchase the Complete Set (1977-2015)";
+    self.purchaseButton = purchaseButton;
+
+
+    //Place all subviews
     [vibrancyEffectView.contentView addSubview:messageText];
     [vibrancyEffectView.contentView addSubview:searchLabel];
     [vibrancyEffectView.contentView addSubview:doneButton];
     [vibrancyEffectView.contentView addSubview:searchSeg];
+    [vibrancyEffectView.contentView addSubview:maxYear];
+    [vibrancyEffectView.contentView addSubview:lowerLabel];
+    [vibrancyEffectView.contentView addSubview:upperLabel];
+    [vibrancyEffectView.contentView addSubview:slider];
+    [vibrancyEffectView.contentView addSubview:purchaseButton];
     
+    UITableView *tv = [[UITableView alloc] initWithFrame:bounds style:UITableViewStyleGrouped];
     self.view = blurEffectView;
 
 }
+
+-(void)sliderAction:(id)sender
+{
+    UISlider *slider = (UISlider*)sender;
+
+    self.lowerLabel.text = [NSString stringWithFormat:@"%d", (int)self.standardSlider.lowerValue + 1977];
+    self.upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.standardSlider.upperValue + 1977];
+    NSLog(@"%@", self.upperLabel.text);
+    //-- Do further actions
+}
+
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
     // add gesture recognizer to window
-
-//    UITapGestureRecognizer *dismiss = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSettingView)];
-//    UISwipeGestureRecognizer *swipeH = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSettingView)];
-    UISwipeGestureRecognizer *swipeV = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSettingView)];
-//    [swipeH setDirection:(UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft )];
-//    [swipeV setDirection:(UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown )];
-//
-//
-//    [self.view addGestureRecognizer:dismiss];
-//    [self.view addGestureRecognizer:swipeH];
-    [self.view addGestureRecognizer:swipeV];
-
     
 //    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
 //    [recognizer setNumberOfTapsRequired:1];

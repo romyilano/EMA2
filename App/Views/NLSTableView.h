@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NLSTableView : UITableView
+@interface NLSTableView : UITableView<UITableViewDataSource, UITableViewDelegate>
 
 @end

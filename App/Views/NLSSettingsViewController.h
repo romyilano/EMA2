@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NMRangeSlider.h"
 
 @interface NLSSettingsViewController : UIViewController<UIGestureRecognizerDelegate>
+
+@property (strong, nonatomic) IBOutlet NMRangeSlider *standardSlider;
+@property (strong, nonatomic) IBOutlet UILabel *lowerLabel;
+@property (strong, nonatomic) IBOutlet UILabel *upperLabel;
+@property (strong, nonatomic) IBOutlet UIButton *purchaseButton;
 
 @end
