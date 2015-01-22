@@ -45,6 +45,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //setup user default
+    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultUserDefaults" ofType:@"plist"]];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+
+    
+    //setup databases
     [self checkAndCreateDatabase];
     
     //setup global styles
@@ -60,9 +66,6 @@
     [[UISearchBar appearance] setBackgroundImage:[UIImage fillImgOfSize:CGSizeMake(1,1) withColor:[UIColor colorWithHexString:searchGreen]]];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:favoritesColor]];
-    
-    //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SettingsShowWelcomeOnLaunch"];
-
 
     //setup view controllers
     NLSTitleViewController *titlesController = [[NLSTitleViewController alloc] init];

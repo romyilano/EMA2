@@ -11,6 +11,7 @@
 		060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1691946D8B3008FB3C5 /* SystemConfiguration.framework */; };
 		060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE16B1946D8BD008FB3C5 /* CoreGraphics.framework */; };
 		7B0088B91A6503CB0043889E /* NLSSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */; };
+		7B0088BB1A70DCC80043889E /* DefaultUserDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7B0088BA1A70DCC80043889E /* DefaultUserDefaults.plist */; };
 		7B0B93AD1A3FBC0900C47A1C /* CreateFTSTitles.sql in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */; };
 		7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B11D7961A080A650069D7A1 /* Images.xcassets */; };
 		7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1528081A1A735000F0F871 /* NLSTMQuery.m */; };
@@ -93,6 +94,7 @@
 		12F69A799D6A3CD86D4EDD8F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		7B0088B71A6503CB0043889E /* NLSSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSSettingsViewController.h; sourceTree = "<group>"; };
 		7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSettingsViewController.m; sourceTree = "<group>"; };
+		7B0088BA1A70DCC80043889E /* DefaultUserDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultUserDefaults.plist; sourceTree = "<group>"; };
 		7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CreateFTSTitles.sql; sourceTree = "<group>"; };
 		7B11D7961A080A650069D7A1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7B1528071A1A735000F0F871 /* NLSTMQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTMQuery.h; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 		060BE1371946A814008FB3C5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7B0088BA1A70DCC80043889E /* DefaultUserDefaults.plist */,
 				7B27CA061A639BE60093499A /* Settings.bundle */,
 				7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */,
 				7BB9A91D19D4C63600ACFE7B /* App-Info.plist */,
@@ -520,6 +523,7 @@
 				7BC81FF019ED8F5E009F4915 /* ema.sqlite in Resources */,
 				7BB9A98C19D4C63600ACFE7B /* Icon-Small@2x.png in Resources */,
 				7BB9A9A619D4C63600ACFE7B /* Favorites-selected-50@2x.png in Resources */,
+				7B0088BB1A70DCC80043889E /* DefaultUserDefaults.plist in Resources */,
 				7BB9A98E19D4C63600ACFE7B /* Icon@2x.png in Resources */,
 				7BB9A98419D4C63600ACFE7B /* Icon-72@2x.png in Resources */,
 				7BB9A9A819D4C63600ACFE7B /* Journals-50@2x.png in Resources */,

@@ -82,6 +82,19 @@
     [maxYear setTextAlignment:NSTextAlignmentCenter];
     [maxYear setEditable:NO];
     
+    //Slider
+    NMRangeSlider* slider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
+    slider.minimumValue = 0;
+    slider.maximumValue = 38;
+    slider.lowerValue = [[NSUserDefaults standardUserDefaults] integerForKey:@"LowerYearRange"];
+    slider.upperValue = [[NSUserDefaults standardUserDefaults] integerForKey:@"UpperYearRange"];;
+    slider.minimumRange = 2;
+    [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
+    [slider setBackgroundColor:[UIColor clearColor]];
+    [slider setCenter: self.view.center];
+    slider.frame = CGRectMake(self.view.center.x - 150, 300, 300, 50);
+    self.standardSlider = slider;
+    
     //Slider Labels
     UILabel *lowerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
     [lowerLabel setBackgroundColor:[UIColor clearColor]];
@@ -89,7 +102,7 @@
     [lowerLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
     [lowerLabel setTextColor:[UIColor whiteColor]];
     lowerLabel.frame = CGRectMake(self.view.center.x - 132, 280, 128, 16);
-    lowerLabel.text = @"1977";
+    lowerLabel.text = [NSString stringWithFormat:@"%d", (int)self.standardSlider.lowerValue + 1977];
     self.lowerLabel = lowerLabel;
     
     UILabel *upperLabel  = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
@@ -98,29 +111,18 @@
     [upperLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
     [upperLabel setTextColor:[UIColor whiteColor]];
     upperLabel.frame = CGRectMake(self.view.center.x + 100, 280, 128, 16);
-    upperLabel.text = @"2015";
+    upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.standardSlider.upperValue + 1977];
     self.upperLabel = upperLabel;
-    
-    //Slider
-    NMRangeSlider* slider = [[NMRangeSlider alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
-    slider.minimumValue = 0;
-    slider.maximumValue = 38;
-    slider.lowerValue = 0;
-    slider.upperValue = 38;
-    slider.minimumRange = 2;
-    [slider addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
-    [slider setBackgroundColor:[UIColor clearColor]];
-    [slider setCenter: self.view.center];
-    slider.frame = CGRectMake(self.view.center.x - 150, 300, 300, 50);
-    self.standardSlider = slider;
     
     //Purchase Button
     UIButton* purchaseButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 200.0, 10.0)];
-    [purchaseButton addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventValueChanged];
-    [purchaseButton setBackgroundColor:[UIColor blackColor]];
+    [purchaseButton setTitle:@"Purchase the Complete Set (1977-2015)" forState:UIControlStateNormal];
+    [purchaseButton addTarget:self action:@selector(purchaseSet) forControlEvents:UIControlEventTouchUpInside];
+    purchaseButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    purchaseButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [purchaseButton setCenter: self.view.center];
     purchaseButton.frame = CGRectMake(self.view.center.x - 150, 384, 300, 100);
-    purchaseButton.titleLabel.text = @"Purchase the Complete Set (1977-2015)";
+
     self.purchaseButton = purchaseButton;
 
 
@@ -146,8 +148,16 @@
 
     self.lowerLabel.text = [NSString stringWithFormat:@"%d", (int)self.standardSlider.lowerValue + 1977];
     self.upperLabel.text = [NSString stringWithFormat:@"%d", (int)self.standardSlider.upperValue + 1977];
+    
     NSLog(@"%@", self.upperLabel.text);
     //-- Do further actions
+}
+
+-(void)purchaseSet
+{
+//    [self dismissViewControllerAnimated:YES completion:^(void){
+//        //Save Prefs
+//    }];
 }
 
 
@@ -191,6 +201,8 @@
     
     [self dismissViewControllerAnimated:YES completion:^(void){
         //Save Prefs
+        [[NSUserDefaults standardUserDefaults] setInteger:(int)self.standardSlider.lowerValue forKey:@"LowerYearRange"];
+        [[NSUserDefaults standardUserDefaults] setInteger:(int)self.standardSlider.upperValue forKey:@"UpperYearRange"];
     }];
     
 }

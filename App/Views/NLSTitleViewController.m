@@ -103,7 +103,7 @@
     //Clear back button
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"SettingsShowWelcomeOnLaunch"]){
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowWelcomeOnLaunch"]){
 
         [self loadTranslucentView];
         self.tableView.tableHeaderView.layer.zPosition++;
@@ -239,7 +239,7 @@
     [self.translucentView addGestureRecognizer:swipeH];
     [self.translucentView addGestureRecognizer:swipeV];
     
-    [super.view addSubview:self.translucentView];
+    [self.navigationController.view addSubview:self.translucentView];
 
     [UIView animateWithDuration:0.2 delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseIn animations:^{
         [self.translucentView setAlpha:1.0];

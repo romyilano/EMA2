@@ -20,40 +20,6 @@
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Years</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Sort by Year, Descending</string>
-			<key>Key</key>
-			<string>SettingsSortByYear</string>
-			<key>DefaultValue</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Filter Years</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSSliderSpecifier</string>
-			<key>Key</key>
-			<string>SettingsLimitHistory</string>
-			<key>DefaultValue</key>
-			<integer>1977</integer>
-			<key>MinimumValue</key>
-			<integer>1977</integer>
-			<key>MaximumValue</key>
-			<integer>2015</integer>
-		</dict>
 	</array>
 	<key>StringsTable</key>
 	<string>Root</string>
