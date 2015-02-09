@@ -12,6 +12,7 @@
 
 @synthesize rowId = _rowId;
 @synthesize cellId = _cellId;
+@synthesize pmid = _pmid;
 @synthesize title = _title;
 @synthesize year = _year;
 @synthesize journal_abv = _journal_abv;

@@ -93,6 +93,21 @@
 //    [self executeInQueueWithSQL:sql withLabel:@"Titles"];
 //
 //}
+
+
+DROP TABLE IF EXISTS titles;
+CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);
+INSERT INTO titles
+SELECT a.id, a.abstract || ' ' || group_concat(md.name, ' ')
+FROM abstracts a
+JOIN abstract_mesh am ON a.pmid = am.pmid
+JOIN mesh_descriptor md ON am.mesh_id = md.id
+GROUP BY a.id;
+
+delete from erpubtbl where id not in (select a from titles);
+
+drop table abstracts;
+
 //
 //-(void)createDescriptors
 //{

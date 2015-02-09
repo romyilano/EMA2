@@ -12,6 +12,7 @@
 
 @property (readwrite, assign) NSInteger rowId;
 @property (readwrite, assign) NSInteger cellId;
+@property (readwrite, assign) NSInteger pmid;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *year;
 @property (strong, nonatomic) NSString *journal_abv;
