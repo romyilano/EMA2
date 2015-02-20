@@ -96,7 +96,7 @@
 
 
 DROP TABLE IF EXISTS titles;
-CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT);
+CREATE VIRTUAL TABLE IF NOT EXISTS titles USING fts4(a NUMBER, t TEXT, tokenize=porter);
 INSERT INTO titles
 SELECT a.id, a.abstract || ' ' || group_concat(md.name, ' ')
 FROM abstracts a
@@ -105,8 +105,12 @@ JOIN mesh_descriptor md ON am.mesh_id = md.id
 GROUP BY a.id;
 
 delete from erpubtbl where id not in (select a from titles);
-
 drop table abstracts;
+VACUUM;
+CREATE INDEX mesh_descriptor_name_idx on mesh_descriptor (name);
+CREATE INDEX journals_journal_title_idx on journals (journal_title);
+CREATE INDEX erpubtbl_year_idx on erpubtbl (journal_year);
+INSERT INTO titles(titles) VALUES('optimize');
 
 //
 //-(void)createDescriptors
