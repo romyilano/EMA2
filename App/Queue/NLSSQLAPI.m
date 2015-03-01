@@ -231,7 +231,8 @@
                                                    @"FROM abstract_mesh am "
                                                    @"JOIN mesh_descriptor m "
                                                    @"ON m.id = am.mesh_id "
-                                                   @"WHERE am.pmid = %ld", (long)emaId];
+                                                   @"WHERE am.pmid = "
+                                                   @"(SELECT pmid FROM erpubtbl WHERE id = %ld)", (long)emaId];
     
     return [self getMeshArrayForSQL:query];
 }
@@ -521,6 +522,44 @@
     return [self getDetailModelForSQL:query];
 }
 
+#pragma mark Arrays
+
+-(NSArray*)getTitleModelsForRange:(NSRange)range
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT e.id, e.title, e.journal_year, e.pmid FROM erpubtbl e WHERE e.id BETWEEN %ld AND %ld", (unsigned long)range.location, (unsigned long)range.length];
+    return [self getTitleModelArrayForSQL:query];
+}
+
+-(NSMutableArray*)getTitleModelArrayForSQL:(NSString*)sql
+{
+    
+    NSLog(@"SQLAPI - getTitleModelArrayForSQL %@", sql);
+    __block FMResultSet *rs = nil;
+    __block NSMutableArray *array = [[NSMutableArray alloc] init];
+    
+    
+    [self.queue inDatabase:^(FMDatabase *db) {
+
+        rs = [db executeQuery:sql];
+        while ([rs next]) {
+            NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+            tm.title = [rs stringForColumn:@"title"];
+            tm.year = [rs stringForColumn:@"journal_year"];
+            tm.journal_abv = @"testing";
+            tm.pmid = [rs intForColumn:@"pmid"];
+            tm.rowId = [rs intForColumnIndex:0];
+            tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
+            //NSLog(@"rowId: %ld", (long)tm.rowId);
+            [array addObject:tm];
+        }
+        
+        return;
+    }];
+    
+    //tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
+    //tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
+    return array;
+}
 
 #pragma mark QUEUE with SQL
 
@@ -547,7 +586,7 @@
         return;
     }];
     
-    tm.descriptors = [self getMeshDescriptorsForId:tm.pmid];
+    tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
     tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
     return tm;
 }
@@ -754,7 +793,7 @@
         query = [NSString stringWithFormat:@"SELECT t FROM titles WHERE titles MATCH '%@' ORDER BY CustomRank(matchinfo(titles)) DESC;", @"baseball"];
         rs = [db executeQuery:query];
         while ([rs next]) {
-            NSLog(@"%d %@",[rs intForColumnIndex:0],[rs stringForColumn:@"t"]);
+            //NSLog(@"%d %@",[rs intForColumnIndex:0],[rs stringForColumn:@"t"]);
         }
         return;
     }];
@@ -771,7 +810,7 @@
         query = [NSString stringWithFormat:@"SELECT t FROM titles WHERE titles MATCH '%@' ORDER BY okapi_bm25(matchinfo(titles, \'pcnalx\'), 0) DESC;", @"baseball"];
         rs = [db executeQuery:query];
         while ([rs next]) {
-            NSLog(@"%d %@",[rs intForColumnIndex:0],[rs stringForColumn:@"t"]);
+            //NSLog(@"%d %@",[rs intForColumnIndex:0],[rs stringForColumn:@"t"]);
         }
         return;
     }];

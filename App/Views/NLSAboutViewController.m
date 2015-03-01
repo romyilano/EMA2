@@ -103,7 +103,7 @@
     NSRange range = NSMakeRange(0, str.length);
     
     [mutableAttributedString addAttribute:NSFontAttributeName
-                                    value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                                    value:[UIFont fontWithName:@"Helvetica Neue" size:12]
                                     range:NSMakeRange(0, [mutableAttributedString length])];
     
     [regex enumerateMatchesInString:str options:kNilOptions range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
@@ -121,7 +121,7 @@
     
     NSRange range = NSMakeRange(0, [link length]);
     [link addAttribute:NSFontAttributeName
-                 value:[UIFont fontWithName:@"AvenirNext-Medium" size:12]
+                 value:[UIFont fontWithName:@"Helvetica Neue" size:12]
                  range:range];
     
     [link addAttribute:NSForegroundColorAttributeName

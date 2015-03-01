@@ -62,6 +62,12 @@
 - (void)loadView
 {
 
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
     //Setup SQL for counts
     self.sql = [NLSSQLAPI sharedManager];
     
@@ -71,16 +77,32 @@
     
     //Setup last index
     self.lastIndex = [[NSIndexPath alloc] init];
-
+    
     //Set title
     self.defactoTitle = titlesString;
     self.navigationItem.title = self.defactoTitle;
     
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+    //Prime title cache
+    NSInvocation *invocation = nil;
+    NSRange range = NSMakeRange(1, 10);
+    NSMutableArray *tempResultSet;
+    
+    // create a signature from the selector
+    SEL selector = @selector(getTitleModelsForRange:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&range atIndex:2];
+    [invocation retainArguments];
+    
+    [invocation invoke];
+    [invocation getReturnValue:&tempResultSet];
+    self.titles = [tempResultSet mutableCopy];
+    
+    
     
     NSLog(@"View Did Load");
     //Setup table view
@@ -422,8 +444,9 @@
     
     // Get tm from cache
     NLSTitleModel *tm = nil;
-    
+    NSLog(@"count for cache pointer %d: indexPath.row: %d", [self.cachePointer count], indexPath.row);
     if([self.cachePointer count] > indexPath.row){
+        NSLog(@"cache exists %@", [self.cachePointer objectAtIndex:indexPath.row]);
         tm = [self.cachePointer objectAtIndex:indexPath.row];
     }else{
         tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
@@ -607,7 +630,7 @@
 
 - (void)queryDidFinish:(NLSQuery*)query
 {
-    NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
+    //NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
 
     if(self.isSearching){
         [self.cachePointer removeAllObjects];

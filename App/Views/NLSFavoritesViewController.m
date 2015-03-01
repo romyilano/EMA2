@@ -58,7 +58,7 @@
      forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"Remove All" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithHexString:@"#FFFFFF"] forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Regular" size:13.0];
+    button.titleLabel.font = [UIFont fontWithName:@"Helvetica Neue" size:12];
     button.frame = CGRectMake(screenRect.size.width - 110.0f, 23.0f, 100.0f, 40.0f);
     self.button = button;
     
