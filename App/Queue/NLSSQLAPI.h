@@ -35,9 +35,13 @@
 -(NSString*)getTitleWhereId:(NSInteger)emaId;
 -(NSString*)getPmidForId:(NSInteger)emaId;
 -(NSString*)getMeshForId:(NSInteger)meshId;
--(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId;
 
+
+-(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId;
 -(NSArray*)getTitleModelsForRange:(NSRange)range;
+
+
+-(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId;
 
 -(NLSTitleModel*)getTitleForId:(NSInteger)emaId;
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val;

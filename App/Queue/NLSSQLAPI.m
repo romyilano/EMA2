@@ -548,7 +548,7 @@
             tm.journal_abv = @"testing";
             tm.pmid = [rs intForColumn:@"pmid"];
             tm.rowId = [rs intForColumnIndex:0];
-            tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
+//            tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
             //NSLog(@"rowId: %ld", (long)tm.rowId);
             [array addObject:tm];
         }
@@ -556,9 +556,21 @@
         return;
     }];
     
-    //tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
-    //tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
+//    for(NLSTitleModel *tm in array){
+//        tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
+//    }
+    
     return array;
+}
+
+-(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId
+{
+    NSLog(@"SQLAPI - %@ %d", NSStringFromSelector(_cmd), emaId);
+
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    tm.descriptors = [self getMeshDescriptorsForId:emaId];
+    
+    return tm;
 }
 
 #pragma mark QUEUE with SQL

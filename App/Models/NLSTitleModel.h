@@ -27,4 +27,6 @@
 
 - (id)initWithCellId:(NSInteger)cellId;
 - (id)initWithCellId:(NSInteger)cellId andSearchBarText:(NSString*)str;
+- (void)addMeshArrayFromTm:(NLSTitleModel*)tm;
+
 @end

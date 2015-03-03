@@ -61,7 +61,7 @@
 
 - (void)loadView
 {
-
+    [super loadView];
 }
 
 - (void)viewDidLoad
@@ -83,25 +83,7 @@
     self.navigationItem.title = self.defactoTitle;
     
     //Prime title cache
-    NSInvocation *invocation = nil;
-    NSRange range = NSMakeRange(1, 10);
-    NSMutableArray *tempResultSet;
-    
-    // create a signature from the selector
-    SEL selector = @selector(getTitleModelsForRange:);
-    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-    invocation = [NSInvocation invocationWithMethodSignature:sig];
-    
-    //setup invocation
-    [invocation setTarget:self.sql];
-    [invocation setSelector:selector];
-    [invocation setArgument:&range atIndex:2];
-    [invocation retainArguments];
-    
-    [invocation invoke];
-    [invocation getReturnValue:&tempResultSet];
-    self.titles = [tempResultSet mutableCopy];
-    
+    [self primeTitleCache];
     
     
     NSLog(@"View Did Load");
@@ -141,6 +123,28 @@
     //get title count
     [self getTitleCount];
     
+}
+
+-(void)primeTitleCache
+{
+    NSInvocation *invocation = nil;
+    NSRange range = NSMakeRange(1, 10);
+    NSMutableArray *tempResultSet;
+    
+    // create a signature from the selector
+    SEL selector = @selector(getTitleModelsForRange:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&range atIndex:2];
+    [invocation retainArguments];
+    
+    [invocation invoke];
+    [invocation getReturnValue:&tempResultSet];
+    self.titles = [tempResultSet mutableCopy];
 }
 
 -(void)presentSettingsController
@@ -367,7 +371,7 @@
     
 }
 
-#pragma mark - Table view data source
+#pragma mark - TableView Data Source
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     
@@ -426,117 +430,31 @@
     return 110;
 }
 
+#pragma mark - TableView CellForRowAtIndexPath
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //NSLog(@"Table View: %@", tableView);
-    NSString *identifier = @"CellIdentifier";
+    
+    NSString *identifier = @"TitleCellIdentifier";
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
+
     if (!cell) {
         cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        cell.accessoryView = activityIndicatorView;
-    }
-
-    cell.detailTextLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-    cell.textLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-
-    
-    // Get tm from cache
-    NLSTitleModel *tm = nil;
-    NSLog(@"count for cache pointer %d: indexPath.row: %d", [self.cachePointer count], indexPath.row);
-    if([self.cachePointer count] > indexPath.row){
-        NSLog(@"cache exists %@", [self.cachePointer objectAtIndex:indexPath.row]);
-        tm = [self.cachePointer objectAtIndex:indexPath.row];
-    }else{
-        tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
-        NSLog(@"Adding %@ to cache.", tm);
-        [self.cachePointer addObject:tm];
-    }
-    
-    // Check for data
-    if (tm.hasData) {
         
-        [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
+        // Get tm from cache
+        NSLog(@"count for cache pointer %d: indexPath.row: %@", [self.cachePointer count], indexPath);
         
-        //Attribute string for year
-        NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@ \n", tm.journal_abv, tm.year ];
-        NSMutableAttributedString *journalLine = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
-        
-        [journalLine addAttribute:NSKernAttributeName
-                     value:[NSNumber numberWithFloat:0.5]
-                     range:NSMakeRange(0, [journalLine length])];
-        
-        [journalLine addAttribute:NSFontAttributeName
-                     value:[UIFont fontWithName:@"Helvetica Neue" size:12]
-                     range:NSMakeRange(0, [journalLine length])];
-        
-        [journalLine addAttribute:NSForegroundColorAttributeName
-                     value:[UIColor colorWithHexString:@"#777777"]
-                     range:NSMakeRange(0, [journalLine length])];
-        
-        //Descriptor strings
-        NSMutableAttributedString *meshDescriptors = [[NSMutableAttributedString alloc] initWithString:@""];
-        for(NSDictionary *dict in tm.descriptors){
-            NSString *str = [[NSString alloc] initWithFormat:@"%@, ", [dict valueForKey:@"name"]];
-            NSAttributedString *aStr = [[NSAttributedString alloc] initWithString:str];
-            [meshDescriptors appendAttributedString:aStr];
+        if([self.cachePointer count] > indexPath.row){
+            NSLog(@"cache exists %@", [self.cachePointer objectAtIndex:indexPath.row]);
+            [cell updateCellWithTitleModel:[self.cachePointer objectAtIndex:indexPath.row] atIndexPath:indexPath];
+        }else{
+            NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
+            NSLog(@"Adding %@ to cache.", tm);
+            [self.cachePointer addObject:tm];
         }
-        
-        //Trim last comma
-        if([meshDescriptors length] >= 1){
-            NSRange endComma;
-            endComma.location = ([meshDescriptors length] - 2);
-            endComma.length = 1;
-            [meshDescriptors deleteCharactersInRange:endComma];
-            
-
-            
-        }
-        
-        [meshDescriptors addAttribute:NSFontAttributeName
-                                value:[UIFont fontWithName:@"Helvetica Neue" size:10]
-                                range:NSMakeRange(0, [meshDescriptors length])];
-        [meshDescriptors addAttribute:NSForegroundColorAttributeName
-                                value:[UIColor colorWithHexString:emaGreen]
-                                range:NSMakeRange(0, [meshDescriptors length])];
-        
-        //Create Detail Text and append journal line and descriptors
-        NSMutableAttributedString *detailText = [[NSMutableAttributedString alloc] initWithAttributedString:journalLine];
-        [detailText appendAttributedString:meshDescriptors];
-        
-        //Attribute string for label
-        NSMutableAttributedString *title;
-        
-        title = [[NSMutableAttributedString alloc] initWithString:tm.title];
-        
-        [title addAttribute:NSKernAttributeName
-                      value:[NSNumber numberWithFloat:0.5]
-                      range:NSMakeRange(0, [tm.title length])];
-        
-        [title addAttribute:NSFontAttributeName
-                      value:[UIFont fontWithName:@"Helvetica Neue" size:12]
-                      range:NSMakeRange(0, [tm.title length])];
-
-        cell.detailTextLabel.attributedText = detailText;
-        cell.textLabel.attributedText = title;
-        
-        //Set row id property of cell
-        cell.rowId = tm.rowId;
-        
-    } else if (tm.isFailed) {
-        
-        NSLog(@"tm is failed");
-        [((UIActivityIndicatorView *)cell.accessoryView) stopAnimating];
-        cell.textLabel.text = @"Failed to load";
-        
-    } else {
-        
-        [((UIActivityIndicatorView *)cell.accessoryView) startAnimating];
-        cell.textLabel.text = @"Loading...";
-        [self startOperationsForTitleModel:tm atIndexPath:indexPath];
 
     }
+
     
     return cell;
 }
@@ -556,185 +474,6 @@
     NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
     dvc.abstractId = rowId;
     [self.navigationController pushViewController:dvc animated:TRUE];
-}
-
-
-#pragma mark Cache Operations
-
-
-- (void)startOperationsForTitleModel:(NLSTitleModel *)tm atIndexPath:(NSIndexPath *)indexPath
-{
- 
-    // 2: You inspect it to see whether it has data if so, then ignore it.
-    if (!tm.hasData) {
-        NSLog(@"tm at: %@ does not have data %d", indexPath, tm.hasData);
-        [self startQueryForIndexPath:indexPath];
-    }
-    
-}
-
-- (void)startQueryForIndexPath:(NSIndexPath *)indexPath
-{
-    NSMutableDictionary *queriesInProgress = nil;
-    NLSTMQuery *tmQuery = nil;
-    NSInvocation *invocation = nil;
-    NSUInteger *row = indexPath.row;
-    
-    if(self.isSearching){
-        
-        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
-        
-        //get args row and match
-        NSString *match = self.searchBar.text;
-        
-        // create a singature from the selector
-        SEL selector = @selector(getTitleAndIdForRowOkapi:whereTitleMatch:);
-        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-        invocation = [NSInvocation invocationWithMethodSignature:sig];
-        
-        //setup invocation and args
-        [invocation setTarget:self.sql];
-        [invocation setSelector:selector];
-        [invocation setArgument:&row atIndex:2];
-        [invocation setArgument:&match atIndex:3];
-        [invocation retainArguments];
-    
-    }else{
-        
-        queriesInProgress = self.pendingOperations.queriesInProgress;
-        
-        // create a singature from the selector
-        SEL selector = @selector(getTitleAndIdForRow:);
-        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-        invocation = [NSInvocation invocationWithMethodSignature:sig];
-        
-        //setup invocation
-        [invocation setTarget:self.sql];
-        [invocation setSelector:selector];
-        [invocation setArgument:&row atIndex:2];
-        [invocation retainArguments];
-    
-    }
-    
-    if (![queriesInProgress.allKeys containsObject:indexPath]) {
-        NSLog(@"not in pending operations %@", indexPath);
-        
-        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation atIndexPath:indexPath andDelegate:self];
-        
-        [queriesInProgress setObject:tmQuery forKey:indexPath];
-        [self.pendingOperations.queryQueue addOperation:tmQuery];
-    }
-    
-    
-}
-
-- (void)queryDidFinish:(NLSQuery*)query
-{
-    //NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
-
-    if(self.isSearching){
-        [self.cachePointer removeAllObjects];
-        self.resultsCount = query.result;
-        [self.searchResultsController.tableView reloadData];
-    }else{
-        self.titleCount = query.result;
-        [self.tableView reloadData];
-    }
-
-}
-
-- (void)sqlQueryDidFinish:(NLSTMQuery *)query
-{
-    
-    // get indexPath
-    NSIndexPath *indexPath = query.indexPathInTableView;
-    NSLog(@"sqlQueryDidFinish. will update cell at: %@", indexPath);
-    
-    // Get the TitleModel instance.
-    NLSTitleModel *tm = query.titleModel;
-    
-    // Replace the updated TitleModel in the main data source.
-    if([self.cachePointer count] > indexPath.row){
-        NSLog(@"cachePointer has values, replacing %@ at index %ld", tm, (unsigned long)indexPath.row);
-        [self.cachePointer replaceObjectAtIndex:indexPath.row withObject:tm];
-    }
-
-    // Update UI.
-    if(self.isSearching){
-        NSLog(@"self.isSearching is searching...");
-        [self.searchResultsController.tableView reloadData];
-        [self.pendingOperations.searchQueriesInProgress removeObjectForKey:indexPath];
-    }else{
-        NSLog(@"self.isSearching not searching");
-        [self.tableView beginUpdates];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
-        [self.pendingOperations.queriesInProgress removeObjectForKey:indexPath];
-    }
-
-    
-}
-
-- (void)loadTitlesForOnscreenCells {
-    
-    // Get a set of visible rows.
-    NSSet *visibleRows = nil;
-    NSMutableDictionary *queriesInProgress = nil;
-    
-    if(self.isSearching){
-        NSLog(@"is searching...");
-        visibleRows = [NSSet setWithArray:[self.searchResultsController.tableView indexPathsForVisibleRows]];
-        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
-    }else{
-        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
-        queriesInProgress = self.pendingOperations.queriesInProgress;
-    }
-    
-    // Get a set of all pending operations
-    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[queriesInProgress allKeys]];
-    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
-    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
-    
-    // Rows (or indexPaths) that need an operation = visible rows n pendings.
-    [toBeStarted minusSet:pendingOperations];
-    
-    // Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
-    [toBeCancelled minusSet:visibleRows];
-    
-    // Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
-    for (NSIndexPath *anIndexPath in toBeCancelled) {
-        NLSTMQuery *pendingQuery = [queriesInProgress objectForKey:anIndexPath];
-        [pendingQuery cancel];
-        [queriesInProgress removeObjectForKey:anIndexPath];
-        
-    }
-    toBeCancelled = nil;
-    
-    // Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
-    for (NSIndexPath *anIndexPath in toBeStarted) {
-        NLSTitleModel *tmToProcess = [self.cachePointer objectAtIndex:anIndexPath.row];
-        [self startOperationsForTitleModel:tmToProcess atIndexPath:anIndexPath];
-    }
-    toBeStarted = nil;
-    
-}
-
-
-#pragma mark - Cancelling, suspending, resuming queues / operations
-
-- (void)suspendAllOperations
-{
-    [self.pendingOperations.queryQueue setSuspended:YES];
-}
-
-- (void)resumeAllOperations
-{
-    [self.pendingOperations.queryQueue setSuspended:NO];
-}
-
-- (void)cancelAllOperations
-{
-    [self.pendingOperations.queryQueue cancelAllOperations];
 }
 
 
@@ -816,6 +555,181 @@
     [self resumeAllOperations];
 }
 
+#pragma mark Cache Operations
 
+- (void)startQueryForIndexPath:(NSIndexPath *)indexPath
+{
+
+    NSMutableDictionary *queriesInProgress = nil;
+    NLSTMQuery *tmQuery = nil;
+    NSInvocation *invocation = nil;
+    NSUInteger *row = indexPath.row;
+
+    if(self.isSearching){
+
+        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
+
+        //get args row and match
+        NSString *match = self.searchBar.text;
+
+        // create a singature from the selector
+        SEL selector = @selector(getTitleAndIdForRowOkapi:whereTitleMatch:);
+        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
+
+        //setup invocation and args
+        [invocation setTarget:self.sql];
+        [invocation setSelector:selector];
+        [invocation setArgument:&indexPath atIndex:2];
+        [invocation setArgument:&match atIndex:3];
+        [invocation retainArguments];
+
+    }else{
+
+        queriesInProgress = self.pendingOperations.queriesInProgress;
+
+        // create a signature from the selector
+        // check to see what fields are missing from tm
+        // if title, get title, if mesh get mesh
+
+        //getMeshDescriptorsForId:tm.rowId
+        //SEL selector = @selector(getTitleAndIdForRow:);
+        SEL selector = @selector(startQueryWithIndexPath:);
+
+        NSMethodSignature *sig = [[self.cachePointer objectAtIndex:indexPath.row] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
+
+        //setup invocation
+        [invocation setTarget:[self.cachePointer objectAtIndex:indexPath.row]];
+        [invocation setSelector:selector];
+        [invocation setArgument:&indexPath atIndex:2];
+        [invocation retainArguments];
+
+    }
+
+    if (![queriesInProgress.allKeys containsObject:indexPath]) {
+        NSLog(@"not in pending operations %@", indexPath);
+
+        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation atIndexPath:indexPath andDelegate:self];
+
+        [queriesInProgress setObject:tmQuery forKey:indexPath];
+        [self.pendingOperations.queryQueue addOperation:tmQuery];
+    }
+
+
+}
+
+- (void)queryDidFinish:(NLSQuery*)query
+{
+    //NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
+
+    if(self.isSearching){
+        [self.cachePointer removeAllObjects];
+        self.resultsCount = query.result;
+        [self.searchResultsController.tableView reloadData];
+    }else{
+        self.titleCount = query.result;
+        [self.tableView reloadData];
+    }
+
+}
+
+- (void)sqlQueryDidFinish:(NLSTMQuery *)query
+{
+
+    // get indexPath
+    NSIndexPath *indexPath = query.indexPathInTableView;
+    NSLog(@"sqlQueryDidFinish. will update cell at: %@", indexPath);
+
+    // Get the TitleModel instance.
+//    NLSTitleModel *tm = query.titleModel;
+
+    // Replace the updated TitleModel in the main data source.
+//    if([self.cachePointer count] > indexPath.row){
+//        NSLog(@"cachePointer has values, replacing %@ at index %ld", tm, (unsigned long)indexPath.row);
+//        [[self.cachePointer objectAtIndex:indexPath.row] addMeshArrayFromTm:tm];
+//    }
+
+    // Update UI.
+    if(self.isSearching){
+        NSLog(@"self.isSearching is searching...");
+        [self.searchResultsController.tableView reloadData];
+        [self.pendingOperations.searchQueriesInProgress removeObjectForKey:indexPath];
+    }else{
+        NSLog(@"self.isSearching not searching");
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+        [self.pendingOperations.queriesInProgress removeObjectForKey:indexPath];
+    }
+
+
+}
+
+- (void)loadTitlesForOnscreenCells
+{
+
+    // Get a set of visible rows.
+    NSSet *visibleRows = nil;
+    NSMutableDictionary *queriesInProgress = nil;
+
+    if(self.isSearching){
+        NSLog(@"is searching...");
+        visibleRows = [NSSet setWithArray:[self.searchResultsController.tableView indexPathsForVisibleRows]];
+        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
+    }else{
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+        queriesInProgress = self.pendingOperations.queriesInProgress;
+    }
+
+    // Get a set of all pending operations
+    NSMutableSet *pendingOperations = [NSMutableSet setWithArray:[queriesInProgress allKeys]];
+    NSMutableSet *toBeCancelled = [pendingOperations mutableCopy];
+    NSMutableSet *toBeStarted = [visibleRows mutableCopy];
+
+    // Rows (or indexPaths) that need an operation = visible rows n pendings.
+    [toBeStarted minusSet:pendingOperations];
+
+    // Rows (or indexPaths) that their operations should be cancelled = pendings visible rows.
+    [toBeCancelled minusSet:visibleRows];
+
+    // Loop through those to be cancelled, cancel them, and remove their reference from PendingOperations.
+    for (NSIndexPath *anIndexPath in toBeCancelled) {
+        NLSTMQuery *pendingQuery = [queriesInProgress objectForKey:anIndexPath];
+        [pendingQuery cancel];
+        [queriesInProgress removeObjectForKey:anIndexPath];
+
+    }
+    toBeCancelled = nil;
+
+    // Loop through those to be started, and call startOperationsForTitleModel:atIndexPath: for each.
+    for (NSIndexPath *anIndexPath in toBeStarted) {
+//      NLSTitleModel *tmToProcess = [self.cachePointer objectAtIndex:anIndexPath.row];
+//        [self startQueryForIndexPath:(NSIndexPath *)anIndexPath];
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[anIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tableView endUpdates];
+    }
+    toBeStarted = nil;
+
+}
+
+
+#pragma mark - Cancelling, suspending, resuming queues / operations
+
+- (void)suspendAllOperations
+{
+    [self.pendingOperations.queryQueue setSuspended:YES];
+}
+
+- (void)resumeAllOperations
+{
+    [self.pendingOperations.queryQueue setSuspended:NO];
+}
+
+- (void)cancelAllOperations
+{
+    [self.pendingOperations.queryQueue cancelAllOperations];
+}
 
 @end

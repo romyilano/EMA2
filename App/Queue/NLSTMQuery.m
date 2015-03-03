@@ -16,18 +16,19 @@
 
 - (id)initWithInvocation:(NSInvocation *)invocation atIndexPath:(NSIndexPath *)indexPath andDelegate:(id<NLSTMQueryDelegate>)tmDelegate
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     if (self = [super init]) {
         self.invocation = invocation;
         self.indexPathInTableView = indexPath;
         self.tmDelegate = tmDelegate;
-        self.titleModel = nil;
+        self.titleModel = [[NLSTitleModel alloc] init];
     }
     return self;
 }
 
 
 - (void)main {
-    
+    NSLog(@"NLSTMQuery %@", NSStringFromSelector(_cmd));
     if (self.isCancelled){
         return;
     }else{
