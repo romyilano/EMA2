@@ -2,7 +2,7 @@
 //  NLSTitleModel.m
 //  App
 //
-//  Created by Amir on 7/24/14.
+//  Created by Amir Djavaherian on 7/24/14.
 //  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 
@@ -88,6 +88,38 @@
 
     self.descriptors = [NSArray arrayWithArray:tm.descriptors];
     
+}
+
+- (NSArray *)allPropertyNames
+{
+    unsigned count;
+    objc_property_t *properties = class_copyPropertyList([self class], &count);
+    
+    NSMutableArray *rv = [NSMutableArray array];
+    
+    unsigned i;
+    for (i = 0; i < count; i++)
+    {
+        objc_property_t property = properties[i];
+        NSString *name = [NSString stringWithUTF8String:property_getName(property)];
+        [rv addObject:name];
+    }
+    
+    free(properties);
+    
+    return rv;
+}
+
+- (void *)pointerOfIvarForPropertyNamed:(NSString *)name
+{
+    objc_property_t property = class_getProperty([self class], [name UTF8String]);
+    
+    const char *attr = property_getAttributes(property);
+    const char *ivarName = strchr(attr, 'V') + 1;
+    
+    Ivar ivar = object_getInstanceVariable(self, ivarName, NULL);
+    
+    return (char *)self + ivar_getOffset(ivar);
 }
 
 @end

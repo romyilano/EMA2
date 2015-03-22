@@ -10,7 +10,7 @@
 
 @interface NLSPendingOperations : NSObject
 
-@property (nonatomic, strong) NSMutableDictionary *queriesInProgress;
+@property (nonatomic, strong) NSMutableArray *queriesInProgress;
 @property (nonatomic, strong) NSMutableDictionary *searchQueriesInProgress;
 @property (nonatomic, strong) NSMutableArray *countsInProgress;
 @property (nonatomic, strong) NSOperationQueue *queryQueue;

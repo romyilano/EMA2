@@ -225,7 +225,7 @@
 
 -(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId
 {
-    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     //Get associated mesh descriptors
     NSString *query = [NSString stringWithFormat:  @"SELECT am.mesh_id, m.name "
                                                    @"FROM abstract_mesh am "
@@ -237,29 +237,37 @@
     return [self getMeshArrayForSQL:query];
 }
 
--(NLSTitleModel*)getTitleForId:(NSInteger)emaId
-{
-    NSString * query = [NSString stringWithFormat:@"SELECT e.id, e.pmid, e.title, e.journal_year, j.journal_abv "
-                        "FROM erpubtbl e "
-                        "JOIN journals j "
-                        "ON e.journal_id = j.id "
-                        "WHERE e.id = %ld "
-                        "LIMIT 1", (long)emaId];
-
-    return [self getTitleModelForSQL:query];
-}
+//-(NLSTitleModel*)getTitleForId:(NSInteger)emaId
+//{
+//    NSString * query = [NSString stringWithFormat:@"SELECT e.id, e.pmid, e.title, e.journal_year, j.journal_abv "
+//                        "FROM erpubtbl e "
+//                        "JOIN journals j "
+//                        "ON e.journal_id = j.id "
+//                        "WHERE e.id = %ld "
+//                        "LIMIT 1", (long)emaId];
+//
+//    return [self getTitleModelForSQL:query];
+//}
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val
 {
-    NSString * query = [NSString stringWithFormat:  @"SELECT e.id, e.pmid, e.title, e.journal_year, j.journal_abv "
+    NSString * query = [NSString stringWithFormat:  @"SELECT e.id, e.pmid, e.title, e.journal_year "
                                                     @"FROM erpubtbl e "
-                                                    @"JOIN journals j "
-                                                    @"ON e.journal_id = j.id "
-                                                    @"ORDER BY e.journal_year DESC "
-                                                    @"LIMIT 1 "
-                                                    @"OFFSET %ld;", (long)val];
+                                                    @"WHERE e.id =  %ld", (long)val];
     
     return [self getTitleModelForSQL:query];
+}
+
+-(NLSTitleModel*)getJournalAbvForId:(NSInteger)emaId
+{
+
+    NSString * query = [NSString stringWithFormat:  @"SELECT j.journal_abv "
+                        @"FROM journals j "
+                        @"WHERE j.id = "
+                        @"(SELECT e.journal_id FROM erpubtbl e WHERE e.id = %ld);", (long)emaId];
+    
+    return [self getTitleModelWithJournalAbreviationForSQL:query];
+
 }
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val whereTitleMatch:(NSString *)str
@@ -578,7 +586,7 @@
 -(NLSTitleModel*)getTitleModelForSQL:(NSString*)sql
 {
     
-    NSLog(@"SQLAPI - getTitleModelForSQL %@", sql);
+    NSLog(@"SQLAPI %@", NSStringFromSelector(_cmd));
     __block FMResultSet *rs = nil;
     __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
 
@@ -589,17 +597,36 @@
         while ([rs next]) {
             tm.title = [rs stringForColumn:@"title"];
             tm.year = [rs stringForColumn:@"journal_year"];
-            tm.journal_abv = [rs stringForColumn:@"journal_abv"];
             tm.pmid = [rs intForColumn:@"pmid"];
             tm.rowId = [rs intForColumnIndex:0];
-            NSLog(@"rowId: %ld", (long)tm.rowId);
+//            NSLog(@"rowId: %ld", (long)tm.rowId);
         }
 
         return;
     }];
     
-    tm.descriptors = [self getMeshDescriptorsForId:tm.rowId];
-    tm.data = [@"complete" dataUsingEncoding:NSUTF8StringEncoding];
+    return tm;
+}
+
+-(NLSTitleModel*)getTitleModelWithJournalAbreviationForSQL:(NSString*)sql
+{
+    
+    NSLog(@"SQLAPI %@", NSStringFromSelector(_cmd));
+    __block FMResultSet *rs = nil;
+    __block NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    
+    
+    [self.queue inDatabase:^(FMDatabase *db) {
+        
+        rs = [db executeQuery:sql];
+        while ([rs next]) {
+            tm.journal_abv = [rs stringForColumn:@"journal_abv"];
+//            NSLog(@"rowId: %ld", (long)tm.rowId);
+        }
+        
+        return;
+    }];
+    
     return tm;
 }
 

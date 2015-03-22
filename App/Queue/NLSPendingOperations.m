@@ -14,9 +14,9 @@
 @synthesize countsInProgress = _countsInProgress;
 @synthesize queryQueue = _queryQueue;
 
-- (NSMutableDictionary *)queriesInProgress {
+- (NSMutableArray *)queriesInProgress {
     if (!_queriesInProgress) {
-        _queriesInProgress = [[NSMutableDictionary alloc] init];
+        _queriesInProgress = [[NSMutableArray alloc] init];
     }
     return _queriesInProgress;
 }

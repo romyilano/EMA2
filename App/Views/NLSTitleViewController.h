@@ -58,6 +58,6 @@
 - (void)fadeTranslucentView;
 - (void)queryDidFinish:(NLSQuery*)query;
 - (void)sqlQueryDidFinish:(NLSTMQuery *)query;
-- (void)startQueryForIndexPath:(NSIndexPath *)indexPath;
+//- (void)startQueryForIndexPath:(NSIndexPath *)indexPath;
 
 @end

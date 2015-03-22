@@ -15,6 +15,8 @@
 		7B0B93AD1A3FBC0900C47A1C /* CreateFTSTitles.sql in Resources */ = {isa = PBXBuildFile; fileRef = 7B0B93AC1A3FBC0900C47A1C /* CreateFTSTitles.sql */; };
 		7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B11D7961A080A650069D7A1 /* Images.xcassets */; };
 		7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1528081A1A735000F0F871 /* NLSTMQuery.m */; };
+		7B2123491ABBFCB40023997D /* NLSDescriptorArrayQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */; };
+		7B21234C1ABEAFD70023997D /* NLSJournalQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B21234B1ABEAFD70023997D /* NLSJournalQuery.m */; };
 		7B27CA051A6391810093499A /* Options-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B27CA041A6391810093499A /* Options-50@2x.png */; };
 		7B27CA071A639BE60093499A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B27CA061A639BE60093499A /* Settings.bundle */; };
 		7B444AE11A07EF2800A7D869 /* NLSAutoSizeTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */; };
@@ -99,6 +101,10 @@
 		7B11D7961A080A650069D7A1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7B1528071A1A735000F0F871 /* NLSTMQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTMQuery.h; sourceTree = "<group>"; };
 		7B1528081A1A735000F0F871 /* NLSTMQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTMQuery.m; sourceTree = "<group>"; };
+		7B2123471ABBFCB40023997D /* NLSDescriptorArrayQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDescriptorArrayQuery.h; sourceTree = "<group>"; };
+		7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorArrayQuery.m; sourceTree = "<group>"; };
+		7B21234A1ABEAFD70023997D /* NLSJournalQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalQuery.h; sourceTree = "<group>"; };
+		7B21234B1ABEAFD70023997D /* NLSJournalQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalQuery.m; sourceTree = "<group>"; };
 		7B27CA041A6391810093499A /* Options-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Options-50@2x.png"; path = "../Icons/Options-50@2x.png"; sourceTree = "<group>"; };
 		7B27CA061A639BE60093499A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7B444ADF1A07EF2800A7D869 /* NLSAutoSizeTextview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAutoSizeTextview.h; sourceTree = "<group>"; };
@@ -353,6 +359,10 @@
 				7B5CDA631A0D81E2005099C0 /* NLSQuery.m */,
 				7B1528071A1A735000F0F871 /* NLSTMQuery.h */,
 				7B1528081A1A735000F0F871 /* NLSTMQuery.m */,
+				7B21234A1ABEAFD70023997D /* NLSJournalQuery.h */,
+				7B21234B1ABEAFD70023997D /* NLSJournalQuery.m */,
+				7B2123471ABBFCB40023997D /* NLSDescriptorArrayQuery.h */,
+				7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */,
 			);
 			path = Queue;
 			sourceTree = "<group>";
@@ -570,6 +580,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B21234C1ABEAFD70023997D /* NLSJournalQuery.m in Sources */,
 				7B911F5F1A003ED100C56815 /* NLSBaseTableViewController.m in Sources */,
 				7BB9A98F19D4C63600ACFE7B /* main.m in Sources */,
 				7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */,
@@ -577,6 +588,7 @@
 				7BB9A9B119D4C63600ACFE7B /* NLSJournalViewController.m in Sources */,
 				7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */,
 				7BB9A9AE19D4C63600ACFE7B /* NLSDetailViewController.m in Sources */,
+				7B2123491ABBFCB40023997D /* NLSDescriptorArrayQuery.m in Sources */,
 				7BB9A99B19D4C63600ACFE7B /* NLSPendingOperations.m in Sources */,
 				7BB9A9AB19D4C63600ACFE7B /* NLSAboutViewController.m in Sources */,
 				7B5CDA611A0D6DB4005099C0 /* NLSSQLCount.m in Sources */,

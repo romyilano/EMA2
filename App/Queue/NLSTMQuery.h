@@ -2,8 +2,8 @@
 //  NLSTMQuery.h
 //  App
 //
-//  Created by Amir on 11/17/14.
-//  Copyright (c) 2014 4m1r. All rights reserved.
+//  Created by Amir Djavaherian on 11/17/14.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
 #import "NLSQuery.h"
@@ -15,9 +15,8 @@
 
 @property (nonatomic, assign) id <NLSTMQueryDelegate> tmDelegate;
 @property (strong, nonatomic) NLSTitleModel *titleModel;
-@property (nonatomic, strong) NSIndexPath *indexPathInTableView;
 
-- (id)initWithInvocation:(NSInvocation *)invocation atIndexPath:(NSIndexPath *)indexPath andDelegate:(id<NLSTMQueryDelegate>)delegate;
+- (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSTMQueryDelegate>)delegate;
 
 @end
 

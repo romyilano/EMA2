@@ -40,7 +40,7 @@
 -(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId;
 -(NSArray*)getTitleModelsForRange:(NSRange)range;
 
-
+-(NLSTitleModel*)getJournalAbvForId:(NSInteger)emaId;
 -(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId;
 
 -(NLSTitleModel*)getTitleForId:(NSInteger)emaId;

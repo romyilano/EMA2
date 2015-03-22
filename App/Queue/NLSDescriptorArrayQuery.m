@@ -1,19 +1,19 @@
 //
-//  NLSTMQuery.m
+//  NLSDescriptorArrayQuery.m
 //  App
 //
-//  Created by Amir Djavaherian on 11/17/14.
-//  Copyright (c) 2014 Colleen's Inc. All rights reserved.
+//  Created by Amir on 3/19/15.
+//  Copyright (c) 2015 Colleen's. All rights reserved.
 //
 
-#import "NLSTMQuery.h"
+#import "NLSDescriptorArrayQuery.h"
 
-@implementation NLSTMQuery
+@implementation NLSDescriptorArrayQuery
 
 @synthesize tmDelegate = _tmDelegate;
 @synthesize titleModel = _titleModel;
 
-- (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSTMQueryDelegate>)delegate
+- (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSDescriptorArrayQueryDelegate>)delegate
 {
     NSLog(@"%@ %@", NSStringFromSelector(_cmd), invocation);
     if (self = [super init]) {
@@ -36,7 +36,7 @@
         self.titleModel = tm;
     }
     
-    [(NSObject*)self.tmDelegate performSelectorOnMainThread:@selector(sqlQueryDidFinish:) withObject:self waitUntilDone:NO];
+    [(NSObject*)self.tmDelegate performSelectorOnMainThread:@selector(sqlQueryDidFinishForMeshArray:) withObject:self waitUntilDone:NO];
     
     
 }
