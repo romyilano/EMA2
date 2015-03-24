@@ -26,7 +26,7 @@
 
 
 - (void)main {
-    NSLog(@"NLSTMQuery %@", NSStringFromSelector(_cmd));
+    NSLog(@"NLSDescriptorArrayQuery %@", NSStringFromSelector(_cmd));
     if (self.isCancelled){
         return;
     }else{

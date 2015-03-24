@@ -83,7 +83,7 @@
     self.navigationItem.title = self.defactoTitle;
     
     //Prime title cache
-    //[self primeTitleCache];
+    [self primeTitleCache];
     
     
     NSLog(@"View Did Load");
@@ -432,32 +432,41 @@
 }
 
 #pragma mark - TableView CellForRowAtIndexPath
+
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSString *identifier = @"TitleCellIdentifier";
-    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
     
 
     if (!cell) {
-        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier andIndexPath:indexPath];
-        
-        // Get tm from cache
-        NSLog(@"count for cache pointer %d: indexPath.row: %@", [self.cachePointer count], indexPath);
-        
-        if([self.cachePointer count] > indexPath.row){
-            NSLog(@"cache exists %@", [self.cachePointer objectAtIndex:indexPath.row]);
-            [cell updateCellWithTitleModel:[self.cachePointer objectAtIndex:indexPath.row]];
-        }else{
-            NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
-            NSLog(@"Adding %@ to cache.", tm);
-            [self.cachePointer addObject:tm];
-        }
+        NSLog(@"no cell");
+        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TitleCellIdentifier" andIndexPath:indexPath];
 
+    } else {
+        NSLog(@"re-using cell with indexPath %d", indexPath.row);
+        [cell updateCellWithId:indexPath.row];
     }
 
+    // Get tm from cache
+//    NSLog(@"count for cache pointer %d: indexPath.row: %d", [self.cachePointer count], indexPath.row);
+//    
+//    if([self.cachePointer count] <= indexPath.row){
+//        
+//        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
+//        NSLog(@"Adding %@ to cache.", tm);
+//        [self.cachePointer addObject:tm];
+//    }
+    
+    //[cell updateCellWithId:indexPath.row];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(NLSTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    [cell cancelAllOperations];
+    NSLog(@" %@, %@, %d", NSStringFromSelector(_cmd), cell, indexPath.row);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -544,7 +553,7 @@
 {
     // 2: If the value of decelerate is NO, that means the user stopped dragging the table view. Therefore you want to resume suspended operations, cancel operations for offscreen cells, and start operations for onscreen cells.
     if (!decelerate) {
-        //[self loadTitlesForOnscreenCells];
+        [self loadTitlesForOnscreenCells];
         [self resumeAllOperations];
     }
 }
@@ -552,7 +561,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 3: This delegate method tells you that table view stopped scrolling, so you will do the same as in #2.
-    //[self loadTitlesForOnscreenCells];
+    [self loadTitlesForOnscreenCells];
     [self resumeAllOperations];
 }
 

@@ -26,7 +26,7 @@
 
 
 - (void)main {
-    NSLog(@"NLSTMQuery %@", NSStringFromSelector(_cmd));
+    NSLog(@"NLSJournalQuery %@", NSStringFromSelector(_cmd));
     if (self.isCancelled){
         return;
     }else{

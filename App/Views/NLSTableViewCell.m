@@ -44,10 +44,11 @@
         self.sql = [NLSSQLAPI sharedManager];
         
         // Init with spinner
-//        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        self.accessoryView = activityIndicatorView;
+        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.accessoryView = activityIndicatorView;
         
         self.rowId = indexPath.row + 1;
+        NSLog(@"init cell with rowId: %d", self.rowId);
         
         NSUInteger width = [[UIScreen mainScreen] applicationFrame].size.width;
         
@@ -86,7 +87,6 @@
         
         
         //begin data queries
-        
         [self startQuery:@selector(getTitleAndIdForRow:)];
         [self startJournalQuery:@selector(getJournalAbvForId:)];
         [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
@@ -115,19 +115,15 @@
     // Configure the view for the selected state
 }
 
+#pragma mark - Update cell labels
 
--(NSSet *)propertyNames {
-    NSMutableSet *propNames = [NSMutableSet set];
-    unsigned int outCount, i;
-    objc_property_t *properties = class_copyPropertyList([self class], &outCount);
-    for (i = 0; i < outCount; i++) {
-        objc_property_t property = properties[i];
-        NSString *propertyName = [[[NSString alloc] initWithUTF8String:property_getName(property)] autorelease];
-        [propNames addObject:propertyName];
-    }
-    free(properties);
-    
-    return propNames;
+-(void)updateCellWithId:(NSInteger)cellId
+{
+    NSLog(@" %@, %d", NSStringFromSelector(_cmd), cellId);
+    self.rowId = cellId + 1;
+    [self startQuery:@selector(getTitleAndIdForRow:)];
+    [self startJournalQuery:@selector(getJournalAbvForId:)];
+    [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
 }
 
 -(void)updateCellWithTitleModel:(NLSTitleModel*)tm
@@ -183,10 +179,14 @@
         self.titleLabel.text = @"Failed to load";
         
     } else {
+        self.rowId = tm.rowId + 1;
         NSLog(@"still need title for %d", self.rowId);
         [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
         self.titleLabel.text = @"Loading...";
-        [self startQuery:@selector(getTitleAndIdForRow:)];
+        
+        
+//        if([self.pendingOperations.queryQueue operations] containsObject:(id))
+//        [self startQuery:@selector(getTitleAndIdForRow:)];
         
     }
 
@@ -243,7 +243,7 @@
     
     if(tm.journal_abv !=  nil){
         //Attribute string for year
-        NSString *journalAndYear  = [NSString stringWithFormat:@"journal: %@, year: %@", tm.journal_abv, tm.year ];
+        NSString *journalAndYear  = [NSString stringWithFormat:@"%@, %@", tm.journal_abv, tm.year];
         NSMutableAttributedString *journalLine = [[NSMutableAttributedString alloc] initWithString:journalAndYear];
         
         [journalLine addAttribute:NSKernAttributeName
@@ -259,6 +259,7 @@
                             range:NSMakeRange(0, [journalLine length])];
         
         self.journalLabel.attributedText = journalLine;
+        [self reloadView];
         
     } else {
         //get journal and year
@@ -267,7 +268,7 @@
     }
 }
 
-#pragma mark Cache Operations
+#pragma mark - Start Queries
 
 - (void)startQuery:(SEL)selector
 {
@@ -356,13 +357,14 @@
     invocation = [NSInvocation invocationWithMethodSignature:sig];
     
     NSUInteger row = self.rowId;
+    
+    NSLog(@"start journal query: %d", row);
+    
     //setup invocation
     [invocation setTarget:self.sql];
     [invocation setSelector:selector];
     [invocation setArgument:&row atIndex:2];
     [invocation retainArguments];
-    
-    //    }
     
     journalQuery = [[NLSJournalQuery alloc] initWithInvocation:invocation andDelegate:self];
     
@@ -371,13 +373,14 @@
     
 }
 
+#pragma mark - Return From Queries
 - (void)sqlQueryDidFinish:(NLSTMQuery *)query
 {
     
     // get indexPath
     NSLog(@"--------table view cell: %@", NSStringFromSelector(_cmd));
     
-    NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
+    NSLog(@"%@, %@", NSStringFromSelector(_cmd), query.titleModel.title);
     
     [self updateCellWithTitleModel:query.titleModel];
     
@@ -401,8 +404,6 @@
 }
 
 
-
-
 #pragma mark - Cancelling, suspending, resuming queues / operations
 
 - (void)suspendAllOperations
@@ -417,6 +418,7 @@
 
 - (void)cancelAllOperations
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     [self.pendingOperations.queryQueue cancelAllOperations];
 }
 

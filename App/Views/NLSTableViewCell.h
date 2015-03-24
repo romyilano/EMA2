@@ -31,6 +31,7 @@
 @property (strong, nonatomic) UILabel *descriptorLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andIndexPath:(NSIndexPath*)indexPath;
+-(void)updateCellWithId:(NSInteger)cellId;
 -(void)updateCellWithTitleModel:(NLSTitleModel*)tm;
 -(void)updateCellWithDescriptors:(NLSTitleModel *)tm;
 -(void)updateCellWithJournal:(NLSTitleModel *)tm;
@@ -41,4 +42,5 @@
 -(void)startDescriptorQuery:(SEL)selector;
 -(NSSet *)propertyNames;
 -(void)reloadView;
+- (void)cancelAllOperations;
 @end

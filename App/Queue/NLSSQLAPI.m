@@ -261,10 +261,13 @@
 -(NLSTitleModel*)getJournalAbvForId:(NSInteger)emaId
 {
 
-    NSString * query = [NSString stringWithFormat:  @"SELECT j.journal_abv "
-                        @"FROM journals j "
-                        @"WHERE j.id = "
-                        @"(SELECT e.journal_id FROM erpubtbl e WHERE e.id = %ld);", (long)emaId];
+    NSLog(@"journal abv id: %d", emaId);
+    // SELECT e.journal_id, e.journal_year, j.journal_title FROM erpubtbl e JOIN journals j ON e.journal_id = j.id WHERE e.id = 1;
+    NSString * query = [NSString stringWithFormat:  @"SELECT e.journal_id, e.journal_year, j.journal_title "
+                        @"FROM erpubtbl e "
+                        @"JOIN journals j "
+                        @"ON e.journal_id = j.id "
+                        @"WHERE e.id = %ld;", (long)emaId];
     
     return [self getTitleModelWithJournalAbreviationForSQL:query];
 
@@ -620,8 +623,8 @@
         
         rs = [db executeQuery:sql];
         while ([rs next]) {
-            tm.journal_abv = [rs stringForColumn:@"journal_abv"];
-//            NSLog(@"rowId: %ld", (long)tm.rowId);
+            tm.journal_abv = [rs stringForColumn:@"journal_title"];
+            tm.year = [rs stringForColumn:@"journal_year"];
         }
         
         return;
