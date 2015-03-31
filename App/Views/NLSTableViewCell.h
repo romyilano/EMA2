@@ -18,7 +18,7 @@
 
 @interface NLSTableViewCell : UITableViewCell<NSCacheDelegate, NLSTMQueryDelegate, NLSDescriptorArrayQueryDelegate, NLSJournalQueryDelegate>
 
-@property (readwrite, nonatomic) NSInteger rowId;
+@property (readwrite, nonatomic) NSInteger* rowId;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NLSTitleModel *tm;
 @property (readwrite, assign) BOOL isSearching;
@@ -40,7 +40,9 @@
 -(void)sqlQueryDidFinishForMeshArray:(NLSDescriptorArrayQuery *)query;
 -(void)startQuery:(SEL)selector;
 -(void)startDescriptorQuery:(SEL)selector;
--(NSSet *)propertyNames;
 -(void)reloadView;
-- (void)cancelAllOperations;
+-(void)cancelAllOperations;
+-(void)suspendAllOperations;
+-(void)resumeAllOperations;
+-(void)dbg;
 @end

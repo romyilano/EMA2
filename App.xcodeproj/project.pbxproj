@@ -17,6 +17,8 @@
 		7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1528081A1A735000F0F871 /* NLSTMQuery.m */; };
 		7B2123491ABBFCB40023997D /* NLSDescriptorArrayQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */; };
 		7B21234C1ABEAFD70023997D /* NLSJournalQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B21234B1ABEAFD70023997D /* NLSJournalQuery.m */; };
+		7B21234F1AC934170023997D /* NLSTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B21234E1AC934170023997D /* NLSTitleLabel.m */; };
+		7B2123521ACA77930023997D /* NLSJournalLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2123511ACA77930023997D /* NLSJournalLabel.m */; };
 		7B27CA051A6391810093499A /* Options-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B27CA041A6391810093499A /* Options-50@2x.png */; };
 		7B27CA071A639BE60093499A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7B27CA061A639BE60093499A /* Settings.bundle */; };
 		7B444AE11A07EF2800A7D869 /* NLSAutoSizeTextview.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */; };
@@ -105,6 +107,10 @@
 		7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorArrayQuery.m; sourceTree = "<group>"; };
 		7B21234A1ABEAFD70023997D /* NLSJournalQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalQuery.h; sourceTree = "<group>"; };
 		7B21234B1ABEAFD70023997D /* NLSJournalQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalQuery.m; sourceTree = "<group>"; };
+		7B21234D1AC934170023997D /* NLSTitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleLabel.h; sourceTree = "<group>"; };
+		7B21234E1AC934170023997D /* NLSTitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleLabel.m; sourceTree = "<group>"; };
+		7B2123501ACA77930023997D /* NLSJournalLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalLabel.h; sourceTree = "<group>"; };
+		7B2123511ACA77930023997D /* NLSJournalLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSJournalLabel.m; sourceTree = "<group>"; };
 		7B27CA041A6391810093499A /* Options-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Options-50@2x.png"; path = "../Icons/Options-50@2x.png"; sourceTree = "<group>"; };
 		7B27CA061A639BE60093499A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7B444ADF1A07EF2800A7D869 /* NLSAutoSizeTextview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAutoSizeTextview.h; sourceTree = "<group>"; };
@@ -419,6 +425,8 @@
 				7BB9A97519D4C63600ACFE7B /* NLSSearchViewController.m */,
 				7BB9A97619D4C63600ACFE7B /* NLSTableViewCell.h */,
 				7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */,
+				7B21234D1AC934170023997D /* NLSTitleLabel.h */,
+				7B21234E1AC934170023997D /* NLSTitleLabel.m */,
 				7B911F5D1A003ED100C56815 /* NLSBaseTableViewController.h */,
 				7B911F5E1A003ED100C56815 /* NLSBaseTableViewController.m */,
 				7B65DEFE1A041225006814E7 /* NLSTableView.h */,
@@ -427,6 +435,8 @@
 				7B444AE01A07EF2800A7D869 /* NLSAutoSizeTextview.m */,
 				7B0088B71A6503CB0043889E /* NLSSettingsViewController.h */,
 				7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */,
+				7B2123501ACA77930023997D /* NLSJournalLabel.h */,
+				7B2123511ACA77930023997D /* NLSJournalLabel.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -600,6 +610,8 @@
 				7B0088B91A6503CB0043889E /* NLSSettingsViewController.m in Sources */,
 				7BB9A9AD19D4C63600ACFE7B /* NLSDescriptorViewController.m in Sources */,
 				7BB9A9B319D4C63600ACFE7B /* NLSTableViewCell.m in Sources */,
+				7B2123521ACA77930023997D /* NLSJournalLabel.m in Sources */,
+				7B21234F1AC934170023997D /* NLSTitleLabel.m in Sources */,
 				7BB9A99519D4C63600ACFE7B /* NLSDescriptorModel.m in Sources */,
 				7BB9A99419D4C63600ACFE7B /* NLSUIKitExtras.m in Sources */,
 				7BB9A9AC19D4C63600ACFE7B /* NLSDescriptorTitlesViewController.m in Sources */,
@@ -653,6 +665,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "App/App-Prefix.pch";
 				INFOPLIST_FILE = "App/App-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -691,6 +704,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREFIX_HEADER = "App/App-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",

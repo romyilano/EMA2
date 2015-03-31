@@ -26,6 +26,17 @@
 @synthesize linkAttributes = _linkAttributes;
 @synthesize meshView = _meshView;
 
+- (NLSDetailViewController*)initWithId:(NSInteger)rowId
+{
+    NSLog(@"detailView id: %d", rowId);
+    self = [super init];
+    if(self){
+        self.abstractId = rowId;
+    }
+    return self;
+    
+}
+
 - (void)loadView
 {
 

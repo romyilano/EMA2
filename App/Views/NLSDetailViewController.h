@@ -28,8 +28,10 @@
 @property (strong, nonatomic) UITextView *meshView;
 @property (strong, nonatomic) NSDictionary *linkAttributes;
 
+- (NLSDetailViewController*)initWithId:(NSInteger)rowId;
 - (void)removeFromFavorites:(UIButton*)button;
 - (void)insertIntoFavorites:(UIButton*)button;
 - (void)pushWebViewWithURL:(NSURL*)url;
+
 
 @end

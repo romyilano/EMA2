@@ -150,9 +150,6 @@
 -(void)presentSettingsController
 {
     NSLog(@"present settings controller");
-
-    
-    
     
     NLSSettingsViewController *settingsController = [[NLSSettingsViewController alloc] init];
     
@@ -180,14 +177,12 @@
     
     self.searchResultsController = searchResultsController;
     
-    
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     self.searchController.delegate = self;
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = YES;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
-    
     
     self.searchBar = self.searchController.searchBar;
     self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -303,15 +298,11 @@
     CGFloat height = self.tableView.bounds.size.height;
     frame.size.height += height;
 
-
     insets.top = height;
     insets.bottom = height;
-
     
     self.tableView.frame = frame;
     self.tableView.scrollIndicatorInsets = insets;
-//    self.tableView.contentInset = insets;
-    
     
 }
 
@@ -428,7 +419,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 110;
+    return 120;
 }
 
 #pragma mark - TableView CellForRowAtIndexPath
@@ -436,8 +427,8 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
-    
 
     if (!cell) {
         NSLog(@"no cell");
@@ -481,11 +472,10 @@
     NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
     
     //Push new view
-    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init];
-    dvc.abstractId = rowId;
+    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] initWithId:rowId];
+//    dvc.abstractId = rowId;
     [self.navigationController pushViewController:dvc animated:TRUE];
 }
-
 
 #pragma mark Search Controller Delegates
 
@@ -539,7 +529,25 @@
     [self.tableView reloadData];
 }
 
+- (void)suspendCells
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSSet *visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+    for(NSIndexPath* indexPath in visibleRows) {
+        NLSTableViewCell *cell = (NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell suspendAllOperations];
+    }
+}
 
+- (void)resumeCells
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSSet *visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+    for(NSIndexPath* indexPath in visibleRows) {
+        NLSTableViewCell *cell = (NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell resumeAllOperations];
+    }
+}
 
 #pragma mark - UIScrollView delegate
 
@@ -547,21 +555,23 @@
 {
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
+    [self suspendCells];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     // 2: If the value of decelerate is NO, that means the user stopped dragging the table view. Therefore you want to resume suspended operations, cancel operations for offscreen cells, and start operations for onscreen cells.
     if (!decelerate) {
-        [self loadTitlesForOnscreenCells];
+        [self resumeCells];
         [self resumeAllOperations];
+        
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     // 3: This delegate method tells you that table view stopped scrolling, so you will do the same as in #2.
-    [self loadTitlesForOnscreenCells];
+    [self resumeCells];
     [self resumeAllOperations];
 }
 

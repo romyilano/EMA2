@@ -7,6 +7,8 @@
 //
 
 #import "NLSTableViewCell.h"
+#import "NLSTitleLabel.h"
+#import "NLSJournalLabel.h"
 
 @implementation NLSTableViewCell
 
@@ -48,11 +50,10 @@
         self.accessoryView = activityIndicatorView;
         
         self.rowId = indexPath.row + 1;
-        NSLog(@"init cell with rowId: %d", self.rowId);
         
         NSUInteger width = [[UIScreen mainScreen] applicationFrame].size.width;
         
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, width, 48.0f)];
+        self.titleLabel = [[NLSTitleLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, width, 48.0f)];
         self.titleLabel.tag = TITLE_TAG;
         self.titleLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
         self.titleLabel.textColor = [UIColor blackColor];
@@ -61,15 +62,16 @@
         [self.contentView addSubview:self.titleLabel];
         
         
-        self.journalLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 48.0, width, 22.0)];
+        self.journalLabel = [[NLSJournalLabel alloc] initWithFrame:CGRectMake(0.0, 48.0, width, 22.0)];
         self.journalLabel.tag = JOURNAL_TAG;
         self.journalLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
         self.journalLabel.textColor = [UIColor darkGrayColor];
         self.journalLabel.backgroundColor = [UIColor whiteColor];
         self.journalLabel.text = @"JDATA";
+        self.journalLabel.numberOfLines = 1;
         [self.contentView addSubview:self.journalLabel];
         
-        self.descriptorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 70.0, width, 40.0)];
+        self.descriptorLabel = [[NLSTitleLabel alloc] initWithFrame:CGRectMake(0.0, 70.0, width, 40.0)];
         self.descriptorLabel.tag = DESCRIPTOR_TAG;
         self.descriptorLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
         self.descriptorLabel.textColor = [UIColor darkGrayColor];
@@ -78,13 +80,11 @@
         self.descriptorLabel.numberOfLines = 3;
         [self.contentView addSubview:self.descriptorLabel];
         
-
         
         // Init with empty string
         self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
         self.journalLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
         self.descriptorLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-        
         
         //begin data queries
         [self startQuery:@selector(getTitleAndIdForRow:)];
@@ -95,16 +95,28 @@
     return self;
 }
 
+-(void)addAnimations
+{
+    CATransition *animation = [CATransition animation];
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type = kCATransitionFade;
+    animation.duration = 0.75;
+    [self.titleLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [self.journalLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+    [self.descriptorLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
+}
+
 -(void)reloadView
 {
     [((UIActivityIndicatorView *)self.accessoryView) stopAnimating];
     
     [self layoutIfNeeded];
+    [self setNeedsLayout];
     
-    [UIView animateWithDuration:200
-                     animations:^{
-                         [self setNeedsLayout]; // Called on parent view
-                     }];
+//    [UIView animateWithDuration:200
+//                     animations:^{
+//                         [self setNeedsLayout]; // Called on parent view
+//                     }];
 
 }
 
@@ -116,6 +128,11 @@
 }
 
 #pragma mark - Update cell labels
+
+-(void)dbg
+{
+    NSLog(@"");
+}
 
 -(void)updateCellWithId:(NSInteger)cellId
 {
@@ -149,6 +166,7 @@
 //        self.tm.descriptors = tm.descriptors;
 //    }
     
+    [self addAnimations];
     
     if (tm.title != nil) {
         
@@ -196,6 +214,8 @@
 {
     NSLog(@"%@, %@", NSStringFromSelector(_cmd), [tm.descriptors objectAtIndex:0]);
     
+    [self addAnimations];
+    
     //Descriptor strings
     if ([tm.descriptors count] > 0){
         
@@ -231,7 +251,7 @@
         
     } else {
         //get descriptors
-        NSLog(@"still need descriptors for %d", self.rowId);
+//        NSLog(@"still need descriptors for %d", self.rowId);
         [self startQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
     }
     
@@ -240,6 +260,8 @@
 
 -(void)updateCellWithJournal:(NLSTitleModel *)tm
 {
+    
+    [self addAnimations];
     
     if(tm.journal_abv !=  nil){
         //Attribute string for year
@@ -263,7 +285,7 @@
         
     } else {
         //get journal and year
-        NSLog(@"still need journal and year for %d", self.rowId);
+//        NSLog(@"still need journal and year for %d", self.rowId);
         [self startJournalQuery:@selector(getJournalAbvForId:)];
     }
 }
@@ -303,7 +325,6 @@
         
         //getMeshDescriptorsForId:tm.rowId
         //SEL selector = @selector(getTitleAndIdForRow:);
-
         
         NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
         invocation = [NSInvocation invocationWithMethodSignature:sig];
