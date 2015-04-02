@@ -237,17 +237,17 @@
     return [self getMeshArrayForSQL:query];
 }
 
-//-(NLSTitleModel*)getTitleForId:(NSInteger)emaId
-//{
-//    NSString * query = [NSString stringWithFormat:@"SELECT e.id, e.pmid, e.title, e.journal_year, j.journal_abv "
-//                        "FROM erpubtbl e "
-//                        "JOIN journals j "
-//                        "ON e.journal_id = j.id "
-//                        "WHERE e.id = %ld "
-//                        "LIMIT 1", (long)emaId];
-//
-//    return [self getTitleModelForSQL:query];
-//}
+-(NLSTitleModel*)getTitleForId:(NSInteger)emaId
+{
+    NSString * query = [NSString stringWithFormat:@"SELECT e.id, e.pmid, e.title, e.journal_year, j.journal_abv "
+                        "FROM erpubtbl e "
+                        "JOIN journals j "
+                        "ON e.journal_id = j.id "
+                        "WHERE e.id = %ld "
+                        "LIMIT 1", (long)emaId];
+
+    return [self getTitleModelForSQL:query];
+}
 
 -(NLSTitleModel*)getTitleAndIdForRow:(NSInteger)val
 {

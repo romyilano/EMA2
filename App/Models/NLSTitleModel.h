@@ -2,7 +2,7 @@
 //  NLSTitleModel.h
 //  App
 //
-//  Created by Amir on 7/24/14.
+//  Created by Amir Djavaherian on 7/24/14.
 //  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 
@@ -27,8 +27,5 @@
 - (id)initWithCellId:(NSInteger)cellId;
 - (id)initWithCellId:(NSInteger)cellId andSearchBarText:(NSString*)str;
 - (void)addMeshArrayFromTm:(NLSTitleModel*)tm;
-- (NSArray *)allPropertyNames;
-- (void *)pointerOfIvarForPropertyNamed:(NSString *)name;
-
 
 @end

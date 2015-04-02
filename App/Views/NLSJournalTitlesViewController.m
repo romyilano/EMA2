@@ -90,7 +90,7 @@
 
 - (void)startQueryForIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableDictionary *queriesInProgress = nil;
+    NSMutableArray *queriesInProgress = nil;
     NLSTMQuery *tmQuery = nil;
     NSInvocation *invocation = nil;
     NSUInteger *row = indexPath.row;
@@ -134,14 +134,14 @@
         
     }
     
-    if (![queriesInProgress.allKeys containsObject:indexPath]) {
-        NSLog(@"not in pending operations %@", indexPath);
-        
-        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation atIndexPath:indexPath andDelegate:self];
-        
-        [queriesInProgress setObject:tmQuery forKey:indexPath];
-        [self.pendingOperations.queryQueue addOperation:tmQuery];
-    }
+//    if (![queriesInProgress.allKeys containsObject:indexPath]) {
+//        NSLog(@"not in pending operations %@", indexPath);
+//        
+//        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation andDelegate:self];
+//        
+//        [queriesInProgress setObject:tmQuery forKey:indexPath];
+//        [self.pendingOperations.queryQueue addOperation:tmQuery];
+//    }
     
 }
 

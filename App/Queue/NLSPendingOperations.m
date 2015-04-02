@@ -21,9 +21,9 @@
     return _queriesInProgress;
 }
 
-- (NSMutableDictionary *)searchQueriesInProgress {
+- (NSMutableArray *)searchQueriesInProgress {
     if (!_searchQueriesInProgress) {
-        _searchQueriesInProgress = [[NSMutableDictionary alloc] init];
+        _searchQueriesInProgress = [[NSMutableArray alloc] init];
     }
     return _searchQueriesInProgress;
 }

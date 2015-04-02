@@ -10,6 +10,10 @@
 #import "NLSTitleLabel.h"
 #import "NLSJournalLabel.h"
 
+#define TITLE_TAG 1
+#define JOURNAL_TAG 2
+#define DESCRIPTOR_TAG 3
+
 @implementation NLSTableViewCell
 
 @synthesize rowId = _rowId;
@@ -20,14 +24,11 @@
 @synthesize sql = _sql;
 @synthesize searchText = _searchText;
 @synthesize title = _title;
-
 @synthesize titleLabel = _titleLabel;
 @synthesize journalLabel = _journalLabel;
 @synthesize descriptorLabel = _descriptorLabel;
+@synthesize tableView = _tableView;
 
-#define TITLE_TAG 1
-#define JOURNAL_TAG 2
-#define DESCRIPTOR_TAG 3
 
 - (NLSPendingOperations *)pendingOperations
 {
@@ -40,11 +41,12 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andIndexPath:(NSIndexPath*)indexPath
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    //Setup SQL shared instance
+    self.sql = [NLSSQLAPI sharedManager];
+    
     if (self) {
         NSLog(@"init cell");
-        //Setup SQL shared instance
-        self.sql = [NLSSQLAPI sharedManager];
-        
+
         // Init with spinner
         UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         self.accessoryView = activityIndicatorView;
@@ -61,13 +63,12 @@
         self.titleLabel.numberOfLines = 3;
         [self.contentView addSubview:self.titleLabel];
         
-        
         self.journalLabel = [[NLSJournalLabel alloc] initWithFrame:CGRectMake(0.0, 48.0, width, 22.0)];
         self.journalLabel.tag = JOURNAL_TAG;
         self.journalLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
         self.journalLabel.textColor = [UIColor darkGrayColor];
         self.journalLabel.backgroundColor = [UIColor whiteColor];
-        self.journalLabel.text = @"JDATA";
+        self.journalLabel.text = @"";
         self.journalLabel.numberOfLines = 1;
         [self.contentView addSubview:self.journalLabel];
         
@@ -76,10 +77,9 @@
         self.descriptorLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
         self.descriptorLabel.textColor = [UIColor darkGrayColor];
         self.descriptorLabel.backgroundColor = [UIColor whiteColor];
-        self.descriptorLabel.text = @"DDATA";
+        self.descriptorLabel.text = @"";
         self.descriptorLabel.numberOfLines = 3;
         [self.contentView addSubview:self.descriptorLabel];
-        
         
         // Init with empty string
         self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
@@ -109,10 +109,10 @@
 -(void)reloadView
 {
     [((UIActivityIndicatorView *)self.accessoryView) stopAnimating];
-    
-    [self layoutIfNeeded];
-    [self setNeedsLayout];
-    
+    [self addAnimations];
+//    [self layoutIfNeeded];
+//    [self setNeedsLayout];
+//    
 //    [UIView animateWithDuration:200
 //                     animations:^{
 //                         [self setNeedsLayout]; // Called on parent view
@@ -136,8 +136,15 @@
 
 -(void)updateCellWithId:(NSInteger)cellId
 {
-    NSLog(@" %@, %d", NSStringFromSelector(_cmd), cellId);
+
+    [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
+    NSAttributedString *loadingString = [[NSAttributedString alloc] initWithString:@"Loading..." attributes:nil];
+    NSAttributedString *blankString = [[NSAttributedString alloc] initWithString:@"" attributes:nil];
+    self.titleLabel.attributedText = loadingString;
+    self.journalLabel.attributedText = blankString;
+    self.descriptorLabel.attributedText = blankString;
     self.rowId = cellId + 1;
+    NSLog(@" %@, %d", NSStringFromSelector(_cmd), self.rowId);
     [self startQuery:@selector(getTitleAndIdForRow:)];
     [self startJournalQuery:@selector(getJournalAbvForId:)];
     [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
@@ -166,7 +173,7 @@
 //        self.tm.descriptors = tm.descriptors;
 //    }
     
-    [self addAnimations];
+
     
     if (tm.title != nil) {
         
@@ -202,10 +209,6 @@
         [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
         self.titleLabel.text = @"Loading...";
         
-        
-//        if([self.pendingOperations.queryQueue operations] containsObject:(id))
-//        [self startQuery:@selector(getTitleAndIdForRow:)];
-        
     }
 
 }
@@ -213,8 +216,6 @@
 -(void)updateCellWithDescriptors:(NLSTitleModel *)tm
 {
     NSLog(@"%@, %@", NSStringFromSelector(_cmd), [tm.descriptors objectAtIndex:0]);
-    
-    [self addAnimations];
     
     //Descriptor strings
     if ([tm.descriptors count] > 0){
@@ -251,7 +252,6 @@
         
     } else {
         //get descriptors
-//        NSLog(@"still need descriptors for %d", self.rowId);
         [self startQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
     }
     
@@ -260,8 +260,6 @@
 
 -(void)updateCellWithJournal:(NLSTitleModel *)tm
 {
-    
-    [self addAnimations];
     
     if(tm.journal_abv !=  nil){
         //Attribute string for year
@@ -285,7 +283,6 @@
         
     } else {
         //get journal and year
-//        NSLog(@"still need journal and year for %d", self.rowId);
         [self startJournalQuery:@selector(getJournalAbvForId:)];
     }
 }
@@ -335,13 +332,11 @@
         [invocation setSelector:selector];
         [invocation setArgument:&row atIndex:2];
         [invocation retainArguments];
-        
-//    }
+    
 
     tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation andDelegate:self];
     
     [self.pendingOperations.queryQueue addOperation:tmQuery];
-    
     
 }
 
@@ -360,12 +355,8 @@
     [invocation setArgument:&row atIndex:2];
     [invocation retainArguments];
     
-    //    }
-    
     daQuery = [[NLSDescriptorArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
-    
     [self.pendingOperations.queryQueue addOperation:daQuery];
-    
     
 }
 
@@ -391,28 +382,21 @@
     
     [self.pendingOperations.queryQueue addOperation:journalQuery];
     
-    
 }
 
 #pragma mark - Return From Queries
 - (void)sqlQueryDidFinish:(NLSTMQuery *)query
 {
-    
     // get indexPath
     NSLog(@"--------table view cell: %@", NSStringFromSelector(_cmd));
-    
     NSLog(@"%@, %@", NSStringFromSelector(_cmd), query.titleModel.title);
-    
     [self updateCellWithTitleModel:query.titleModel];
-    
-    
 }
 
 -(void)sqlQueryDidFinishForMeshArray:(NLSDescriptorArrayQuery *)query
 {
     // get indexPath
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    
     [self updateCellWithDescriptors:query.titleModel];
 }
 
@@ -420,7 +404,6 @@
 {
     // get indexPath
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    
     [self updateCellWithJournal:query.titleModel];
 }
 

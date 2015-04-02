@@ -555,7 +555,7 @@
 {
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
-    [self suspendCells];
+    //[self suspendCells];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

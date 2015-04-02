@@ -18,7 +18,7 @@
 
 @interface NLSTableViewCell : UITableViewCell<NSCacheDelegate, NLSTMQueryDelegate, NLSDescriptorArrayQueryDelegate, NLSJournalQueryDelegate>
 
-@property (readwrite, nonatomic) NSInteger* rowId;
+@property (readwrite, nonatomic) NSInteger rowId;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NLSTitleModel *tm;
 @property (readwrite, assign) BOOL isSearching;
@@ -29,6 +29,7 @@
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *journalLabel;
 @property (strong, nonatomic) UILabel *descriptorLabel;
+@property (weak, nonatomic) UITableView *tableView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andIndexPath:(NSIndexPath*)indexPath;
 -(void)updateCellWithId:(NSInteger)cellId;

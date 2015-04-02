@@ -2,7 +2,7 @@
 //  main.m
 //  App
 //
-//  Created by 4m1r on 8/12/14.
+//  Created by Amir Djavaherian on 8/12/14.
 //  Copyright (c) 2014 4m1r. All rights reserved.
 //
 
