@@ -20,6 +20,9 @@
 @synthesize purchaseButton = _purchaseButton;
 
 -(void)viewDidLoad{
+    
+    [super viewDidLoad];
+    
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
     UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     [blurEffectView setFrame:self.view.bounds];
@@ -137,7 +140,7 @@
     [vibrancyEffectView.contentView addSubview:slider];
     [vibrancyEffectView.contentView addSubview:purchaseButton];
     
-    UITableView *tv = [[UITableView alloc] initWithFrame:bounds style:UITableViewStyleGrouped];
+//    UITableView *tv = [[UITableView alloc] initWithFrame:bounds style:UITableViewStyleGrouped];
     self.view = blurEffectView;
 
 }

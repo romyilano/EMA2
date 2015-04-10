@@ -11,7 +11,6 @@
 @implementation NLSTMQuery
 
 @synthesize tmDelegate = _tmDelegate;
-@synthesize titleModel = _titleModel;
 
 - (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSTMQueryDelegate>)delegate
 {
@@ -19,25 +18,29 @@
     if (self = [super init]) {
         self.invocation = invocation;
         self.tmDelegate = delegate;
-        self.titleModel = [[NLSTitleModel alloc] init];
     }
     return self;
 }
 
 
 - (void)main {
+    
     NSLog(@"NLSTMQuery %@", NSStringFromSelector(_cmd));
+    
     if (self.isCancelled){
         return;
     }else{
-        NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+        void *tempTm;
         [self.invocation invoke];
-        [self.invocation getReturnValue:&tm];
-        self.titleModel = tm;
+        [self.invocation getReturnValue:&tempTm];
+        NLSTitleModel *tm = (__bridge NLSTitleModel *)tempTm;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.tmDelegate sqlQueryDidFinish:tm];
+        
+        });
+        
     }
-    
-    [(NSObject*)self.tmDelegate performSelectorOnMainThread:@selector(sqlQueryDidFinish:) withObject:self waitUntilDone:NO];
-    
     
 }
 

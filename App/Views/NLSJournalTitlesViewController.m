@@ -90,7 +90,7 @@
 
 - (void)startQueryForIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableArray *queriesInProgress = nil;
+//    NSMutableArray *queriesInProgress = nil;
     NLSTMQuery *tmQuery = nil;
     NSInvocation *invocation = nil;
     NSUInteger *row = indexPath.row;
@@ -98,7 +98,7 @@
     
     if(self.isSearching){
         
-        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
+//        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
         
         //get args row and match
         NSString *match = self.searchBar.text;
@@ -118,7 +118,7 @@
         
     }else{
         
-        queriesInProgress = self.pendingOperations.queriesInProgress;
+//        queriesInProgress = self.pendingOperations.queriesInProgress;
         
         // create a singature from the selector
         SEL selector = @selector(getTitleAndIdForRow:whereJournalEquals:);

@@ -36,7 +36,7 @@
 -(void)updateCellWithTitleModel:(NLSTitleModel*)tm;
 -(void)updateCellWithDescriptors:(NLSTitleModel *)tm;
 -(void)updateCellWithJournal:(NLSTitleModel *)tm;
--(void)sqlQueryDidFinish:(NLSTMQuery *)query;
+-(void)sqlQueryDidFinish:(NLSTitleModel *)tm;
 -(void)journalQueryDidFinish:(NLSJournalQuery *)query;
 -(void)sqlQueryDidFinishForMeshArray:(NLSDescriptorArrayQuery *)query;
 -(void)startQuery:(SEL)selector;

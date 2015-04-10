@@ -13,7 +13,6 @@
 @interface NLSDescriptorArrayQuery : NLSQuery
 
 @property (nonatomic, assign) id <NLSDescriptorArrayQueryDelegate> tmDelegate;
-@property (strong, nonatomic) NLSTitleModel *titleModel;
 
 - (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSDescriptorArrayQueryDelegate>)delegate;
 
@@ -22,6 +21,6 @@
 //Delegate
 @protocol NLSDescriptorArrayQueryDelegate <NSObject>
 
-- (void)sqlQueryDidFinishForMeshArray:(NLSDescriptorArrayQuery *)query;
+- (void)sqlQueryDidFinishForMeshArray:(NLSTitleModel *)tm;
 
 @end

@@ -28,7 +28,7 @@
 
 - (NLSDetailViewController*)initWithId:(NSInteger)rowId
 {
-    NSLog(@"detailView id: %d", rowId);
+//    NSLog(@"detailView id: %d", rowId);
     self = [super init];
     if(self){
         self.abstractId = rowId;
@@ -102,11 +102,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.navigationController.view addSubview:self.button];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     if (self.parentViewController == nil) {
         NSLog(@"viewDidDisappear doesn't have parent so it's been popped");
         //release stuff here

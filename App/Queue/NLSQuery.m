@@ -2,7 +2,7 @@
 //  NLSQuery.m
 //  App
 //
-//  Created by Amir on 11/7/14.
+//  Created by Amir Djavaherian on 11/7/14.
 //  Copyright (c) 2014 4m1r. All rights reserved.
 //
 #pragma GCC diagnostic ignored "-Wselector"
@@ -18,7 +18,6 @@
 @synthesize delegate = _delegate;
 @synthesize sql = _sql;
 @synthesize sqlCount = _sqlCount;
-@synthesize result = _result;
 @synthesize invocation = _invocation;
 
 - (NLSSQLAPI *)sql{
@@ -33,7 +32,6 @@
     if (self = [super init]) {
         self.invocation = invocation;
         self.delegate = delegate;
-        self.result = 0;
     }
     return self;
 }
@@ -43,13 +41,17 @@
     if (self.isCancelled){
         return;
     }else{
-        NSInteger *result = nil;
+        NSInteger *tmpResult = nil;
         [self.invocation invoke];
-        [self.invocation getReturnValue:&result];
-        self.result = result;
+        [self.invocation getReturnValue:&tmpResult];
+        NSInteger *result = tmpResult;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.delegate queryDidFinish:result];
+            
+        });
     }
     
-    [(NSObject*)self.delegate performSelectorOnMainThread:@selector(queryDidFinish:) withObject:self waitUntilDone:NO];
     
 }
 

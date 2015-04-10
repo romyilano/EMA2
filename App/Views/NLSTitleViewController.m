@@ -83,7 +83,7 @@
     self.navigationItem.title = self.defactoTitle;
     
     //Prime title cache
-    [self primeTitleCache];
+//    [self primeTitleCache];
     
     
     NSLog(@"View Did Load");
@@ -383,7 +383,7 @@
     headerView.tintColor = [UIColor colorWithHexString:searchGreen];
     [headerView addSubview:myLabel];
     
-    return headerView;
+    return (UIView*)headerView;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -397,9 +397,9 @@
 //    return 1;
     NSLog(@"%@", NSStringFromSelector(_cmd));
     if(self.isSearching){
-        return self.resultsCount;
+        return [self.resultsCount intValue];
     }else{
-        return self.titleCount;
+        return [self.titleCount intValue];
     }
 }
 
@@ -408,11 +408,9 @@
     // The header for the section is the region name -- get this from the region at the section index.
 
     if (self.isSearching){
-        NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, @(self.resultsCount).stringValue];
-        return header;
+        return [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, [self.resultsCount stringValue]];
     }else{
-        NSString *header = [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, @(self.titleCount).stringValue];
-        return header;
+        return [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, [self.titleCount stringValue]];
     }
     
 }
@@ -435,7 +433,7 @@
         cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TitleCellIdentifier" andIndexPath:indexPath];
 
     } else {
-        NSLog(@"re-using cell with indexPath %d", indexPath.row);
+//        NSLog(@"re-using cell with indexPath %d", indexPath.row);
         [cell updateCellWithId:indexPath.row];
     }
 
@@ -457,7 +455,7 @@
 - (void)tableView:(UITableView *)tableView didEndDisplayingCell:(NLSTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [cell cancelAllOperations];
-    NSLog(@" %@, %@, %d", NSStringFromSelector(_cmd), cell, indexPath.row);
+//    NSLog(@" %@, %@, %d", NSStringFromSelector(_cmd), cell, indexPath.row);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -466,10 +464,10 @@
     
     NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *string = [[NSString alloc] init];
-    string = cell.textLabel.text;
+//    NSString *string = [[NSString alloc] init];
+//    string = cell.textLabel.text;
     NSInteger rowId = cell.rowId;
-    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
+//    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
     
     //Push new view
     NLSDetailViewController *dvc = [[NLSDetailViewController alloc] initWithId:rowId];
@@ -639,16 +637,16 @@
 //
 //}
 
-- (void)queryDidFinish:(NLSQuery*)query
+- (void)queryDidFinish:(NSInteger *)result
 {
-    //NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)query.result);
+    NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)result);
 
     if(self.isSearching){
         [self.cachePointer removeAllObjects];
-        self.resultsCount = query.result;
+        self.resultsCount = [[NSNumber alloc] initWithLong:result];
         [self.searchResultsController.tableView reloadData];
     }else{
-        self.titleCount = query.result;
+        self.titleCount = [[NSNumber alloc] initWithLong:result];
         [self.tableView reloadData];
     }
 

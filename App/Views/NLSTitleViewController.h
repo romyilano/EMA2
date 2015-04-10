@@ -46,8 +46,8 @@
 @property (strong, nonatomic) NSMutableArray *titles;
 @property (strong, nonatomic) NSMutableArray *cachePointer;
 @property (strong, nonatomic) NLSPendingOperations *pendingOperations;
-@property (assign, atomic) NSInteger titleCount;
-@property (assign, atomic) NSInteger resultsCount;
+@property (strong, nonatomic) NSNumber *titleCount;
+@property (strong, nonatomic) NSNumber *resultsCount;
 @property (strong, nonatomic) NSIndexPath *lastIndex;
 @property (strong, nonatomic) UIVisualEffectView *translucentView;
 @property (strong, nonatomic) NLSSettingsViewController *settings;
@@ -56,9 +56,8 @@
 - (void)loadSearchBar;
 - (void)loadTranslucentView;
 - (void)fadeTranslucentView;
-- (void)queryDidFinish:(NLSQuery*)query;
+- (void)queryDidFinish:(NSInteger *)result;
 - (void)sqlQueryDidFinish:(NLSTMQuery *)query;
-//- (void)startQueryForIndexPath:(NSIndexPath *)indexPath;
 - (void)suspendCells;
 - (void)resumeCells;
 

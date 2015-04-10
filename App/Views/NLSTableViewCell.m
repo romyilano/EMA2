@@ -144,7 +144,7 @@
     self.journalLabel.attributedText = blankString;
     self.descriptorLabel.attributedText = blankString;
     self.rowId = cellId + 1;
-    NSLog(@" %@, %d", NSStringFromSelector(_cmd), self.rowId);
+//    NSLog(@" %@, %d", NSStringFromSelector(_cmd), self.rowId);
     [self startQuery:@selector(getTitleAndIdForRow:)];
     [self startJournalQuery:@selector(getJournalAbvForId:)];
     [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
@@ -205,7 +205,7 @@
         
     } else {
         self.rowId = tm.rowId + 1;
-        NSLog(@"still need title for %d", self.rowId);
+//        NSLog(@"still need title for %d", self.rowId);
         [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
         self.titleLabel.text = @"Loading...";
         
@@ -370,7 +370,7 @@
     
     NSUInteger row = self.rowId;
     
-    NSLog(@"start journal query: %d", row);
+//    NSLog(@"start journal query: %d", row);
     
     //setup invocation
     [invocation setTarget:self.sql];
@@ -385,26 +385,22 @@
 }
 
 #pragma mark - Return From Queries
-- (void)sqlQueryDidFinish:(NLSTMQuery *)query
+- (void)sqlQueryDidFinish:(NLSTitleModel *)tm
 {
-    // get indexPath
-    NSLog(@"--------table view cell: %@", NSStringFromSelector(_cmd));
-    NSLog(@"%@, %@", NSStringFromSelector(_cmd), query.titleModel.title);
-    [self updateCellWithTitleModel:query.titleModel];
+    NSLog(@"%@, %@", NSStringFromSelector(_cmd), tm.title);
+    [self updateCellWithTitleModel:tm];
 }
 
--(void)sqlQueryDidFinishForMeshArray:(NLSDescriptorArrayQuery *)query
+-(void)sqlQueryDidFinishForMeshArray:(NLSTitleModel *)tm
 {
-    // get indexPath
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    [self updateCellWithDescriptors:query.titleModel];
+    [self updateCellWithDescriptors:tm];
 }
 
--(void)journalQueryDidFinish:(NLSJournalQuery *)query
+-(void)journalQueryDidFinish:(NLSTitleModel *)tm
 {
-    // get indexPath
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    [self updateCellWithJournal:query.titleModel];
+    [self updateCellWithJournal:tm];
 }
 
 

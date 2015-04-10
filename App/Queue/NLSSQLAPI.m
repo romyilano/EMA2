@@ -68,10 +68,10 @@
                 sqlite3_result_null(context);
             
             int weight = 0;
-            unsigned int *blob = (unsigned int *)sqlite3_value_blob(argv[0]);
+            //unsigned int *blob = (unsigned int *)sqlite3_value_blob(argv[0]);
             
-            unsigned int numberOfPhrases = blob[0];
-            unsigned int numberOfColumns = blob[1];
+//            unsigned int numberOfPhrases = blob[0];
+//            unsigned int numberOfColumns = blob[1];
             
             // Ranking details left out.
             
@@ -261,7 +261,7 @@
 -(NLSTitleModel*)getJournalAbvForId:(NSInteger)emaId
 {
 
-    NSLog(@"journal abv id: %d", emaId);
+//    NSLog(@"journal abv id: %d", emaId);
     // SELECT e.journal_id, e.journal_year, j.journal_title FROM erpubtbl e JOIN journals j ON e.journal_id = j.id WHERE e.id = 1;
     NSString * query = [NSString stringWithFormat:  @"SELECT e.journal_id, e.journal_year, j.journal_title "
                         @"FROM erpubtbl e "
@@ -576,7 +576,7 @@
 
 -(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId
 {
-    NSLog(@"SQLAPI - %@ %d", NSStringFromSelector(_cmd), emaId);
+//    NSLog(@"SQLAPI - %@ %d", NSStringFromSelector(_cmd), emaId);
 
     NLSTitleModel *tm = [[NLSTitleModel alloc] init];
     tm.descriptors = [self getMeshDescriptorsForId:emaId];

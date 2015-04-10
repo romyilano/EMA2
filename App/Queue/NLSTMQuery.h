@@ -14,7 +14,6 @@
 @interface NLSTMQuery : NLSQuery
 
 @property (nonatomic, assign) id <NLSTMQueryDelegate> tmDelegate;
-@property (strong, nonatomic) NLSTitleModel *titleModel;
 
 - (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSTMQueryDelegate>)delegate;
 
@@ -23,6 +22,6 @@
 //Delegate
 @protocol NLSTMQueryDelegate <NSObject>
 
-- (void)sqlQueryDidFinish:(NLSTMQuery *)query;
+- (void)sqlQueryDidFinish:(NLSTitleModel *)tm;
 
 @end

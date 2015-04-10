@@ -16,8 +16,7 @@
 
 @property (nonatomic, assign) id <NLSQueryDelegate> delegate;
 @property (strong, nonatomic) NLSSQLAPI *sql;
-@property (strong, nonatomic) NSInvocation* invocation;
-@property (readwrite, assign) NSInteger result;
+@property (strong, nonatomic) NSInvocation *invocation;
 
 - (void)main;
 - (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSQueryDelegate>)delegate;
@@ -27,6 +26,6 @@
 //Delegate
 @protocol NLSQueryDelegate <NSObject>
 
-- (void)queryDidFinish:(NLSQuery *)query;
+- (void)queryDidFinish:(NSInteger *)result;
 
 @end

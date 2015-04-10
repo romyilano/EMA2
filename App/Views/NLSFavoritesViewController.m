@@ -100,6 +100,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:true];
     if (self.parentViewController == nil) {
         NSLog(@"viewDidDisappear doesn't have parent so it's been popped");
         //release stuff here
@@ -164,10 +165,10 @@
     
     NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
     
-    NSString *string = [[NSString alloc] init];
-    string = cell.textLabel.text;
+//    NSString *string = [[NSString alloc] init];
+//    string = cell.textLabel.text;
     NSInteger rowId = cell.rowId;
-    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
+//    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
     
     //Push new view
     NLSDetailViewController *dvc = [[NLSDetailViewController alloc] init]; 
@@ -178,6 +179,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:true];
     [self.tableView reloadData];
     [self.window addSubview:self.button];
 }

@@ -14,7 +14,6 @@
 @interface NLSJournalQuery : NLSQuery
 
 @property (nonatomic, assign) id <NLSJournalQueryDelegate> tmDelegate;
-@property (strong, nonatomic) NLSTitleModel *titleModel;
 
 - (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSJournalQueryDelegate>)delegate;
 
@@ -23,6 +22,6 @@
 //Delegate
 @protocol NLSJournalQueryDelegate <NSObject>
 
-- (void)journalQueryDidFinish:(NLSJournalQuery *)query;
+- (void)journalQueryDidFinish:(NLSTitleModel *)tm;
 
 @end

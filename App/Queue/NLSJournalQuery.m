@@ -11,7 +11,6 @@
 @implementation NLSJournalQuery
 
 @synthesize tmDelegate = _tmDelegate;
-@synthesize titleModel = _titleModel;
 
 - (id)initWithInvocation:(NSInvocation *)invocation andDelegate:(id<NLSJournalQueryDelegate>)delegate
 {
@@ -19,25 +18,29 @@
     if (self = [super init]) {
         self.invocation = invocation;
         self.tmDelegate = delegate;
-        self.titleModel = [[NLSTitleModel alloc] init];
     }
     return self;
 }
 
 
 - (void)main {
+    
+    
     NSLog(@"NLSJournalQuery %@", NSStringFromSelector(_cmd));
     if (self.isCancelled){
         return;
     }else{
-        NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+        void *tempTm;
         [self.invocation invoke];
-        [self.invocation getReturnValue:&tm];
-        self.titleModel = tm;
+        [self.invocation getReturnValue:&tempTm];
+        NLSTitleModel *tm = (__bridge NLSTitleModel *)tempTm;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.tmDelegate journalQueryDidFinish:tm];
+            
+        });
     }
-    
-    [(NSObject*)self.tmDelegate performSelectorOnMainThread:@selector(journalQueryDidFinish:) withObject:self waitUntilDone:NO];
-    
+
     
 }
 
