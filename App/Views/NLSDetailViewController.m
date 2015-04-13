@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir Djavaherian on 7/25/14.
-//  Copyright (c) 2014 Colleen's. All rights reserved.
+//  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 
 #import "NLSDetailViewController.h"
@@ -25,6 +25,17 @@
 @synthesize tv = _tv;
 @synthesize linkAttributes = _linkAttributes;
 @synthesize meshView = _meshView;
+@synthesize pendingOperations = _pendingOperations;
+@synthesize dm = _dm;
+
+- (NLSPendingOperations *)pendingOperations
+{
+    if (!_pendingOperations) {
+        _pendingOperations = [[NLSPendingOperations alloc] init];
+    }
+    return _pendingOperations;
+}
+
 
 - (NLSDetailViewController*)initWithId:(NSInteger)rowId
 {
@@ -32,55 +43,110 @@
     self = [super init];
     if(self){
         self.abstractId = rowId;
+        
+        //DB
+        self.sql = [NLSSQLAPI sharedManager];
     }
     return self;
     
 }
 
-- (void)loadView
+- (NLSDetailModel *)dm
 {
+    if (!_dm) {
+        _dm = [[NLSDetailModel alloc] init];
+    }
+    return _dm;
+}
 
-    //DB
-    self.sql = [NLSSQLAPI sharedManager];
-    NLSDetailModel *dm = [self.sql getAbstractWithId:self.abstractId];
+- (void)startQuery:(SEL)selector
+{
+    NLSDetailQuery *dmQuery = nil;
+    NSInvocation *invocation = nil;
+    NSInteger rowId = self.abstractId;
     
-    //Attributes
-    self.linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:emaGreen],
-                                     NSUnderlineColorAttributeName: [UIColor lightGrayColor],
-                                     NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
     
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&rowId atIndex:2];
+    [invocation retainArguments];
+    
+    
+    dmQuery = [[NLSDetailQuery alloc] initWithInvocation:invocation andDelegate:self];
+    
+    [self.pendingOperations.queryQueue addOperation:dmQuery];
+    
+}
+- (void )detailQueryDidFinish:(NLSDetailModel *)dm
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     
     UITextView *tv = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.tv = tv;
     
     tv.editable = NO;
     tv.scrollEnabled = YES;
     tv.dataDetectorTypes = UIDataDetectorTypeAll;
     tv.textAlignment = NSTextAlignmentLeft;
-    tv.text = dm.abstract;
-    tv.contentInset = UIEdgeInsetsMake(textInset,0,44,0);
+    tv.contentInset = UIEdgeInsetsMake(textInset,
+                                       0,
+                                       44,
+                                       0);
     tv.linkTextAttributes = self.linkAttributes; // customizes the appearance of links
-    tv.attributedText = [self makeAttributedAbstract:dm.abstract];
     tv.delegate = self;
-    self.tv = tv;
-    
+    tv.text = dm.abstract;
+    tv.attributedText = [self makeAttributedAbstract:dm.abstract];
+//    tv.frame = CGRectMake(0,
+//                          self.navigationController.navigationBar.frame.size.height + 20,
+//                          [[UIScreen mainScreen] applicationFrame].size.width,
+//                          [[UIScreen mainScreen] applicationFrame].size.height + self.navigationController.navigationBar.frame.size.height + 120);
+//    
     //Create Buttons
     [self drawFavoriteButton];
     [tv addSubview:[self makeShareButton]];
     [tv addSubview:[self makeMeshList]];
     
-    //Create window reference
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    self.window = window;
-    self.view = tv;
-
+    
     //Adjust MeshView and TextView inset
     CGRect meshFrame = self.meshView.frame;
     meshFrame.size.height = [self meshViewContentHeight];
     self.meshView.frame = meshFrame;
-
-    tv.contentInset = UIEdgeInsetsMake(textInset,0,(20 + meshFrame.size.height),0);
+    self.tv.contentInset = UIEdgeInsetsMake(textInset,0,(20 + meshFrame.size.height),0);
     
+    [self.view addSubview:tv];
+
 }
+
+- (void)viewDidLoad
+{
+    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
+    [super viewDidLoad];
+    [self startQuery:@selector(getAbstractWithId:)];
+    
+    //Create window reference
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    self.window = window;
+    
+    //Create text view
+    [self.view addSubview:[[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
+    
+    // Do any additional setup after loading the view.
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    [self.view addSubview:self.button];
+    
+    //Attributes
+    self.linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:emaGreen],
+                            NSUnderlineColorAttributeName: [UIColor lightGrayColor],
+                            NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
+
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+}
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -92,13 +158,6 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.view addSubview:self.button];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -271,39 +330,44 @@
 
 - (NSAttributedString *)makeAttributedAbstract:(NSString*)str
 {
-    NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:str];
-    
-    [mutableAttributedString addAttribute:NSFontAttributeName
-                                    value:[UIFont fontWithName:@"Helvetica Neue" size:12]
-                                    range:NSMakeRange(0, [mutableAttributedString length])];
-    
-
-    NSMutableArray *attributes = [[NSMutableArray alloc] initWithArray:[self getAttributes]];
-    [attributes addObjectsFromArray:[self additionalAttributes]];
-    
-    for(NSDictionary *dict in attributes){
-        if(dict){
-            NSLog(@"dict regex:, %@",[dict objectForKey:@"regex"]);
-            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:[dict objectForKey:@"regex"] options:kNilOptions error:nil];
-            NSRange range = NSMakeRange(0, mutableAttributedString.length);
-            
-            [regex enumerateMatchesInString:str options:kNilOptions range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-
-                [[dict objectForKey:@"attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stops) {
-                    NSLog(@"%@ = %@", key, object);
-                    NSRange subStringRange = [result rangeAtIndex:1];
-                    [mutableAttributedString addAttribute:key value:object range:subStringRange];
-                }];
+    if (!str){
+        return [[NSAttributedString alloc] initWithString:@"Hmm, Couldn't Fetch the Abstract...  Please let us know\n support@colleensinc.com"];
+    } else {
+        NSMutableAttributedString *mutableAttributedString = [[NSMutableAttributedString alloc] initWithString:str];
+        
+        [mutableAttributedString addAttribute:NSFontAttributeName
+                                        value:[UIFont fontWithName:@"Helvetica Neue" size:12]
+                                        range:NSMakeRange(0, [mutableAttributedString length])];
+        
+        
+        NSMutableArray *attributes = [[NSMutableArray alloc] initWithArray:[self getAttributes]];
+        [attributes addObjectsFromArray:[self additionalAttributes]];
+        
+        for(NSDictionary *dict in attributes){
+            if(dict){
+                NSLog(@"dict regex:, %@",[dict objectForKey:@"regex"]);
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:[dict objectForKey:@"regex"] options:kNilOptions error:nil];
+                NSRange range = NSMakeRange(0, mutableAttributedString.length);
                 
-            }];
+                [regex enumerateMatchesInString:str options:kNilOptions range:range usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+                    
+                    [[dict objectForKey:@"attributes"] enumerateKeysAndObjectsUsingBlock:^(id key, id object, BOOL *stops) {
+                        NSLog(@"%@ = %@", key, object);
+                        NSRange subStringRange = [result rangeAtIndex:1];
+                        [mutableAttributedString addAttribute:key value:object range:subStringRange];
+                    }];
+                    
+                }];
+            }
         }
+        
+        NSAttributedString *pLink = [self createPubMedCentralLink];
+        
+        [mutableAttributedString appendAttributedString:pLink];
+        
+        return (NSAttributedString*)mutableAttributedString;
     }
     
-    NSAttributedString *pLink = [self createPubMedCentralLink];
-    
-    [mutableAttributedString appendAttributedString:pLink];
-
-    return (NSAttributedString*)mutableAttributedString;
 }
 
 -(NSArray*)getAttributes

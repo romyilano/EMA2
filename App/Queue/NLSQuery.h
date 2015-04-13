@@ -1,9 +1,9 @@
 //
 //  NLSQuery.h
-//  App
+//  Colleen's EMA
 //
-//  Created by Amir on 11/7/14.
-//  Copyright (c) 2014 4m1r. All rights reserved.
+//  Created by Amir Djavaherian on 11/7/14.
+//  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

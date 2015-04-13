@@ -2,7 +2,7 @@
 //  NLSTitleViewController.h
 //  App
 //
-//  Created by 4m1r on 7/23/14.
+//  Created by Amir Djavaherian on 7/23/14.
 //  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
@@ -13,7 +13,6 @@
 #import "NLSUIKitExtras.h"
 #import "NLSBaseTableViewController.h"
 #import "NLSQuery.h"
-#import "NLSTMQuery.h"
 #import "NLSSearchViewController.h"
 #import "NLSAutoSizeTextview.h"
 #import "NLSPendingOperations.h"
@@ -24,7 +23,7 @@
 #include "EMAConstants.h"
 
 
-@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, NLSQueryDelegate, NLSTMQueryDelegate>
+@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, NLSQueryDelegate>
 
 //table view
 @property (strong, nonatomic) UITableView *tableView;
@@ -57,7 +56,6 @@
 - (void)loadTranslucentView;
 - (void)fadeTranslucentView;
 - (void)queryDidFinish:(NSInteger *)result;
-- (void)sqlQueryDidFinish:(NLSTMQuery *)query;
 - (void)suspendCells;
 - (void)resumeCells;
 

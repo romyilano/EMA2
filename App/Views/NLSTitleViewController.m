@@ -452,27 +452,24 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(NLSTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    [cell cancelAllOperations];
-//    NSLog(@" %@, %@, %d", NSStringFromSelector(_cmd), cell, indexPath.row);
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    
+//    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+//
 //    NSString *string = [[NSString alloc] init];
 //    string = cell.textLabel.text;
-    NSInteger rowId = cell.rowId;
-//    NSLog(@"id: %lu, title: %@", (unsigned long)rowId, string);
+    NSInteger rowId = indexPath.row + 1;
+    NSLog(@"id: , title: %ld", rowId);
     
     //Push new view
-    NLSDetailViewController *dvc = [[NLSDetailViewController alloc] initWithId:rowId];
-//    dvc.abstractId = rowId;
-    [self.navigationController pushViewController:dvc animated:TRUE];
+    [self.navigationController pushViewController:[[NLSDetailViewController alloc] initWithId:rowId] animated:TRUE];
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(NLSTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [cell cancelAllOperations];
 }
 
 #pragma mark Search Controller Delegates
@@ -531,9 +528,8 @@
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSSet *visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
-    for(NSIndexPath* indexPath in visibleRows) {
-        NLSTableViewCell *cell = (NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        [cell suspendAllOperations];
+    for (NSIndexPath* indexPath in visibleRows) {
+        [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] suspendAllOperations];
     }
 }
 
@@ -542,8 +538,7 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSSet *visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
     for(NSIndexPath* indexPath in visibleRows) {
-        NLSTableViewCell *cell = (NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-        [cell resumeAllOperations];
+       [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] resumeAllOperations];
     }
 }
 
@@ -553,7 +548,7 @@
 {
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
     [self suspendAllOperations];
-    //[self suspendCells];
+    [self suspendCells];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
@@ -562,7 +557,6 @@
     if (!decelerate) {
         [self resumeCells];
         [self resumeAllOperations];
-        
     }
 }
 
@@ -652,8 +646,9 @@
 
 }
 
-- (void)sqlQueryDidFinish:(NLSTMQuery *)query
-{
+//
+//- (void)sqlQueryDidFinish:(NLSTMQuery *)query
+//{
 
     // get indexPath
 //    NSIndexPath *indexPath = query.indexPathInTableView;
@@ -682,7 +677,7 @@
 //    }
 
 
-}
+//}
 
 - (void)loadTitlesForOnscreenCells
 {

@@ -3,7 +3,7 @@
 //  App
 //
 //  Created by Amir Djavaherian on 11/7/14.
-//  Copyright (c) 2014 4m1r. All rights reserved.
+//  Copyright (c) 2014 Colleen's Inc. All rights reserved.
 //
 #pragma GCC diagnostic ignored "-Wselector"
 #import "NLSQuery.h"
