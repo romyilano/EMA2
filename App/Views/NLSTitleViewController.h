@@ -13,6 +13,7 @@
 #import "NLSUIKitExtras.h"
 #import "NLSBaseTableViewController.h"
 #import "NLSQuery.h"
+#import "NLSTMArrayQuery.h"
 #import "NLSSearchViewController.h"
 #import "NLSAutoSizeTextview.h"
 #import "NLSPendingOperations.h"
@@ -23,7 +24,7 @@
 #include "EMAConstants.h"
 
 
-@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, NLSQueryDelegate>
+@interface NLSTitleViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, NSCacheDelegate, NLSQueryDelegate, NLSTMArrayQueryDelegate>
 
 //table view
 @property (strong, nonatomic) UITableView *tableView;
@@ -56,6 +57,7 @@
 - (void)loadTranslucentView;
 - (void)fadeTranslucentView;
 - (void)queryDidFinish:(NSInteger *)result;
+- (void)arrayQueryDidFinish:(NSArray *)array;
 - (void)suspendCells;
 - (void)resumeCells;
 

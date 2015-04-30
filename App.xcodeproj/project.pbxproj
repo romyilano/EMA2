@@ -30,6 +30,8 @@
 		7B584ED819D92117000D058F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B584ED519D92117000D058F /* Default@2x.png */; };
 		7B5CDA611A0D6DB4005099C0 /* NLSSQLCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5CDA601A0D6DB4005099C0 /* NLSSQLCount.m */; };
 		7B5CDA641A0D81E2005099C0 /* NLSQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B5CDA631A0D81E2005099C0 /* NLSQuery.m */; };
+		7B614CD91AF2073C008AA10F /* NLSTMArrayQuery.h in Resources */ = {isa = PBXBuildFile; fileRef = 7B614CD81AF2073C008AA10F /* NLSTMArrayQuery.h */; };
+		7B614CDB1AF20797008AA10F /* NLSTMArrayQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B614CDA1AF20797008AA10F /* NLSTMArrayQuery.m */; };
 		7B65DF001A041225006814E7 /* NLSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B65DEFF1A041225006814E7 /* NLSTableView.m */; };
 		7B7C40BE19D4D5590011331C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1701946D8E7008FB3C5 /* Foundation.framework */; };
 		7B7C40E219D4DB440011331C /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */; };
@@ -127,6 +129,8 @@
 		7B5CDA601A0D6DB4005099C0 /* NLSSQLCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSSQLCount.m; sourceTree = "<group>"; };
 		7B5CDA621A0D81E2005099C0 /* NLSQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSQuery.h; sourceTree = "<group>"; };
 		7B5CDA631A0D81E2005099C0 /* NLSQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSQuery.m; sourceTree = "<group>"; };
+		7B614CD81AF2073C008AA10F /* NLSTMArrayQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTMArrayQuery.h; sourceTree = "<group>"; };
+		7B614CDA1AF20797008AA10F /* NLSTMArrayQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTMArrayQuery.m; sourceTree = "<group>"; };
 		7B65DEFE1A041225006814E7 /* NLSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTableView.h; sourceTree = "<group>"; };
 		7B65DEFF1A041225006814E7 /* NLSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTableView.m; sourceTree = "<group>"; };
 		7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
@@ -367,6 +371,8 @@
 				7BB9A95119D4C63600ACFE7B /* NLSPendingOperations.m */,
 				7B5CDA621A0D81E2005099C0 /* NLSQuery.h */,
 				7B5CDA631A0D81E2005099C0 /* NLSQuery.m */,
+				7B614CD81AF2073C008AA10F /* NLSTMArrayQuery.h */,
+				7B614CDA1AF20797008AA10F /* NLSTMArrayQuery.m */,
 				7B1528071A1A735000F0F871 /* NLSTMQuery.h */,
 				7B1528081A1A735000F0F871 /* NLSTMQuery.m */,
 				7B1CC2EC1ADB20F30065D99F /* NLSDetailQuery.h */,
@@ -532,6 +538,7 @@
 				7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */,
 				7BB9A98719D4C63600ACFE7B /* Icon-Small-40.png in Resources */,
 				7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */,
+				7B614CD91AF2073C008AA10F /* NLSTMArrayQuery.h in Resources */,
 				7B27CA071A639BE60093499A /* Settings.bundle in Resources */,
 				7BB9A9A119D4C63600ACFE7B /* Descriptors-50@2x.png in Resources */,
 				7B0B93AD1A3FBC0900C47A1C /* CreateFTSTitles.sql in Resources */,
@@ -600,6 +607,7 @@
 				7B21234C1ABEAFD70023997D /* NLSJournalQuery.m in Sources */,
 				7B911F5F1A003ED100C56815 /* NLSBaseTableViewController.m in Sources */,
 				7BB9A98F19D4C63600ACFE7B /* main.m in Sources */,
+				7B614CDB1AF20797008AA10F /* NLSTMArrayQuery.m in Sources */,
 				7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */,
 				7BB9A9AF19D4C63600ACFE7B /* NLSFavoritesViewController.m in Sources */,
 				7BB9A9B119D4C63600ACFE7B /* NLSJournalViewController.m in Sources */,

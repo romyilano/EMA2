@@ -83,7 +83,7 @@
     self.navigationItem.title = self.defactoTitle;
     
     //Prime title cache
-//    [self primeTitleCache];
+    [self primeTitleCache];
     
     
     NSLog(@"View Did Load");
@@ -142,9 +142,16 @@
     [invocation setArgument:&range atIndex:2];
     [invocation retainArguments];
     
-    [invocation invoke];
-    [invocation getReturnValue:&tempResultSet];
-    self.titles = [tempResultSet mutableCopy];
+    //create query and add to queue
+    NLSTMArrayQuery *nlsTMArrayQuery = [[NLSTMArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsTMArrayQuery];
+    
+}
+
+- (void)arrayQueryDidFinish:(NSArray *)array
+{
+    
+    [self.cachePointer addObjectsFromArray:[array copy]];
 }
 
 -(void)presentSettingsController
@@ -430,11 +437,18 @@
 
     if (!cell) {
         NSLog(@"no cell");
-        cell = [[NLSTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TitleCellIdentifier" andIndexPath:indexPath];
+        cell = [[NLSTableViewCell alloc]
+                initWithStyle:UITableViewCellStyleDefault
+                reuseIdentifier:@"TitleCellIdentifier"
+                andIndexPath:indexPath
+                andIsSearching:self.isSearching
+                andSearchString:self.searchBar.text];
 
     } else {
-//        NSLog(@"re-using cell with indexPath %d", indexPath.row);
-        [cell updateCellWithId:indexPath.row];
+        if (self.isSearching && [self.cachePointer count] > 1){
+            NSLog(@"re-using cell with indexPath %ld, %@", indexPath.row, [self.cachePointer objectAtIndex:indexPath.row]);
+        }        
+        [cell updateCellWithId:indexPath.row andIsSearching:self.isSearching andSearchString:self.searchBar.text];
     }
 
     // Get tm from cache
@@ -491,7 +505,7 @@
             self.navigationItem.title = searchingString;
         }
     }
-
+    
 }
 
 - (void)presentSearchController:(UISearchController *)searchController
@@ -521,7 +535,7 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     self.isSearching = NO;
     self.navigationItem.title = self.defactoTitle;
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 - (void)suspendCells
@@ -643,6 +657,8 @@
         self.titleCount = [[NSNumber alloc] initWithLong:result];
         [self.tableView reloadData];
     }
+    
+
 
 }
 

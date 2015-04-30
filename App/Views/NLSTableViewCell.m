@@ -38,11 +38,17 @@
     return _pendingOperations;
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andIndexPath:(NSIndexPath*)indexPath
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier
+       andIndexPath:(NSIndexPath*)indexPath
+        andIsSearching:(BOOL)searching
+            andSearchString:(NSString *)searchString
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     //Setup SQL shared instance
     self.sql = [NLSSQLAPI sharedManager];
+    self.isSearching = searching;
+    self.searchText = searchString;
     
     if (self) {
         NSLog(@"init cell");
@@ -87,9 +93,16 @@
         self.descriptorLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
         
         //begin data queries
-        [self startQuery:@selector(getTitleAndIdForRow:)];
-        [self startJournalQuery:@selector(getJournalAbvForId:)];
-        [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
+        if (self.isSearching) {
+            [self startQuery];
+
+            
+        } else {
+            [self startQuery];
+            [self startJournalQuery:@selector(getJournalAbvForId:)];
+            [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
+        }
+        
         
     }
     return self;
@@ -134,9 +147,8 @@
     NSLog(@"");
 }
 
--(void)updateCellWithId:(NSInteger)cellId
+-(void)updateCellWithId:(NSInteger)cellId andIsSearching:(BOOL)searching andSearchString:(NSString*)searchString
 {
-
     [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
     NSAttributedString *loadingString = [[NSAttributedString alloc] initWithString:@"Loading..." attributes:nil];
     NSAttributedString *blankString = [[NSAttributedString alloc] initWithString:@"" attributes:nil];
@@ -144,8 +156,7 @@
     self.journalLabel.attributedText = blankString;
     self.descriptorLabel.attributedText = blankString;
     self.rowId = cellId + 1;
-//    NSLog(@" %@, %d", NSStringFromSelector(_cmd), self.rowId);
-    [self startQuery:@selector(getTitleAndIdForRow:)];
+    [self startQuery];
     [self startJournalQuery:@selector(getJournalAbvForId:)];
     [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
 }
@@ -252,7 +263,7 @@
         
     } else {
         //get descriptors
-        [self startQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
+        [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
     }
     
     
@@ -289,55 +300,49 @@
 
 #pragma mark - Start Queries
 
-- (void)startQuery:(SEL)selector
+- (void)startQuery
 {
     NLSTMQuery *tmQuery = nil;
     NSInvocation *invocation = nil;
-//    NSUInteger *row = indexPath.row;
-    
-//    SEL selector = @selector(getEmptyTitleModelWithDescriptorsForId:);
-//
-//    if(self.isSearching){
-//        
-//        //get args row and match
-//        NSString *match = self.searchText;
-//        
-//        // create a signature from the selector
-//        SEL selector = @selector(getTitleAndIdForRowOkapi:whereTitleMatch:);
-//        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-//        invocation = [NSInvocation invocationWithMethodSignature:sig];
-//        
-//        //setup invocation and args
-//        [invocation setTarget:self.sql];
-//        [invocation setSelector:selector];
-//        [invocation setArgument:&row atIndex:2];
-//        [invocation setArgument:&match atIndex:3];
-//        [invocation retainArguments];
-//        
-//    }else{
-    
+
+    if(self.isSearching){
+        
+        //get args row and match
+        NSUInteger row = self.rowId;
+        NSString *match = self.searchText;
+        
         // create a signature from the selector
-        // check to see what fields are missing from tm
-        // if title, get title, if mesh get mesh
+        SEL selector = @selector(getTitleAndIdForRowOkapi:whereTitleMatch:);
+        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+        invocation = [NSInvocation invocationWithMethodSignature:sig];
         
-        //getMeshDescriptorsForId:tm.rowId
-        //SEL selector = @selector(getTitleAndIdForRow:);
+        //setup invocation and args
+        [invocation setTarget:self.sql];
+        [invocation setSelector:selector];
+        [invocation setArgument:&row atIndex:2];
+        [invocation setArgument:&match atIndex:3];
+        [invocation retainArguments];
         
+    }else{
+
+        //get args row and match
+        NSUInteger row = self.rowId;
+        
+        // create a signature from the selector
+        SEL selector = @selector(getTitleAndIdForRow:);
         NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
         invocation = [NSInvocation invocationWithMethodSignature:sig];
     
-        NSUInteger row = self.rowId;
         //setup invocation
         [invocation setTarget:self.sql];
         [invocation setSelector:selector];
         [invocation setArgument:&row atIndex:2];
         [invocation retainArguments];
     
-
+    }
+    
     tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation andDelegate:self];
-    
     [self.pendingOperations.queryQueue addOperation:tmQuery];
-    
 }
 
 - (void)startDescriptorQuery:(SEL)selector
