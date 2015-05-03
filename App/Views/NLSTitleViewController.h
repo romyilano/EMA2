@@ -60,5 +60,6 @@
 - (void)arrayQueryDidFinish:(NSArray *)array;
 - (void)suspendCells;
 - (void)resumeCells;
+- (void)primeTitleCacheWithMatch:(NSString*)match;
 
 @end

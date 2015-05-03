@@ -31,19 +31,15 @@
 @property (strong, nonatomic) UILabel *descriptorLabel;
 @property (weak, nonatomic) UITableView *tableView;
 
-- (id)initWithStyle:(UITableViewCellStyle)style
-    reuseIdentifier:(NSString *)reuseIdentifier
-       andIndexPath:(NSIndexPath*)indexPath
-        andIsSearching:(BOOL)searching
-            andSearchString:(NSString*)searchString;
--(void)updateCellWithId:(NSInteger)cellId andIsSearching:(BOOL)searching andSearchString:(NSString*)searchString;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andId:(NSInteger)emaId;
+-(void)updateCellWithId:(NSInteger)emaId;
 -(void)updateCellWithTitleModel:(NLSTitleModel*)tm;
 -(void)updateCellWithDescriptors:(NLSTitleModel *)tm;
 -(void)updateCellWithJournal:(NLSTitleModel *)tm;
 -(void)sqlQueryDidFinish:(NLSTitleModel *)tm;
 -(void)journalQueryDidFinish:(NLSJournalQuery *)query;
 -(void)sqlQueryDidFinishForMeshArray:(NLSDescriptorArrayQuery *)query;
--(void)startQuery;
+-(void)startQueryWithId:(NSInteger)emaId;
 -(void)startDescriptorQuery:(SEL)selector;
 -(void)reloadView;
 -(void)cancelAllOperations;

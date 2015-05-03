@@ -82,9 +82,6 @@
     self.defactoTitle = titlesString;
     self.navigationItem.title = self.defactoTitle;
     
-    //Prime title cache
-    [self primeTitleCache];
-    
     
     NSLog(@"View Did Load");
     //Setup table view
@@ -123,35 +120,6 @@
     //get title count
     [self getTitleCount];
     
-}
-
--(void)primeTitleCache
-{
-    NSInvocation *invocation = nil;
-    NSRange range = NSMakeRange(1, 10);
-    NSMutableArray *tempResultSet;
-    
-    // create a signature from the selector
-    SEL selector = @selector(getTitleModelsForRange:);
-    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-    invocation = [NSInvocation invocationWithMethodSignature:sig];
-    
-    //setup invocation
-    [invocation setTarget:self.sql];
-    [invocation setSelector:selector];
-    [invocation setArgument:&range atIndex:2];
-    [invocation retainArguments];
-    
-    //create query and add to queue
-    NLSTMArrayQuery *nlsTMArrayQuery = [[NLSTMArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
-    [self.pendingOperations.queryQueue addOperation:nlsTMArrayQuery];
-    
-}
-
-- (void)arrayQueryDidFinish:(NSArray *)array
-{
-    
-    [self.cachePointer addObjectsFromArray:[array copy]];
 }
 
 -(void)presentSettingsController
@@ -369,6 +337,29 @@
     
 }
 
+-(void)primeTitleCacheWithMatch:(NSString*)match
+{
+    NSInvocation *invocation = nil;
+    NSRange range = NSMakeRange(1, 10);
+    NSMutableArray *tempResultSet;
+    
+    // create a signature from the selector
+    SEL selector = @selector(getTitleModelsForMatch:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&match atIndex:2];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSTMArrayQuery *nlsTMArrayQuery = [[NLSTMArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsTMArrayQuery];
+    
+}
+
 #pragma mark - TableView Data Source
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -412,12 +403,22 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    // The header for the section is the region name -- get this from the region at the section index.
-
+    NSString *str = @"";
+    
     if (self.isSearching){
-        return [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, [self.resultsCount stringValue]];
+        if (self.resultsCount == 0) {
+            str = @"";
+        } else {
+            str = [self.resultsCount stringValue];
+        }
+        return [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, str];
     }else{
-        return [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, [self.titleCount stringValue]];
+        if (self.titleCount == 0) {
+            str = @"";
+        } else {
+            str = [self.titleCount stringValue];
+        }
+        return [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, str];
     }
     
 }
@@ -434,60 +435,62 @@
     
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
+    NSInteger rowAtIndex = indexPath.row + 1;
 
-    if (!cell) {
-        NSLog(@"no cell");
-        cell = [[NLSTableViewCell alloc]
-                initWithStyle:UITableViewCellStyleDefault
-                reuseIdentifier:@"TitleCellIdentifier"
-                andIndexPath:indexPath
-                andIsSearching:self.isSearching
-                andSearchString:self.searchBar.text];
-
+    if (self.isSearching){
+        rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+        if (!cell) {
+            NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
+            cell = [[NLSTableViewCell alloc]
+                    initWithStyle:UITableViewCellStyleDefault
+                    reuseIdentifier:@"TitleCellIdentifier"
+                    andId:rowAtIndex];
+            
+        } else {
+            NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+            if ([self.cachePointer count] >= 1){
+                NSLog(@"have stuff in search cache %@", [self.cachePointer objectAtIndex:indexPath.row]);
+                [cell updateCellWithId:rowAtIndex];
+            }
+            
+        }
     } else {
-        if (self.isSearching && [self.cachePointer count] > 1){
-            NSLog(@"re-using cell with indexPath %ld, %@", indexPath.row, [self.cachePointer objectAtIndex:indexPath.row]);
-        }        
-        [cell updateCellWithId:indexPath.row andIsSearching:self.isSearching andSearchString:self.searchBar.text];
+        if (!cell) {
+            NSLog(@"no cell, no search");
+            cell = [[NLSTableViewCell alloc]
+                    initWithStyle:UITableViewCellStyleDefault
+                    reuseIdentifier:@"TitleCellIdentifier"
+                    andId:rowAtIndex];
+        } else {
+            NSLog(@"no search re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+            [cell updateCellWithId:rowAtIndex];
+        }
     }
-
-    // Get tm from cache
-//    NSLog(@"count for cache pointer %d: indexPath.row: %d", [self.cachePointer count], indexPath.row);
-//    
-//    if([self.cachePointer count] <= indexPath.row){
-//        
-//        NLSTitleModel *tm = [[NLSTitleModel alloc] initWithCellId:indexPath.row andSearchBarText:nil];
-//        NSLog(@"Adding %@ to cache.", tm);
-//        [self.cachePointer addObject:tm];
-//    }
-    
-    //[cell updateCellWithId:indexPath.row];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-//    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-//
-//    NSString *string = [[NSString alloc] init];
-//    string = cell.textLabel.text;
-    NSInteger rowId = indexPath.row + 1;
-    NSLog(@"id: , title: %ld", rowId);
+    NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+
+    NSInteger rowId = cell.rowId;
+    NSLog(@"fetching abstract %ld from cell %@ for indexPath %@", cell.rowId, cell.title, indexPath);
     
     //Push new view
     [self.navigationController pushViewController:[[NLSDetailViewController alloc] initWithId:rowId] animated:TRUE];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(NLSTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(NLSTableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
     [cell cancelAllOperations];
 }
 
 #pragma mark Search Controller Delegates
-
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
@@ -498,7 +501,8 @@
     if(self.isSearching){
         if([searchString length] > 1){
             [self cancelAllOperations];
-            [self getTitleCountWhereTitleMatch];
+//            [self getTitleCountWhereTitleMatch];
+            [self primeTitleCacheWithMatch:searchString];
             self.navigationItem.title = searchString;
             NSLog(@"shouldReloadTableForSearchString");
         }else{
@@ -647,19 +651,19 @@
 
 - (void)queryDidFinish:(NSInteger *)result
 {
-    NSLog(@"%@, %ld", NSStringFromSelector(_cmd), (long)result);
+    NSLog(@"titleCount %@, %ld", NSStringFromSelector(_cmd), (long)result);
+    self.titleCount = [[NSNumber alloc] initWithLong:result];
+    [self.tableView reloadData];
 
-    if(self.isSearching){
-        [self.cachePointer removeAllObjects];
-        self.resultsCount = [[NSNumber alloc] initWithLong:result];
-        [self.searchResultsController.tableView reloadData];
-    }else{
-        self.titleCount = [[NSNumber alloc] initWithLong:result];
-        [self.tableView reloadData];
-    }
-    
+}
 
-
+- (void)arrayQueryDidFinish:(NSArray *)array
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    [self.cachePointer removeAllObjects];
+    [self.cachePointer addObjectsFromArray:[array copy]];
+    self.resultsCount = [NSNumber numberWithInteger:[array count]];
+    [self.searchResultsController.tableView reloadData];
 }
 
 //

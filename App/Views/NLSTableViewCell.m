@@ -38,26 +38,22 @@
     return _pendingOperations;
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style
-    reuseIdentifier:(NSString *)reuseIdentifier
-       andIndexPath:(NSIndexPath*)indexPath
-        andIsSearching:(BOOL)searching
-            andSearchString:(NSString *)searchString
+#pragma mark - Init
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andId:(NSInteger)emaId
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     //Setup SQL shared instance
     self.sql = [NLSSQLAPI sharedManager];
-    self.isSearching = searching;
-    self.searchText = searchString;
     
     if (self) {
-        NSLog(@"init cell");
+        NSLog(@"init cell %ld", emaId);
 
         // Init with spinner
         UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         self.accessoryView = activityIndicatorView;
         
-        self.rowId = indexPath.row + 1;
+        self.rowId = emaId;
         
         NSUInteger width = [[UIScreen mainScreen] applicationFrame].size.width;
         
@@ -93,15 +89,9 @@
         self.descriptorLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
         
         //begin data queries
-        if (self.isSearching) {
-            [self startQuery];
-
-            
-        } else {
-            [self startQuery];
-            [self startJournalQuery:@selector(getJournalAbvForId:)];
-            [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
-        }
+        [self startQueryWithId:emaId];
+        [self startJournalQuery:@selector(getJournalAbvForId:)];
+        [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
         
         
     }
@@ -147,16 +137,18 @@
     NSLog(@"");
 }
 
--(void)updateCellWithId:(NSInteger)cellId andIsSearching:(BOOL)searching andSearchString:(NSString*)searchString
+-(void)updateCellWithId:(NSInteger)emaId
 {
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), emaId);
+    
     [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
     NSAttributedString *loadingString = [[NSAttributedString alloc] initWithString:@"Loading..." attributes:nil];
     NSAttributedString *blankString = [[NSAttributedString alloc] initWithString:@"" attributes:nil];
     self.titleLabel.attributedText = loadingString;
     self.journalLabel.attributedText = blankString;
     self.descriptorLabel.attributedText = blankString;
-    self.rowId = cellId + 1;
-    [self startQuery];
+    self.rowId = emaId;
+    [self startQueryWithId:emaId];
     [self startJournalQuery:@selector(getJournalAbvForId:)];
     [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
 }
@@ -166,30 +158,7 @@
 
     NSLog(@"%@", NSStringFromSelector(_cmd));
     
-//    NSArray *properties = [tm allPropertyNames];
-//    self.tm.title = [tm valueForKey:title];
-    
-//    if(tm.title != nil){
-//        NSLog(@"tm has title %@", tm.title);
-////        [self.propertyNames setValue:tm.title forKey:@"title"];
-////        [self.tm setValue:tm.title forKey:@"title"];
-////        NSLog(@"self.tm.title: %@", self.tm.title);
-//    }
-//    if(tm.journal_abv != nil){
-//        NSLog(@"tm has journalabv");
-//        self.tm.journal_abv = tm.journal_abv;
-//    }
-//    if([tm.descriptors count] > 0){
-//        NSLog(@"tm has descriptors");
-//        self.tm.descriptors = tm.descriptors;
-//    }
-    
-
-    
     if (tm.title != nil) {
-        
-        //Set row id property of cell
-        self.rowId = self.tm.rowId;
         
         //Attribute string for label
         NSMutableAttributedString *title;
@@ -215,8 +184,7 @@
         self.titleLabel.text = @"Failed to load";
         
     } else {
-        self.rowId = tm.rowId + 1;
-//        NSLog(@"still need title for %d", self.rowId);
+        
         [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
         self.titleLabel.text = @"Loading...";
         
@@ -300,46 +268,28 @@
 
 #pragma mark - Start Queries
 
-- (void)startQuery
+- (void)startQueryWithId:(NSInteger)emaId
 {
+    
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), emaId);
+    
     NLSTMQuery *tmQuery = nil;
     NSInvocation *invocation = nil;
 
-    if(self.isSearching){
-        
-        //get args row and match
-        NSUInteger row = self.rowId;
-        NSString *match = self.searchText;
-        
-        // create a signature from the selector
-        SEL selector = @selector(getTitleAndIdForRowOkapi:whereTitleMatch:);
-        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-        invocation = [NSInvocation invocationWithMethodSignature:sig];
-        
-        //setup invocation and args
-        [invocation setTarget:self.sql];
-        [invocation setSelector:selector];
-        [invocation setArgument:&row atIndex:2];
-        [invocation setArgument:&match atIndex:3];
-        [invocation retainArguments];
-        
-    }else{
+    //get args row and match
+    NSInteger row = emaId;
+    
+    // create a signature from the selector
+    SEL selector = @selector(getTitleAndIdForRow:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
 
-        //get args row and match
-        NSUInteger row = self.rowId;
-        
-        // create a signature from the selector
-        SEL selector = @selector(getTitleAndIdForRow:);
-        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-        invocation = [NSInvocation invocationWithMethodSignature:sig];
-    
-        //setup invocation
-        [invocation setTarget:self.sql];
-        [invocation setSelector:selector];
-        [invocation setArgument:&row atIndex:2];
-        [invocation retainArguments];
-    
-    }
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&row atIndex:2];
+    [invocation retainArguments];
+
     
     tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation andDelegate:self];
     [self.pendingOperations.queryQueue addOperation:tmQuery];
@@ -347,6 +297,8 @@
 
 - (void)startDescriptorQuery:(SEL)selector
 {
+    
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), (long)self.rowId);
     NLSDescriptorArrayQuery *daQuery = nil;
     NSInvocation *invocation = nil;
     

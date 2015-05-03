@@ -574,6 +574,32 @@
     return array;
 }
 
+-(NSArray*)getTitleModelsForMatch:(NSString*)match
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT a FROM titles WHERE t MATCH '%@'", [self tokenizeSearchString:match]];
+    
+    return [self getTitleIdsForSQL:query];
+}
+
+-(NSArray*)getTitleIdsForSQL:(NSString*)sql
+{
+    NSLog(@"SQLAPI %@ %@", NSStringFromSelector(_cmd), sql);
+    __block FMResultSet *rs = nil;
+    __block NSMutableArray *array = [[NSMutableArray alloc] init];
+    
+    [self.queue inDatabase:^(FMDatabase *db) {
+        
+        rs = [db executeQuery:sql];
+        while ([rs next]) {
+            [array addObject:@([rs intForColumn:@"a"])];
+        }
+        
+        return;
+    }];
+    
+    return array;
+}
+
 -(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId
 {
 //    NSLog(@"SQLAPI - %@ %d", NSStringFromSelector(_cmd), emaId);
