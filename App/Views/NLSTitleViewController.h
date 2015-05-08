@@ -59,6 +59,7 @@
 - (void)queryDidFinish:(NSInteger *)result;
 - (void)arrayQueryDidFinish:(NSArray *)array;
 - (void)suspendCells;
+- (void)cancelCells;
 - (void)resumeCells;
 - (void)primeTitleCacheWithMatch:(NSString*)match;
 

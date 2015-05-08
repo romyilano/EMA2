@@ -435,10 +435,21 @@
     
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
-    NSInteger rowAtIndex = indexPath.row + 1;
+    NSInteger rowAtIndex = indexPath.row;
 
     if (self.isSearching){
-        rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+        
+        if ([self.cachePointer count] >> indexPath.row){
+            NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+        } else if ([self.cachePointer count] == indexPath.row) {
+            NSLog(@"indexPath.row %ld == cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row - 1] integerValue];
+        } else {
+            NSLog(@"else indexPath.row %ld cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+        }
+        
         if (!cell) {
             NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
             cell = [[NLSTableViewCell alloc]
@@ -449,12 +460,16 @@
         } else {
             NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
             if ([self.cachePointer count] >= 1){
-                NSLog(@"have stuff in search cache %@", [self.cachePointer objectAtIndex:indexPath.row]);
+                NSLog(@"have stuff in search cache %ld", rowAtIndex);
                 [cell updateCellWithId:rowAtIndex];
             }
             
         }
+        
     } else {
+        
+        rowAtIndex++;
+        
         if (!cell) {
             NSLog(@"no cell, no search");
             cell = [[NLSTableViewCell alloc]
@@ -494,20 +509,16 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    
-    NSString *searchString = [self.searchController.searchBar text];
-    NSLog(@"updateSearchResultsForSearchController, searchString: %@", searchString);
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *searchString = [searchController.searchBar text];
+    self.navigationItem.title = searchString;
 
-    if(self.isSearching){
-        if([searchString length] > 1){
-            [self cancelAllOperations];
-//            [self getTitleCountWhereTitleMatch];
-            [self primeTitleCacheWithMatch:searchString];
-            self.navigationItem.title = searchString;
-            NSLog(@"shouldReloadTableForSearchString");
-        }else{
-            self.navigationItem.title = searchingString;
-        }
+    if([searchString length] > 1){
+        [self cancelAllOperations];
+        [self cancelCells];
+        [self primeTitleCacheWithMatch:searchString];
+    }else{
+        self.navigationItem.title = searchingString;
     }
     
 }
@@ -539,25 +550,61 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     self.isSearching = NO;
     self.navigationItem.title = self.defactoTitle;
-//    [self.tableView reloadData];
 }
 
 - (void)suspendCells
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    NSSet *visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
-    for (NSIndexPath* indexPath in visibleRows) {
-        [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] suspendAllOperations];
+    NSSet *visibleRows = nil;
+    if (self.isSearching) {
+        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        for (NSIndexPath* indexPath in visibleRows) {
+            [(NLSTableViewCell*)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath] suspendAllOperations];
+        }
+    } else {
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+        for (NSIndexPath* indexPath in visibleRows) {
+            [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] suspendAllOperations];
+        }
     }
+    
+}
+
+- (void)cancelCells
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSSet *visibleRows = nil;
+    if (self.isSearching) {
+        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        for (NSIndexPath* indexPath in visibleRows) {
+            [(NLSTableViewCell*)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath] cancelAllOperations];
+        }
+    } else {
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+        for (NSIndexPath* indexPath in visibleRows) {
+            [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] cancelAllOperations];
+        }
+    }
+    
 }
 
 - (void)resumeCells
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    NSSet *visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
-    for(NSIndexPath* indexPath in visibleRows) {
-       [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] resumeAllOperations];
+    NSSet *visibleRows = nil;
+    
+    if (self.isSearching){
+        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        for(NSIndexPath* indexPath in visibleRows) {
+            [(NLSTableViewCell*)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath] resumeAllOperations];
+        }
+    } else {
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
+        for(NSIndexPath* indexPath in visibleRows) {
+            [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] resumeAllOperations];
+        }
     }
+    
 }
 
 #pragma mark - UIScrollView delegate
@@ -565,8 +612,8 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     // 1: As soon as the user starts scrolling, you will want to suspend all operations and take a look at what the user wants to see.
-    [self suspendAllOperations];
-    [self suspendCells];
+    [self cancelAllOperations];
+    [self cancelCells];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

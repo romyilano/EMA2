@@ -103,7 +103,7 @@
     CATransition *animation = [CATransition animation];
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     animation.type = kCATransitionFade;
-    animation.duration = 0.75;
+    animation.duration = 0.15;
     [self.titleLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
     [self.journalLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
     [self.descriptorLabel.layer addAnimation:animation forKey:@"kCATransitionFade"];
@@ -148,6 +148,7 @@
     self.journalLabel.attributedText = blankString;
     self.descriptorLabel.attributedText = blankString;
     self.rowId = emaId;
+    [self cancelAllOperations];
     [self startQueryWithId:emaId];
     [self startJournalQuery:@selector(getJournalAbvForId:)];
     [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
