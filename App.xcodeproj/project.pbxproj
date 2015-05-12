@@ -17,6 +17,7 @@
 		7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1528081A1A735000F0F871 /* NLSTMQuery.m */; };
 		7B1CC2ED1ADB20F30065D99F /* NLSDetailQuery.h in Resources */ = {isa = PBXBuildFile; fileRef = 7B1CC2EC1ADB20F30065D99F /* NLSDetailQuery.h */; };
 		7B1CC2EF1ADB211E0065D99F /* NLSDetailQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1CC2EE1ADB211E0065D99F /* NLSDetailQuery.m */; };
+		7B1FEFBB1B017F6400C7573B /* NLSFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B1FEFBA1B017F6400C7573B /* NLSFeedViewController.m */; };
 		7B2123491ABBFCB40023997D /* NLSDescriptorArrayQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */; };
 		7B21234C1ABEAFD70023997D /* NLSJournalQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B21234B1ABEAFD70023997D /* NLSJournalQuery.m */; };
 		7B21234F1AC934170023997D /* NLSTitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B21234E1AC934170023997D /* NLSTitleLabel.m */; };
@@ -109,6 +110,8 @@
 		7B1528081A1A735000F0F871 /* NLSTMQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTMQuery.m; sourceTree = "<group>"; };
 		7B1CC2EC1ADB20F30065D99F /* NLSDetailQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDetailQuery.h; sourceTree = "<group>"; };
 		7B1CC2EE1ADB211E0065D99F /* NLSDetailQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDetailQuery.m; sourceTree = "<group>"; };
+		7B1FEFB91B017F6400C7573B /* NLSFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSFeedViewController.h; sourceTree = "<group>"; };
+		7B1FEFBA1B017F6400C7573B /* NLSFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSFeedViewController.m; sourceTree = "<group>"; };
 		7B2123471ABBFCB40023997D /* NLSDescriptorArrayQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSDescriptorArrayQuery.h; sourceTree = "<group>"; };
 		7B2123481ABBFCB40023997D /* NLSDescriptorArrayQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSDescriptorArrayQuery.m; sourceTree = "<group>"; };
 		7B21234A1ABEAFD70023997D /* NLSJournalQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSJournalQuery.h; sourceTree = "<group>"; };
@@ -421,6 +424,8 @@
 				7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */,
 				7BB9A96619D4C63600ACFE7B /* NLSAboutViewController.h */,
 				7BB9A96719D4C63600ACFE7B /* NLSAboutViewController.m */,
+				7B1FEFB91B017F6400C7573B /* NLSFeedViewController.h */,
+				7B1FEFBA1B017F6400C7573B /* NLSFeedViewController.m */,
 				7BB9A96819D4C63600ACFE7B /* NLSDescriptorTitlesViewController.h */,
 				7BB9A96919D4C63600ACFE7B /* NLSDescriptorTitlesViewController.m */,
 				7BB9A96A19D4C63600ACFE7B /* NLSDescriptorViewController.h */,
@@ -619,6 +624,7 @@
 				7B5CDA611A0D6DB4005099C0 /* NLSSQLCount.m in Sources */,
 				7B65DF001A041225006814E7 /* NLSTableView.m in Sources */,
 				7BB9A99119D4C63600ACFE7B /* NLSButton.m in Sources */,
+				7B1FEFBB1B017F6400C7573B /* NLSFeedViewController.m in Sources */,
 				7BB9A9B419D4C63600ACFE7B /* NLSTitleViewController.m in Sources */,
 				7BB9A99A19D4C63600ACFE7B /* NLSSQLAPI.m in Sources */,
 				7B444AE11A07EF2800A7D869 /* NLSAutoSizeTextview.m in Sources */,

@@ -35,6 +35,7 @@
 - (void)removeFromFavorites:(UIButton*)button;
 - (void)insertIntoFavorites:(UIButton*)button;
 - (void)pushWebViewWithURL:(NSURL*)url;
+- (void )detailQueryDidFinish:(NLSDetailModel *)dm;
 
 
 @end

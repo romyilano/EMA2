@@ -59,66 +59,7 @@
     return _dm;
 }
 
-- (void)startQuery:(SEL)selector
-{
-    NLSDetailQuery *dmQuery = nil;
-    NSInvocation *invocation = nil;
-    NSInteger rowId = self.abstractId;
-    
-    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-    invocation = [NSInvocation invocationWithMethodSignature:sig];
-    
-    //setup invocation
-    [invocation setTarget:self.sql];
-    [invocation setSelector:selector];
-    [invocation setArgument:&rowId atIndex:2];
-    [invocation retainArguments];
-    
-    
-    dmQuery = [[NLSDetailQuery alloc] initWithInvocation:invocation andDelegate:self];
-    
-    [self.pendingOperations.queryQueue addOperation:dmQuery];
-    
-}
-- (void )detailQueryDidFinish:(NLSDetailModel *)dm
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    
-    UITextView *tv = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.tv = tv;
-    
-    tv.editable = NO;
-    tv.scrollEnabled = YES;
-    tv.dataDetectorTypes = UIDataDetectorTypeAll;
-    tv.textAlignment = NSTextAlignmentLeft;
-    tv.contentInset = UIEdgeInsetsMake(textInset,
-                                       0,
-                                       44,
-                                       0);
-    tv.linkTextAttributes = self.linkAttributes; // customizes the appearance of links
-    tv.delegate = self;
-    tv.text = dm.abstract;
-    tv.attributedText = [self makeAttributedAbstract:dm.abstract];
-//    tv.frame = CGRectMake(0,
-//                          self.navigationController.navigationBar.frame.size.height + 20,
-//                          [[UIScreen mainScreen] applicationFrame].size.width,
-//                          [[UIScreen mainScreen] applicationFrame].size.height + self.navigationController.navigationBar.frame.size.height + 120);
-//    
-    //Create Buttons
-    [self drawFavoriteButton];
-    [tv addSubview:[self makeShareButton]];
-    [tv addSubview:[self makeMeshList]];
-    
-    
-    //Adjust MeshView and TextView inset
-    CGRect meshFrame = self.meshView.frame;
-    meshFrame.size.height = [self meshViewContentHeight];
-    self.meshView.frame = meshFrame;
-    self.tv.contentInset = UIEdgeInsetsMake(textInset,0,(20 + meshFrame.size.height),0);
-    
-    [self.view addSubview:tv];
-
-}
+#pragma mark - View Lifecycle
 
 - (void)viewDidLoad
 {
@@ -126,7 +67,10 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     
     [super viewDidLoad];
-    [self startQuery:@selector(getAbstractWithId:)];
+    
+    if ( self.abstractId > 0 ){
+        [self startQuery:@selector(getAbstractWithId:)];
+    }
     
     //Create window reference
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
@@ -143,8 +87,9 @@
     self.linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:emaGreen],
                             NSUnderlineColorAttributeName: [UIColor lightGrayColor],
                             NSUnderlineStyleAttributeName: @(NSUnderlinePatternSolid)};
-
+    
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
 }
 
 
@@ -172,11 +117,72 @@
         NSLog(@"viewDidDisappear doesn't have parent so it's been popped");
         //release stuff here
     } else {
-//        NSLog(@"PersonViewController view just hidden");
+        //        NSLog(@"PersonViewController view just hidden");
     }
-
+    
     [self.button removeFromSuperview];
 }
+
+#pragma mark - Query Lifecycle
+
+- (void)startQuery:(SEL)selector
+{
+    NLSDetailQuery *dmQuery = nil;
+    NSInvocation *invocation = nil;
+    NSInteger rowId = self.abstractId;
+    
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&rowId atIndex:2];
+    [invocation retainArguments];
+    
+    
+    dmQuery = [[NLSDetailQuery alloc] initWithInvocation:invocation andDelegate:self];
+    
+    [self.pendingOperations.queryQueue addOperation:dmQuery];
+    
+}
+- (void )detailQueryDidFinish:(NLSDetailModel *)dm
+{
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), dm.abstract);
+    
+    UITextView *tv = [[UITextView alloc] initWithFrame:self.view.frame];
+    self.tv = tv;
+    
+    tv.editable = NO;
+    tv.scrollEnabled = YES;
+    tv.dataDetectorTypes = UIDataDetectorTypeAll;
+    tv.textAlignment = NSTextAlignmentLeft;
+    tv.contentInset = UIEdgeInsetsMake(textInset,
+                                       0,
+                                       44,
+                                       0);
+    tv.linkTextAttributes = self.linkAttributes; // customizes the appearance of links
+    tv.delegate = self;
+    tv.text = dm.abstract;
+    tv.attributedText = [self makeAttributedAbstract:dm.abstract];
+
+    //Create Buttons
+    [self drawFavoriteButton];
+    [tv addSubview:[self makeShareButton]];
+    [tv addSubview:[self makeMeshList]];
+    
+    
+    //Adjust MeshView and TextView inset
+    CGRect meshFrame = self.meshView.frame;
+    meshFrame.size.height = [self meshViewContentHeight];
+    self.meshView.frame = meshFrame;
+    self.tv.contentInset = UIEdgeInsetsMake(textInset,0,(20 + meshFrame.size.height),0);
+    
+    [self.view addSubview:tv];
+
+}
+
+#pragma mark - Memory Lifecycle
 
 - (void)didReceiveMemoryWarning
 {

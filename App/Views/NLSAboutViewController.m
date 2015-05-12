@@ -19,11 +19,11 @@
 @synthesize pmcString = _pmcString;
 
 
-- (void)loadView
+- (void)viewDidLoad
 {
-    UIView *view = [[UIView alloc] init];
-    self.view = view;
-    
+    NSLog(@"About View Load");
+    [super viewDidLoad];
+
     
     NLSDetailModel *dm = [[NLSDetailModel alloc] init];
     
@@ -62,7 +62,7 @@
     "";
     
     
-    UITextView *tv = [[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UITextView *tv = [[UITextView alloc] initWithFrame:self.view.frame];
     tv.editable = NO;
     tv.dataDetectorTypes = UIDataDetectorTypeAll;
     tv.textAlignment = NSTextAlignmentLeft;
@@ -78,7 +78,9 @@
     tv.attributedText = [self makeAttributedAbstract:dm.abstract];
     tv.delegate = self;
     
-    [view addSubview:tv];
+    [self.view addSubview:tv];
+
+
     
 }
 

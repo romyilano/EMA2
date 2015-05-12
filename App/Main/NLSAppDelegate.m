@@ -11,6 +11,7 @@
 #import "NLSJournalViewController.h"
 #import "NLSFavoritesViewController.h"
 #import "NLSAboutViewController.h"
+#import "NLSFeedViewController.h"
 #import "NLSDetailViewController.h"
 #import "EDColor.h"
 #import "CRGradientNavigationBar.h"
@@ -88,10 +89,14 @@
     UINavigationController *anc = [UINavigationController initStyled];
     [anc setViewControllers:@[aboutController]];
     
+    NLSFeedViewController *feedController = [[NLSFeedViewController alloc ] init];
+    UINavigationController *feedNC = [UINavigationController initStyled];
+    [feedNC setViewControllers:@[feedController]];
+    
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.tabBar.translucent = NO;
     
-    NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, anc, nil];
+    NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, fnc, anc, feedNC, nil];
     tabBarController.viewControllers = controllers;
     
     UIImage *titlesImage = [UIImage imageNamed:@"Document-50.png"];
@@ -110,12 +115,14 @@
     jnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Journals" image:journalsImage selectedImage:journalsImage];
     fnc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Favorites" image:favoritesImage selectedImage:favoritesImage];
     anc.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"About" image:aboutImage selectedImage:aboutImage];
+    feedNC.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Pod Cast" image:aboutImage selectedImage:aboutImage];
     
     [tnc.tabBarItem setSelectedImage: titlesImageSelected];
     [dnc.tabBarItem setSelectedImage: descriptorsImageSelected];
     [jnc.tabBarItem setSelectedImage: journalsImageSelected];
     [fnc.tabBarItem setSelectedImage: favoritesImageSelected];
     [anc.tabBarItem setSelectedImage: aboutImageSelected];
+    [feedNC.tabBarItem setSelectedImage: aboutImageSelected];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];    
