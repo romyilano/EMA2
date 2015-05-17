@@ -8,8 +8,23 @@
 
 #import "NLSDetailViewController.h"
 #import "EDColor.h"
+#import "MWFeedParser.h"
+#import <UIKit/UIKit.h>
 
-@interface NLSFeedViewController : UIViewController
+@interface NLSFeedViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, MWFeedParserDelegate> {
+
+    // Parsing
+    MWFeedParser *feedParser;
+    NSMutableArray *parsedItems;
+
+    // Displaying
+    NSArray *feedArray;
+    NSDateFormatter *formatter;
+    
+}
+
+@property (nonatomic, strong) NSArray *feedArray;
+@property (strong, nonatomic) UITableView *tableView;
 
 
 @end
