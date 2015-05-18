@@ -108,6 +108,9 @@ typedef enum { SectionDetailSummary } DetailRows;
         
         // Item Info
         NSString *itemTitle = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
+        NSString *url = @"";
+        NSArray *enclosures = [[NSArray alloc] initWithArray:[item.enclosures valueForKey:@"url"]];
+        [url stringByAppendingString:[enclosures objectAtIndex:0]];
         
         // Display
         switch (indexPath.section) {
@@ -123,12 +126,13 @@ typedef enum { SectionDetailSummary } DetailRows;
                         cell.textLabel.text = dateString ? dateString : @"[No Date]";
                         break;
                     case SectionHeaderURL:
-                        cell.textLabel.text = item.link ? item.link : @"[No Link]";
+                        NSLog(@"item enclosures url %@, %@", enclosures, url);
+                        cell.textLabel.text = url ? url : @"[No Link]";
                         cell.textLabel.textColor = [UIColor blueColor];
                         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                         break;
                     case SectionHeaderAuthor:
-                        cell.textLabel.text = item.author ? item.author : @"[No Author]";
+                        cell.textLabel.text = item.author ? item.author : @"The Center for Medical Education";
                         break;
                 }
                 break;

@@ -106,7 +106,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return feedArray.count;
+    return self.feedArray.count;
 }
 
 // Customize the appearance of table view cells.
@@ -123,7 +123,7 @@
     }
     
     // Configure the cell.
-    MWFeedItem *item = [feedArray objectAtIndex:indexPath.row];
+    MWFeedItem *item = [self.feedArray objectAtIndex:indexPath.row];
     NSLog(@"item.title %@", item.title);
     if (item) {
         NSLog(@"feedArray has item");
@@ -148,9 +148,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
     // Show detail
     NLSDetailTableViewController *detail = [[NLSDetailTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    detail.item = (MWFeedItem *)[feedArray objectAtIndex:indexPath.row];
+    detail.item = (MWFeedItem *)[self.feedArray objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:detail animated:YES];
     
     // Deselect
