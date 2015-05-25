@@ -37,5 +37,6 @@
 
 @property (nonatomic, strong) MWFeedItem *item;
 @property (nonatomic, strong) NSString *dateString, *summaryString;
+@property (nonatomic, strong) NSURL *linkUrl;
 
 @end

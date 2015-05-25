@@ -93,6 +93,9 @@
 		7BB9A9B319D4C63600ACFE7B /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */; };
 		7BB9A9B419D4C63600ACFE7B /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */; };
 		7BC81FF019ED8F5E009F4915 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BC81FEF19ED8F5E009F4915 /* ema.sqlite */; };
+		7BE972741B139FD600DF9A41 /* NLSAVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972731B139FD600DF9A41 /* NLSAVViewController.m */; };
+		7BE972761B13A86D00DF9A41 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BE972751B13A86D00DF9A41 /* AVFoundation.framework */; };
+		7BE972791B13A9A600DF9A41 /* NLSPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -224,6 +227,11 @@
 		7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
 		7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
 		7BC81FEF19ED8F5E009F4915 /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
+		7BE972721B139FD600DF9A41 /* NLSAVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAVViewController.h; sourceTree = "<group>"; };
+		7BE972731B139FD600DF9A41 /* NLSAVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAVViewController.m; sourceTree = "<group>"; };
+		7BE972751B13A86D00DF9A41 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		7BE972771B13A9A600DF9A41 /* NLSPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSPlayerView.h; sourceTree = "<group>"; };
+		7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSPlayerView.m; sourceTree = "<group>"; };
 		D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,6 +251,7 @@
 				060BE1741946D904008FB3C5 /* CoreGraphics.framework in Frameworks */,
 				060BE1731946D8FC008FB3C5 /* SystemConfiguration.framework in Frameworks */,
 				060BE1721946D8F4008FB3C5 /* UIKit.framework in Frameworks */,
+				7BE972761B13A86D00DF9A41 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +304,7 @@
 		060BE16F1946D8D3008FB3C5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7BE972751B13A86D00DF9A41 /* AVFoundation.framework */,
 				7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */,
 				7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */,
 				7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */,
@@ -459,6 +469,10 @@
 				7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */,
 				7B2123501ACA77930023997D /* NLSJournalLabel.h */,
 				7B2123511ACA77930023997D /* NLSJournalLabel.m */,
+				7BE972721B139FD600DF9A41 /* NLSAVViewController.h */,
+				7BE972731B139FD600DF9A41 /* NLSAVViewController.m */,
+				7BE972771B13A9A600DF9A41 /* NLSPlayerView.h */,
+				7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -619,6 +633,7 @@
 				7BB9A98F19D4C63600ACFE7B /* main.m in Sources */,
 				7B614CDB1AF20797008AA10F /* NLSTMArrayQuery.m in Sources */,
 				7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */,
+				7BE972741B139FD600DF9A41 /* NLSAVViewController.m in Sources */,
 				7BB9A9AF19D4C63600ACFE7B /* NLSFavoritesViewController.m in Sources */,
 				7BB9A9B119D4C63600ACFE7B /* NLSJournalViewController.m in Sources */,
 				7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */,
@@ -650,6 +665,7 @@
 				7BB9A99619D4C63600ACFE7B /* NLSDetailModel.m in Sources */,
 				7BB9A9B019D4C63600ACFE7B /* NLSJournalTitlesViewController.m in Sources */,
 				7B1CC2EF1ADB211E0065D99F /* NLSDetailQuery.m in Sources */,
+				7BE972791B13A9A600DF9A41 /* NLSPlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

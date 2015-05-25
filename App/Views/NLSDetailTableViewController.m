@@ -29,6 +29,7 @@
 
 #import "NLSDetailTableViewController.h"
 #import "NSString+HTML.h"
+#import "NLSAVViewController.h"
 
 typedef enum { SectionHeader, SectionDetail } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL, SectionHeaderAuthor } HeaderRows;
@@ -36,7 +37,7 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 @implementation NLSDetailTableViewController
 
-@synthesize item, dateString, summaryString;
+@synthesize item, dateString, summaryString, linkUrl;
 
 #pragma mark -
 #pragma mark Initialization
@@ -108,9 +109,9 @@ typedef enum { SectionDetailSummary } DetailRows;
         
         // Item Info
         NSString *itemTitle = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
-        NSString *url = @"";
         NSArray *enclosures = [[NSArray alloc] initWithArray:[item.enclosures valueForKey:@"url"]];
-        [url stringByAppendingString:[enclosures objectAtIndex:0]];
+        NSURL *url = [NSURL URLWithString: [enclosures objectAtIndex:0]];
+        self.linkUrl = url;
         
         // Display
         switch (indexPath.section) {
@@ -126,8 +127,8 @@ typedef enum { SectionDetailSummary } DetailRows;
                         cell.textLabel.text = dateString ? dateString : @"[No Date]";
                         break;
                     case SectionHeaderURL:
-                        NSLog(@"item enclosures url %@, %@", enclosures, url);
-                        cell.textLabel.text = url ? url : @"[No Link]";
+                        NSLog(@"item enclosures url %@", url);
+                        cell.textLabel.text = url ? @"Play Audio" : @"[No Link]";
                         cell.textLabel.textColor = [UIColor blueColor];
                         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                         break;
@@ -179,8 +180,8 @@ typedef enum { SectionDetailSummary } DetailRows;
     
     // Open URL
     if (indexPath.section == SectionHeader && indexPath.row == SectionHeaderURL) {
-        if (item.link) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:item.link]];
+        if (self.linkUrl) {
+            [self pushAVViewWithURL:self.linkUrl];
         }
     }
     
@@ -192,6 +193,13 @@ typedef enum { SectionDetailSummary } DetailRows;
 #pragma mark -
 #pragma mark Memory management
 
+-(void)pushAVViewWithURL:(NSURL*)url
+{
+    NLSAVViewController *avViewController = [[NLSAVViewController alloc] init];
+    avViewController.title = @"Pod Cast";
+    avViewController.url = url;
+    [self.navigationController pushViewController: avViewController animated:YES];
+}
 
 
 @end
