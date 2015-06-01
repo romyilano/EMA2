@@ -29,7 +29,7 @@
 
 #import "NLSDetailTableViewController.h"
 #import "NSString+HTML.h"
-#import "NLSAVViewController.h"
+#import "AVPlayerDemoPlaybackViewController.h"
 
 typedef enum { SectionHeader, SectionDetail } Sections;
 typedef enum { SectionHeaderTitle, SectionHeaderDate, SectionHeaderURL, SectionHeaderAuthor } HeaderRows;
@@ -195,9 +195,9 @@ typedef enum { SectionDetailSummary } DetailRows;
 
 -(void)pushAVViewWithURL:(NSURL*)url
 {
-    NLSAVViewController *avViewController = [[NLSAVViewController alloc] init];
+    AVPlayerDemoPlaybackViewController *avViewController = [[AVPlayerDemoPlaybackViewController alloc] init];
     avViewController.title = @"Pod Cast";
-    avViewController.url = url;
+    avViewController.URL = url;
     [self.navigationController pushViewController: avViewController animated:YES];
 }
 

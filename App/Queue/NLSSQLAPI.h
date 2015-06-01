@@ -39,6 +39,8 @@
 -(NSArray*)getMeshDescriptorsForId:(NSInteger)emaId;
 -(NSArray*)getTitleModelsForRange:(NSRange)range;
 -(NSArray*)getTitleModelsForMatch:(NSString*)match;
+-(NSArray*)getTitleModelsWhereMeshEquals:(NSInteger)meshId;
+-(NSArray*)getTitleModelsWhereJournalEquals:(NSInteger)journalId;
 
 -(NLSTitleModel*)getJournalAbvForId:(NSInteger)emaId;
 -(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId;

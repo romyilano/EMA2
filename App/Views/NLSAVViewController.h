@@ -13,16 +13,10 @@
 @class AVPlayer;
 
 @interface NLSAVViewController : UIViewController {
-    // Define this constant for the key-value observation context.
-    const NSString *ItemStatusContext;
+
 }
 
 @property (nonatomic, strong) NSURL *url;
-@property (nonatomic) AVPlayer *player;
-@property (nonatomic) AVPlayerItem *playerItem;
 @property (nonatomic, weak) IBOutlet NLSPlayerView *playerView;
-@property (nonatomic, weak) IBOutlet UIButton *playButton;
-- (IBAction)loadAssetFromURL:sender;
-- (IBAction)play:sender;
-- (void)syncUI;
+
 @end

@@ -17,4 +17,6 @@
 @property (strong, nonatomic) NSString *descriptor;
 @property (readwrite, assign) NSInteger meshId;
 
+- (void)primeTitleCache;
+
 @end

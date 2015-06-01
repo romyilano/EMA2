@@ -62,5 +62,6 @@
 - (void)cancelCells;
 - (void)resumeCells;
 - (void)primeTitleCacheWithMatch:(NSString*)match;
+- (void)loadTitlesForOnscreenCells;
 
 @end

@@ -2,7 +2,7 @@
 //  NLSTableViewCell.m
 //  App
 //
-//  Created by Amir on 7/25/14.
+//  Created by Amir Djavaherian on 7/25/14.
 //  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
@@ -39,6 +39,21 @@
 }
 
 #pragma mark - Init
+#
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifierDefault:(NSString *)reuseIdentifier
+{
+    //Setup SQL shared instance
+    self.sql = [NLSSQLAPI sharedManager];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    if (self) {
+        
+        [self initLabels];
+    }
+    
+    return self;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andId:(NSInteger)emaId
 {
@@ -48,54 +63,59 @@
     
     if (self) {
         NSLog(@"init cell %ld", emaId);
-
-        // Init with spinner
-        UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        self.accessoryView = activityIndicatorView;
         
         self.rowId = emaId;
         
-        NSUInteger width = [[UIScreen mainScreen] applicationFrame].size.width;
-        
-        self.titleLabel = [[NLSTitleLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, width, 48.0f)];
-        self.titleLabel.tag = TITLE_TAG;
-        self.titleLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
-        self.titleLabel.textColor = [UIColor blackColor];
-        self.titleLabel.backgroundColor = [UIColor whiteColor];
-        self.titleLabel.numberOfLines = 3;
-        [self.contentView addSubview:self.titleLabel];
-        
-        self.journalLabel = [[NLSJournalLabel alloc] initWithFrame:CGRectMake(0.0, 48.0, width, 22.0)];
-        self.journalLabel.tag = JOURNAL_TAG;
-        self.journalLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
-        self.journalLabel.textColor = [UIColor darkGrayColor];
-        self.journalLabel.backgroundColor = [UIColor whiteColor];
-        self.journalLabel.text = @"";
-        self.journalLabel.numberOfLines = 1;
-        [self.contentView addSubview:self.journalLabel];
-        
-        self.descriptorLabel = [[NLSTitleLabel alloc] initWithFrame:CGRectMake(0.0, 70.0, width, 40.0)];
-        self.descriptorLabel.tag = DESCRIPTOR_TAG;
-        self.descriptorLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
-        self.descriptorLabel.textColor = [UIColor darkGrayColor];
-        self.descriptorLabel.backgroundColor = [UIColor whiteColor];
-        self.descriptorLabel.text = @"";
-        self.descriptorLabel.numberOfLines = 3;
-        [self.contentView addSubview:self.descriptorLabel];
-        
-        // Init with empty string
-        self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-        self.journalLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
-        self.descriptorLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+        [self initLabels];
         
         //begin data queries
         [self startQueryWithId:emaId];
         [self startJournalQuery:@selector(getJournalAbvForId:)];
         [self startDescriptorQuery:@selector(getEmptyTitleModelWithDescriptorsForId:)];
-        
-        
+
     }
     return self;
+}
+
+- (void)initLabels
+{
+    // Init with spinner
+    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.accessoryView = activityIndicatorView;
+    
+    NSUInteger width = [[UIScreen mainScreen] applicationFrame].size.width;
+    
+    self.titleLabel = [[NLSTitleLabel alloc] initWithFrame:CGRectMake(0.0, 0.0, width, 48.0f)];
+    self.titleLabel.tag = TITLE_TAG;
+    self.titleLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.backgroundColor = [UIColor whiteColor];
+    self.titleLabel.numberOfLines = 3;
+    [self.contentView addSubview:self.titleLabel];
+    
+    self.journalLabel = [[NLSJournalLabel alloc] initWithFrame:CGRectMake(0.0, 48.0, width, 22.0)];
+    self.journalLabel.tag = JOURNAL_TAG;
+    self.journalLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
+    self.journalLabel.textColor = [UIColor darkGrayColor];
+    self.journalLabel.backgroundColor = [UIColor whiteColor];
+    self.journalLabel.text = @"";
+    self.journalLabel.numberOfLines = 1;
+    [self.contentView addSubview:self.journalLabel];
+    
+    self.descriptorLabel = [[NLSTitleLabel alloc] initWithFrame:CGRectMake(0.0, 70.0, width, 40.0)];
+    self.descriptorLabel.tag = DESCRIPTOR_TAG;
+    self.descriptorLabel.font = [UIFont fontWithName: @"Helvetica Neue" size: 12];
+    self.descriptorLabel.textColor = [UIColor darkGrayColor];
+    self.descriptorLabel.backgroundColor = [UIColor whiteColor];
+    self.descriptorLabel.text = @"";
+    self.descriptorLabel.numberOfLines = 3;
+    [self.contentView addSubview:self.descriptorLabel];
+    
+    // Init with empty string
+    self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+    self.journalLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+    self.descriptorLabel.attributedText = [[NSAttributedString alloc] initWithString:@" "];
+    
 }
 
 -(void)addAnimations
@@ -131,6 +151,7 @@
 }
 
 #pragma mark - Update cell labels
+#
 
 -(void)dbg
 {
@@ -268,6 +289,7 @@
 }
 
 #pragma mark - Start Queries
+#
 
 - (void)startQueryWithId:(NSInteger)emaId
 {
@@ -343,6 +365,8 @@
 }
 
 #pragma mark - Return From Queries
+#
+
 - (void)sqlQueryDidFinish:(NLSTitleModel *)tm
 {
     NSLog(@"%@, %@", NSStringFromSelector(_cmd), tm.title);
@@ -363,6 +387,7 @@
 
 
 #pragma mark - Cancelling, suspending, resuming queues / operations
+#
 
 - (void)suspendAllOperations
 {

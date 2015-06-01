@@ -22,14 +22,15 @@
 - (void)loadView
 {
     [super loadView];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenSearchTut"];
     self.title = self.descriptor;
     self.defactoTitle = self.descriptor;
+    [self primeTitleCache];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,7 +48,7 @@
     //get ref to prop
     NSInteger *meshId = self.meshId;
     
-    // create a singature from the selector
+    // create a signature from the selector
     SEL selector = @selector(getTitleCountWhereMeshEquals:);
     NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
@@ -63,6 +64,87 @@
     [self.pendingOperations.queryQueue addOperation:nlsQuery];
     
 }
+
+-(void)primeTitleCache
+{
+    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    // get ref to prop
+    NSInteger *meshId = self.meshId;
+    
+    // temp result set
+    NSMutableArray *tempResultSet;
+    
+    // create a signature from the selector
+    SEL selector = @selector(getTitleModelsWhereMeshEquals:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    // setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&meshId atIndex:2];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSTMArrayQuery *nlsTMArrayQuery = [[NLSTMArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsTMArrayQuery];
+    
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
+    NSInteger rowAtIndex = indexPath.row;
+    
+    if (self.isSearching){
+        
+        if ([self.cachePointer count] >> indexPath.row){
+            NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+        } else if ([self.cachePointer count] == indexPath.row) {
+            NSLog(@"indexPath.row %ld == cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row - 1] integerValue];
+        } else {
+            NSLog(@"else indexPath.row %ld cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+        }
+        
+        if (!cell) {
+            NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
+            cell = [[NLSTableViewCell alloc]
+                    initWithStyle:UITableViewCellStyleDefault
+                    reuseIdentifierDefault:@"TitleCellIdentifier"];
+            
+        } else {
+            NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+            if ([self.cachePointer count] >= 1){
+                NSLog(@"have stuff in search cache %ld", rowAtIndex);
+                [cell updateCellWithId:rowAtIndex];
+            }
+            
+        }
+        
+    } else {
+        
+        if (!cell) {
+            NSLog(@"no cell, no search");
+            cell = [[NLSTableViewCell alloc]
+                    initWithStyle:UITableViewCellStyleDefault
+                    reuseIdentifierDefault:@"TitleCellIdentifier"];
+        } else {
+            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+            NSLog(@"no search re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+            [cell updateCellWithId:rowAtIndex];
+        }
+    }
+    
+    return cell;
+}
+
+
 
 -(NSInteger)getTitleCountWhereTitleMatch
 {
@@ -89,63 +171,71 @@
     [self.pendingOperations.queryQueue addOperation:nlsQuery];
     
 }
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//    [super loadTitlesForOnscreenCells];
+//}
 
-- (void)startQueryForIndexPath:(NSIndexPath *)indexPath
-{
-//    NSMutableArray *queriesInProgress = [[NSMutableArray alloc] init];
-    NLSTMQuery *tmQuery = nil;
-    NSInvocation *invocation = nil;
-    NSUInteger *row = indexPath.row;
-    NSInteger *meshId = self.meshId;
-    
-    if(self.isSearching){
-        
-//        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
-        
-        //get args row and match
-        NSString *match = self.searchBar.text;
-        
-        // create a singature from the selector
-        SEL selector = @selector(getTitleAndIdForRow:whereMeshEquals:andTitleMatch:);
-        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-        invocation = [NSInvocation invocationWithMethodSignature:sig];
-        
-        //setup invocation and args
-        [invocation setTarget:self.sql];
-        [invocation setSelector:selector];
-        [invocation setArgument:&row atIndex:2];
-        [invocation setArgument:&meshId atIndex:3];
-        [invocation setArgument:&match atIndex:4];
-        [invocation retainArguments];
-        
-    }else{
-        
-//        queriesInProgress = self.pendingOperations.queriesInProgress;
-        
-        // create a singature from the selector
-        SEL selector = @selector(getTitleAndIdForRow:whereMeshEquals:);
-        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-        invocation = [NSInvocation invocationWithMethodSignature:sig];
-        
-        //setup invocation
-        [invocation setTarget:self.sql];
-        [invocation setSelector:selector];
-        [invocation setArgument:&row atIndex:2];
-        [invocation setArgument:&meshId atIndex:3];
-        [invocation retainArguments];
-        
-    }
-    
-//    if (![queriesInProgress.allKeys containsObject:indexPath]) {
-//        NSLog(@"not in pending operations %@", indexPath);
+
+//- (void)startQueryForIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//        NSLog(@"%@", NSStringFromSelector(_cmd));
+////    NSMutableArray *queriesInProgress = [[NSMutableArray alloc] init];
+//    NLSTMQuery *tmQuery = nil;
+//    NSInvocation *invocation = nil;
+//    NSUInteger *row = indexPath.row;
+//    NSInteger *meshId = self.meshId;
+//    
+//    if(self.isSearching){
 //        
-//        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation andDelegate:self];
+////        queriesInProgress = self.pendingOperations.searchQueriesInProgress;
 //        
-//        [queriesInProgress setObject:tmQuery forKey:indexPath];
-//        [self.pendingOperations.queryQueue addOperation:tmQuery];
+//        //get args row and match
+//        NSString *match = self.searchBar.text;
+//        
+//        // create a singature from the selector
+//        SEL selector = @selector(getTitleAndIdForRow:whereMeshEquals:andTitleMatch:);
+//        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+//        invocation = [NSInvocation invocationWithMethodSignature:sig];
+//        
+//        //setup invocation and args
+//        [invocation setTarget:self.sql];
+//        [invocation setSelector:selector];
+//        [invocation setArgument:&row atIndex:2];
+//        [invocation setArgument:&meshId atIndex:3];
+//        [invocation setArgument:&match atIndex:4];
+//        [invocation retainArguments];
+//        
+//    }else{
+//        
+////        queriesInProgress = self.pendingOperations.queriesInProgress;
+//        
+//        // create a singature from the selector
+//        SEL selector = @selector(getTitleAndIdForRow:whereMeshEquals:);
+//        NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+//        invocation = [NSInvocation invocationWithMethodSignature:sig];
+//        
+//        //setup invocation
+//        [invocation setTarget:self.sql];
+//        [invocation setSelector:selector];
+//        [invocation setArgument:&row atIndex:2];
+//        [invocation setArgument:&meshId atIndex:3];
+//        [invocation retainArguments];
+//        
 //    }
-    
-}
+//    
+////    if (![queriesInProgress.allKeys containsObject:indexPath]) {
+////        NSLog(@"not in pending operations %@", indexPath);
+////        
+////        tmQuery = [[NLSTMQuery alloc] initWithInvocation:invocation andDelegate:self];
+////        
+////        [queriesInProgress setObject:tmQuery forKey:indexPath];
+////        [self.pendingOperations.queryQueue addOperation:tmQuery];
+////    }
+//    
+//}
 
 
 @end

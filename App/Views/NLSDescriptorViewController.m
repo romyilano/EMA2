@@ -2,7 +2,7 @@
 //  NLSDescriptorViewController.m
 //  App
 //
-//  Created by Amir on 8/6/14.
+//  Created by Amir Djavaherian on 8/6/14.
 //  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
@@ -23,10 +23,18 @@
 @synthesize searchController = _searchController;
 @synthesize searchResultsController = _searchResultsController;
 
-
 - (void)loadView
 {
-    
+    [super loadView];
+}
+
+
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+ 
     NSLog(@"init NLSDescriptorViewController");
     self.sql = [NLSSQLAPI sharedManager];
     self.letters = [@"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" componentsSeparatedByString:@" "];
@@ -34,14 +42,6 @@
     
     self.defactoTitle = descriptorsString;
     
-//    [[PBJActivityIndicator sharedActivityIndicator] setActivity:YES forType:1];
-    
-}
-
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
     NLSTableView *tableView = [[NLSTableView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame] style:UITableViewStylePlain];
@@ -56,10 +56,6 @@
     self.navigationItem.title = self.defactoTitle;
     
     [self loadSearchBar];
-
-    
-    NSLog(@"viewDidLoad");
-//    [[PBJActivityIndicator sharedActivityIndicator] setActivity:NO forType:1];
 
 }
 
@@ -92,8 +88,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    // Return the number of rows in the section.
+
     // Return the number of rows in the section.
     if (self.isSearching){
         

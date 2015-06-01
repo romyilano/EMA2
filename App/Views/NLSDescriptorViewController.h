@@ -27,8 +27,8 @@
 //search controller
 @property (assign, atomic) BOOL isSearching;
 @property (strong, nonatomic) UISearchController *searchController;
-@property BOOL searchControllerWasActive;
-@property BOOL searchControllerSearchFieldWasFirstResponder;
+//@property BOOL searchControllerWasActive;
+//@property BOOL searchControllerSearchFieldWasFirstResponder;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UITableViewController *searchResultsController;
 

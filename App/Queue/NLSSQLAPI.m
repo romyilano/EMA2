@@ -18,6 +18,7 @@
 
 
 #pragma mark Singleton Methods
+#
 
 +(id)sharedManager {
     static NLSSQLAPI *sqlAPI = nil;
@@ -36,6 +37,7 @@
 }
 
 #pragma mark Database Initialization
+#
 
 -(NSString *)GetDocumentDirectory{
     self.fileMgr = [NSFileManager defaultManager];
@@ -136,6 +138,7 @@
 
 
 #pragma mark Create
+#
 
 -(void)createFavoritesTable
 {
@@ -146,6 +149,7 @@
 }
 
 #pragma mark Favorites
+#
 
 -(BOOL)insertIntoFavorites:(NSInteger)emaId
 {
@@ -192,6 +196,7 @@
 }
 
 #pragma mark Titles
+#
 
 -(NSString *)tokenizeSearchString:(NSString*)str
 {
@@ -221,20 +226,6 @@
     NSString *query = [NSString stringWithFormat: @"SELECT title FROM erpubtbl WHERE id = %ld", (long)emaId];
     
     return [self getStringForSQL:query];
-}
-
--(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    //Get associated mesh descriptors
-    NSString *query = [NSString stringWithFormat:  @"SELECT am.mesh_id, m.name "
-                                                   @"FROM abstract_mesh am "
-                                                   @"JOIN mesh_descriptor m "
-                                                   @"ON m.id = am.mesh_id "
-                                                   @"WHERE am.pmid = "
-                                                   @"(SELECT pmid FROM erpubtbl WHERE id = %ld)", (long)emaId];
-    
-    return [self getMeshArrayForSQL:query];
 }
 
 -(NLSTitleModel*)getTitleForId:(NSInteger)emaId
@@ -387,6 +378,19 @@
     return [self getTitleForId:myId];
 }
 
+-(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId
+{
+    //    NSLog(@"SQLAPI - %@ %d", NSStringFromSelector(_cmd), emaId);
+    
+    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
+    tm.descriptors = [self getMeshDescriptorsForId:emaId];
+    
+    return tm;
+}
+
+#pragma mark Title Integers
+#
+
 -(NSInteger)getTitleCount
 {
 
@@ -458,6 +462,7 @@
 }
 
 #pragma mark PMIDs
+#
 
 -(NSString*)getPmidForId:(NSInteger)emaId
 {
@@ -467,6 +472,7 @@
 }
 
 #pragma mark Descriptors
+#
 
 -(NSString*)getMeshForId:(NSInteger)meshId
 {
@@ -501,6 +507,7 @@
 }
 
 #pragma mark Journals
+#
 
 -(NSInteger)getCountFromJournalsWhereSectionLike:str
 {
@@ -525,6 +532,7 @@
 }
 
 #pragma mark Abstracts
+#
 
 -(NLSDetailModel*)getAbstractWithId:(NSInteger)val
 {
@@ -534,6 +542,21 @@
 }
 
 #pragma mark Arrays
+#
+
+-(NSArray *)getMeshDescriptorsForId:(NSInteger)emaId
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    //Get associated mesh descriptors
+    NSString *query = [NSString stringWithFormat:  @"SELECT am.mesh_id, m.name "
+                       @"FROM abstract_mesh am "
+                       @"JOIN mesh_descriptor m "
+                       @"ON m.id = am.mesh_id "
+                       @"WHERE am.pmid = "
+                       @"(SELECT pmid FROM erpubtbl WHERE id = %ld)", (long)emaId];
+    
+    return [self getMeshArrayForSQL:query];
+}
 
 -(NSArray*)getTitleModelsForRange:(NSRange)range
 {
@@ -576,9 +599,41 @@
 
 -(NSArray*)getTitleModelsForMatch:(NSString*)match
 {
-    NSString *query = [NSString stringWithFormat:@"SELECT a FROM titles WHERE t MATCH '%@'", [self tokenizeSearchString:match]];
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *query = [NSString stringWithFormat:@"SELECT a \
+                                                    FROM titles \
+                                                    WHERE t MATCH '%@' \
+                                                    ORDER BY okapi_bm25(matchinfo(titles, \'pcnalx\'), 0) DESC", [self tokenizeSearchString:match]];
     
     return [self getTitleIdsForSQL:query];
+}
+
+-(NSArray*)getTitleModelsWhereMeshEquals:(NSInteger)meshId
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT e.id \
+                       FROM erpubtbl e \
+                       JOIN abstract_mesh am \
+                       ON am.pmid = e.pmid \
+                       JOIN mesh_descriptor md \
+                       ON md.id = am.mesh_id \
+                       WHERE md.id = %ld", (unsigned long)meshId];
+    
+    return [self getTitleIdsForBaseQuery:query];
+}
+
+-(NSArray*)getTitleModelsWhereJournalEquals:(NSInteger)journalId
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT e.id \
+                       FROM erpubtbl e \
+                       JOIN journals j \
+                       ON e.journal_id = j.id \
+                       WHERE j.id = %ld", (unsigned long)journalId];
+    
+    return [self getTitleIdsForBaseQuery:query];
 }
 
 -(NSArray*)getTitleIdsForSQL:(NSString*)sql
@@ -600,17 +655,27 @@
     return array;
 }
 
--(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId
+-(NSArray*)getTitleIdsForBaseQuery:(NSString*)sql
 {
-//    NSLog(@"SQLAPI - %@ %d", NSStringFromSelector(_cmd), emaId);
-
-    NLSTitleModel *tm = [[NLSTitleModel alloc] init];
-    tm.descriptors = [self getMeshDescriptorsForId:emaId];
+    NSLog(@"SQLAPI %@ %@", NSStringFromSelector(_cmd), sql);
+    __block FMResultSet *rs = nil;
+    __block NSMutableArray *array = [[NSMutableArray alloc] init];
     
-    return tm;
+    [self.queue inDatabase:^(FMDatabase *db) {
+        
+        rs = [db executeQuery:sql];
+        while ([rs next]) {
+            [array addObject:@([rs intForColumn:@"id"])];
+        }
+        
+        return;
+    }];
+    
+    return array;
 }
 
 #pragma mark QUEUE with SQL
+#
 
 -(NLSTitleModel*)getTitleModelForSQL:(NSString*)sql
 {
@@ -799,7 +864,6 @@
     return [NSArray arrayWithArray:(NSArray*)mesh_array];
 }
 
-
 -(BOOL)runFavesSQL:(NSString*)sql withLabel:(NSString*)label
 {
     __block BOOL success = 0;
@@ -852,7 +916,11 @@
     return tm;
 }
 
--(void)checkRankFunction{
+#pragma mark Check Functions
+#
+
+-(void)checkRankFunction
+{
 
     __block FMResultSet *rs = nil;
     __block NSString *query = nil;
@@ -867,7 +935,8 @@
     }];
 }
 
--(void)checkOkapiFunction{
+-(void)checkOkapiFunction
+{
     
     __block FMResultSet *rs = nil;
     __block NSString *query = nil;

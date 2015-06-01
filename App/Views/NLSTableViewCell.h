@@ -32,6 +32,7 @@
 @property (weak, nonatomic) UITableView *tableView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier andId:(NSInteger)emaId;
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifierDefault:(NSString *)reuseIdentifier;
 -(void)updateCellWithId:(NSInteger)emaId;
 -(void)updateCellWithTitleModel:(NLSTitleModel*)tm;
 -(void)updateCellWithDescriptors:(NLSTitleModel *)tm;

@@ -96,6 +96,15 @@
 		7BE972741B139FD600DF9A41 /* NLSAVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972731B139FD600DF9A41 /* NLSAVViewController.m */; };
 		7BE972761B13A86D00DF9A41 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BE972751B13A86D00DF9A41 /* AVFoundation.framework */; };
 		7BE972791B13A9A600DF9A41 /* NLSPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */; };
+		7BE972821B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972811B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.m */; };
+		7BE972871B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972841B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m */; };
+		7BE972881B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972861B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m */; };
+		7BE9728F1B13FE6400DF9A41 /* AVPlayerDemoMetadataView-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE972891B13FE6400DF9A41 /* AVPlayerDemoMetadataView-iPad.xib */; };
+		7BE972901B13FE6400DF9A41 /* AVPlayerDemoMetadataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728A1B13FE6400DF9A41 /* AVPlayerDemoMetadataView.xib */; };
+		7BE972911B13FE6400DF9A41 /* AVPlayerDemoPlaybackView-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728B1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView-iPad.xib */; };
+		7BE972921B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728C1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib */; };
+		7BE972931B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728D1B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib */; };
+		7BE972941B13FE6400DF9A41 /* AVPlayerDemoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728E1B13FE6400DF9A41 /* AVPlayerDemoWindow.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -232,6 +241,18 @@
 		7BE972751B13A86D00DF9A41 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		7BE972771B13A9A600DF9A41 /* NLSPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSPlayerView.h; sourceTree = "<group>"; };
 		7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSPlayerView.m; sourceTree = "<group>"; };
+		7BE972801B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerDemoMetadataViewController.h; sourceTree = "<group>"; };
+		7BE972811B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerDemoMetadataViewController.m; sourceTree = "<group>"; };
+		7BE972831B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerDemoPlaybackView.h; sourceTree = "<group>"; };
+		7BE972841B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerDemoPlaybackView.m; sourceTree = "<group>"; };
+		7BE972851B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerDemoPlaybackViewController.h; sourceTree = "<group>"; };
+		7BE972861B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerDemoPlaybackViewController.m; sourceTree = "<group>"; };
+		7BE972891B13FE6400DF9A41 /* AVPlayerDemoMetadataView-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AVPlayerDemoMetadataView-iPad.xib"; path = "../Views/AVPlayerDemoMetadataView-iPad.xib"; sourceTree = "<group>"; };
+		7BE9728A1B13FE6400DF9A41 /* AVPlayerDemoMetadataView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AVPlayerDemoMetadataView.xib; path = ../Views/AVPlayerDemoMetadataView.xib; sourceTree = "<group>"; };
+		7BE9728B1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AVPlayerDemoPlaybackView-iPad.xib"; path = "../Views/AVPlayerDemoPlaybackView-iPad.xib"; sourceTree = "<group>"; };
+		7BE9728C1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AVPlayerDemoPlaybackView.xib; path = ../Views/AVPlayerDemoPlaybackView.xib; sourceTree = "<group>"; };
+		7BE9728D1B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AVPlayerDemoWindow-iPad.xib"; path = "../Views/AVPlayerDemoWindow-iPad.xib"; sourceTree = "<group>"; };
+		7BE9728E1B13FE6400DF9A41 /* AVPlayerDemoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AVPlayerDemoWindow.xib; path = ../Views/AVPlayerDemoWindow.xib; sourceTree = "<group>"; };
 		D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -404,6 +425,12 @@
 		7BB9A95519D4C63600ACFE7B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7BE972891B13FE6400DF9A41 /* AVPlayerDemoMetadataView-iPad.xib */,
+				7BE9728A1B13FE6400DF9A41 /* AVPlayerDemoMetadataView.xib */,
+				7BE9728B1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView-iPad.xib */,
+				7BE9728C1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib */,
+				7BE9728D1B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib */,
+				7BE9728E1B13FE6400DF9A41 /* AVPlayerDemoWindow.xib */,
 				7BC81FEF19ED8F5E009F4915 /* ema.sqlite */,
 			);
 			path = Resources;
@@ -473,6 +500,12 @@
 				7BE972731B139FD600DF9A41 /* NLSAVViewController.m */,
 				7BE972771B13A9A600DF9A41 /* NLSPlayerView.h */,
 				7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */,
+				7BE972801B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.h */,
+				7BE972811B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.m */,
+				7BE972831B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.h */,
+				7BE972841B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m */,
+				7BE972851B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.h */,
+				7BE972861B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -560,8 +593,10 @@
 				7BB9A98619D4C63600ACFE7B /* Icon-76@2x.png in Resources */,
 				7BB9A98519D4C63600ACFE7B /* Icon-76.png in Resources */,
 				7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */,
+				7BE972901B13FE6400DF9A41 /* AVPlayerDemoMetadataView.xib in Resources */,
 				7BB9A98719D4C63600ACFE7B /* Icon-Small-40.png in Resources */,
 				7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */,
+				7BE972941B13FE6400DF9A41 /* AVPlayerDemoWindow.xib in Resources */,
 				7B614CD91AF2073C008AA10F /* NLSTMArrayQuery.h in Resources */,
 				7B27CA071A639BE60093499A /* Settings.bundle in Resources */,
 				7BB9A9A119D4C63600ACFE7B /* Descriptors-50@2x.png in Resources */,
@@ -569,21 +604,25 @@
 				7BB9A98319D4C63600ACFE7B /* Icon-72.png in Resources */,
 				7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */,
 				7BB9A9AA19D4C63600ACFE7B /* Share-50@2x.png in Resources */,
+				7BE972931B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib in Resources */,
 				7BB9A9A319D4C63600ACFE7B /* Document-50@2x.png in Resources */,
 				7BB9A9A219D4C63600ACFE7B /* Descriptors-selected-50@2x.png in Resources */,
 				7B1CC2ED1ADB20F30065D99F /* NLSDetailQuery.h in Resources */,
 				7B27CA051A6391810093499A /* Options-50@2x.png in Resources */,
 				7BB9A9A019D4C63600ACFE7B /* About-selected-50@2x.png in Resources */,
 				7BB9A97D19D4C63600ACFE7B /* InfoPlist.strings in Resources */,
+				7BE972911B13FE6400DF9A41 /* AVPlayerDemoPlaybackView-iPad.xib in Resources */,
 				7BB9A98A19D4C63600ACFE7B /* Icon-Small-50@2x.png in Resources */,
 				7B584ED819D92117000D058F /* Default@2x.png in Resources */,
 				7BB9A98919D4C63600ACFE7B /* Icon-Small-50.png in Resources */,
 				7BC81FF019ED8F5E009F4915 /* ema.sqlite in Resources */,
 				7BB9A98C19D4C63600ACFE7B /* Icon-Small@2x.png in Resources */,
+				7BE972921B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib in Resources */,
 				7BB9A9A619D4C63600ACFE7B /* Favorites-selected-50@2x.png in Resources */,
 				7B0088BB1A70DCC80043889E /* DefaultUserDefaults.plist in Resources */,
 				7BB9A98E19D4C63600ACFE7B /* Icon@2x.png in Resources */,
 				7BB9A98419D4C63600ACFE7B /* Icon-72@2x.png in Resources */,
+				7BE9728F1B13FE6400DF9A41 /* AVPlayerDemoMetadataView-iPad.xib in Resources */,
 				7BB9A9A819D4C63600ACFE7B /* Journals-50@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -628,10 +667,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BE972871B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m in Sources */,
 				7B21234C1ABEAFD70023997D /* NLSJournalQuery.m in Sources */,
 				7B911F5F1A003ED100C56815 /* NLSBaseTableViewController.m in Sources */,
 				7BB9A98F19D4C63600ACFE7B /* main.m in Sources */,
 				7B614CDB1AF20797008AA10F /* NLSTMArrayQuery.m in Sources */,
+				7BE972821B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.m in Sources */,
 				7BB9A9B219D4C63600ACFE7B /* NLSSearchViewController.m in Sources */,
 				7BE972741B139FD600DF9A41 /* NLSAVViewController.m in Sources */,
 				7BB9A9AF19D4C63600ACFE7B /* NLSFavoritesViewController.m in Sources */,
@@ -639,6 +680,7 @@
 				7B1528091A1A735000F0F871 /* NLSTMQuery.m in Sources */,
 				7BB9A9AE19D4C63600ACFE7B /* NLSDetailViewController.m in Sources */,
 				7B2123491ABBFCB40023997D /* NLSDescriptorArrayQuery.m in Sources */,
+				7BE972881B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m in Sources */,
 				7BB9A99B19D4C63600ACFE7B /* NLSPendingOperations.m in Sources */,
 				7BB9A9AB19D4C63600ACFE7B /* NLSAboutViewController.m in Sources */,
 				7B02B49F1B08247000867E3B /* NLSDetailTableViewController.m in Sources */,
@@ -731,6 +773,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "Colleen's EMA";
