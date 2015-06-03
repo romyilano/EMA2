@@ -105,6 +105,7 @@
 		7BE972921B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728C1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib */; };
 		7BE972931B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728D1B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib */; };
 		7BE972941B13FE6400DF9A41 /* AVPlayerDemoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7BE9728E1B13FE6400DF9A41 /* AVPlayerDemoWindow.xib */; };
+		7BE972971B1D895200DF9A41 /* ema-logo-180x177@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7BE972961B1D895200DF9A41 /* ema-logo-180x177@2x.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -253,6 +254,7 @@
 		7BE9728C1B13FE6400DF9A41 /* AVPlayerDemoPlaybackView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AVPlayerDemoPlaybackView.xib; path = ../Views/AVPlayerDemoPlaybackView.xib; sourceTree = "<group>"; };
 		7BE9728D1B13FE6400DF9A41 /* AVPlayerDemoWindow-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "AVPlayerDemoWindow-iPad.xib"; path = "../Views/AVPlayerDemoWindow-iPad.xib"; sourceTree = "<group>"; };
 		7BE9728E1B13FE6400DF9A41 /* AVPlayerDemoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AVPlayerDemoWindow.xib; path = ../Views/AVPlayerDemoWindow.xib; sourceTree = "<group>"; };
+		7BE972961B1D895200DF9A41 /* ema-logo-180x177@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ema-logo-180x177@2x.jpg"; sourceTree = "<group>"; };
 		D5A6EAC5485F57DC634E6CD2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -439,6 +441,7 @@
 		7BB9A95719D4C63600ACFE7B /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				7BE972961B1D895200DF9A41 /* ema-logo-180x177@2x.jpg */,
 				7B27CA041A6391810093499A /* Options-50@2x.png */,
 				7BB9A95819D4C63600ACFE7B /* About-50@2x.png */,
 				7BB9A95919D4C63600ACFE7B /* About-selected-50@2x.png */,
@@ -464,10 +467,7 @@
 				7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */,
 				7BB9A96619D4C63600ACFE7B /* NLSAboutViewController.h */,
 				7BB9A96719D4C63600ACFE7B /* NLSAboutViewController.m */,
-				7B1FEFB91B017F6400C7573B /* NLSFeedViewController.h */,
-				7B1FEFBA1B017F6400C7573B /* NLSFeedViewController.m */,
-				7B02B49D1B08247000867E3B /* NLSDetailTableViewController.h */,
-				7B02B49E1B08247000867E3B /* NLSDetailTableViewController.m */,
+				7BE972951B1D7FA100DF9A41 /* PodCast */,
 				7BB9A96819D4C63600ACFE7B /* NLSDescriptorTitlesViewController.h */,
 				7BB9A96919D4C63600ACFE7B /* NLSDescriptorTitlesViewController.m */,
 				7BB9A96A19D4C63600ACFE7B /* NLSDescriptorViewController.h */,
@@ -496,18 +496,29 @@
 				7B0088B81A6503CB0043889E /* NLSSettingsViewController.m */,
 				7B2123501ACA77930023997D /* NLSJournalLabel.h */,
 				7B2123511ACA77930023997D /* NLSJournalLabel.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7BE972951B1D7FA100DF9A41 /* PodCast */ = {
+			isa = PBXGroup;
+			children = (
+				7B1FEFB91B017F6400C7573B /* NLSFeedViewController.h */,
+				7B1FEFBA1B017F6400C7573B /* NLSFeedViewController.m */,
+				7B02B49D1B08247000867E3B /* NLSDetailTableViewController.h */,
+				7B02B49E1B08247000867E3B /* NLSDetailTableViewController.m */,
+				7BE972851B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.h */,
+				7BE972861B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m */,
+				7BE972831B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.h */,
+				7BE972841B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m */,
 				7BE972721B139FD600DF9A41 /* NLSAVViewController.h */,
 				7BE972731B139FD600DF9A41 /* NLSAVViewController.m */,
 				7BE972771B13A9A600DF9A41 /* NLSPlayerView.h */,
 				7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */,
 				7BE972801B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.h */,
 				7BE972811B13FD1300DF9A41 /* AVPlayerDemoMetadataViewController.m */,
-				7BE972831B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.h */,
-				7BE972841B13FD9600DF9A41 /* AVPlayerDemoPlaybackView.m */,
-				7BE972851B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.h */,
-				7BE972861B13FD9600DF9A41 /* AVPlayerDemoPlaybackViewController.m */,
 			);
-			path = Views;
+			name = PodCast;
 			sourceTree = "<group>";
 		};
 		F28D3E52049AFF7A8FCC9A50 /* Pods */ = {
@@ -593,6 +604,7 @@
 				7BB9A98619D4C63600ACFE7B /* Icon-76@2x.png in Resources */,
 				7BB9A98519D4C63600ACFE7B /* Icon-76.png in Resources */,
 				7B584ED619D92117000D058F /* Default-568h@2x.png in Resources */,
+				7BE972971B1D895200DF9A41 /* ema-logo-180x177@2x.jpg in Resources */,
 				7BE972901B13FE6400DF9A41 /* AVPlayerDemoMetadataView.xib in Resources */,
 				7BB9A98719D4C63600ACFE7B /* Icon-Small-40.png in Resources */,
 				7B11D7971A080A650069D7A1 /* Images.xcassets in Resources */,

@@ -168,6 +168,7 @@ typedef enum { SectionDetailSummary } DetailRows;
         CGSize s = [summary sizeWithFont:[UIFont systemFontOfSize:15]
                        constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
                            lineBreakMode:UILineBreakModeWordWrap];
+        
         return s.height + 16; // Add padding
         
     }

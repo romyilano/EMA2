@@ -27,8 +27,8 @@
     UILabel *yourLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, 20)];
     
     [yourLabel setTextColor:[UIColor blackColor]];
-    [yourLabel setBackgroundColor:[UIColor clearColor]];
-    [yourLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 14.0f]];
+    [yourLabel setBackgroundColor:[UIColor redColor]];
+    [yourLabel setFont:[UIFont fontWithName: @"HelveticaNeue" size: 14.0f]];
     [self addSubview:yourLabel];
     
     if ((self.player.currentItem != nil) &&

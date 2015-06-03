@@ -134,10 +134,7 @@
         // Set
         cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
         cell.textLabel.text = itemTitle;
-        NSMutableString *subtitle = [NSMutableString string];
-        if (item.date) [subtitle appendFormat:@"%@: ", [formatter stringFromDate:item.date]];
-        [subtitle appendString:itemSummary];
-        cell.detailTextLabel.text = subtitle;
+        cell.detailTextLabel.text = itemSummary;
         
     }
     return cell;

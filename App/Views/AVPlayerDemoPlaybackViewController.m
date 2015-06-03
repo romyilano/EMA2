@@ -514,15 +514,17 @@ static void *AVPlayerDemoPlaybackViewControllerCurrentItemObservationContext = &
 
 - (void)dealloc
 {
+    NSLog(@"dealloc from apdpvc");
 	[self removePlayerTimeObserver];
 	
 	[self.mPlayer removeObserver:self forKeyPath:@"rate"];
 	[mPlayer.currentItem removeObserver:self forKeyPath:@"status"];
-	
+    [self.player removeObserver:self forKeyPath:@"currentItem"];
+    
 	[self.mPlayer pause];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	
+
 }
 
 @end
