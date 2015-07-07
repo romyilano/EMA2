@@ -347,7 +347,6 @@
 -(void)primeTitleCacheWithMatch:(NSString*)match
 {
     NSInvocation *invocation = nil;
-    NSRange range = NSMakeRange(1, 10);
     NSMutableArray *tempResultSet;
     
     // create a signature from the selector
