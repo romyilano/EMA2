@@ -627,19 +627,18 @@
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSString *query = [NSString stringWithFormat:@"\
-                       SELECT e.id \
-                       FROM erpubtbl e \
-                       JOIN abstract_mesh am \
-                       ON am.pmid = e.pmid \
-                       JOIN mesh_descriptor md \
-                       ON md.id = am.mesh_id \
-                       JOIN titles t \
-                       ON e.id = t.a \
-                       WHERE md.id = %ld \
-                       AND t.t MATCH '%@' \
-                       ORDER BY e.journal_year DESC", (unsigned long)meshId, [self tokenizeSearchString:match]];
+                       SELECT t.a \
+                       FROM titles t \
+                       WHERE t.a IN ( \
+                             SELECT e.id \
+                             FROM erpubtbl e \
+                             JOIN abstract_mesh am ON am.pmid = e.pmid \
+                             JOIN mesh_descriptor md ON md.id = am.mesh_id \
+                             WHERE md.id = %ld \
+                             ORDER BY e.journal_year DESC) \
+                       AND t MATCH '%@'", (unsigned long)meshId, [self tokenizeSearchString:match]];
     
-    return [self getTitleIdsForBaseQuery:query];
+    return [self getTitleIdsForSQL:query];
 }
 
 -(NSArray*)getTitleModelsWhereJournalEquals:(NSInteger)journalId

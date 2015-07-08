@@ -65,6 +65,32 @@
     
 }
 
+-(NSInteger)getTitleCountWhereTitleMatch
+{
+    NSLog(@"getTitleCountWhereTitleContains");
+    
+    //get ref to prop
+    NSInteger *meshId = self.meshId;
+    NSString *match = self.searchBar.text;
+    
+    // create a singature from the selector
+    SEL selector = @selector(getTitleCountWhereMeshEquals:andTitleMatch:);
+    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&meshId atIndex:2];
+    [invocation setArgument:&match atIndex:3];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+    
+}
+
 -(void)primeTitleCache
 {
     
@@ -101,16 +127,15 @@
     NSInteger *meshId = self.meshId;
     
     // create a signature from the selector
-    SEL selector = @selector(getTitleAndIdForRow:whereMeshEquals:andTitleMatch:);
+    SEL selector = @selector(getTitleModelsWhereMeshEquals:andTitleMatch:);
     NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
     invocation = [NSInvocation invocationWithMethodSignature:sig];
 
     //setup invocation and args
     [invocation setTarget:self.sql];
     [invocation setSelector:selector];
-    [invocation setArgument:&row atIndex:2];
-    [invocation setArgument:&meshId atIndex:3];
-    [invocation setArgument:&match atIndex:4];
+    [invocation setArgument:&meshId atIndex:2];
+    [invocation setArgument:&match atIndex:3];
     [invocation retainArguments];
     
     //create query and add to queue
@@ -167,33 +192,6 @@
     return cell;
 }
 
-
-
--(NSInteger)getTitleCountWhereTitleMatch
-{
-    NSLog(@"getTitleCountWhereTitleContains");
-    
-    //get ref to prop
-    NSInteger *meshId = self.meshId;
-    NSString *match = self.searchBar.text;
-    
-    // create a singature from the selector
-    SEL selector = @selector(getTitleCountWhereMeshEquals:andTitleMatch:);
-    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-    
-    //setup invocation
-    [invocation setTarget:self.sql];
-    [invocation setSelector:selector];
-    [invocation setArgument:&meshId atIndex:2];
-    [invocation setArgument:&match atIndex:3];
-    [invocation retainArguments];
-    
-    //create query and add to queue
-    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
-    [self.pendingOperations.queryQueue addOperation:nlsQuery];
-    
-}
 
 
 @end
