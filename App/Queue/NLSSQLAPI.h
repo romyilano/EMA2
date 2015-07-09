@@ -2,8 +2,8 @@
 //  NLSSQLAPI.h
 //  App
 //
-//  Created by Amir on 7/23/14.
-//  Copyright (c) 2014 Slyce. All rights reserved.
+//  Created by Amir Djavaherian on 7/23/14.
+//  Copyright (c) 2014 Colleen's. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -37,10 +37,15 @@
 -(NSString*)getMeshForId:(NSInteger)meshId;
 
 -(NSArray*)getMeshDescriptorsForId:(NSInteger)emaId;
+
 -(NSArray*)getTitleModelsForRange:(NSRange)range;
 -(NSArray*)getTitleModelsForMatch:(NSString*)match;
+
 -(NSArray*)getTitleModelsWhereMeshEquals:(NSInteger)meshId;
+-(NSArray*)getTitleModelsWhereMeshEquals:(NSInteger)meshId andTitleMatch:(NSString *)match;
+
 -(NSArray*)getTitleModelsWhereJournalEquals:(NSInteger)journalId;
+-(NSArray*)getTitleModelsWhereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString *)match;
 
 -(NLSTitleModel*)getJournalAbvForId:(NSInteger)emaId;
 -(NLSTitleModel*)getEmptyTitleModelWithDescriptorsForId:(NSInteger)emaId;

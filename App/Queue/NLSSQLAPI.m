@@ -630,12 +630,12 @@
                        SELECT t.a \
                        FROM titles t \
                        WHERE t.a IN ( \
-                             SELECT e.id \
-                             FROM erpubtbl e \
-                             JOIN abstract_mesh am ON am.pmid = e.pmid \
-                             JOIN mesh_descriptor md ON md.id = am.mesh_id \
-                             WHERE md.id = %ld \
-                             ORDER BY e.journal_year DESC) \
+                            SELECT e.id \
+                            FROM erpubtbl e \
+                            JOIN abstract_mesh am ON am.pmid = e.pmid \
+                            JOIN mesh_descriptor md ON md.id = am.mesh_id \
+                            WHERE md.id = %ld \
+                            ORDER BY e.journal_year DESC) \
                        AND t MATCH '%@'", (unsigned long)meshId, [self tokenizeSearchString:match]];
     
     return [self getTitleIdsForSQL:query];
@@ -652,6 +652,24 @@
                        WHERE j.id = %ld", (unsigned long)journalId];
     
     return [self getTitleIdsForBaseQuery:query];
+}
+
+-(NSArray*)getTitleModelsWhereJournalEquals:(NSInteger)journalId andTitleMatch:(NSString *)match
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *query = [NSString stringWithFormat:@"\
+                       SELECT t.a \
+                       FROM titles t \
+                       WHERE t.a IN ( \
+                           SELECT e.id \
+                           FROM erpubtbl e \
+                           JOIN journals j \
+                           ON e.journal_id = j.id \
+                           WHERE j.id = %ld \
+                           ORDER BY e.journal_year DESC) \
+                       AND t MATCH '%@'", (unsigned long)journalId, [self tokenizeSearchString:match]];
+    
+    return [self getTitleIdsForSQL:query];
 }
 
 -(NSArray*)getTitleIdsForSQL:(NSString*)sql

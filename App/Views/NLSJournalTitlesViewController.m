@@ -112,6 +112,32 @@
     
 }
 
+-(void)primeTitleCacheWithMatch:(NSString*)match
+{
+    NSInvocation *invocation = nil;
+    NSMutableArray *tempResultSet;
+    
+    // get ref to prop
+    NSInteger *journalId = self.journalId;
+    
+    // create a signature from the selector
+    SEL selector = @selector(getTitleModelsWhereJournalEquals:andTitleMatch:);
+    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
+    
+    //setup invocation and args
+    [invocation setTarget:self.sql];
+    [invocation setSelector:selector];
+    [invocation setArgument:&journalId atIndex:2];
+    [invocation setArgument:&match atIndex:3];
+    [invocation retainArguments];
+    
+    //create query and add to queue
+    NLSTMArrayQuery *nlsTMArrayQuery = [[NLSTMArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsTMArrayQuery];
+    
+}
+
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -121,15 +147,11 @@
     
     if (self.isSearching){
         
-        if ([self.cachePointer count] >> indexPath.row){
+        if ([self.cachePointer count] >> 0){
             NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
             rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
-        } else if ([self.cachePointer count] == indexPath.row) {
-            NSLog(@"indexPath.row %ld == cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row - 1] integerValue];
         } else {
-            NSLog(@"else indexPath.row %ld cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+            rowAtIndex = 1;
         }
         
         if (!cell) {
