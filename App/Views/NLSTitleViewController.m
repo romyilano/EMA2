@@ -120,8 +120,8 @@
                                   initWithImage:optionsImage style:UIBarButtonItemStylePlain target:self action:@selector(presentSettingsController)];
     self.navigationItem.rightBarButtonItem = newButton;
     
-    //get title count
-    [self getTitleCount];
+    //prime titles
+    [self primeTitleCache];
     
 }
 
@@ -301,46 +301,66 @@
 #pragma mark - SQL Overides
 #
 
--(NSInteger)getTitleCount
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+//-(NSInteger)getTitleCount
+//{
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//
+//    // create a signature from the selector
+//    SEL selector = @selector(getTitleCount);
+//    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
+//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+//    
+//    // setup invocation
+//    [invocation setTarget:self.sql];
+//    [invocation setSelector:selector];
+//    
+//    //create query and add to queue
+//    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];    
+//    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+//    
+//}
+//
+//-(NSInteger)getTitleCountWhereTitleMatch
+//{
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//
+//    //get ref to prop
+//    NSString *match = self.searchBar.text;
+//    
+//    // create a singature from the selector
+//    SEL selector = @selector(getTitleCountWhereTitleMatch:);
+//    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+//    
+//    //setup invocation
+//    [invocation setTarget:self.sql];
+//    [invocation setSelector:selector];
+//    [invocation setArgument:&match atIndex:2];
+//    [invocation retainArguments];
+//    
+//    //create query and add to queue
+//    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+//    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+//    
+//}
 
+-(void)primeTitleCache
+{
+    NSInvocation *invocation = nil;
+    NSMutableArray *tempResultSet;
+    
     // create a signature from the selector
-    SEL selector = @selector(getTitleCount);
-    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-    
-    // setup invocation
-    [invocation setTarget:self.sql];
-    [invocation setSelector:selector];
-    
-    //create query and add to queue
-    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];    
-    [self.pendingOperations.queryQueue addOperation:nlsQuery];
-    
-}
-
--(NSInteger)getTitleCountWhereTitleMatch
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-
-    //get ref to prop
-    NSString *match = self.searchBar.text;
-    
-    // create a singature from the selector
-    SEL selector = @selector(getTitleCountWhereTitleMatch:);
+    SEL selector = @selector(getTitleModels);
     NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+    invocation = [NSInvocation invocationWithMethodSignature:sig];
     
     //setup invocation
     [invocation setTarget:self.sql];
     [invocation setSelector:selector];
-    [invocation setArgument:&match atIndex:2];
-    [invocation retainArguments];
     
     //create query and add to queue
-    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
-    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+    NLSTMArrayQuery *nlsTMArrayQuery = [[NLSTMArrayQuery alloc] initWithInvocation:invocation andDelegate:self];
+    [self.pendingOperations.queryQueue addOperation:nlsTMArrayQuery];
     
 }
 
@@ -400,35 +420,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return 1;
     NSLog(@"%@", NSStringFromSelector(_cmd));
-    if(self.isSearching){
-        return [self.resultsCount intValue];
-    }else{
-        return [self.titleCount intValue];
-    }
+    return [self.cachePointer count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *str = @"";
-    
     if (self.isSearching){
-        if (self.resultsCount == 0) {
-            str = @"";
-        } else {
-            str = [self.resultsCount stringValue];
-        }
-        return [[NSString alloc] initWithFormat:@"%@ : %@", resultsString, str];
+        return [[NSString alloc] initWithFormat:@"%@ : %ld", resultsString, [self.cachePointer count]];
     }else{
-        if (self.titleCount == 0) {
-            str = @"";
-        } else {
-            str = [self.titleCount stringValue];
-        }
-        return [[NSString alloc] initWithFormat:@"%@ : %@", titlesString, str];
+        return [[NSString alloc] initWithFormat:@"%@ : %ld", titlesString, [self.cachePointer count]];
     }
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -444,20 +446,16 @@
     
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
-    NSInteger rowAtIndex = indexPath.row;
+
+    NSInteger rowAtIndex = 1;
+    if ([self.cachePointer count] >> 0){
+        NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+        rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+    } else {
+        rowAtIndex = 1;
+    }
 
     if (self.isSearching){
-        
-        if ([self.cachePointer count] >> indexPath.row){
-            NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
-        } else if ([self.cachePointer count] == indexPath.row) {
-            NSLog(@"indexPath.row %ld == cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row - 1] integerValue];
-        } else {
-            NSLog(@"else indexPath.row %ld cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
-        }
         
         if (!cell) {
             NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
@@ -476,8 +474,6 @@
         }
         
     } else {
-        
-        rowAtIndex++;
         
         if (!cell) {
             NSLog(@"no cell, no search");

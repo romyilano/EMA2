@@ -558,6 +558,12 @@
     return [self getMeshArrayForSQL:query];
 }
 
+-(NSArray*)getTitleModels
+{
+    NSString *query = [NSString stringWithFormat:@"SELECT e.id FROM erpubtbl e ORDER BY e.journal_year DESC"];
+    return [self getTitleIdsForBaseQuery:query];
+}
+
 -(NSArray*)getTitleModelsForRange:(NSRange)range
 {
     NSString *query = [NSString stringWithFormat:@"SELECT e.id, e.title, e.journal_year, e.pmid FROM erpubtbl e WHERE e.id BETWEEN %ld AND %ld", (unsigned long)range.location, (unsigned long)range.length];

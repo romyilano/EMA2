@@ -144,53 +144,53 @@
     
 }
 
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
-    NSInteger rowAtIndex = indexPath.row;
-    
-    if (self.isSearching){
-        
-        if ([self.cachePointer count] >> 0){
-            NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
-        } else {
-            rowAtIndex = 1;
-        }
-        
-        if (!cell) {
-            NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
-            cell = [[NLSTableViewCell alloc]
-                    initWithStyle:UITableViewCellStyleDefault
-                    reuseIdentifierDefault:@"TitleCellIdentifier"];
-            
-        } else {
-            NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
-            if ([self.cachePointer count] >= 1){
-                NSLog(@"have stuff in search cache %ld", rowAtIndex);
-                [cell updateCellWithId:rowAtIndex];
-            }
-            
-        }
-        
-    } else {
-        
-        if (!cell) {
-            NSLog(@"no cell, no search");
-            cell = [[NLSTableViewCell alloc]
-                    initWithStyle:UITableViewCellStyleDefault
-                    reuseIdentifierDefault:@"TitleCellIdentifier"];
-        } else {
-            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
-            NSLog(@"no search re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
-            [cell updateCellWithId:rowAtIndex];
-        }
-    }
-    
-    return cell;
-}
+//- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//    NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
+//    NSInteger rowAtIndex = indexPath.row;
+//    
+//    if (self.isSearching){
+//        
+//        if ([self.cachePointer count] >> 0){
+//            NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
+//            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+//        } else {
+//            rowAtIndex = 1;
+//        }
+//        
+//        if (!cell) {
+//            NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
+//            cell = [[NLSTableViewCell alloc]
+//                    initWithStyle:UITableViewCellStyleDefault
+//                    reuseIdentifierDefault:@"TitleCellIdentifier"];
+//            
+//        } else {
+//            NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+//            if ([self.cachePointer count] >= 1){
+//                NSLog(@"have stuff in search cache %ld", rowAtIndex);
+//                [cell updateCellWithId:rowAtIndex];
+//            }
+//            
+//        }
+//        
+//    } else {
+//        
+//        if (!cell) {
+//            NSLog(@"no cell, no search");
+//            cell = [[NLSTableViewCell alloc]
+//                    initWithStyle:UITableViewCellStyleDefault
+//                    reuseIdentifierDefault:@"TitleCellIdentifier"];
+//        } else {
+//            rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+//            NSLog(@"no search re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+//            [cell updateCellWithId:rowAtIndex];
+//        }
+//    }
+//    
+//    return cell;
+//}
 
 
 

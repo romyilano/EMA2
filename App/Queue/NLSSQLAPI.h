@@ -38,6 +38,7 @@
 
 -(NSArray*)getMeshDescriptorsForId:(NSInteger)emaId;
 
+-(NSArray*)getTitleModels;
 -(NSArray*)getTitleModelsForRange:(NSRange)range;
 -(NSArray*)getTitleModelsForMatch:(NSString*)match;
 
