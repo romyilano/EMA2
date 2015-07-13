@@ -27,9 +27,6 @@
 @synthesize cachePointer = _cachePointer;
 @synthesize pendingOperations = _pendingOperations;
 @synthesize searchReset = _searchReset;
-@synthesize prevSearchRowCount = _prevSearchRowCount;
-@synthesize resultsCount = _resultsCount;
-@synthesize titleCount = _titleCount;
 @synthesize lastIndex = _lastIndex;
 @synthesize translucentView = _translucentView;
 @synthesize settings = _settings;
@@ -97,9 +94,6 @@
     self.view = self.tableView;
     self.isSearching = NO;
     self.searchReset = NO;
-    self.prevSearchRowCount = 0;
-    self.resultsCount = 0;
-    self.titleCount = 0;
     
     //load searchbar
     [self loadSearchBar];
@@ -269,18 +263,24 @@
 {
     NSLog(@"%@", NSStringFromSelector(_cmd));
     [super viewWillAppear:animated];
+//    
+//    CGRect frame = [[UIScreen mainScreen] applicationFrame];
+//    UIEdgeInsets insets = UIEdgeInsetsZero;
+//
+//    CGFloat height = self.tableView.bounds.size.height;
+//    frame.size.height += height;
+//
+//    insets.top = height;
+//    insets.bottom = height;
+//    
+//    self.tableView.frame = frame;
+//    self.tableView.scrollIndicatorInsets = insets;
     
-    CGRect frame = [[UIScreen mainScreen] applicationFrame];
-    UIEdgeInsets insets = UIEdgeInsetsZero;
-
-    CGFloat height = self.tableView.bounds.size.height;
-    frame.size.height += height;
-
-    insets.top = height;
-    insets.bottom = height;
-    
-    self.tableView.frame = frame;
-    self.tableView.scrollIndicatorInsets = insets;
+    if (self.isSearching) {
+        [self.searchResultsController.tableView reloadData];
+    } else {
+        [self.tableView reloadData];
+    }
     
 }
 
@@ -300,49 +300,6 @@
 
 #pragma mark - SQL Overides
 #
-
-//-(NSInteger)getTitleCount
-//{
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
-//
-//    // create a signature from the selector
-//    SEL selector = @selector(getTitleCount);
-//    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
-//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-//    
-//    // setup invocation
-//    [invocation setTarget:self.sql];
-//    [invocation setSelector:selector];
-//    
-//    //create query and add to queue
-//    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];    
-//    [self.pendingOperations.queryQueue addOperation:nlsQuery];
-//    
-//}
-//
-//-(NSInteger)getTitleCountWhereTitleMatch
-//{
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
-//
-//    //get ref to prop
-//    NSString *match = self.searchBar.text;
-//    
-//    // create a singature from the selector
-//    SEL selector = @selector(getTitleCountWhereTitleMatch:);
-//    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
-//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-//    
-//    //setup invocation
-//    [invocation setTarget:self.sql];
-//    [invocation setSelector:selector];
-//    [invocation setArgument:&match atIndex:2];
-//    [invocation retainArguments];
-//    
-//    //create query and add to queue
-//    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
-//    [self.pendingOperations.queryQueue addOperation:nlsQuery];
-//    
-//}
 
 -(void)primeTitleCache
 {
@@ -412,6 +369,13 @@
     return (UIView*)headerView;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] init];
+    
+    return view;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -420,7 +384,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), [self.cachePointer count]);
     return [self.cachePointer count];
 }
 
@@ -444,47 +408,36 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"%@, tableView: %@, self.isSearching:%d", NSStringFromSelector(_cmd), tableView, self.isSearching);
     NLSTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TitleCellIdentifier"];
 
-    NSInteger rowAtIndex = 1;
-    if ([self.cachePointer count] >> 0){
-        NSLog(@"indexPath.row %ld >> cachePointer.count: %ld", indexPath.row, [self.cachePointer count] );
-        rowAtIndex = [[self.cachePointer objectAtIndex:indexPath.row] integerValue];
+    NSInteger rowAtIndex = 0;
+    NSMutableArray *myCache = nil;
+    
+    if (tableView == self.tableView){
+        NSLog(@"tableview == table view ================================");
+        myCache = self.titles;
     } else {
-        rowAtIndex = 1;
+        NSLog(@"tableview == search table view ================================");
+        myCache = self.searchTitles;
     }
-
-    if (self.isSearching){
-        
-        if (!cell) {
-            NSLog(@"no cell, is searching pulling row %ld", rowAtIndex);
-            cell = [[NLSTableViewCell alloc]
-                    initWithStyle:UITableViewCellStyleDefault
-                    reuseIdentifier:@"TitleCellIdentifier"
-                    andId:rowAtIndex];
-            
-        } else {
-            NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
-            if ([self.cachePointer count] >= 1){
-                NSLog(@"have stuff in search cache %ld", rowAtIndex);
-                [cell updateCellWithId:rowAtIndex];
-            }
-            
-        }
-        
+    
+    if (indexPath.row < [myCache count]){
+        NSLog(@"indexPath.row:%ld < [myCache count]", indexPath.row);
+        rowAtIndex = [[myCache objectAtIndex:indexPath.row] integerValue];
     } else {
-        
-        if (!cell) {
-            NSLog(@"no cell, no search");
-            cell = [[NLSTableViewCell alloc]
-                    initWithStyle:UITableViewCellStyleDefault
-                    reuseIdentifier:@"TitleCellIdentifier"
-                    andId:rowAtIndex];
-        } else {
-            NSLog(@"no search re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
-            [cell updateCellWithId:rowAtIndex];
-        }
+        NSLog(@"indexPath.row:%ld >= [myCache count]", indexPath.row);
+    }
+    
+    if (!cell) {
+        NSLog(@"no cell to re-use");
+        cell = [[NLSTableViewCell alloc]
+                initWithStyle:UITableViewCellStyleDefault
+                reuseIdentifier:@"TitleCellIdentifier"
+                andId:rowAtIndex];
+    } else {
+        NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+        [cell updateCellWithId:rowAtIndex];
     }
     
     return cell;
@@ -563,9 +516,9 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSSet *visibleRows = nil;
     if (self.isSearching) {
-        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
         for (NSIndexPath* indexPath in visibleRows) {
-            [(NLSTableViewCell*)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath] suspendAllOperations];
+            [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] suspendAllOperations];
         }
     } else {
         visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
@@ -581,9 +534,9 @@
     NSLog(@"%@", NSStringFromSelector(_cmd));
     NSSet *visibleRows = nil;
     if (self.isSearching) {
-        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
         for (NSIndexPath* indexPath in visibleRows) {
-            [(NLSTableViewCell*)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath] cancelAllOperations];
+            [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] cancelAllOperations];
         }
     } else {
         visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
@@ -600,9 +553,9 @@
     NSSet *visibleRows = nil;
     
     if (self.isSearching){
-        visibleRows = [NSSet setWithArray:[self.searchDisplayController.searchResultsTableView indexPathsForVisibleRows]];
+        visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
         for(NSIndexPath* indexPath in visibleRows) {
-            [(NLSTableViewCell*)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath] resumeAllOperations];
+            [(NLSTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] resumeAllOperations];
         }
     } else {
         visibleRows = [NSSet setWithArray:[self.tableView indexPathsForVisibleRows]];
@@ -642,20 +595,16 @@
 #pragma mark Cache Operations
 #
 
-- (void)queryDidFinish:(NSInteger *)result
+-(void)queryDidFinish:(NSInteger *)result
 {
-    NSLog(@"titleCount %@, %ld", NSStringFromSelector(_cmd), (long)result);
-    self.titleCount = [[NSNumber alloc] initWithLong:result];
-    [self.tableView reloadData];
 
 }
 
 - (void)arrayQueryDidFinish:(NSArray *)array
 {
-    NSLog(@"%@, array: %@", NSStringFromSelector(_cmd), array);
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     [self.cachePointer removeAllObjects];
     [self.cachePointer addObjectsFromArray:[array copy]];
-    self.resultsCount = [NSNumber numberWithInteger:[array count]];
     
     if (self.isSearching) {
         [self.searchResultsController.tableView reloadData];

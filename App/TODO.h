@@ -299,3 +299,54 @@ INSERT INTO titles(titles) VALUES('optimize');
 //{
 //    [self.pendingOperations.queryQueue cancelAllOperations];
 //}
+
+//-(NSInteger)getTitleCount
+//{
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//
+//    // create a signature from the selector
+//    SEL selector = @selector(getTitleCount);
+//    NSMethodSignature *sig = [[self.sql class]instanceMethodSignatureForSelector:selector];
+//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+//
+//    // setup invocation
+//    [invocation setTarget:self.sql];
+//    [invocation setSelector:selector];
+//
+//    //create query and add to queue
+//    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+//    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+//
+//}
+//
+//-(NSInteger)getTitleCountWhereTitleMatch
+//{
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
+//
+//    //get ref to prop
+//    NSString *match = self.searchBar.text;
+//
+//    // create a singature from the selector
+//    SEL selector = @selector(getTitleCountWhereTitleMatch:);
+//    NSMethodSignature *sig = [[self.sql class] instanceMethodSignatureForSelector:selector];
+//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+//
+//    //setup invocation
+//    [invocation setTarget:self.sql];
+//    [invocation setSelector:selector];
+//    [invocation setArgument:&match atIndex:2];
+//    [invocation retainArguments];
+//
+//    //create query and add to queue
+//    NLSQuery *nlsQuery = [[NLSQuery alloc] initWithInvocation:invocation andDelegate:self];
+//    [self.pendingOperations.queryQueue addOperation:nlsQuery];
+//
+//}
+
+//- (void)queryDidFinish:(NSInteger *)result
+//{
+//    NSLog(@"titleCount %@, %ld", NSStringFromSelector(_cmd), (long)result);
+//    self.titleCount = [[NSNumber alloc] initWithLong:result];
+//    [self.tableView reloadData];
+//
+//}

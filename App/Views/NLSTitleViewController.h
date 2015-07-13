@@ -56,7 +56,6 @@
 - (void)loadSearchBar;
 - (void)loadTranslucentView;
 - (void)fadeTranslucentView;
-- (void)queryDidFinish:(NSInteger *)result;
 - (void)arrayQueryDidFinish:(NSArray *)array;
 - (void)suspendCells;
 - (void)cancelCells;
