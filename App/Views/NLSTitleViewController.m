@@ -59,11 +59,6 @@
 #pragma mark - View lifecycle
 #
 
-- (void)loadView
-{
-    [super loadView];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -101,12 +96,12 @@
     //Clear back button
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowWelcomeOnLaunch"]){
-
-        [self loadTranslucentView];
-        self.tableView.tableHeaderView.layer.zPosition++;
-        
-    }
+//    if([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowWelcomeOnLaunch"]){
+//        NSLog(@"Show welcome");
+//        [self loadTranslucentView];
+//        self.tableView.tableHeaderView.layer.zPosition++;
+//        
+//    }
     
     //Options button
     UIImage *optionsImage = [UIImage imageNamed:@"Options-50"];

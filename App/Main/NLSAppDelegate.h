@@ -13,8 +13,10 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIViewController *controller;
+@property (strong, nonatomic) UIViewController *mainOptionController;
 @property (nonatomic,retain) NSFileManager *fileMgr;
 @property (nonatomic,retain) NSString *homeDir;
 @property (strong, nonatomic) NLSSQLAPI *sql;
 
+- (void)pushAppView:(id)sender;
 @end

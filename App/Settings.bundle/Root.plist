@@ -16,7 +16,7 @@
 			<key>Title</key>
 			<string>Show Welcome on Launch</string>
 			<key>Key</key>
-			<string>SettingsShowWelcomeOnLaunch</string>
+			<string>ShowWelcomeOnLaunch</string>
 			<key>DefaultValue</key>
 			<true/>
 		</dict>

@@ -10,6 +10,7 @@
 #import "EDColor.h"
 #import "MWFeedParser.h"
 #import <UIKit/UIKit.h>
+#import "NLSSettingsViewController.h"
 
 @interface NLSFeedViewController : UIViewController<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource, MWFeedParserDelegate> {
 
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong) NSArray *feedArray;
 @property (strong, nonatomic) UITableView *tableView;
-
+@property (strong, nonatomic) UIVisualEffectView *translucentView;
+@property (strong, nonatomic) NLSSettingsViewController *settings;
 
 @end

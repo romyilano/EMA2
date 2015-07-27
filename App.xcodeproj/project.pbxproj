@@ -35,6 +35,7 @@
 		7B614CD91AF2073C008AA10F /* NLSTMArrayQuery.h in Resources */ = {isa = PBXBuildFile; fileRef = 7B614CD81AF2073C008AA10F /* NLSTMArrayQuery.h */; };
 		7B614CDB1AF20797008AA10F /* NLSTMArrayQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B614CDA1AF20797008AA10F /* NLSTMArrayQuery.m */; };
 		7B65DF001A041225006814E7 /* NLSTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B65DEFF1A041225006814E7 /* NLSTableView.m */; };
+		7B7C372D1B5E180B00B36955 /* EMAbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B7C372C1B5E180B00B36955 /* EMAbackground.png */; };
 		7B7C40BE19D4D5590011331C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 060BE1701946D8E7008FB3C5 /* Foundation.framework */; };
 		7B7C40E219D4DB440011331C /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */; };
 		7B7C40E319D4DB440011331C /* libPods-CCHLinkTextView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */; };
@@ -93,6 +94,7 @@
 		7BB9A9B319D4C63600ACFE7B /* NLSTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97719D4C63600ACFE7B /* NLSTableViewCell.m */; };
 		7BB9A9B419D4C63600ACFE7B /* NLSTitleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */; };
 		7BC81FF019ED8F5E009F4915 /* ema.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 7BC81FEF19ED8F5E009F4915 /* ema.sqlite */; };
+		7BE1023C1B54E6FD0064149B /* emabg2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7BE1023B1B54E6FD0064149B /* emabg2.jpg */; };
 		7BE972741B139FD600DF9A41 /* NLSAVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972731B139FD600DF9A41 /* NLSAVViewController.m */; };
 		7BE972761B13A86D00DF9A41 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BE972751B13A86D00DF9A41 /* AVFoundation.framework */; };
 		7BE972791B13A9A600DF9A41 /* NLSPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BE972781B13A9A600DF9A41 /* NLSPlayerView.m */; };
@@ -152,6 +154,7 @@
 		7B614CDA1AF20797008AA10F /* NLSTMArrayQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTMArrayQuery.m; sourceTree = "<group>"; };
 		7B65DEFE1A041225006814E7 /* NLSTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTableView.h; sourceTree = "<group>"; };
 		7B65DEFF1A041225006814E7 /* NLSTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTableView.m; sourceTree = "<group>"; };
+		7B7C372C1B5E180B00B36955 /* EMAbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EMAbackground.png; sourceTree = "<group>"; };
 		7B7C40DB19D4DB440011331C /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		7B7C40DC19D4DB440011331C /* libPods-CCHLinkTextView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CCHLinkTextView.a"; path = "Pods/build/Debug-iphoneos/libPods-CCHLinkTextView.a"; sourceTree = "<group>"; };
 		7B7C40DD19D4DB440011331C /* libPods-CRGradientNavigationBar.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CRGradientNavigationBar.a"; path = "Pods/build/Debug-iphoneos/libPods-CRGradientNavigationBar.a"; sourceTree = "<group>"; };
@@ -237,6 +240,7 @@
 		7BB9A97819D4C63600ACFE7B /* NLSTitleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSTitleViewController.h; sourceTree = "<group>"; };
 		7BB9A97919D4C63600ACFE7B /* NLSTitleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSTitleViewController.m; sourceTree = "<group>"; };
 		7BC81FEF19ED8F5E009F4915 /* ema.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = ema.sqlite; sourceTree = "<group>"; };
+		7BE1023B1B54E6FD0064149B /* emabg2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = emabg2.jpg; sourceTree = "<group>"; };
 		7BE972721B139FD600DF9A41 /* NLSAVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLSAVViewController.h; sourceTree = "<group>"; };
 		7BE972731B139FD600DF9A41 /* NLSAVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NLSAVViewController.m; sourceTree = "<group>"; };
 		7BE972751B13A86D00DF9A41 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -441,6 +445,8 @@
 		7BB9A95719D4C63600ACFE7B /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				7B7C372C1B5E180B00B36955 /* EMAbackground.png */,
+				7BE1023B1B54E6FD0064149B /* emabg2.jpg */,
 				7BE972961B1D895200DF9A41 /* ema-logo-180x177@2x.jpg */,
 				7B27CA041A6391810093499A /* Options-50@2x.png */,
 				7BB9A95819D4C63600ACFE7B /* About-50@2x.png */,
@@ -611,7 +617,9 @@
 				7BE972941B13FE6400DF9A41 /* AVPlayerDemoWindow.xib in Resources */,
 				7B614CD91AF2073C008AA10F /* NLSTMArrayQuery.h in Resources */,
 				7B27CA071A639BE60093499A /* Settings.bundle in Resources */,
+				7BE1023C1B54E6FD0064149B /* emabg2.jpg in Resources */,
 				7BB9A9A119D4C63600ACFE7B /* Descriptors-50@2x.png in Resources */,
+				7B7C372D1B5E180B00B36955 /* EMAbackground.png in Resources */,
 				7B0B93AD1A3FBC0900C47A1C /* CreateFTSTitles.sql in Resources */,
 				7BB9A98319D4C63600ACFE7B /* Icon-72.png in Resources */,
 				7BB9A99F19D4C63600ACFE7B /* About-50@2x.png in Resources */,

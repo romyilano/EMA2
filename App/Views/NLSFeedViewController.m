@@ -40,7 +40,29 @@
     feedParser.feedParseType = ParseTypeFull;
     feedParser.connectionType = ConnectionTypeSynchronously;
     [feedParser parse];
+    
+//    UIImage *optionsImage = [UIImage imageNamed:@"Options-50"];
+//    UIBarButtonItem *newButton = [[UIBarButtonItem alloc]
+//                                  initWithImage:optionsImage style:UIBarButtonItemStylePlain target:self action:@selector(presentSettingsController)];
+//    self.navigationItem.rightBarButtonItem = newButton;
+    
 }
+
+//-(void)presentSettingsController
+//{
+//    NSLog(@"present settings controller");
+//    
+//    NLSSettingsViewController *settingsController = [[NLSSettingsViewController alloc] init];
+//    
+//    settingsController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+//    settingsController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    
+//    self.settings = settingsController;
+//    
+//    [self.navigationController presentViewController:settingsController animated:YES completion:nil];
+//    
+//}
+
 
 #pragma mark - MWFeedDelegate
 #pragma mark MWFeedParserDelegate
@@ -51,7 +73,7 @@
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info {
     NSLog(@"Parsed Feed Info: “%@”", info.title);
-    self.title = info.title;
+    self.title = @"CCME Podcasts";
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>ShowWelcomeOnLaunch</key>
-	<false/>
+	<true/>
 	<key>FullAccess</key>
 	<false/>
 	<key>LowerYearRange</key>
