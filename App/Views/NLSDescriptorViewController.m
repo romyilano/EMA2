@@ -29,8 +29,6 @@
 }
 
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -125,6 +123,13 @@
     return (NSInteger)[self.letters indexOfObject:title];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:14.0];
+    cell.textLabel.textColor = [UIColor blackColor];
+}
+
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -143,7 +148,6 @@
     }else{
         dm = [self.sql getDescriptorForRow:(NSInteger)indexPath.row whereSectionLike:[self.letters objectAtIndex:(NSUInteger)indexPath.section]];
     }
-    
     
     cell.name = dm.name;
     cell.rowId = dm.rowId;

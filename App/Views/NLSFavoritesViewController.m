@@ -73,6 +73,7 @@
 {
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     [super viewDidLoad];
     
     NSLog(@"viewDidLoad");

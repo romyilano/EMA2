@@ -21,7 +21,7 @@
 #define pubMedUrl @"http://www.ncbi.nlm.nih.gov/pubmed/%@"
 #define shareSubject @"Article from PubMed"
 
-#define titlesString @"Titles"
+#define titlesString @"Suggested Titles"
 #define descriptorsString @"Descriptors"
 #define journalsString @"Journals"
 #define favoritesString @"Favorites"

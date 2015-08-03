@@ -164,6 +164,15 @@
     NSArray* controllers = [NSArray arrayWithObjects:tnc, dnc, jnc, feedNC, fnc, anc, nil];
     tabBarController.viewControllers = controllers;
     
+    UINavigationController* more = tabBarController.moreNavigationController;
+
+    more.navigationBar.barTintColor = [UIColor colorWithHexString:searchGreen];
+    more.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    more.view.backgroundColor = [UIColor whiteColor];
+    UINavigationItem *morenavitem = more.navigationBar.topItem;
+    morenavitem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    morenavitem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    
     UIImage *titlesImage = [UIImage imageNamed:@"Document-50.png"];
     UIImage *titlesImageSelected = [UIImage imageNamed:@"Document-selected-50.png"];
     UIImage *descriptorsImage = [UIImage imageNamed:@"Descriptors-50.png"];

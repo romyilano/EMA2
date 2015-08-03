@@ -62,7 +62,7 @@
     self.sql = [NLSSQLAPI sharedManager];
     
     if (self) {
-        NSLog(@"init cell %ld", emaId);
+        NSLog(@"init cell %ld", (long)emaId);
         
         self.rowId = emaId;
         
@@ -160,7 +160,7 @@
 
 -(void)updateCellWithId:(NSInteger)emaId
 {
-    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), emaId);
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), (long)emaId);
     
     [((UIActivityIndicatorView *)self.accessoryView) startAnimating];
     NSAttributedString *loadingString = [[NSAttributedString alloc] initWithString:@"Loading..." attributes:nil];
@@ -294,7 +294,7 @@
 - (void)startQueryWithId:(NSInteger)emaId
 {
     
-    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), emaId);
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), (long)emaId);
     
     NLSTMQuery *tmQuery = nil;
     NSInvocation *invocation = nil;

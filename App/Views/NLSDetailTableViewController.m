@@ -165,9 +165,17 @@ typedef enum { SectionDetailSummary } DetailRows;
         // Get height of summary
         NSString *summary = @"[No Summary]";
         if (summaryString) summary = summaryString;
-        CGSize s = [summary sizeWithFont:[UIFont systemFontOfSize:15]
-                       constrainedToSize:CGSizeMake(self.view.bounds.size.width - 40, MAXFLOAT)  // - 40 For cell padding
-                           lineBreakMode:NSLineBreakByWordWrapping];
+        UITextView *textView = [[UITextView alloc] initWithFrame:self.tableView.frame];
+        textView.text = summary;
+        
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat fixedWidth = screenRect.size.width;
+        CGSize newSize = [textView sizeThatFits:CGSizeMake(fixedWidth, MAXFLOAT)];
+        CGRect newFrame = textView.frame;
+        newFrame.size = CGSizeMake(fmaxf(newSize.width, fixedWidth), newSize.height);
+        textView.frame = newFrame;
+        
+        CGSize s = newFrame.size;
         
         return s.height + 16; // Add padding
         

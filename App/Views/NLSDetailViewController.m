@@ -39,7 +39,7 @@
 
 - (NLSDetailViewController*)initWithId:(NSInteger)rowId
 {
-//    NSLog(@"detailView id: %d", rowId);
+    NSLog(@"detailView id------------------------------------: %d", rowId);
     self = [super init];
     if(self){
         self.abstractId = rowId;

@@ -379,16 +379,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), [self.cachePointer count]);
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd),    (unsigned long)[self.cachePointer count]);
     return [self.cachePointer count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (self.isSearching){
-        return [[NSString alloc] initWithFormat:@"%@ : %ld", resultsString, [self.cachePointer count]];
+        return [[NSString alloc] initWithFormat:@"%@ : %ld", resultsString, (unsigned long)[self.cachePointer count]];
     }else{
-        return [[NSString alloc] initWithFormat:@"%@ : %ld", titlesString, [self.cachePointer count]];
+        return [[NSString alloc] initWithFormat:@"%@ : %ld", titlesString, (unsigned long)[self.cachePointer count]];
     }
 }
 
@@ -418,10 +418,10 @@
     }
     
     if (indexPath.row < [myCache count]){
-        NSLog(@"indexPath.row:%ld < [myCache count]", indexPath.row);
+        NSLog(@"indexPath.row:%ld < [myCache count]", (long)indexPath.row);
         rowAtIndex = [[myCache objectAtIndex:indexPath.row] integerValue];
     } else {
-        NSLog(@"indexPath.row:%ld >= [myCache count]", indexPath.row);
+        NSLog(@"indexPath.row:%ld >= [myCache count]", (long)indexPath.row);
     }
     
     if (!cell) {
@@ -431,7 +431,7 @@
                 reuseIdentifier:@"TitleCellIdentifier"
                 andId:rowAtIndex];
     } else {
-        NSLog(@"re-using cell at indexPath %ld, pulling %ld", indexPath.row, rowAtIndex);
+        NSLog(@"re-using cell at indexPath %ld, pulling %ld", (long)indexPath.row, (long)rowAtIndex);
         [cell updateCellWithId:rowAtIndex];
     }
     
@@ -444,7 +444,7 @@
     NLSTableViewCell *cell = (NLSTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
 
     NSInteger rowId = cell.rowId;
-    NSLog(@"fetching abstract %ld from cell %@ for indexPath %@", cell.rowId, cell.title, indexPath);
+    NSLog(@"fetching abstract %ld from cell %@ for indexPath %@", (long)cell.rowId, cell.title, indexPath);
     
     //Push new view
     [self.navigationController pushViewController:[[NLSDetailViewController alloc] initWithId:rowId] animated:TRUE];
