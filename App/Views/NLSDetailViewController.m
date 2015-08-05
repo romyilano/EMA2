@@ -39,7 +39,7 @@
 
 - (NLSDetailViewController*)initWithId:(NSInteger)rowId
 {
-    NSLog(@"detailView id------------------------------------: %d", rowId);
+    NSLog(@"detailView id------------------------------------: %lu", (unsigned long)rowId);
     self = [super init];
     if(self){
         self.abstractId = rowId;
@@ -77,11 +77,12 @@
     self.window = window;
     
     //Create text view
-    [self.view addSubview:[[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
+//    [self.view addSubview:[[UITextView alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
     
     // Do any additional setup after loading the view.
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.view addSubview:self.button];
+
+    [self.view addSubview:[self makeFavoriteButton]];
     
     //Attributes
     self.linkAttributes = @{NSForegroundColorAttributeName: [UIColor colorWithHexString:emaGreen],
@@ -112,15 +113,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    NSLog(@"viewWillDisappear");
     [super viewWillDisappear:animated];
     if (self.parentViewController == nil) {
         NSLog(@"viewDidDisappear doesn't have parent so it's been popped");
         //release stuff here
-    } else {
-        //        NSLog(@"PersonViewController view just hidden");
     }
-    
     [self.button removeFromSuperview];
+//    [(UIButton*)[self.view viewWithTag:99]  removeFromSuperview];
 }
 
 #pragma mark - Query Lifecycle
@@ -150,6 +150,8 @@
 {
     NSLog(@"%@ %@", NSStringFromSelector(_cmd), dm.abstract);
     
+    NSLog(@"self.view.frame.origin %@", NSStringFromCGPoint(self.view.frame.origin));
+    
     UITextView *tv = [[UITextView alloc] initWithFrame:self.view.frame];
     self.tv = tv;
     
@@ -157,20 +159,15 @@
     tv.scrollEnabled = YES;
     tv.dataDetectorTypes = UIDataDetectorTypeAll;
     tv.textAlignment = NSTextAlignmentLeft;
-    tv.contentInset = UIEdgeInsetsMake(textInset,
-                                       0,
-                                       44,
-                                       0);
+    tv.contentInset = UIEdgeInsetsMake(textInset, 0, 44, 0);
     tv.linkTextAttributes = self.linkAttributes; // customizes the appearance of links
     tv.delegate = self;
     tv.text = dm.abstract;
     tv.attributedText = [self makeAttributedAbstract:dm.abstract];
 
     //Create Buttons
-    [self drawFavoriteButton];
     [tv addSubview:[self makeShareButton]];
     [tv addSubview:[self makeMeshList]];
-    
     
     //Adjust MeshView and TextView inset
     CGRect meshFrame = self.meshView.frame;
@@ -192,9 +189,9 @@
 
 #pragma mark - Buttons
 
--(void)drawFavoriteButton
+- (NLSButton*)makeFavoriteButton
 {
-    NLSButton *button;
+    NLSButton *button = nil;
     BOOL isFave = [self.sql checkForFavoriteId:self.abstractId];
     if(isFave){
         button = [NLSButton buttonWithNormalImageName:@"FavoritesHighlighted-50@2x.png" highlightedImageName:@"FavoritesHighlighted-50@2x.png"];
@@ -206,10 +203,12 @@
     
     UIScreen *screen = [UIScreen mainScreen];
     CGRect screenRect = screen.bounds;
-    NSLog(@"width: %f", screenRect.size.width);
+    NSLog(@"screenRect size.width: %f", screenRect.size.width);
     button.frame = CGRectMake(screenRect.size.width - 47.0f, 23.0f, 34.0f, 34.0f);
+    button.tag = 99;
     
     self.button = button;
+    return button;
 
 }
 
